@@ -93,10 +93,10 @@ namespace Peponi.Logger.Writer
                     }
                 }
 
-                logContents.RemoveRange(0, removeCount);
-
                 if (!writeContents.ContainsKey(logPath)) writeContents.Add(logPath, builder);
                 else writeContents[logPath].Append(builder);
+
+                logContents.RemoveRange(0, removeCount);
             }
 
             foreach (var logItem in writeContents)

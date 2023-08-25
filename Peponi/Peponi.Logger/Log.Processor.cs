@@ -15,19 +15,19 @@ namespace Peponi.Logger.Processor
         private static Dictionary<string, BlockingCollection<(DateTime DateTime, string LogType, string Message)>> _logQueue = new Dictionary<string, BlockingCollection<(DateTime DateTime, string LogType, string Message)>>();
 
         private static string _logPath;
-        private static string _logPattern;
+        private static string _logFilePattern;
         private static WriteOption _writeOption;
         private static TimeUnit _timeUnit;
 
         private static List<Thread> _workers = new List<Thread>();
 
-        internal static void Configuration(WriteOption writeOption, List<string> logTypes, string logPath, string logPattern)
+        internal static void Configuration(WriteOption writeOption, List<string> logTypes, string logPath, string logFilePattern)
         {
             // 필요한 작업 처리
             _writeOption = writeOption;
             _logPath = logPath;
-            _logPattern = logPattern;
-            _timeUnit = TimeHelper.DateTimeFormatTest(logPattern);
+            _logFilePattern = logFilePattern;
+            _timeUnit = TimeHelper.DateTimeFormatTest(logFilePattern);
 
             // 쓰레드 시작
             switch (_writeOption)
@@ -139,7 +139,7 @@ namespace Peponi.Logger.Processor
                 }
 
                 // Send to Writer queue
-                string logPath = GetTotalPath(_writeOption, _logPath, logTime, _logPattern);
+                string logPath = GetTotalPath(_writeOption, _logPath, logTime, _logFilePattern);
                 LogWriter.WriteLog(WriteOption.OneFile.ToString(), logPath, builder.ToString());
 
                 logContents.RemoveRange(0, removeCount);
@@ -175,8 +175,7 @@ namespace Peponi.Logger.Processor
                     }
                 }
 
-                // Send to Writer queue
-                string logPath = GetTotalPath(_writeOption, _logPath, logTime, _logPattern, logType);
+                string logPath = GetTotalPath(_writeOption, _logPath, logTime, _logFilePattern, logType);
 
                 if (!writeContents.ContainsKey((logType, logPath))) writeContents.Add((logType, logPath), builder);
                 else writeContents[(logType, logPath)].Append(builder);
@@ -184,6 +183,7 @@ namespace Peponi.Logger.Processor
                 logContents.RemoveRange(0, removeCount);
             }
 
+            // Send to Writer queue
             foreach (var logItem in writeContents)
             {
                 LogWriter.WriteLog(logItem.Key.Item1, logItem.Key.Item2, logItem.Value.ToString());
