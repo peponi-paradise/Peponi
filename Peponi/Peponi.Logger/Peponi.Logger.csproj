@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Log.cs" />
+    <Compile Include="Log.Extension.cs" />
     <Compile Include="Log.Processor.cs" />
     <Compile Include="Log.Writer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{CB5A8B48-FFC2-43A7-AD07-C96132C923E6}</ProjectGuid>
+    <ProjectGuid>{F49D3656-186B-46DC-BF77-723E058BEDED}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Peponi.Core</RootNamespace>
-    <AssemblyName>Peponi.Core</AssemblyName>
+    <RootNamespace>Peponi.Math</RootNamespace>
+    <AssemblyName>Peponi.Math</AssemblyName>
     <TargetFrameworkVersion>v4.8.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -41,13 +41,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Enums\Log.cs" />
-    <Compile Include="Enums\Time.cs" />
-    <Compile Include="Helpers\Directory.cs" />
-    <Compile Include="Helpers\Time.cs" />
-    <Compile Include="Interfaces\ICoordinate.cs" />
+    <Compile Include="Coordinates\CartesianCoordinate2D.cs" />
+    <Compile Include="Coordinates\CartesianCoordinate3D.cs" />
+    <Compile Include="Coordinates\CylindricalCoordinate.cs" />
+    <Compile Include="Coordinates\PolarCoordinate.cs" />
+    <Compile Include="Coordinates\SphericalCoordinate.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <ProjectReference Include="..\Peponi.Core\Peponi.Core.csproj">
+      <Project>{cb5a8b48-ffc2-43a7-ad07-c96132c923e6}</Project>
+      <Name>Peponi.Core</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

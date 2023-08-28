@@ -5,26 +5,9 @@ using Peponi.Logger.Writer;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Runtime.CompilerServices;
 
 namespace Peponi.Logger
 {
-    /// <summary>
-    /// string extension for easy logging.<br/><br/>
-    /// ```C#<br/><br/>
-    /// "LogMessage".WriteLog(LogType.Application);<br/><br/>
-    /// ```
-    /// </summary>
-    public static class LogExtension
-    {
-        public static void WriteLog(this string message, object logType)
-        {
-            Log.WriteLog(logType.ToString(), message);
-        }
-
-        public static string GetmethodName([CallerMemberName] string methodname = "") => methodname;
-    }
-
     /// <summary>
     /// Logger class.<br/>
     /// Call <see cref="Configuration(Enum, WriteOption, string, string)"/> at startup.
