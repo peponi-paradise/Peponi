@@ -144,7 +144,7 @@ internal static class LogWriter
 
     private static void CheckAppenderIndex(FileInfo logFile, ref int appenderIndex)
     {
-        if ((uint)Math.Round((double)logFile.Length / 1024 / 1024) > _logSize)
+        if ((uint)((double)logFile.Length / 1024 / 1024) >= _logSize)
         {
             appenderIndex++;
         }
