@@ -1,90 +1,102 @@
 ﻿using Peponi.Core.Enums;
-using Peponi.Core.Helpers;
 using Peponi.Logger.Processor;
 using Peponi.Logger.Writer;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Peponi.Utility.Helpers;
 
-namespace Peponi.Logger
+namespace Peponi.Logger;
+
+/// <summary>
+/// Logger class. <br/><br/>
+/// Call <br/>
+/// 1. <see cref="Configuration(LogOption)"/> or <br/>
+/// 2. <see cref="Configuration(Enum, LogWriteOption, string?, string?, uint)"/> at startup.
+/// </summary>
+public static class Log
 {
+    private static bool _isConfigured = false;
+
     /// <summary>
-    /// Logger class.<br/>
-    /// Call <see cref="Configuration(Enum, WriteOption, string, string)"/> at startup.
+    /// Configure logger.
     /// </summary>
-    public static class Log
+    /// <param name="option">Log option</param>
+    public static void Configuration(LogOption option)
     {
-        private static bool _isConfigured = false;
+        var logTypes = Enum.GetNames(option.LogType!.GetType()).ToList();
+        CheckLogPath(option.LogWriteOption, $@"{option.RootPath}\", logTypes);
 
-        /// <summary>
-        /// Configure logger.<br/><br/>
-        /// ```C#<br/><br/>
-        /// using Peponi.Logger;<br/><br/>
-        /// Log.Configuration(new LogType(), Peponi.Core.Enums.WriteOption.SeperateFolder, $@"{Environment.CurrentDirectory}\{Paths.LogPath}", "yyyy-MM-dd_HH_mm_ss");<br/><br/>
-        /// ```
-        /// </summary>
-        /// <param name="logType">Any enum type user defined</param>
-        /// <param name="option">
-        /// 1. <see cref="WriteOption.OneFile"/><br/>
-        /// 2. <see cref="WriteOption.SeperateFile"/><br/>
-        /// 3. <see cref="WriteOption.SeperateFolder"/><br/>
-        /// </param>
-        /// <param name="path">Base path of log</param>
-        /// <param name="logFilePattern">
-        /// Saving time unit of log.<br/>
-        /// Equal to DateTime.Now.ToString() format<br/><br/>
-        /// ex:<br/>
-        /// "yyyy-MM-dd"
-        /// </param>
-        public static void Configuration(Enum logType, WriteOption option, string path = null, string logFilePattern = null)
+        LogProcessor.Configuration(option.LogWriteOption, logTypes, $@"{option.RootPath}\", option.LogFilePattern);
+        LogWriter.Configuration(option.LogWriteOption, logTypes, option.LogFileSize);
+
+        _isConfigured = true;
+    }
+
+    /// <summary>
+    /// Configure logger.
+    /// </summary>
+    /// <param name="logType">Any enum type user defined</param>
+    /// <param name="writeOption">
+    /// 1. <see cref="LogWriteOption.OneFile"/><br/>
+    /// 2. <see cref="LogWriteOption.SeperateFile"/><br/>
+    /// 3. <see cref="LogWriteOption.SeperateFolder"/><br/>
+    /// </param>
+    /// <param name="rootPath">Root path of log</param>
+    /// <param name="logFilePattern">
+    /// Saving time unit of log.<br/>
+    /// Equal to DateTime.Now.ToString() format<br/><br/>
+    /// ex:<br/>
+    /// "yyyy-MM-dd"
+    /// </param>
+    /// <param name="logFileSize">
+    /// Unit : mb <br/><br/>
+    /// Value : <br/>
+    /// 0 = Inf <br/>
+    /// X = X mb <br/>
+    /// </param>
+    public static void Configuration(Enum logType, LogWriteOption writeOption, string? rootPath = null, string? logFilePattern = null, uint logFileSize = 0)
+    {
+        var logTypes = Enum.GetNames(logType.GetType()).ToList();
+
+        rootPath = $@"{rootPath}\" ?? $@"{Environment.CurrentDirectory}\Log\";
+        logFilePattern = logFilePattern ?? "yyyy-MM-dd";
+        CheckLogPath(writeOption, rootPath, logTypes);
+
+        LogProcessor.Configuration(writeOption, logTypes, rootPath, logFilePattern);
+        LogWriter.Configuration(writeOption, logTypes, logFileSize);
+
+        _isConfigured = true;
+    }
+
+    /// <summary>
+    /// Write log.
+    /// </summary>
+    /// <param name="logType">Configrated log type</param>
+    /// <param name="message">Message want to log</param>
+    /// <exception cref="ArgumentNullException"></exception>
+    /// <exception cref="AccessViolationException"></exception>
+    public static void WriteLog(Enum logType, string message)
+    {
+        if (_isConfigured)
         {
-            var logTypes = Enum.GetNames(logType.GetType()).ToList();
-
-            path = path ?? $@"{Environment.CurrentDirectory}\Log\";
-            logFilePattern = logFilePattern ?? "yyyy-MM-dd";
-
-            CheckLogPath(option, path, logTypes);
-
-            LogProcessor.Configuration(option, logTypes, path, logFilePattern);
-            LogWriter.Configuration(option, logTypes);
-
-            _isConfigured = true;
+            // Exception will be raised case of null or unregistered log type
+            LogProcessor.WriteLog(DateTime.Now, logType.ToString()!, message);
         }
-
-        /// <summary>
-        /// Write log.<br/><br/>
-        /// ```C#<br/><br/>
-        /// Log.WriteLog(LogType.Application, "LogMessage");<br/><br/>
-        /// ```
-        /// </summary>
-        /// <param name="logType">Equal to <see cref="Configuration(Enum, WriteOption, string, string)"/>'s logType</param>
-        /// <param name="message">Message want to log</param>
-        /// <exception cref="ArgumentNullException"></exception>
-        /// <exception cref="AccessViolationException"></exception>
-        public static void WriteLog(object logType, string message)
+        else
         {
-            if (_isConfigured)
-            {
-                LogProcessor.WriteLog(DateTime.Now, logType.ToString(), message);
-            }
-            else
-            {
-                throw new AccessViolationException("Log is not configured");
-            }
+            throw new AccessViolationException("Log is not configured");
         }
+    }
 
-        private static void CheckLogPath(WriteOption writeOption, string basePath, List<string> logTypes)
+    private static void CheckLogPath(LogWriteOption writeOption, string rootPath, List<string> logTypes)
+    {
+        DirectoryHelper.CreateDirectory(rootPath);
+
+        if (writeOption == LogWriteOption.SeperateFolder)
         {
-            DirectoryHelper.CreateDirectory(basePath);
-
-            if (writeOption == WriteOption.SeperateFolder)
+            foreach (var logType in logTypes)
             {
-                foreach (var logType in logTypes)
-                {
-                    var totalLogPath = $@"{basePath}\{logType}\";
+                var totalLogPath = $@"{rootPath}\{logType}\";
 
-                    DirectoryHelper.CreateDirectory(totalLogPath);
-                }
+                DirectoryHelper.CreateDirectory(totalLogPath);
             }
         }
     }

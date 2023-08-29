@@ -1,9 +1,19 @@
-﻿namespace Peponi.Core.Enums
+﻿namespace Peponi.Core.Enums;
+
+public enum LogWriteOption
 {
-    public enum WriteOption
-    {
-        OneFile = 1,
-        SeperateFile = 2,
-        SeperateFolder = 3,
-    }
+    /// <summary>
+    /// All logs are in one file
+    /// </summary>
+    OneFile = 1,
+
+    /// <summary>
+    /// Separate files by log type
+    /// </summary>
+    SeperateFile = 2,
+
+    /// <summary>
+    /// Separate folders by log type
+    /// </summary>
+    SeperateFolder = 3,
 }

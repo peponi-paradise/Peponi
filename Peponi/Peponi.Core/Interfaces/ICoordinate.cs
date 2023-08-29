@@ -1,12 +1,10 @@
-﻿using System;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
-namespace Peponi.Core.Interfaces
+namespace Peponi.Core.Interfaces;
+
+public interface ICoordinate : INotifyPropertyChanged
 {
-    public interface ICoordinate : INotifyPropertyChanged
-    {
-        double GetDistanceFromOrigin();
+    double GetDistanceFromOrigin();
 
-        string ToString();
-    }
+    string ToString();
 }
