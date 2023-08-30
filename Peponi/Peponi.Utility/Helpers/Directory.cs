@@ -13,16 +13,56 @@ public static class DirectoryHelper
         }
     }
 
-    public static List<FileInfo> GetFileInfos(string path)
+    public static long GetDirectorySize(string path)
     {
-        if (Directory.Exists(path))
+        var directoryInfo = CheckPath(path);
+        long size = 0;
+
+        foreach (var fileInfo in directoryInfo.GetFiles("*", SearchOption.AllDirectories))
         {
-            DirectoryInfo directoryInfo = new DirectoryInfo(path);
-            return directoryInfo.GetFiles().ToList();
+            size += fileInfo.Length;
         }
-        else throw new AccessViolationException($"{path} is not exists on system");
+
+        return size;
     }
 
+    public static int GetDirectorySizeMB(string path)
+    {
+        return (int)(GetDirectorySize(path) / Math.Pow(1024, 2));
+    }
+
+    public static List<DirectoryInfo> GetDirectoryInfos(string path)
+    {
+        var baseInfo = CheckPath(path);
+        return baseInfo.EnumerateDirectories("*", SearchOption.AllDirectories).ToList();
+    }
+
+    public static List<FileInfo> GetFileInfos(string path)
+    {
+        return CheckPath(path).GetFiles().ToList();
+    }
+
+    private static DirectoryInfo CheckPath(string path)
+    {
+        path = $@"{path}\";
+
+        if (!Path.IsPathFullyQualified(path))
+        {
+            throw new ArgumentException($"{path} is not fully qualified");
+        }
+
+        string directoryName = Path.GetDirectoryName(path)!;
+        if (!Directory.Exists(directoryName))
+        {
+            throw new AccessViolationException($"{path} is not exists on system");
+        }
+
+        return new DirectoryInfo(Path.GetDirectoryName(path)!);
+    }
+}
+
+public static class DirectoryHelperExtension
+{
     public static List<FileInfo> ExtractFiles(this List<FileInfo> fileInfos, string filePath)
     {
         List<FileInfo> infos = new List<FileInfo>();
