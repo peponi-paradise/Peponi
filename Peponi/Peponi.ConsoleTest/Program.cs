@@ -1,4 +1,4 @@
-﻿using Peponi.Utility.Helpers;
+﻿using Peponi.Math.Calculation;
 
 namespace Peponi.ConsoleTest;
 
@@ -6,19 +6,11 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string path = "C:\\Temp\\\\\\";
-        List<FileInfo> files = new List<FileInfo>();
-
-        files.AddRange(DirectoryHelper.GetFileInfos(path));
-
-        var subDirectoryInfo = DirectoryHelper.GetDirectoryInfos(path);
-
-        foreach (var info in subDirectoryInfo)
+        List<int> A = new List<int>();
+        for (int i = 0; i < 20; i++)
         {
-            files.AddRange(DirectoryHelper.GetFileInfos($@"{info.FullName}\"));
+            A.Add(i);
         }
-
-        var sorted = files.OrderBy(info => info.LastWriteTime);
-        Console.WriteLine(string.Join("\n", sorted));
+        Console.WriteLine(A.PartialSum(0, 10));
     }
 }
