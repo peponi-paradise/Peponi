@@ -34,7 +34,7 @@ public static class Midpoint
 
         for (int i = 0; i < intervalCount; i++)
         {
-            sum += fx((lowLimit + deltaX * i + lowLimit + deltaX * (i + 1)) / 2);
+            sum += fx((2 * lowLimit + (2 * i + 1) * deltaX) / 2);
         }
 
         return sum * deltaX;
