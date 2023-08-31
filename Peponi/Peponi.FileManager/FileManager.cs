@@ -4,15 +4,19 @@ namespace Peponi.DiskManagement;
 
 public static class FileManager
 {
+    public static bool IsRunning => _isRun;
+
+    private static int _diskPreservePercent = 20;
+    private static volatile bool _isRun = false;
     private static string _rootPath = $@"C:\Log\";
     private static Thread _worker = new Thread(ManagerThread);
-    private static volatile bool _isRun = false;
-    private static int _diskPreservePercent = 20;
 
     public static void StartManager(int diskPreservePercent, string rootPath)
     {
         _diskPreservePercent = diskPreservePercent;
         _rootPath = $@"{rootPath}\";
+
+        _isRun = true;
 
         _worker = new Thread(ManagerThread);
         _worker.IsBackground = true;
@@ -23,8 +27,6 @@ public static class FileManager
     {
         _isRun = false;
     }
-
-    public static bool IsRunning => _isRun;
 
     private static void ManagerThread()
     {

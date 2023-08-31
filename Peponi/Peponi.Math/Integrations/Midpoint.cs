@@ -16,12 +16,27 @@ public static class Midpoint
 
         double result = 0;
 
-        //  끝점 제외한 나머지 계산
         for (int i = 1; i <= ys.Count - 1; i += 2)
         {
             result += ys[i] * (xs[i + 1] - xs[i - 1]);
         }
 
         return result;
+    }
+
+    public static double Integrate(Func<double, double> fx, double lowLimit, double upperLimit, int intervalCount)
+    {
+        if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");
+        else if (fx == null) throw new ArgumentNullException("fx is null");
+
+        double deltaX = (upperLimit - lowLimit) / intervalCount;
+        double sum = 0;
+
+        for (int i = 0; i < intervalCount; i++)
+        {
+            sum += fx((lowLimit + deltaX * i + lowLimit + deltaX * (i + 1)) / 2);
+        }
+
+        return sum * deltaX;
     }
 }

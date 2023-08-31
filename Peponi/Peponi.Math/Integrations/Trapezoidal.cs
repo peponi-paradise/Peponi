@@ -12,12 +12,27 @@ public static class Trapezoidal
 
         double result = 0;
 
-        // 끝점 제외한 나머지 계산
         for (int i = 0; i < xs.Count - 1; i++)
         {
             result += (xs[i + 1] - xs[i]) * (ys[i + 1] + ys[i]) / 2;
         }
 
         return result;
+    }
+
+    public static double Integrate(Func<double, double> fx, double lowLimit, double upperLimit, int intervalCount)
+    {
+        if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");
+        else if (fx == null) throw new ArgumentNullException("fx is null");
+
+        double deltaX = (upperLimit - lowLimit) / intervalCount;
+        double sum = 0;
+
+        for (int i = 0; i < intervalCount; i++)
+        {
+            sum += fx(lowLimit + deltaX * i) + fx(lowLimit + deltaX * (i + 1));
+        }
+
+        return sum * deltaX / 2;
     }
 }
