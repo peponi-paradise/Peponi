@@ -1,4 +1,6 @@
-﻿namespace Peponi.Math.Integration;
+﻿using Peponi.Math.Extensions;
+
+namespace Peponi.Math.Integration;
 
 public static class Midpoint
 {
@@ -7,29 +9,17 @@ public static class Midpoint
     /// </summary>
     public static double Integrate(List<double> xs, List<double> ys)
     {
+        if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
+        else if (xs.Count < 3) throw new ArgumentException("Required at least 3 points");
+        else if (!xs.Count.IsOdd()) throw new ArgumentException("Input array's count should be odd");
+        else if (!xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
+
         double result = 0;
 
-        for (int i = 0; i < ys.Count; i++)
-        {
-            // 0 이하 값 일괄 0으로 처리
-            ys[i] = ys[i] > 0 ? ys[i] : 0;
-        }
-
         //  끝점 제외한 나머지 계산
-        for (int i = 0; i < xs.Count - 1; i++)
+        for (int i = 1; i <= ys.Count - 1; i += 2)
         {
-            double YMidpoint = 0;
-
-            if (ys[i] < ys[i + 1])
-            {
-                YMidpoint = ys[i] + (System.Math.Abs(ys[i + 1] - ys[i])) / 2;
-            }
-            else
-            {
-                YMidpoint = ys[i + 1] + (System.Math.Abs(ys[i + 1] - ys[i])) / 2;
-            }
-
-            result += YMidpoint * (float)System.Math.Abs(xs[i + 1] - xs[i]);
+            result += ys[i] * (xs[i + 1] - xs[i - 1]);
         }
 
         return result;

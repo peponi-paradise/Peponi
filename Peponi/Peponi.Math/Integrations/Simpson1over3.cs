@@ -1,4 +1,4 @@
-﻿using Peponi.Math.Calculation;
+﻿using Peponi.Math.Extensions;
 
 namespace Peponi.Math.Integration;
 
@@ -10,14 +10,15 @@ public static class Simpson1over3
     /// </summary>
     public static double Integrate(List<double> xs, List<double> ys)
     {
-        if (xs.Count.IsEven() || ys.Count.IsEven()) return -999;      //포인트가 홀수여야 구간 수가 짝수가 나옴
+        if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
+        //포인트가 홀수여야 구간 수가 짝수가 나옴
+        else if (xs.Count < 3) throw new ArgumentException("Required at least 3 points");
+        else if (!xs.Count.IsOdd()) throw new ArgumentException("Input array's count should be odd");
+        else if (!xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
 
-        double result = 0;
         double sumOdd = 0;
         double sumEven = 0;
-        double intervalDivThree = (xs.Max() - xs.Min()).Abs() / (xs.Count - 1) / 3;
-
-        for (int i = 0; i < ys.Count; i++) ys[i] = ys[i] > 0 ? ys[i] : 0;   // 음수 0으로 처리
+        double intervalH = (xs.Max() - xs.Min()) / (xs.Count - 1) / 3;
 
         for (int i = 1; i < ys.Count - 1; i++)
         {
@@ -28,8 +29,8 @@ public static class Simpson1over3
         sumOdd = 4 * sumOdd;
         sumEven = 2 * sumEven;
 
-        double YTotal = ys[0] + ys[ys.Count - 1] + sumOdd + sumEven;
-        result = intervalDivThree * YTotal;
+        double yTotal = ys[0] + ys[ys.Count - 1] + sumOdd + sumEven;
+        double result = intervalH * yTotal;
 
         return result;
     }

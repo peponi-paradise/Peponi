@@ -7,18 +7,15 @@ public static class Trapezoidal
     /// </summary>
     public static double Integrate(List<double> xs, List<double> ys)
     {
-        double result = 0;
+        if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
+        else if (xs.Count < 2) throw new ArgumentException("Required at least 2 points");
 
-        for (int i = 0; i < ys.Count; i++)
-        {
-            // 0 이하 값 일괄 0으로 처리
-            ys[i] = ys[i] > 0 ? ys[i] : 0;
-        }
+        double result = 0;
 
         // 끝점 제외한 나머지 계산
         for (int i = 0; i < xs.Count - 1; i++)
         {
-            result += System.Math.Abs(xs[i + 1] - xs[i]) * System.Math.Abs(ys[i + 1] + ys[i]) / 2;
+            result += (xs[i + 1] - xs[i]) * (ys[i + 1] + ys[i]) / 2;
         }
 
         return result;
