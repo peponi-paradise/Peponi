@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Peponi.Core\Peponi.Core.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="SlidingWindow\" />
+  </ItemGroup>
+
 </Project>

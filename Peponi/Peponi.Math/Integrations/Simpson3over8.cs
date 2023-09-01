@@ -30,7 +30,7 @@ public static class Simpson3over8
     {
         if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");
         else if (fx == null) throw new ArgumentNullException("fx is null");
-        else if ((intervalCount) % 3 != 0) throw new ArgumentException("Interval count must be multiple of 3");
+        else if (intervalCount % 3 != 0) throw new ArgumentException("Interval count must be multiple of 3");
 
         double deltaX = (upperLimit - lowLimit) / intervalCount;
         double yTotal = 0;

@@ -16,7 +16,7 @@ public class SimpleMovingAverage
 
     public double Average(double newValue)
     {
-        if (_data.Count > _windowSize)
+        if (_data.Count >= _windowSize)
         {
             _data.RemoveAt(0);
         }
