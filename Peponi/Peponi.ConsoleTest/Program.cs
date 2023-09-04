@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Linq;
-using Peponi.Math.Extensions;
-using Peponi.Math.Windowing;
+﻿using Peponi.Math.Windowing;
 
 namespace Peponi.ConsoleTest;
 
@@ -23,13 +20,13 @@ internal class Program
             list.Add(new TimeClass() { CurrentTime = now.AddSeconds(rand), Time = DateTime.MinValue.AddSeconds(rand) });
         }
         //var windows = await list.ToTumblingWindowsAsync(TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
-        var windows = await TumblingWindows.ToTumblingWindowsAsync(list, now - TimeSpan.FromSeconds(15), TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
+        var windows = await TumblingWindows.ToTumblingWindowsAsync(list, now - TimeSpan.FromSeconds(1500), TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
         foreach (var window in windows)
         {
             Console.WriteLine(window.Count());
             //Console.WriteLine(window.Sum());
-            Console.WriteLine(window.Min());
-            Console.WriteLine(window.Max());
+            if (window.Count() != 0) Console.WriteLine(window.Min());
+            if (window.Count() != 0) Console.WriteLine(window.Max());
             //Console.WriteLine(window.Average());
             Console.WriteLine("----------------------------------------");
         }
