@@ -78,6 +78,16 @@ public static class TumblingWindowsExtensions
         return TumblingWindows.ToTumblingWindowsAsync(datas, startTime, windowSize);
     }
 
+    public static IEnumerable<IEnumerable<DateTime>> ToTumblingWindows(this IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
+    {
+        return TumblingWindows.ToTumblingWindows(datas, startTime, endTime, windowSize);
+    }
+
+    public static Task<IEnumerable<IEnumerable<DateTime>>> ToTumblingWindowsAsync(this IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
+    {
+        return TumblingWindows.ToTumblingWindowsAsync(datas, startTime, endTime, windowSize);
+    }
+
     public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<Data, DataType>(this IEnumerable<Data> datas, DateTime startTime, TimeSpan windowSize, Func<Data, DateTime> dateTimeSelector, Func<Data, DataType> dataTypeSelector) where DataType : struct
     {
         return TumblingWindows.ToTumblingWindows(datas, startTime, windowSize, dateTimeSelector, dataTypeSelector);
