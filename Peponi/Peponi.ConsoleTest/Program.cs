@@ -3,7 +3,7 @@ using Peponi.CodeGenerators.Class;
 
 namespace Peponi.ConsoleTest;
 
-[PDataClass]
+[Peponi.CodeGenerators.Class.PDataClass]
 internal partial class TimeClass
 {
     private DateTime currentTime;

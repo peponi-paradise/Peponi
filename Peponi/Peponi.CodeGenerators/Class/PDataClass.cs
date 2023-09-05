@@ -149,9 +149,9 @@ internal class PDataClassSyntaxReceiver : ISyntaxReceiver
                 switch (attrName)
                 {
                     case "PDataClass":
-                    case "System.PDataClass":
+                    case "Peponi.CodeGenerators.Class.PDataClass":
                     case "PDataClassAttribute":
-                    case "System.PDataClassAttribute":
+                    case "Peponi.CodeGenerators.Class.PDataClassAttribute":
                         if (node!.Modifiers.Any(Microsoft.CodeAnalysis.CSharp.SyntaxKind.PartialKeyword)) PDataClasses.Add(cds);
                         return;
                 }
