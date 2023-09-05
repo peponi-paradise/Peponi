@@ -8,8 +8,8 @@ namespace Peponi.Logger;
 /// <summary>
 /// Logger class. <br/><br/>
 /// Call <br/>
-/// 1. <see cref="Configuration(LogOption)"/> or <br/>
-/// 2. <see cref="Configuration(Enum, LogWriteOption, string?, string?, uint)"/> at startup.
+/// 1. <see cref="Configure(LogOption)"/> or <br/>
+/// 2. <see cref="Configure(Enum, LogWriteOption, string?, string?, uint)"/> at startup.
 /// </summary>
 public static class Log
 {
@@ -19,13 +19,13 @@ public static class Log
     /// Configure logger.
     /// </summary>
     /// <param name="option">Log option</param>
-    public static void Configuration(LogOption option)
+    public static void Configure(LogOption option)
     {
         var logTypes = Enum.GetNames(option.LogType!.GetType()).ToList();
         CheckLogPath(option.LogWriteOption, $@"{option.RootPath}\", logTypes);
 
-        LogProcessor.Configuration(option.LogWriteOption, logTypes, $@"{option.RootPath}\", option.LogFilePattern);
-        LogWriter.Configuration(option.LogWriteOption, logTypes, option.LogFileSize);
+        LogProcessor.Configure(option.LogWriteOption, logTypes, $@"{option.RootPath}\", option.LogFilePattern);
+        LogWriter.Configure(option.LogWriteOption, logTypes, option.LogFileSize);
 
         _isConfigured = true;
     }
@@ -52,7 +52,7 @@ public static class Log
     /// 0 = Inf <br/>
     /// X = X mb <br/>
     /// </param>
-    public static void Configuration(Enum logType, LogWriteOption writeOption, string? rootPath = null, string? logFilePattern = null, uint logFileSize = 0)
+    public static void Configure(Enum logType, LogWriteOption writeOption, string? rootPath = null, string? logFilePattern = null, uint logFileSize = 0)
     {
         var logTypes = Enum.GetNames(logType.GetType()).ToList();
 
@@ -60,8 +60,8 @@ public static class Log
         logFilePattern = logFilePattern ?? "yyyy-MM-dd";
         CheckLogPath(writeOption, rootPath, logTypes);
 
-        LogProcessor.Configuration(writeOption, logTypes, rootPath, logFilePattern);
-        LogWriter.Configuration(writeOption, logTypes, logFileSize);
+        LogProcessor.Configure(writeOption, logTypes, rootPath, logFilePattern);
+        LogWriter.Configure(writeOption, logTypes, logFileSize);
 
         _isConfigured = true;
     }

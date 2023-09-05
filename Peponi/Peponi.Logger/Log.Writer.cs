@@ -13,7 +13,7 @@ internal static class LogWriter
     private static LogWriteOption _writeOption;
     private static uint _logSize = 0;
 
-    internal static void Configuration(LogWriteOption writeOption, List<string> logTypes, uint logSize)
+    internal static void Configure(LogWriteOption writeOption, List<string> logTypes, uint logSize)
     {
         // 필요한 작업 처리
         _writeOption = writeOption;

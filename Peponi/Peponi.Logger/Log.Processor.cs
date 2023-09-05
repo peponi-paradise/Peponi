@@ -17,7 +17,7 @@ internal static class LogProcessor
 
     private static List<Thread> _workers = new List<Thread>();
 
-    internal static void Configuration(LogWriteOption writeOption, List<string> logTypes, string rootPath, string logFilePattern)
+    internal static void Configure(LogWriteOption writeOption, List<string> logTypes, string rootPath, string logFilePattern)
     {
         // 필요한 작업 처리
         _writeOption = writeOption;

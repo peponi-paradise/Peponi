@@ -1,96 +1,73 @@
-﻿using static System.Runtime.InteropServices.JavaScript.JSType;
-
-namespace Peponi.Math.Windowing;
+﻿namespace Peponi.Math.Windowing;
 
 public static partial class TumblingWindows
 {
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<DataType>(IEnumerable<DataType> datas, uint windowSize) where DataType : struct
+    public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
-        if (windowSize == 0)
-        {
-            throw new ArgumentException($"Window size could not be 0");
-        }
-
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
-
-        for (int i = 0; i < datas.Count(); i++)
-        {
-            windows.Add(datas.ElementAt(i));
-            if (windows.Count == windowSize)
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-            }
-        }
-
-        if (windows.Count > 0)
-        {
-            rtnDatas.Add(windows.ToList());
-        }
-
-        return rtnDatas;
+        return ToTumblingWindowsCore(datas: datas, windowSize: windowSize);
     }
 
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<DataType>(IEnumerable<DataType> datas, uint windowSize) where DataType : struct
+    public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, windowSize));
     }
 
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<DataType>(IEnumerable<DataType> datas, uint startPosition, uint windowSize) where DataType : struct
+    public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
-        if (startPosition == 0 || windowSize == 0)
-        {
-            throw new ArgumentException($"Start position, window size could not be 0");
-        }
-        else if (startPosition > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"Start position : {startPosition} could not bigger than data length : {datas.Count()}");
-        }
-
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
-
-        for (int i = (int)startPosition; i < datas.Count(); i++)
-        {
-            windows.Add(datas.ElementAt(i));
-            if (windows.Count == windowSize)
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-            }
-        }
-
-        if (windows.Count > 0)
-        {
-            rtnDatas.Add(windows.ToList());
-        }
-
-        return rtnDatas;
+        return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize);
     }
 
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<DataType>(IEnumerable<DataType> datas, uint startPosition, uint windowSize) where DataType : struct
+    public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize));
     }
 
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<DataType>(IEnumerable<DataType> datas, uint startPosition, uint endPosition, uint windowSize) where DataType : struct
+    public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
-        if (startPosition == 0 || endPosition == 0 || windowSize == 0)
-        {
-            throw new ArgumentException($"Start & end position, window size could not be 0");
-        }
-        else if (startPosition > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"Start position : {startPosition} could not bigger than data length : {datas.Count()}");
-        }
-        else if (endPosition - 1 > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"End position -1 : {endPosition - 1} could not bigger than data length : {datas.Count()}");
-        }
+        return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize);
+    }
 
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
+    public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
+    {
+        return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize));
+    }
+
+    public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return ToTumblingWindowsCore(datas: datas, windowSize: windowSize, dataSelector: dataSelector);
+    }
+
+    public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return Task.Run(() => ToTumblingWindows(datas, windowSize, dataSelector));
+    }
+
+    public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, dataSelector: dataSelector);
+    }
+
+    public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize, dataSelector));
+    }
+
+    public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize, dataSelector);
+    }
+
+    public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
+    {
+        return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize, dataSelector));
+    }
+
+    private static IEnumerable<IEnumerable<T>> ToTumblingWindowsCore<T>(IEnumerable<T> datas, uint startPosition = uint.MaxValue, uint endPosition = uint.MaxValue, uint windowSize = 0) where T : struct
+    {
+        DataCheck(datas, ref startPosition, ref endPosition, windowSize);
+
+        List<List<T>> rtnDatas = new();
+        List<T> windows = new();
 
         for (int i = (int)startPosition; i <= endPosition; i++)
         {
@@ -110,119 +87,52 @@ public static partial class TumblingWindows
         return rtnDatas;
     }
 
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<DataType>(IEnumerable<DataType> datas, uint startPosition, uint endPosition, uint windowSize) where DataType : struct
+    private static IEnumerable<IEnumerable<V>> ToTumblingWindowsCore<T, V>(IEnumerable<T> datas, uint startPosition = uint.MaxValue, uint endPosition = uint.MaxValue, uint windowSize = 0, Func<T, V>? dataSelector = null) where V : struct
     {
-        return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize));
+        DataCheck(datas, ref startPosition, ref endPosition, windowSize);
+
+        if (dataSelector == null)
+        {
+            throw new ArgumentNullException($"{nameof(dataSelector)} could not be null");
+        }
+
+        List<List<V>> rtnDatas = new();
+        List<V> windows = new();
+
+        for (int i = (int)startPosition; i <= endPosition; i++)
+        {
+            windows.Add(dataSelector(datas.ElementAt(i)));
+            if (windows.Count == windowSize)
+            {
+                rtnDatas.Add(windows.ToList());
+                windows.Clear();
+            }
+        }
+
+        if (windows.Count > 0)
+        {
+            rtnDatas.Add(windows.ToList());
+        }
+
+        return rtnDatas;
     }
 
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<Data, DataType>(IEnumerable<Data> datas, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
+    private static void DataCheck<T>(IEnumerable<T> datas, ref uint startPosition, ref uint endPosition, uint windowSize)
     {
+        if (startPosition == uint.MaxValue) startPosition = 0;
+        if (endPosition == uint.MaxValue) endPosition = (uint)datas.Count() - 1;
+
         if (windowSize == 0)
         {
             throw new ArgumentException($"Window size could not be 0");
         }
-
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
-
-        for (int i = 0; i < datas.Count(); i++)
+        else if (startPosition > datas.Count() - 1)
         {
-            windows.Add(dataTypeSelector(datas.ElementAt(i)));
-            if (windows.Count == windowSize)
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-            }
+            throw new ArgumentOutOfRangeException($"Start position : {startPosition} could not bigger than data length - 1 : {datas.Count() - 1}");
         }
-
-        if (windows.Count > 0)
+        else if (endPosition > datas.Count() - 1)
         {
-            rtnDatas.Add(windows.ToList());
+            throw new ArgumentOutOfRangeException($"End position : {endPosition} could not bigger than data length - 1 : {datas.Count() - 1}");
         }
-
-        return rtnDatas;
-    }
-
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<Data, DataType>(IEnumerable<Data> datas, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
-    {
-        return Task.Run(() => ToTumblingWindows(datas, windowSize, dataTypeSelector));
-    }
-
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<Data, DataType>(IEnumerable<Data> datas, uint startPosition, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
-    {
-        if (startPosition == 0 || windowSize == 0)
-        {
-            throw new ArgumentException($"Start position, window size could not be 0");
-        }
-        else if (startPosition > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"Start position : {startPosition} could not bigger than data length : {datas.Count()}");
-        }
-
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
-
-        for (int i = (int)startPosition; i < datas.Count(); i++)
-        {
-            windows.Add(dataTypeSelector(datas.ElementAt(i)));
-            if (windows.Count == windowSize)
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-            }
-        }
-
-        if (windows.Count > 0)
-        {
-            rtnDatas.Add(windows.ToList());
-        }
-
-        return rtnDatas;
-    }
-
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<Data, DataType>(IEnumerable<Data> datas, uint startPosition, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
-    {
-        return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize, dataTypeSelector));
-    }
-
-    public static IEnumerable<IEnumerable<DataType>> ToTumblingWindows<Data, DataType>(IEnumerable<Data> datas, uint startPosition, uint endPosition, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
-    {
-        if (startPosition == 0 || endPosition == 0 || windowSize == 0)
-        {
-            throw new ArgumentException($"Start & end position, window size could not be 0");
-        }
-        else if (startPosition > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"Start position : {startPosition} could not bigger than data length : {datas.Count()}");
-        }
-        else if (endPosition - 1 > datas.Count())
-        {
-            throw new ArgumentOutOfRangeException($"End position -1 : {endPosition - 1} could not bigger than data length : {datas.Count()}");
-        }
-
-        List<List<DataType>> rtnDatas = new();
-        List<DataType> windows = new();
-
-        for (int i = (int)startPosition; i <= endPosition; i++)
-        {
-            windows.Add(dataTypeSelector(datas.ElementAt(i)));
-            if (windows.Count == windowSize)
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-            }
-        }
-
-        if (windows.Count > 0)
-        {
-            rtnDatas.Add(windows.ToList());
-        }
-
-        return rtnDatas;
-    }
-
-    public static Task<IEnumerable<IEnumerable<DataType>>> ToTumblingWindowsAsync<Data, DataType>(IEnumerable<Data> datas, uint startPosition, uint endPosition, uint windowSize, Func<Data, DataType> dataTypeSelector) where DataType : struct
-    {
-        return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize, dataTypeSelector));
     }
 }
