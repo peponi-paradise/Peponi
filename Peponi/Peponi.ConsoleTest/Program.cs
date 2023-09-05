@@ -1,18 +1,21 @@
 ﻿using Peponi.Math.Windowing;
+using Peponi.CodeGenerators.Class;
 
 namespace Peponi.ConsoleTest;
 
+[PDataClass]
+internal partial class TimeClass
+{
+    private DateTime currentTime;
+    private double data;
+}
+
 internal class Program
 {
-    private class TimeClass
+    public partial class ValueClass
     {
-        public DateTime CurrentTime { get; set; }
-        public double Time { get; set; }
-    }
-
-    private class ValueClass
-    {
-        public double Value { get; set; }
+        public double _value;
+        private double _value2;
     }
 
     private static async Task Main(string[] args)
@@ -40,7 +43,7 @@ internal class Program
         for (int i = 0; i < 10; i++)
         {
             int rand = Random.Shared.Next(10);
-            list.Add(new ValueClass() { Value = rand });
+            list.Add(new ValueClass() { _value = rand });
         }
         List<double> list2 = new();
         for (int i = 0; i < 10; i++)
@@ -48,7 +51,7 @@ internal class Program
             int rand = Random.Shared.Next(10);
             list2.Add(rand);
         }
-        var t = HoppingWindows.ToHoppingWindows(list, 4, 2, (x) => x.Value);
+        var t = HoppingWindows.ToHoppingWindows(list, 4, 2, (x) => x._value);
         foreach (var x in t)
         {
             Console.WriteLine(x.Count());
