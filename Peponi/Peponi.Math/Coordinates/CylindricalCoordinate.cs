@@ -1,5 +1,4 @@
-﻿using Peponi.Core.Interfaces;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace Peponi.Math.Coordinates;
 

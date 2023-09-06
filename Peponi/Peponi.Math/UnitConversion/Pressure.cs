@@ -1,6 +1,11 @@
-﻿using Peponi.Core.Enums;
+﻿namespace Peponi.Math.UnitConversion;
 
-namespace Peponi.Math.UnitConversion;
+public enum PressureUnit
+{
+    Pa,
+    Torr,
+    Psi,
+}
 
 public static class Pressure
 {

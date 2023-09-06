@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Peponi.Core.Interfaces;
+namespace Peponi.Math.Coordinates;
 
 public interface ICoordinate : INotifyPropertyChanged
 {

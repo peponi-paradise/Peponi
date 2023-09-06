@@ -1,5 +1,4 @@
-﻿using Peponi.Core.Enums;
-using Peponi.Logger.Processor;
+﻿using Peponi.Logger.Processor;
 using Peponi.Logger.Writer;
 using Peponi.Utility.Helpers;
 
