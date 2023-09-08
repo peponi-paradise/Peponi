@@ -1,5 +1,4 @@
 ﻿using Peponi.Math.Windowing;
-using Peponi.CodeGenerators.Class;
 
 namespace Peponi.ConsoleTest;
 
@@ -25,10 +24,10 @@ internal class Program
         //for (int i = 1; i < 1000; i++)
         //{
         //    int rand = Random.Shared.Next(1000);
-        //    list.Add(new TimeClass() { CurrentTime = now.AddSeconds(rand), Time = rand });
+        //    list.Add(new TimeClass(now.AddSeconds(rand), rand));
         //}
         ////var windows = await list.ToTumblingWindowsAsync(TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
-        //var windows = await TumblingWindows.ToTumblingWindowsAsync(list, now - TimeSpan.FromSeconds(1500), now + TimeSpan.FromSeconds(20), TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
+        //var windows = await HoppingWindows.ToHoppingWindowsAsync(list, now - TimeSpan.FromSeconds(1500), now + TimeSpan.FromSeconds(20), TimeSpan.FromMinutes(1), (x) => x.CurrentTime, (x) => x.Time);
         //foreach (var window in windows)
         //{
         //    Console.WriteLine(window.Count());
@@ -39,44 +38,50 @@ internal class Program
         //    Console.WriteLine("----------------------------------------");
         //}
 
-        List<ValueClass> list = new();
-        for (int i = 0; i < 10; i++)
-        {
-            int rand = Random.Shared.Next(10);
-            list.Add(new ValueClass() { _value = rand });
-        }
-        List<double> list2 = new();
-        for (int i = 0; i < 10; i++)
-        {
-            int rand = Random.Shared.Next(10);
-            list2.Add(rand);
-        }
-        var t = HoppingWindows.ToHoppingWindows(list, 4, 2, (x) => x._value);
-        foreach (var x in t)
-        {
-            Console.WriteLine(x.Count());
-            Console.WriteLine(x.Sum());
-            Console.WriteLine(x.Max());
-            Console.WriteLine(x.Min());
-            Console.WriteLine(x.Average());
-            Console.WriteLine("----------------------------------------");
-        }
-
-        //DateTime now = DateTime.Now;
-        //List<TimeSpan> times = new List<TimeSpan>();
-        //for (int i = 0; i < 1000; i++)
+        //List<ValueClass> list = new();
+        //for (int i = 0; i < 10; i++)
         //{
-        //    int rand = Random.Shared.Next(1000);
-        //    times.Add(TimeSpan.FromSeconds(rand));
+        //    int rand = Random.Shared.Next(10);
+        //    list.Add(new ValueClass() { _value = rand });
         //}
-        //var t = await times.ToTumblingWindowsAsync(30);
+        //List<double> list2 = new();
+        //for (int i = 0; i < 10; i++)
+        //{
+        //    int rand = Random.Shared.Next(10);
+        //    list2.Add(rand);
+        //}
+        //var t = HoppingWindows.ToHoppingWindows(list, 4, 2, (x) => x._value);
         //foreach (var x in t)
         //{
         //    Console.WriteLine(x.Count());
-        //    Console.WriteLine(x.Min());
-        //    Console.WriteLine(x.Max());
         //    Console.WriteLine(x.Sum());
+        //    Console.WriteLine(x.Max());
+        //    Console.WriteLine(x.Min());
         //    Console.WriteLine(x.Average());
+        //    Console.WriteLine("----------------------------------------");
         //}
+
+        DateTime now = DateTime.Now;
+        List<TimeClass> times = new();
+        for (int i = 1; i < 11; i++)
+        {
+            int rand = Random.Shared.Next(10);
+            var data = new TimeClass(now + TimeSpan.FromSeconds(rand) + TimeSpan.FromMilliseconds(rand), i);
+            times.Add(data);
+        }
+        foreach (var item in times)
+        {
+            Console.WriteLine($"{item.CurrentTime.ToString("mm.ss.fff")}, {item.Data}");
+        }
+        Console.WriteLine("\n----------------------------------------");
+
+        var t = await TumblingWindows.ToTumblingWindowsAsync(times, DateTime.Now - TimeSpan.FromSeconds(1), DateTime.MaxValue, TimeSpan.FromSeconds(3), (x) => x.CurrentTime, (x) => x.Data);
+        foreach (var x in t)
+        {
+            Console.WriteLine(x.Count());
+            Console.WriteLine(x.Min());
+            Console.WriteLine(x.Max());
+            Console.WriteLine("----------------------------------------");
+        }
     }
 }

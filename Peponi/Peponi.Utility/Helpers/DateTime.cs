@@ -13,7 +13,7 @@ public static class DateTimeHelper
         {
             var testString = DateTime.Now.ToString(format);
             DateTime.ParseExact(testString, format, CultureInfo.InvariantCulture);
-            return GetTimeCheckMode(format);
+            return TimeUnitCheck(format);
         }
         catch
         {
@@ -35,7 +35,7 @@ public static class DateTimeHelper
         };
     }
 
-    private static DateTimeUnit GetTimeCheckMode(string format)
+    private static DateTimeUnit TimeUnitCheck(string format)
     {
         if (format.Contains("s")) return DateTimeUnit.Seccond;
         else if (format.Contains("m")) return DateTimeUnit.Minute;

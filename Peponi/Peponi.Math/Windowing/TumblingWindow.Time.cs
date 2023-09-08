@@ -1,4 +1,6 @@
-﻿namespace Peponi.Math.Windowing;
+﻿using Peponi.Math.Extensions;
+
+namespace Peponi.Math.Windowing;
 
 public static partial class TumblingWindows
 {
@@ -46,26 +48,12 @@ public static partial class TumblingWindows
     {
         datas = datas.Order();
         List<List<DateTime>> rtnDatas = new();
-        List<DateTime> windows = new();
-        int dataIndex = 0;
 
-        while (dataIndex < datas.Count())
+        while (startTime + windowSize <= endTime)
         {
-            if (datas.ElementAt(dataIndex) < startTime + windowSize && datas.ElementAt(dataIndex) <= endTime)
-            {
-                windows.Add(datas.ElementAt(dataIndex++));
-            }
-            else
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-                startTime += windowSize;
-                if (datas.ElementAt(dataIndex) > endTime) break;
-                else if (datas.ElementAt(dataIndex) < startTime + windowSize)
-                {
-                    windows.Add(datas.ElementAt(dataIndex++));
-                }
-            }
+            rtnDatas.Add(datas.Where((x) => x.IsBetween(startTime, startTime + windowSize) && x.IsBetween(startTime, endTime)).ToList());
+            startTime += windowSize;
+            if (startTime >= datas.Last()) break;
         }
 
         return rtnDatas;
@@ -75,26 +63,17 @@ public static partial class TumblingWindows
     {
         datas = datas.OrderBy(dateTimeSelector).ToList();
         List<List<V>> rtnDatas = new();
-        List<V> windows = new();
-        int dataIndex = 0;
 
-        while (dataIndex < datas.Count())
+        while (startTime + windowSize <= endTime)
         {
-            if (dateTimeSelector(datas.ElementAt(dataIndex)) < startTime + windowSize && dateTimeSelector(datas.ElementAt(dataIndex)) <= endTime)
-            {
-                windows.Add(dataSelector(datas.ElementAt(dataIndex++)));
-            }
-            else
-            {
-                rtnDatas.Add(windows.ToList());
-                windows.Clear();
-                startTime += windowSize;
-                if (dateTimeSelector(datas.ElementAt(dataIndex)) > endTime) break;
-                else if (dateTimeSelector(datas.ElementAt(dataIndex)) < startTime + windowSize)
-                {
-                    windows.Add(dataSelector(datas.ElementAt(dataIndex++)));
-                }
-            }
+            var window = datas.Where((x) => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize) && dateTimeSelector(x).IsBetween(startTime, endTime));
+            var inputData = from data in window select dataSelector(data);
+
+            rtnDatas.Add(inputData.ToList());
+
+            startTime += windowSize;
+
+            if (startTime >= dateTimeSelector(datas.Last())) break;
         }
 
         return rtnDatas;
