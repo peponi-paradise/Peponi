@@ -1,8 +1,8 @@
 ﻿namespace Peponi.Math.MovingAverage;
 
-public class SimpleMovingAverage
+public class SimpleMovingAverage<T> where T : struct
 {
-    private List<double> _data = new();
+    private List<T> _data = new();
     private uint _windowSize = 0;
 
     public SimpleMovingAverage(uint windowSize)
@@ -14,7 +14,7 @@ public class SimpleMovingAverage
         _windowSize = windowSize;
     }
 
-    public double Average(double newValue)
+    public T Average(T newValue)
     {
         if (_data.Count >= _windowSize)
         {
@@ -27,11 +27,11 @@ public class SimpleMovingAverage
 
         foreach (var data in _data)
         {
-            averageData += data;
+            averageData += (double)Convert.ChangeType(data, typeof(double));
         }
 
         averageData /= _data.Count;
 
-        return averageData;
+        return (T)Convert.ChangeType(averageData, typeof(T));
     }
 }
