@@ -17,7 +17,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.DiskManagement", "Pe
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.CodeGenerators", "Peponi.CodeGenerators\Peponi.CodeGenerators.csproj", "{4B575CBE-555A-4F04-B783-7E87F2DEB139}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peponi.Math.Tests", "..\Peponi.Tests\Peponi.Math.Tests\Peponi.Math.Tests.csproj", "{B4899286-68CC-45EB-BD20-10C4ABE32DFA}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Math.Tests", "..\Peponi.Tests\Peponi.Math.Tests\Peponi.Math.Tests.csproj", "{B4899286-68CC-45EB-BD20-10C4ABE32DFA}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Peponi.Utility.Tests", "..\Peponi.Tests\Peponi.Utility.Tests\Peponi.Utility.Tests.csproj", "{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -53,12 +55,17 @@ Global
 		{B4899286-68CC-45EB-BD20-10C4ABE32DFA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B4899286-68CC-45EB-BD20-10C4ABE32DFA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B4899286-68CC-45EB-BD20-10C4ABE32DFA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{B4899286-68CC-45EB-BD20-10C4ABE32DFA} = {45894593-D33B-4577-8E0D-7F7FB5AD514C}
+		{03BAFC3B-5AEA-4DC5-82F8-3A22A0BE97F9} = {45894593-D33B-4577-8E0D-7F7FB5AD514C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {7DE8C624-FDC8-4927-AA41-BD8EE2512A1F}

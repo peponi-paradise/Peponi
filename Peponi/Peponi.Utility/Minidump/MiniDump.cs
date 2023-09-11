@@ -8,6 +8,7 @@ namespace Peponi.Utility.MiniDump;
 /// Non-UI thread : AppDomain.CurrentDomain.UnhandledException
 /// WinForm UI thread : Application.ThreadException
 /// WPF UI thread : Application.Current.DispatcherUnhandledException
+/// ASP.NET HttpApplication request exception : HttpApplication.Error
 /// </code>
 /// </summary>
 public static class MiniDumpWriter
