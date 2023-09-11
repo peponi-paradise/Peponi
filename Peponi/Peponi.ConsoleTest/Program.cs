@@ -1,4 +1,5 @@
-﻿using Peponi.Math.UnitConversion;
+﻿using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
 
 namespace Peponi.ConsoleTest;
 
@@ -91,7 +92,7 @@ internal class Program
         //    Console.WriteLine("----------------------------------------");
         //}
 
-        double ksi = 654321;
-        Console.WriteLine(UnitConvert.ConvertPressure(ksi, PressureUnit.ksi, PressureUnit.at));
+        double cel = 654321;
+        Console.WriteLine(cel.ConvertTemperature(TemperatureUnit.Fahrenheit, TemperatureUnit.Rankine));
     }
 }
