@@ -1,4 +1,4 @@
-﻿using Peponi.Math.Windowing;
+﻿using Peponi.Math.UnitConversion;
 
 namespace Peponi.ConsoleTest;
 
@@ -61,27 +61,37 @@ internal class Program
         //    Console.WriteLine("----------------------------------------");
         //}
 
-        DateTime now = DateTime.Now;
-        List<TimeClass> times = new();
-        for (int i = 1; i < 11; i++)
-        {
-            int rand = Random.Shared.Next(10);
-            var data = new TimeClass(now + TimeSpan.FromSeconds(rand) + TimeSpan.FromMilliseconds(rand), i);
-            times.Add(data);
-        }
-        foreach (var item in times)
-        {
-            Console.WriteLine($"{item.CurrentTime.ToString("mm.ss.fff")}, {item.Data}");
-        }
-        Console.WriteLine("\n----------------------------------------");
+        //DateTime now = DateTime.Now;
+        //List<TimeClass> times = new();
+        //for (int i = 1; i < 11; i++)
+        //{
+        //    int rand = Random.Shared.Next(10);
+        //    var data = new TimeClass(now + TimeSpan.FromSeconds(rand) + TimeSpan.FromMilliseconds(rand), i);
+        //    times.Add(data);
+        //}
+        //foreach (var item in times)
+        //{
+        //    Console.WriteLine($"{item.CurrentTime.ToString("mm.ss.fff")}, {item.Data}");
+        //}
+        //Console.WriteLine("\n----------------------------------------");
 
-        var t = await TumblingWindows.ToTumblingWindowsAsync(times, DateTime.Now - TimeSpan.FromSeconds(1), DateTime.MaxValue, TimeSpan.FromSeconds(3), (x) => x.CurrentTime, (x) => x.Data);
-        foreach (var x in t)
-        {
-            Console.WriteLine(x.Count());
-            Console.WriteLine(x.Min());
-            Console.WriteLine(x.Max());
-            Console.WriteLine("----------------------------------------");
-        }
+        //DateTime now = DateTime.Parse("2023.09.11 08:00:00");
+        //List<TimeClass> dates = new();
+        //for (int i = 0; i < 10000; i++)
+        //{
+        //    int add = Random.Shared.Next(2);
+        //    if (add == 1) dates.Add(new TimeClass(now + TimeSpan.FromSeconds(i), i));
+        //}
+        //var t = SlidingWindows.ToSlidingWindows(dates, now, DateTime.MaxValue, TimeSpan.FromSeconds(5), (x) => x.CurrentTime, (x) => x.Data);
+        //foreach (var x in t)
+        //{
+        //    Console.WriteLine(x.Count());
+        //    Console.WriteLine(x.Min());
+        //    Console.WriteLine(x.Max());
+        //    Console.WriteLine("----------------------------------------");
+        //}
+
+        double ksi = 654321;
+        Console.WriteLine(UnitConvert.ConvertPressure(ksi, PressureUnit.ksi, PressureUnit.at));
     }
 }

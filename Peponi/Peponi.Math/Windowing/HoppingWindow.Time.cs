@@ -46,6 +46,8 @@ public partial class HoppingWindows
 
     private static IEnumerable<IEnumerable<DateTime>> ToHoppingWindowsCore(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
+        DataCheck(startTime, endTime, windowSize);
+
         datas = datas.Order();
         List<List<DateTime>> rtnDatas = new();
 
@@ -61,6 +63,8 @@ public partial class HoppingWindows
 
     private static IEnumerable<IEnumerable<V>> ToHoppingWindowsCore<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
+        DataCheck(startTime, endTime, windowSize);
+
         datas = datas.OrderBy(dateTimeSelector).ToList();
         List<List<V>> rtnDatas = new();
 
@@ -77,5 +81,11 @@ public partial class HoppingWindows
         }
 
         return rtnDatas;
+    }
+
+    private static void DataCheck(DateTime startTime, DateTime endTime, TimeSpan windowSize)
+    {
+        if (startTime > endTime) throw new ArgumentException($"Start time could not be bigger than end time. Start time : {startTime}, end time : {endTime}");
+        else if (startTime + windowSize > endTime) throw new ArgumentException($"Start time + window size could not be bigger than end time. Start time + window size : {startTime + windowSize}, end time : {endTime}");
     }
 }
