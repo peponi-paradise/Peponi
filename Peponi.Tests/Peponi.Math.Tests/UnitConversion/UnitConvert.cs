@@ -1,5 +1,5 @@
-﻿using Peponi.Math.UnitConversion;
-using Peponi.Math.Extensions;
+﻿using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
 
 namespace Peponi.Math.Tests.UnitConversion;
 

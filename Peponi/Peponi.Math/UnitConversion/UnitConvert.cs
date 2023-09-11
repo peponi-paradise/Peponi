@@ -1,6 +1,6 @@
 ﻿namespace Peponi.Math.UnitConversion;
 
-public class UnitConvert
+public static class UnitConvert
 {
     public static T ConvertPressure<T>(T value, PressureUnit convertFrom, PressureUnit convertTo) where T : struct
     {
