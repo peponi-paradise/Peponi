@@ -1,0 +1,58 @@
+﻿namespace Peponi.Math.UnitConversion;
+
+internal static partial class Weight
+{
+    private const double AttoGram = 1.0E-21;
+    private const double FemtoGram = 1.0E-18;
+    private const double PicoGram = 1.0E-15;
+    private const double NanoGram = 1.0E-12;
+    private const double MicroGram = 1.0E-9;
+    private const double MilliGram = 1E-6;
+    private const double CentiGram = 1E-5;
+    private const double DeciGram = 0.0001;
+    private const double Gram = 0.001;
+    private const double DekaGram = 0.01;
+    private const double HectoGram = 0.1;
+    private const double KiloGram = 1;
+    private const double MegaGram = 1000;
+    private const double GigaGram = 1000000;
+    private const double TeraGram = 1000000000;
+    private const double PetaGram = 1000000000000;
+    private const double ExaGram = 1.0E+15;
+    private const double Grain = 6.47989E-5;
+    private const double StoneUS = 5.669904625;
+    private const double StoneUK = 6.35029318;
+    private const double Tonne = 1000;
+    private const double Ton = 1000;
+    private const double KiloTon = 1000000;
+    private const double TonUS = 907.18474;
+    private const double TonUK = 1016.0469088;
+    private const double TonAssayUS = 0.02916667;
+    private const double TonAssayUK = 0.0326666667;
+    private const double ScrupleApothecary = 0.0012959782;
+    private const double Pound = 0.45359237;
+    private const double PoundTroy = 0.3732417216;
+    private const double Poundal = 0.0140867196;
+    private const double KiloPound = 453.59237;
+    private const double Kip = 453.59237;
+    private const double Slug = 14.5939029372;
+    private const double Ounce = 0.0283495231;
+    private const double Carat = 0.0002;
+    private const double Dalton = 1.6605300000013E-27;
+    private const double KgfSquareSecondPerMeter = 9.80665;
+    private const double LbfSquareSecondPerFoot = 14.5939029372;
+    private const double Quintal = 100;
+    private const double PennyWeight = 0.0015551738;
+    private const double HundredWeightUS = 45.359237;
+    private const double HundredWeightUK = 50.80234544;
+    private const double QuarterUS = 11.33980925;
+    private const double QuarterUK = 12.70058636;
+    private const double Gamma = 1.0E-9;
+    private const double PlanckMass = 2.17671E-8;
+    private const double ElectronMass = 9.1093897E-31;
+    private const double MuonMass = 1.8835327E-28;
+    private const double ProtonMass = 1.6726231E-27;
+    private const double NeutronMass = 1.6749286E-27;
+    private const double DeuteronMass = 3.343586E-27;
+    private const double AtomicMassUnit = 1.6605402E-27;
+}
