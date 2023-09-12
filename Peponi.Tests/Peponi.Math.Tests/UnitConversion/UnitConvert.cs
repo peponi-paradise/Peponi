@@ -7,6 +7,13 @@ namespace Peponi.Math.Tests.UnitConversion;
 public class UnitConversion
 {
     [TestMethod]
+    public void LengthTest()
+    {
+        var result = UnitConvert.ConvertLength(451.12031d, LengthUnit.Furlong, LengthUnit.MileUSStatute);
+        Assert.AreEqual(56.389926, result.Round(6));
+    }
+
+    [TestMethod]
     public void PressureTest()
     {
         var result = UnitConvert.ConvertPressure(500d, PressureUnit.kipfPerSquareInch, PressureUnit.atm);
