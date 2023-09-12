@@ -33,4 +33,11 @@ public class UnitConversion
         var result = UnitConvert.Convert(500d, TemperatureUnit.Reaumur, TemperatureUnit.Kelvin);
         Assert.AreEqual(898.15, result.Round(6));
     }
+
+    [TestMethod]
+    public void PrefixTest()
+    {
+        var result = UnitConvert.Convert(500d, PrefixUnit.Peta, PrefixUnit.Deci);
+        Assert.AreEqual(5E+18, result.Round(6));
+    }
 }

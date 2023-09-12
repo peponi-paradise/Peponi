@@ -23,4 +23,9 @@ public static class UnitConvertExtensions
     {
         return Temperature.ConvertTo(value, convertFrom, convertTo);
     }
+
+    public static T Convert<T>(this T value, PrefixUnit convertFrom, PrefixUnit convertTo) where T : struct
+    {
+        return Prefix.ConvertTo(value, convertFrom, convertTo);
+    }
 }
