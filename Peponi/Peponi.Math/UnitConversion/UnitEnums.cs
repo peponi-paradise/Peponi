@@ -1,5 +1,48 @@
 ﻿namespace Peponi.Math.UnitConversion;
 
+public enum AreaUnit
+{
+    NanoMeter,
+    MicroMeter,
+    MilliMeter,
+    CentiMeter,
+    DeciMeter,
+    Meter,
+    DekaMeter,
+    HectoMeter,
+    KiloMeter,
+    Hectare,
+    Acre,
+    AcreUS,
+    Are,
+    Mile,
+    MileUS,
+    Yard,
+    Foot,
+    FootUS,
+    Inch,
+    CircularInch,
+    Barn,
+    Township,
+    Section,
+    Homestead,
+    Plaza,
+    Chain,
+    Rood,
+    Rod,
+    RodUS,
+    Perch,
+    Pole,
+    Mil,
+    CircularMil,
+    Sabin,
+    Arpent,
+    Cuerda,
+    VarasCastellanasCuad,
+    VarasConuquerasCuad,
+    ElectronCrossSection,
+}
+
 public enum LengthUnit
 {
     FemtoMeter,
