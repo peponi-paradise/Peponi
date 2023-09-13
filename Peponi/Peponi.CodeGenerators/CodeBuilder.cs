@@ -1,16 +1,11 @@
 ﻿using System.Text;
 
-namespace Peponi.CodeGenerators.CodeBuilder;
+namespace Peponi.CodeGenerators;
 
 internal class CodeBuilder
 {
-    internal int _indent = 0;
+    internal int Indent = 0;
     private StringBuilder _builder = new StringBuilder();
-
-    public IDisposable Indent(bool indent = true)
-    {
-        return new IndentMark(this, indent);
-    }
 
     public override string ToString()
     {
@@ -37,31 +32,11 @@ internal class CodeBuilder
         _builder.AppendLine(text);
     }
 
-    public void IndentTab()
+    private void IndentTab()
     {
-        for (int i = 0; i < _indent; i++)
+        for (int i = 0; i < Indent; i++)
         {
             _builder.Append("\t");
-        }
-    }
-
-    public class IndentMark : IDisposable
-    {
-        private CodeBuilder _outer;
-
-        public IndentMark(CodeBuilder outer, bool indent)
-        {
-            _outer = outer;
-
-            if (indent)
-            {
-                _outer._indent++;
-            }
-        }
-
-        public void Dispose()
-        {
-            _outer._indent--;
         }
     }
 }

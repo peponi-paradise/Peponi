@@ -52,7 +52,7 @@ namespace Peponi.CodeGenerators.Class
 
     private string GenerateSource(string namespaceName, string className, List<FieldInfo> fields)
     {
-        CodeBuilder.CodeBuilder sb = new();
+        CodeBuilder sb = new();
 
         bool hasNamespace = string.IsNullOrEmpty(namespaceName) == false;
 
