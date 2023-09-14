@@ -1,3 +1,5 @@
+using System.Diagnostics;
+
 namespace Peponi.CodeGenerators.Tests.INotifyGenerator;
 
 [TestClass]
