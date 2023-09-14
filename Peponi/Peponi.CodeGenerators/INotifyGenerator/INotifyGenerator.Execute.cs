@@ -1,11 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
-using Peponi.CodeGenerators.SourceText;
+using Microsoft.CodeAnalysis.Text;
+using Peponi.CodeGenerators.SourceWriter;
+using System.Text;
 
 namespace Peponi.CodeGenerators.INotifyGenerator;
 
 public sealed partial class INotifyGenerator
 {
-    private static void Execute(SourceProductionContext context, INotifyTarget? target)
+    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget? target)
     {
         if (target == null) return;
 
@@ -23,8 +25,19 @@ public sealed partial class INotifyGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteType(target.TypeModifier, target.IsStatic, target.IsClass, target.TypeName);
+        codeBuilder.WriteINotifyType(target.TypeModifier, target.TypeName, target.ObjectType, target.IsStatic, target.IsSealed);
 
         codeBuilder.Indent++;
+
+        codeBuilder.WriteINotifyContents();
+
+        while (codeBuilder.Indent > 0)
+        {
+            codeBuilder.Indent--;
+            if (codeBuilder.Indent != 0) codeBuilder.AppendLine("}");
+            else codeBuilder.Append("}");
+        }
+
+        context.AddSource(codeFileName, SourceText.From(codeBuilder.ToString(), Encoding.UTF8));
     }
 }

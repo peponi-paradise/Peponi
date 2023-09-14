@@ -32,11 +32,16 @@ internal class CodeBuilder
         _builder.AppendLine(text);
     }
 
+    public void NewLine()
+    {
+        _builder.AppendLine("");
+    }
+
     private void IndentTab()
     {
         for (int i = 0; i < Indent; i++)
         {
-            _builder.Append("\t");
+            _builder.Append("    ");
         }
     }
 }

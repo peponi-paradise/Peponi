@@ -17,26 +17,40 @@ public sealed partial class INotifyGenerator : IIncrementalGenerator
         context.RegisterSourceOutput(syntaxProvider, static (productionContext, target) => Execute(productionContext, target));
     }
 
-    private static bool IsClassOrStruct(SyntaxNode node) => node is ClassDeclarationSyntax { AttributeLists: { Count: > 0 } } or StructDeclarationSyntax { AttributeLists: { Count: > 0 } };
+    private static bool IsClassOrStruct(SyntaxNode node) => node is ClassDeclarationSyntax or RecordDeclarationSyntax or StructDeclarationSyntax { AttributeLists: { Count: > 0 } };
 
-    private static INotifyTarget? GetNotifyTarget(GeneratorSyntaxContext context)
+    private static ObjectDeclarationTarget? GetNotifyTarget(GeneratorSyntaxContext context)
     {
         INamedTypeSymbol? typeSymbol;
-        bool isClass = false;
+        AttributeData? attributeData;
+        ObjectType objectType = ObjectType.Class;
 
-        if (context.Node is ClassDeclarationSyntax clx)
+        switch (context.Node)
         {
-            isClass = true;
-            typeSymbol = context.SemanticModel.GetDeclaredSymbol(clx);
-        }
-        else
-        {
-            typeSymbol = context.SemanticModel.GetDeclaredSymbol((StructDeclarationSyntax)context.Node);
+            case ClassDeclarationSyntax classDeclaration:
+                typeSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
+                objectType = ObjectType.Class;
+                break;
+
+            case RecordDeclarationSyntax recordDeclaration:
+                typeSymbol = context.SemanticModel.GetDeclaredSymbol(recordDeclaration);
+                objectType = ObjectType.Record;
+                break;
+
+            case StructDeclarationSyntax structDeclaration:
+                typeSymbol = context.SemanticModel.GetDeclaredSymbol(structDeclaration);
+                objectType = ObjectType.Struct;
+                break;
+
+            default:
+                return null;
         }
 
-        if (typeSymbol == null) return null;
+        attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.INotifyAttribute");
 
-        return new INotifyTarget(
+        if (typeSymbol is null || attributeData is null) return null;
+
+        return new ObjectDeclarationTarget(
             typeSymbol.Name,
             typeSymbol.DeclaredAccessibility switch
             {
@@ -46,9 +60,10 @@ public sealed partial class INotifyGenerator : IIncrementalGenerator
                 Accessibility.Private => "private",
                 _ => ""
             },
-            typeSymbol.IsStatic,
             typeSymbol.ContainingNamespace.ToDisplayString(),
-            isClass
+            objectType,
+            typeSymbol.IsStatic,
+            typeSymbol.IsSealed
             );
     }
 }

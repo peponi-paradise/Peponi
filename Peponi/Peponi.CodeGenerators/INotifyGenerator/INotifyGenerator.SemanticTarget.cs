@@ -1,41 +1,51 @@
 ﻿namespace Peponi.CodeGenerators.INotifyGenerator;
 
-internal class INotifyTarget : IEquatable<INotifyTarget?>
+public enum ObjectType
+{
+    Class,
+    Record,
+    Struct
+}
+
+internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
 {
     public string TypeName;
     public string TypeModifier;
-    public bool IsStatic;
     public string NamespaceName;
-    public bool IsClass;
+    public ObjectType ObjectType;
+    public bool IsStatic;
+    public bool IsSealed;
 
-    public INotifyTarget(string typeName, string typeModifier, bool isStatic, string namespaceName, bool isClass)
+    public ObjectDeclarationTarget(string typeName, string typeModifier, string namespaceName, ObjectType objectType, bool isStatic, bool isSealed)
     {
         TypeName = typeName;
         TypeModifier = typeModifier;
-        IsStatic = isStatic;
         NamespaceName = namespaceName;
-        IsClass = isClass;
+        ObjectType = objectType;
+        IsStatic = isStatic;
+        IsSealed = isSealed;
     }
 
     public override bool Equals(object? other)
     {
-        return Equals(other as INotifyTarget);
+        return Equals(other as ObjectDeclarationTarget);
     }
 
-    public bool Equals(INotifyTarget? other)
+    public bool Equals(ObjectDeclarationTarget? other)
     {
         return other is not null && TypeName == other.TypeName &&
-            TypeModifier == other.TypeModifier && IsStatic == other.IsStatic &&
-            NamespaceName == other.NamespaceName && IsClass == other.IsClass;
+            TypeModifier == other.TypeModifier && NamespaceName == other.NamespaceName &&
+            ObjectType == other.ObjectType && IsStatic == other.IsStatic && IsSealed == other.IsSealed;
     }
 
     public override int GetHashCode()
     {
         return 3453551 +
-            EqualityComparer<string>.Default.GetHashCode(TypeName) +
+             EqualityComparer<string>.Default.GetHashCode(TypeName) +
              EqualityComparer<string>.Default.GetHashCode(TypeModifier) +
-             EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
              EqualityComparer<string>.Default.GetHashCode(NamespaceName) +
-             EqualityComparer<bool>.Default.GetHashCode(IsClass);
+             EqualityComparer<ObjectType>.Default.GetHashCode(ObjectType) +
+             EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
+             EqualityComparer<bool>.Default.GetHashCode(IsSealed);
     }
 }

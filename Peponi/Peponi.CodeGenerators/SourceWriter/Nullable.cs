@@ -1,10 +1,10 @@
-﻿namespace Peponi.CodeGenerators.SourceText;
+﻿namespace Peponi.CodeGenerators.SourceWriter;
 
-internal static partial class SourceTextExtension
+internal static partial class SourceWriterExtension
 {
     internal static void WriteNullable(this CodeBuilder builder)
     {
         builder.AppendLine("#nullable enable");
-        builder.AppendLine("");
+        builder.NewLine();
     }
 }
