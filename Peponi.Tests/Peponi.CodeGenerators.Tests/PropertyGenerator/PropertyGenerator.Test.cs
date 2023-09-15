@@ -121,7 +121,7 @@ namespace CodeGeneratorTest;
 
 public partial class CodeTest
 {
-    [PropertyMethod(""MyMethod"", Section = PropertyMethodSection.Getter, MethodArgs = ""Args1,Args2"")]
+    [PropertyMethod(""MyMethod"", Section = PropertyMethodSection.Getter, Args = ""Args1,Args2"")]
     [PropertyMethod(""MyMethod2"")]
     [Property(Name = ""Test"")]
     private bool _testBool = false;

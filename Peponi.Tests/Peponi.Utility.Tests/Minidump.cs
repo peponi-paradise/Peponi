@@ -13,7 +13,7 @@ public class Minidump
             // Assume an exception occurred.
             throw new Exception("Test");
         }
-        catch (Exception ex)
+        catch
         {
             // Write dump files
             MiniDumpWriter.Dump();

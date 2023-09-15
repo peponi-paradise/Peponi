@@ -1,4 +1,6 @@
-﻿namespace Peponi.CodeGenerators.SemanticTarget;
+﻿using Microsoft.CodeAnalysis;
+
+namespace Peponi.CodeGenerators.SemanticTarget;
 
 internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
 {

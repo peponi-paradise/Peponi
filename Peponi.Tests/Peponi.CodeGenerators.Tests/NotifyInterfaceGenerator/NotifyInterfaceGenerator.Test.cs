@@ -4,7 +4,7 @@ namespace Peponi.CodeGenerators.Tests.NotifyInterfaceGenerator;
 public class NotifyInterface
 {
     [TestMethod]
-    public void Compare()
+    public void BasicClass()
     {
         Assert.IsTrue(NotifyInterfaceCompare.CompareCode(
 @"using Peponi.CodeGenerators;
@@ -12,7 +12,7 @@ public class NotifyInterface
 namespace CodeGeneratorTest;
 
 [NotifyInterface]
-public static sealed partial class CodeTest
+public partial class CodeTest
 {
 }",
 @"// Auto generated code by Peponi.CodeGenerators
@@ -26,7 +26,56 @@ using System.Runtime.CompilerServices;
 
 namespace CodeGeneratorTest
 {
-    public static sealed partial class CodeTest : INotifyPropertyChanged
+    public partial class CodeTest : INotifyPropertyChanged
+    {
+        /// <inheritdoc cref=""INotifyPropertyChanged.PropertyChanged""/>
+        public event PropertyChangedEventHandler? PropertyChanged;
+
+        /// <summary>
+        /// Raises the <see cref=""PropertyChanged""/> event
+        /// </summary>
+        /// <param name=""e"">A <see cref=""PropertyChangedEventArgs""/> that contains the name of the changed property.</param>
+        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        {
+            PropertyChanged?.Invoke(this, e);
+        }
+
+        /// <summary>
+        /// Raises the <see cref=""PropertyChanged""/> event.
+        /// </summary>
+        /// <param name=""propertyName"">(optional) The name of the property that changed.</param>
+        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        {
+            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+        }
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void Compare()
+    {
+        Assert.IsTrue(NotifyInterfaceCompare.CompareCode(
+@"using Peponi.CodeGenerators;
+
+namespace CodeGeneratorTest;
+
+[NotifyInterface]
+public sealed partial class CodeTest
+{
+}",
+@"// Auto generated code by Peponi.CodeGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+using System.ComponentModel;
+using System.Runtime.CompilerServices;
+
+namespace CodeGeneratorTest
+{
+    public sealed partial class CodeTest : INotifyPropertyChanged
     {
         /// <inheritdoc cref=""INotifyPropertyChanged.PropertyChanged""/>
         public event PropertyChangedEventHandler? PropertyChanged;

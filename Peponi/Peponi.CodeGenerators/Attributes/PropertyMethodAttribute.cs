@@ -12,11 +12,11 @@ public enum PropertyMethodSection
 public class PropertyMethodAttribute : Attribute
 {
     public PropertyMethodSection Section { get; set; } = PropertyMethodSection.Setter;
-    public string MethodName { get; }
-    public string? MethodArgs { get; set; }
+    public string Name { get; }
+    public string? Args { get; set; }
 
-    public PropertyMethodAttribute(string methodName)
+    public PropertyMethodAttribute(string name)
     {
-        MethodName = methodName;
+        Name = name;
     }
 }

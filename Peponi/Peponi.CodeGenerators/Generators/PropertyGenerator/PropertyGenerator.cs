@@ -98,7 +98,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
                     foreach (var arg in attr.NamedArguments)
                     {
                         if (arg.Key == "Section") addTarget.Section = (PropertyMethodSection)arg.Value.Value!;
-                        else if (arg.Key == "MethodArgs") addTarget.MethodArgs = (string)arg.Value.Value!;
+                        else if (arg.Key == "Args") addTarget.MethodArgs = (string)arg.Value.Value!;
                     }
                     if (!string.IsNullOrWhiteSpace(addTarget.MethodName)) methodTargets.Add(addTarget);
                 }
