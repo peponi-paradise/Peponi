@@ -4,6 +4,47 @@
 public class Property
 {
     [TestMethod]
+    public void SimpleCodeGenTest()
+    {
+        Assert.IsTrue(PropertyCompare.CompareCode(
+@"using Peponi.CodeGenerators;
+
+namespace CodeGeneratorTest;
+
+public partial class CodeTest
+{
+    [Property]
+    private bool _testBool = false;
+}",
+@"// Auto generated code by Peponi.CodeGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace CodeGeneratorTest
+{
+    public partial class CodeTest
+    {
+        public bool TestBool
+        {
+            get => _testBool;
+            set
+            {
+                if(_testBool != value)
+                {
+                    _testBool = value;
+                    OnTestBoolChanged();
+                }
+            }
+        }
+
+        partial void OnTestBoolChanged();
+    }
+}"));
+    }
+
+    [TestMethod]
     public void CodeGenTest()
     {
         Assert.IsTrue(PropertyCompare.CompareCode(
@@ -11,10 +52,72 @@ public class Property
 
 namespace CodeGeneratorTest;
 
-public static sealed partial record CodeTest
+public sealed partial record CodeTest
 {
     [Property]
     private bool _testBool = false;
-}", ""));
+
+    [NotifyProperty]
+    private int? testInt = 0;
+
+    [NotifyProperty]
+    private readonly double TestDouble = 1.2;
+}",
+@"// Auto generated code by Peponi.CodeGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace CodeGeneratorTest
+{
+    public sealed partial record CodeTest
+    {
+        public bool TestBool
+        {
+            get => _testBool;
+            set
+            {
+                if(_testBool != value)
+                {
+                    _testBool = value;
+                    OnTestBoolChanged();
+                }
+            }
+        }
+
+        public int? TestInt
+        {
+            get => testInt;
+            set
+            {
+                if(testInt != value)
+                {
+                    testInt = value;
+                    OnPropertyChanged(nameof(TestInt));
+                    OnTestIntChanged();
+                }
+            }
+        }
+
+        public double TESTDOUBLE
+        {
+            get => TestDouble;
+        }
+
+        partial void OnTestBoolChanged();
+        partial void OnTestIntChanged();
     }
+}"));
+    }
+}
+
+public class TestClass
+{
+}
+
+public partial struct TestStruct
+{
+    [Property]
+    private TestClass? _testClass;
 }

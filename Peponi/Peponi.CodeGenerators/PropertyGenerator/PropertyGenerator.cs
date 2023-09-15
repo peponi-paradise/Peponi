@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using Peponi.CodeGenerators.INotifyGenerator;
+using Peponi.CodeGenerators.SemanticTarget;
 using System.Collections.Immutable;
 
 namespace Peponi.CodeGenerators.PropertyGenerator;
@@ -41,62 +41,54 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         INamedTypeSymbol? typeSymbol;
         AttributeData? attributeData;
         ObjectType objectType = ObjectType.Class;
-        PropertyType type;
+        NotifyType type;
 
-        var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node);
-        File.WriteAllText(@$"C:\temp\prop.txt", $"{symbol.ContainingType.TypeKind}");
+        ISymbol symbol = context.SemanticModel.GetDeclaredSymbol(context.Node)!;
+        typeSymbol = symbol.ContainingType;
 
-        switch (context.Node)
-        {
-            case ClassDeclarationSyntax classDeclaration:
-                typeSymbol = context.SemanticModel.GetDeclaredSymbol(classDeclaration);
-                objectType = ObjectType.Class;
-                break;
+        if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) objectType = ObjectType.Record;
+        else if (typeSymbol.TypeKind == TypeKind.Class) objectType = ObjectType.Class;
+        else if (typeSymbol.TypeKind == TypeKind.Struct) objectType = ObjectType.Struct;
+        else return (null, null)!;
 
-            case RecordDeclarationSyntax recordDeclaration:
-                typeSymbol = context.SemanticModel.GetDeclaredSymbol(recordDeclaration);
-                objectType = ObjectType.Record;
-                break;
-
-            case StructDeclarationSyntax structDeclaration:
-                typeSymbol = context.SemanticModel.GetDeclaredSymbol(structDeclaration);
-                objectType = ObjectType.Struct;
-                break;
-
-            default:
-                return (null, null);
-        }
-        if (typeSymbol is null) return (null, null);
-
-        attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyAttribute");
+        attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyAttribute");
         if (attributeData == null)
         {
-            attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyPropertyAttribute");
-            if (attributeData == null) return (null, null);
-            else type = PropertyType.NotifyProperty;
+            attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyPropertyAttribute");
+            if (attributeData == null) return (null, null)!;
+            else type = NotifyType.Notify;
         }
-        else type = PropertyType.Property;
+        else type = NotifyType.None;
+
+        if (typeSymbol.IsAbstract)
+        {
+            if (typeSymbol.IsSealed && typeSymbol.IsStatic) return (null, null)!;
+        }
+        if (objectType is ObjectType.Record or ObjectType.Struct)
+        {
+            if (typeSymbol.IsStatic) return (null, null)!;
+        }
 
         // Generate property target
         var fieldSyntax = (FieldDeclarationSyntax)context.Node.Parent!.Parent!;
-        var fieldSymbol = (IFieldSymbol)context.SemanticModel.GetDeclaredSymbol(fieldSyntax)!;
-        string methodName = string.Empty;
-        string methodArgs = string.Empty;
-        foreach (var arg in attributeData!.NamedArguments)
-        {
-            if (arg.Key == "CallMethodName")
-            {
-                methodName = arg.Value.Value?.ToString()!;
-            }
-            else if (arg.Key == "CallMethodArgs")
-            {
-                methodArgs = arg.Value.Value?.ToString()!;
-            }
-        }
+        var fieldSymbol = (IFieldSymbol)symbol!;
+        List<string> methodName = new();
+        List<string> methodArgs = new();
+        //foreach (var arg in attributeData!.NamedArguments)
+        //{
+        //    if (arg.Key == "CallMethodName")
+        //    {
+        //        methodName = arg.Value.Value?.ToString()!;
+        //    }
+        //    else if (arg.Key == "CallMethodArgs")
+        //    {
+        //        methodArgs = arg.Value.Value?.ToString()!;
+        //    }
+        //}
 
         var propertyTarget = new PropertyTarget(
             fieldSymbol.Name,
-            GetPropertyName(fieldSymbol.Name),
+            Field.GetPropertyName(fieldSymbol.Name),
             fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
             fieldSymbol.IsStatic,
             fieldSymbol.IsReadOnly,
@@ -116,33 +108,13 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             },
             typeSymbol.ContainingNamespace.ToDisplayString(),
             objectType,
+            NotifyType.None,
             typeSymbol.IsStatic,
-            typeSymbol.IsSealed
+            typeSymbol.IsSealed,
+            typeSymbol.IsAbstract
             );
 
         return (objectTarget, propertyTarget);
-    }
-
-    private static string GetPropertyName(string identifier)
-    {
-        string rtnString = string.Empty;
-
-        if (identifier[0] == '_')
-        {
-            rtnString = identifier.Substring(1);
-        }
-
-        if (char.IsLower(identifier[0]))
-        {
-            rtnString = identifier[0].ToString().ToUpper() + identifier.Substring(1);
-        }
-
-        if (char.IsUpper(identifier[0]))
-        {
-            rtnString = identifier.ToUpper();
-        }
-
-        return rtnString;
     }
 }
 

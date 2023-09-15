@@ -11,23 +11,22 @@ internal struct FieldInfo
 
 internal static class Field
 {
-    internal static string GetFieldName(string identifier)
+    internal static string GetPropertyName(string identifier)
     {
-        string rtnString = string.Empty;
+        string rtnString = identifier.Clone().ToString();
 
-        if (identifier[0] == '_')
+        if (rtnString[0] == '_')
         {
             rtnString = identifier.Substring(1);
         }
 
-        if (char.IsLower(identifier[0]))
+        if (char.IsLower(rtnString[0]))
         {
-            rtnString = identifier[0].ToString().ToUpper() + identifier.Substring(1);
+            rtnString = rtnString[0].ToString().ToUpper() + rtnString.Substring(1);
         }
-
-        if (char.IsUpper(identifier[0]))
+        else if (char.IsUpper(rtnString[0]))
         {
-            rtnString = identifier.ToUpper();
+            rtnString = rtnString.ToUpper();
         }
 
         return rtnString;

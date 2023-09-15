@@ -1,6 +1,4 @@
-﻿using Peponi.CodeGenerators.PropertyGenerator;
-
-namespace Peponi.CodeGenerators.ModelInjectGenerator;
+﻿namespace Peponi.CodeGenerators.SemanticTarget;
 
 internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
 {
@@ -11,9 +9,9 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
     public bool IsStatic;
     public bool IsSealed;
     public Type ModelType;
-    public PropertyType ModelInjectType;
+    public NotifyType NotifyType;
 
-    public ModelInjectTarget(string typeName, string typeModifier, string namespaceName, bool isClass, bool isStatic, bool isSealed, Type modelType, PropertyType modelInjectType)
+    public ModelInjectTarget(string typeName, string typeModifier, string namespaceName, bool isClass, bool isStatic, bool isSealed, Type modelType, NotifyType notifyType)
     {
         TypeName = typeName;
         TypeModifier = typeModifier;
@@ -22,7 +20,7 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
         IsStatic = isStatic;
         IsSealed = isSealed;
         ModelType = modelType;
-        ModelInjectType = modelInjectType;
+        NotifyType = notifyType;
     }
 
     public override bool Equals(object? other)
@@ -35,7 +33,7 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
         return other is not null && TypeName == other.TypeName &&
             TypeModifier == other.TypeModifier && NamespaceName == other.NamespaceName &&
             IsClass == other.IsClass && IsStatic == other.IsStatic && IsSealed == other.IsSealed &&
-            ModelType == other.ModelType && ModelInjectType == other.ModelInjectType;
+            ModelType == other.ModelType && NotifyType == other.NotifyType;
     }
 
     public override int GetHashCode()
@@ -48,6 +46,6 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
              EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
              EqualityComparer<bool>.Default.GetHashCode(IsSealed) +
              EqualityComparer<Type>.Default.GetHashCode(ModelType) +
-             EqualityComparer<PropertyType>.Default.GetHashCode(ModelInjectType);
+             EqualityComparer<NotifyType>.Default.GetHashCode(NotifyType);
     }
 }

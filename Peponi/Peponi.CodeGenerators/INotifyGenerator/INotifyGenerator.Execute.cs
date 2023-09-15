@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using Peponi.CodeGenerators.SemanticTarget;
 using Peponi.CodeGenerators.SourceWriter;
 using System.Text;
 
@@ -19,17 +20,17 @@ public sealed partial class INotifyGenerator
 
         codeBuilder.WriteNullable();
 
-        codeBuilder.WriteUsing();
+        codeBuilder.WriteUsing(target);
 
         codeBuilder.WriteNamespace(target.NamespaceName);
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteINotifyType(target.TypeModifier, target.TypeName, target.ObjectType, target.IsStatic, target.IsSealed);
+        codeBuilder.WriteObjectType(target);
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteINotifyContents();
+        codeBuilder.WriteINotifyMembers(target);
 
         while (codeBuilder.Indent > 0)
         {

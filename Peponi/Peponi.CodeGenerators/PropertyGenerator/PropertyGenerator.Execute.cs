@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using Peponi.CodeGenerators.INotifyGenerator;
+using Peponi.CodeGenerators.SemanticTarget;
 using Peponi.CodeGenerators.SourceWriter;
 using System.Collections.Immutable;
 using System.Text;
@@ -26,7 +26,7 @@ public sealed partial class PropertyGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteType(objectTarget);
+        codeBuilder.WriteObjectType(objectTarget);
 
         codeBuilder.Indent++;
 

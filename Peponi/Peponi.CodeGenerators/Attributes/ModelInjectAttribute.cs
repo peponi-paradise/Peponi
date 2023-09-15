@@ -1,4 +1,4 @@
-﻿using Peponi.CodeGenerators.PropertyGenerator;
+﻿using Peponi.CodeGenerators.SemanticTarget;
 
 namespace Peponi.CodeGenerators;
 
@@ -6,16 +6,16 @@ namespace Peponi.CodeGenerators;
 public class ModelInjectAttribute : Attribute
 {
     public Type? ModelType = null;
-    public PropertyType InjectType = PropertyType.Property;
+    public NotifyType PropertyNotifyType = NotifyType.None;
 
     public ModelInjectAttribute(Type modelType)
     {
         ModelType = modelType;
     }
 
-    public ModelInjectAttribute(Type modelType, PropertyType injectType)
+    public ModelInjectAttribute(Type modelType, NotifyType propertyNotifyType)
     {
         ModelType = modelType;
-        InjectType = injectType;
+        PropertyNotifyType = propertyNotifyType;
     }
 }
