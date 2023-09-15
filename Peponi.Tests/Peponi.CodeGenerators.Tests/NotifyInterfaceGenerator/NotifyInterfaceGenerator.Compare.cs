@@ -1,13 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Peponi.CodeGenerators.Tests.INotifyGenerator;
+namespace Peponi.CodeGenerators.Tests.NotifyInterfaceGenerator;
 
-internal static class INotifyCompare
+internal static class NotifyInterfaceCompare
 {
     private static readonly PortableExecutableReference[] _assemblyReferences;
 
-    static INotifyCompare()
+    static NotifyInterfaceCompare()
     {
         _assemblyReferences = AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => !a.IsDynamic)
@@ -21,7 +21,7 @@ internal static class INotifyCompare
                                                                            new[] { CSharpSyntaxTree.ParseText(testCode) },
                                                                            _assemblyReferences,
                                                                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        CodeGenerators.INotifyGenerator.INotifyGenerator generator = new();
+        CodeGenerators.NotifyInterfaceGenerator.NotifyInterfaceGenerator generator = new();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         driver = driver.RunGeneratorsAndUpdateCompilation(generatedCompilation, out var compilationOutput, out var diagnostics);

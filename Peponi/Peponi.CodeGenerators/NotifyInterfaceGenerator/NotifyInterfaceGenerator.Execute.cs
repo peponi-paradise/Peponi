@@ -4,9 +4,9 @@ using Peponi.CodeGenerators.SemanticTarget;
 using Peponi.CodeGenerators.SourceWriter;
 using System.Text;
 
-namespace Peponi.CodeGenerators.INotifyGenerator;
+namespace Peponi.CodeGenerators.NotifyInterfaceGenerator;
 
-public sealed partial class INotifyGenerator
+public sealed partial class NotifyInterfaceGenerator
 {
     private static void Execute(SourceProductionContext context, ObjectDeclarationTarget? target)
     {
@@ -30,7 +30,7 @@ public sealed partial class INotifyGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteINotifyMembers(target);
+        codeBuilder.WriteNotifyInterfaceMembers(target);
 
         while (codeBuilder.Indent > 0)
         {

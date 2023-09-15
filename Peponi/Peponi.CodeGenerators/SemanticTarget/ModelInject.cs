@@ -38,7 +38,7 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
 
     public override int GetHashCode()
     {
-        return 3453551 +
+        return 3539 +
              EqualityComparer<string>.Default.GetHashCode(TypeName) +
              EqualityComparer<string>.Default.GetHashCode(TypeModifier) +
              EqualityComparer<string>.Default.GetHashCode(NamespaceName) +

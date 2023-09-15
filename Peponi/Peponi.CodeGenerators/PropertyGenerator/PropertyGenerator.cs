@@ -41,24 +41,11 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         INamedTypeSymbol? typeSymbol;
         AttributeData? attributeData;
         ObjectType objectType = ObjectType.Class;
-        NotifyType type;
+        string? customName = null;
+        NotifyType type = NotifyType.None;
 
-        ISymbol symbol = context.SemanticModel.GetDeclaredSymbol(context.Node)!;
+        var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node)!;
         typeSymbol = symbol.ContainingType;
-
-        if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) objectType = ObjectType.Record;
-        else if (typeSymbol.TypeKind == TypeKind.Class) objectType = ObjectType.Class;
-        else if (typeSymbol.TypeKind == TypeKind.Struct) objectType = ObjectType.Struct;
-        else return (null, null)!;
-
-        attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyAttribute");
-        if (attributeData == null)
-        {
-            attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyPropertyAttribute");
-            if (attributeData == null) return (null, null)!;
-            else type = NotifyType.Notify;
-        }
-        else type = NotifyType.None;
 
         if (typeSymbol.IsAbstract)
         {
@@ -69,32 +56,63 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             if (typeSymbol.IsStatic) return (null, null)!;
         }
 
+        if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) objectType = ObjectType.Record;
+        else if (typeSymbol.TypeKind == TypeKind.Class) objectType = ObjectType.Class;
+        else if (typeSymbol.TypeKind == TypeKind.Struct) objectType = ObjectType.Struct;
+        else return (null, null)!;
+
+        attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyAttribute");
+        if (attributeData != null)
+        {
+            if (attributeData.NamedArguments.Length > 0) customName = attributeData.NamedArguments[0].Value.Value?.ToString();
+            type = NotifyType.None;
+        }
+        else if (attributeData == null)
+        {
+            attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyPropertyAttribute");
+            if (attributeData == null) return (null, null)!;
+            else
+            {
+                if (attributeData.NamedArguments.Length > 0) customName = attributeData.NamedArguments[0].Value.Value?.ToString();
+                type = NotifyType.Notify;
+            }
+        }
+
         // Generate property target
         var fieldSyntax = (FieldDeclarationSyntax)context.Node.Parent!.Parent!;
         var fieldSymbol = (IFieldSymbol)symbol!;
-        List<string> methodName = new();
-        List<string> methodArgs = new();
-        //foreach (var arg in attributeData!.NamedArguments)
-        //{
-        //    if (arg.Key == "CallMethodName")
-        //    {
-        //        methodName = arg.Value.Value?.ToString()!;
-        //    }
-        //    else if (arg.Key == "CallMethodArgs")
-        //    {
-        //        methodArgs = arg.Value.Value?.ToString()!;
-        //    }
-        //}
+        List<PropertyMethodTarget> methodTargets = new();
+
+        var methodsAttr = symbol?.GetAttributes().Where(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyMethodAttribute");
+
+        if (methodsAttr != null && methodsAttr.Count() > 0)
+        {
+            foreach (var attr in methodsAttr)
+            {
+                var methodName = attr.ConstructorArguments.FirstOrDefault().Value?.ToString();
+
+                if (methodName is { Length: > 0 })
+                {
+                    PropertyMethodTarget addTarget = new(PropertyMethodSection.Setter, methodName, string.Empty);
+
+                    foreach (var arg in attr.NamedArguments)
+                    {
+                        if (arg.Key == "Section") addTarget.Section = (PropertyMethodSection)arg.Value.Value!;
+                        else if (arg.Key == "MethodArgs") addTarget.MethodArgs = (string)arg.Value.Value!;
+                    }
+                    if (!string.IsNullOrWhiteSpace(addTarget.MethodName)) methodTargets.Add(addTarget);
+                }
+            }
+        }
 
         var propertyTarget = new PropertyTarget(
             fieldSymbol.Name,
-            Field.GetPropertyName(fieldSymbol.Name),
+            customName ?? Field.GetPropertyName(fieldSymbol.Name),
             fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
             fieldSymbol.IsStatic,
             fieldSymbol.IsReadOnly,
             type,
-            methodName,
-            methodArgs
+            methodTargets
             );
         var objectTarget = new ObjectDeclarationTarget(
             typeSymbol.Name,

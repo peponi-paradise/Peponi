@@ -110,14 +110,52 @@ namespace CodeGeneratorTest
     }
 }"));
     }
-}
 
-public class TestClass
-{
-}
+    [TestMethod]
+    public void CodeGenTestWithPropertyMethod()
+    {
+        Assert.IsTrue(PropertyCompare.CompareCode(
+@"using Peponi.CodeGenerators;
 
-public partial struct TestStruct
+namespace CodeGeneratorTest;
+
+public partial class CodeTest
 {
-    [Property]
-    private TestClass? _testClass;
+    [PropertyMethod(""MyMethod"", Section = PropertyMethodSection.Getter, MethodArgs = ""Args1,Args2"")]
+    [PropertyMethod(""MyMethod2"")]
+    [Property(Name = ""Test"")]
+    private bool _testBool = false;
+}",
+@"// Auto generated code by Peponi.CodeGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace CodeGeneratorTest
+{
+    public partial class CodeTest
+    {
+        public bool Test
+        {
+            get
+            {
+                MyMethod(Args1,Args2);
+                return _testBool;
+            }
+            set
+            {
+                if(_testBool != value)
+                {
+                    _testBool = value;
+                    OnTestChanged();
+                    MyMethod2();
+                }
+            }
+        }
+
+        partial void OnTestChanged();
+    }
+}"));
+    }
 }

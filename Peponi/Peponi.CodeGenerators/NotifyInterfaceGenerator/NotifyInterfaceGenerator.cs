@@ -3,10 +3,10 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Peponi.CodeGenerators.SemanticTarget;
 
-namespace Peponi.CodeGenerators.INotifyGenerator;
+namespace Peponi.CodeGenerators.NotifyInterfaceGenerator;
 
 [Generator]
-public sealed partial class INotifyGenerator : IIncrementalGenerator
+public sealed partial class NotifyInterfaceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -47,7 +47,7 @@ public sealed partial class INotifyGenerator : IIncrementalGenerator
                 return null;
         }
 
-        attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.INotifyAttribute");
+        attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyInterfaceAttribute");
 
         if (typeSymbol is null || attributeData is null) return null;
         if (typeSymbol.IsAbstract)

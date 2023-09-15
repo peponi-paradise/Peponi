@@ -8,10 +8,9 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
     public bool IsStatic;
     public bool IsReadOnly;
     public NotifyType NotifyType;
-    public List<string> CallMethodName;
-    public List<string> CallMethodArgs;
+    public List<PropertyMethodTarget> PropertyMethods;
 
-    public PropertyTarget(string fieldName, string propertyName, string type, bool isStatic, bool isReadOnly, NotifyType notifyType, List<string> callMethodName, List<string> callMethodArgs)
+    public PropertyTarget(string fieldName, string propertyName, string type, bool isStatic, bool isReadOnly, NotifyType notifyType, List<PropertyMethodTarget> propertyMethods)
     {
         FieldName = fieldName;
         PropertyName = propertyName;
@@ -19,8 +18,7 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
         IsStatic = isStatic;
         IsReadOnly = isReadOnly;
         NotifyType = notifyType;
-        CallMethodName = callMethodName;
-        CallMethodArgs = callMethodArgs;
+        PropertyMethods = propertyMethods;
     }
 
     public override bool Equals(object? obj)
@@ -32,7 +30,7 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
     {
         return other is not null && FieldName == other.FieldName && PropertyName == other.PropertyName &&
             Type == other.Type && IsStatic == other.IsStatic && IsReadOnly == other.IsReadOnly && NotifyType == other.NotifyType &&
-            CallMethodName == other.CallMethodName && CallMethodArgs == other.CallMethodArgs;
+            PropertyMethods == other.PropertyMethods;
     }
 
     public override int GetHashCode()
@@ -44,7 +42,38 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
             EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
             EqualityComparer<bool>.Default.GetHashCode(IsReadOnly) +
             EqualityComparer<NotifyType>.Default.GetHashCode(NotifyType) +
-            EqualityComparer<List<string>>.Default.GetHashCode(CallMethodName) +
-            EqualityComparer<List<string>>.Default.GetHashCode(CallMethodArgs);
+            EqualityComparer<List<PropertyMethodTarget>>.Default.GetHashCode(PropertyMethods);
+    }
+}
+
+internal class PropertyMethodTarget : IEquatable<PropertyMethodTarget?>
+{
+    public PropertyMethodSection Section;
+    public string MethodName;
+    public string MethodArgs;
+
+    public PropertyMethodTarget(PropertyMethodSection section, string methodName, string methodArgs)
+    {
+        Section = section;
+        MethodName = methodName;
+        MethodArgs = methodArgs;
+    }
+
+    public override bool Equals(object? obj)
+    {
+        return Equals(obj as PropertyMethodTarget);
+    }
+
+    public bool Equals(PropertyMethodTarget? other)
+    {
+        return other is not null && Section == other.Section && MethodName == other.MethodName && MethodArgs == other.MethodArgs;
+    }
+
+    public override int GetHashCode()
+    {
+        return 94559 +
+           EqualityComparer<PropertyMethodSection>.Default.GetHashCode(Section) +
+           EqualityComparer<string>.Default.GetHashCode(MethodName) +
+           EqualityComparer<string>.Default.GetHashCode(MethodArgs);
     }
 }

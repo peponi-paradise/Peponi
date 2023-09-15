@@ -5,7 +5,7 @@ namespace Peponi.CodeGenerators.SourceWriter;
 
 internal static partial class SourceWriterExtension
 {
-    internal static void WriteINotifyMembers(this CodeBuilder builder, ObjectDeclarationTarget target)
+    internal static void WriteNotifyInterfaceMembers(this CodeBuilder builder, ObjectDeclarationTarget target)
     {
         builder.AppendLine("/// <inheritdoc cref=\"INotifyPropertyChanged.PropertyChanged\"/>");
         builder.AppendLine("public event PropertyChangedEventHandler? PropertyChanged;");
@@ -49,7 +49,26 @@ internal static partial class SourceWriterExtension
             builder.NewLine();
             builder.AppendLine("{");
             builder.Indent++;
-            builder.AppendLine($"get => {property.FieldName};");
+            if (property.PropertyMethods == null || property.PropertyMethods.Count == 0)
+            {
+                builder.AppendLine($"get => {property.FieldName};");
+            }
+            else if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+            {
+                builder.AppendLine("get");
+                builder.AppendLine("{");
+                builder.Indent++;
+                foreach (var method in property.PropertyMethods)
+                {
+                    if (method.Section == PropertyMethodSection.Getter)
+                    {
+                        builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                    }
+                }
+                builder.AppendLine($"return {property.FieldName};");
+                builder.Indent--;
+                builder.AppendLine("}");
+            }
             if (property.IsReadOnly == false)
             {
                 builder.AppendLine("set");
@@ -64,10 +83,16 @@ internal static partial class SourceWriterExtension
                     builder.AppendLine($"OnPropertyChanged(nameof({property.PropertyName}));");
                 }
                 builder.AppendLine($"On{property.PropertyName}Changed();");
-                //if (!string.IsNullOrWhiteSpace(property.CallMethodName))
-                //{
-                //    builder.AppendLine($"{property.CallMethodName}({property.CallMethodArgs})");
-                //}
+                if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+                {
+                    foreach (var method in property.PropertyMethods)
+                    {
+                        if (method.Section == PropertyMethodSection.Setter)
+                        {
+                            builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                        }
+                    }
+                }
                 for (int i = 0; i < 2; i++)
                 {
                     builder.Indent--;

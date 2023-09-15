@@ -1,17 +1,17 @@
-namespace Peponi.CodeGenerators.Tests.INotifyGenerator;
+namespace Peponi.CodeGenerators.Tests.NotifyInterfaceGenerator;
 
 [TestClass]
-public class INotify
+public class NotifyInterface
 {
     [TestMethod]
     public void Compare()
     {
-        Assert.IsTrue(INotifyCompare.CompareCode(
+        Assert.IsTrue(NotifyInterfaceCompare.CompareCode(
 @"using Peponi.CodeGenerators;
 
 namespace CodeGeneratorTest;
 
-[INotify]
+[NotifyInterface]
 public static sealed partial class CodeTest
 {
 }",
@@ -22,6 +22,7 @@ public static sealed partial class CodeTest
 #nullable enable
 
 using System.ComponentModel;
+using System.Runtime.CompilerServices;
 
 namespace CodeGeneratorTest
 {
@@ -34,7 +35,7 @@ namespace CodeGeneratorTest
         /// Raises the <see cref=""PropertyChanged""/> event
         /// </summary>
         /// <param name=""e"">A <see cref=""PropertyChangedEventArgs""/> that contains the name of the changed property.</param>
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        private void OnPropertyChanged(PropertyChangedEventArgs e)
         {
             PropertyChanged?.Invoke(this, e);
         }
@@ -43,7 +44,7 @@ namespace CodeGeneratorTest
         /// Raises the <see cref=""PropertyChanged""/> event.
         /// </summary>
         /// <param name=""propertyName"">(optional) The name of the property that changed.</param>
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        private void OnPropertyChanged([CallerMemberName] string? propertyName = null)
         {
             OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
         }
