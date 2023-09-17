@@ -6,26 +6,41 @@ namespace Peponi.CodeGenerators.SemanticTarget;
 
 internal static partial class Creater
 {
-    internal static ISymbol GetTypeSymbol(GeneratorSyntaxContext context)
+    internal static INamedTypeSymbol? GetTypeSymbol(GeneratorSyntaxContext context)
     {
-        return context.Node switch
+        if (context.Node is ClassDeclarationSyntax or RecordDeclarationSyntax or StructDeclarationSyntax)
         {
-            ClassDeclarationSyntax clx => context.SemanticModel.GetDeclaredSymbol(clx)!,
-            RecordDeclarationSyntax rlx => context.SemanticModel.GetDeclaredSymbol(rlx)!,
-            StructDeclarationSyntax slx => context.SemanticModel.GetDeclaredSymbol(slx)!,
-            FieldDeclarationSyntax flx => context.SemanticModel.GetDeclaredSymbol(flx)!,
-            _ => null!
-        };
+            return (INamedTypeSymbol?)context.SemanticModel.GetDeclaredSymbol(context.Node);
+        }
+        else if (context.Node.Parent!.Parent is FieldDeclarationSyntax)
+        {
+            return context.SemanticModel.GetDeclaredSymbol(context.Node)?.ContainingType;
+        }
+        else return null;
     }
 
-    internal static ObjectType? GetObjectType(GeneratorSyntaxContext context)
+    internal static AttributeData? GetAttribute(ISymbol? typeSymbol, string attributeFullName)
     {
-        return context.Node switch
+        return typeSymbol?.GetAttributes().FirstOrDefault(x => Inspector.CheckAttribute(x, attributeFullName));
+    }
+
+    internal static ObjectType? GetObjectType(INamedTypeSymbol typeSymbol)
+    {
+        if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) return ObjectType.Record;
+        else if (typeSymbol.TypeKind == TypeKind.Class) return ObjectType.Class;
+        else if (typeSymbol.TypeKind == TypeKind.Struct) return ObjectType.Struct;
+        else return null;
+    }
+
+    internal static string GetAccessibilityString(Accessibility accessibility)
+    {
+        return accessibility switch
         {
-            ClassDeclarationSyntax => ObjectType.Class,
-            RecordDeclarationSyntax => ObjectType.Record,
-            StructDeclarationSyntax => ObjectType.Struct,
-            _ => null
+            Accessibility.Public => "public",
+            Accessibility.Protected => "protected",
+            Accessibility.Internal => "internal",
+            Accessibility.Private => "private",
+            _ => ""
         };
     }
 }

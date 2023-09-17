@@ -21,11 +21,14 @@ public sealed partial class NotifyInterfaceGenerator : IIncrementalGenerator
 
     private static ObjectDeclarationTarget? GetNotifyTarget(GeneratorSyntaxContext context)
     {
-        INamedTypeSymbol? typeSymbol = (INamedTypeSymbol)Creater.GetTypeSymbol(context);
-        AttributeData? attributeData = typeSymbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyInterfaceAttribute");
-        ObjectType? objectType = Creater.GetObjectType(context);
+        var typeSymbol = Creater.GetTypeSymbol(context);
+        if (typeSymbol is null) return null;
 
-        if (typeSymbol is null || attributeData is null || !Inspector.IsValidNotifyObject(typeSymbol)) return null;
+        AttributeData? attributeData = Creater.GetAttribute(typeSymbol, "Peponi.CodeGenerators.NotifyInterfaceAttribute");
+        if (attributeData is null) return null;
+
+        ObjectType? objectType = Creater.GetObjectType(typeSymbol);
+        if (objectType is null) return null;
 
         var modifier = Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility);
         if (string.IsNullOrEmpty(modifier)) return null;

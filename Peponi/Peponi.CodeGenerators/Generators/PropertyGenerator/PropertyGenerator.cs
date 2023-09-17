@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Peponi.CodeGenerators.SemanticTarget;
 using System.Collections.Immutable;
@@ -38,60 +37,47 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
 
     private static (ObjectDeclarationTarget ObjectTarget, PropertyTarget PropertyTarget) GetPropertyTarget(GeneratorSyntaxContext context)
     {
-        INamedTypeSymbol? typeSymbol;
-        AttributeData? attributeData;
-        ObjectType objectType = ObjectType.Class;
-        string? customName = null;
-        NotifyType type = NotifyType.None;
+        var typeSymbol = Creater.GetTypeSymbol(context);
+        if (typeSymbol is null) return (null, null)!;
 
-        var symbol = context.SemanticModel.GetDeclaredSymbol(context.Node)!;
-        typeSymbol = symbol.ContainingType;
+        var fieldSymbol = Creater.GetFieldSymbol(context);
+        if (fieldSymbol is null) return (null, null)!;
 
-        if (typeSymbol.IsAbstract)
+        ObjectType? objectType = Creater.GetObjectType(typeSymbol);
+        if (objectType is null) return (null, null)!;
+
+        NotifyType notifyType;
+        string? customPropertyName;
+        AttributeData? attributeData = Creater.GetAttribute(fieldSymbol, "Peponi.CodeGenerators.PropertyAttribute");
+        if (attributeData is not null)
         {
-            if (typeSymbol.IsSealed && typeSymbol.IsStatic) return (null, null)!;
+            notifyType = NotifyType.None;
+            customPropertyName = Creater.GetNamedArgument(attributeData, 0);
         }
-        if (objectType is ObjectType.Record or ObjectType.Struct)
+        else
         {
-            if (typeSymbol.IsStatic) return (null, null)!;
-        }
-
-        if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) objectType = ObjectType.Record;
-        else if (typeSymbol.TypeKind == TypeKind.Class) objectType = ObjectType.Class;
-        else if (typeSymbol.TypeKind == TypeKind.Struct) objectType = ObjectType.Struct;
-        else return (null, null)!;
-
-        attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyAttribute");
-        if (attributeData != null)
-        {
-            if (attributeData.NamedArguments.Length > 0) customName = attributeData.NamedArguments[0].Value.Value?.ToString();
-            type = NotifyType.None;
-        }
-        else if (attributeData == null)
-        {
-            attributeData = symbol?.GetAttributes().FirstOrDefault(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.NotifyPropertyAttribute");
-            if (attributeData == null) return (null, null)!;
-            else
+            attributeData = Creater.GetAttribute(fieldSymbol, "Peponi.CodeGenerators.NotifyPropertyAttribute");
+            if (attributeData is not null)
             {
-                if (attributeData.NamedArguments.Length > 0) customName = attributeData.NamedArguments[0].Value.Value?.ToString();
-                type = NotifyType.Notify;
+                notifyType = NotifyType.Notify;
+                customPropertyName = Creater.GetNamedArgument(attributeData, 0);
             }
+            else return (null, null)!;
         }
 
-        // Generate property target
-        var fieldSyntax = (FieldDeclarationSyntax)context.Node.Parent!.Parent!;
-        var fieldSymbol = (IFieldSymbol)symbol!;
+        // Get custom method call information
+
         List<PropertyMethodTarget> methodTargets = new();
 
-        var methodsAttr = symbol?.GetAttributes().Where(x => x.AttributeClass?.ToDisplayString() == "Peponi.CodeGenerators.PropertyMethodAttribute");
+        var methodsAttr = Creater.GetAttributes(fieldSymbol, "Peponi.CodeGenerators.PropertyMethodAttribute");
 
         if (methodsAttr != null && methodsAttr.Count() > 0)
         {
             foreach (var attr in methodsAttr)
             {
-                var methodName = attr.ConstructorArguments.FirstOrDefault().Value?.ToString();
+                var methodName = Creater.GetConstructorArgument(attr, 0);
 
-                if (methodName is { Length: > 0 })
+                if (methodName is not null and { Length: > 0 })
                 {
                     PropertyMethodTarget addTarget = new(PropertyMethodSection.Setter, methodName, string.Empty);
 
@@ -107,25 +93,18 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
 
         var propertyTarget = new PropertyTarget(
             fieldSymbol.Name,
-            customName ?? Field.GetPropertyName(fieldSymbol.Name),
+            customPropertyName ?? Creater.GetPropertyName(fieldSymbol.Name),
             fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
             fieldSymbol.IsStatic,
             fieldSymbol.IsReadOnly,
-            type,
+            notifyType,
             methodTargets
             );
         var objectTarget = new ObjectDeclarationTarget(
             typeSymbol.Name,
-            typeSymbol.DeclaredAccessibility switch
-            {
-                Accessibility.Public => "public",
-                Accessibility.Protected => "protected",
-                Accessibility.Internal => "internal",
-                Accessibility.Private => "private",
-                _ => ""
-            },
+            Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility),
             typeSymbol.ContainingNamespace.ToDisplayString(),
-            objectType,
+            (ObjectType)objectType,
             NotifyType.None,
             typeSymbol.IsStatic,
             typeSymbol.IsSealed,

@@ -26,6 +26,9 @@ namespace CodeGeneratorTest
 {
     public partial class CodeTest
     {
+        /// <summary>
+        /// Auto generated property by Peponi.CodeGenerators
+        /// </summary>
         public bool TestBool
         {
             get => _testBool;
@@ -39,6 +42,9 @@ namespace CodeGeneratorTest
             }
         }
 
+        /// <summary>
+        /// Auto generated method by Peponi.CodeGenerators
+        /// </summary>
         partial void OnTestBoolChanged();
     }
 }"));
@@ -73,6 +79,9 @@ namespace CodeGeneratorTest
 {
     public sealed partial record CodeTest
     {
+        /// <summary>
+        /// Auto generated property by Peponi.CodeGenerators
+        /// </summary>
         public bool TestBool
         {
             get => _testBool;
@@ -86,6 +95,9 @@ namespace CodeGeneratorTest
             }
         }
 
+        /// <summary>
+        /// Auto generated property by Peponi.CodeGenerators
+        /// </summary>
         public int? TestInt
         {
             get => testInt;
@@ -100,12 +112,21 @@ namespace CodeGeneratorTest
             }
         }
 
+        /// <summary>
+        /// Auto generated property by Peponi.CodeGenerators
+        /// </summary>
         public double TESTDOUBLE
         {
             get => TestDouble;
         }
 
+        /// <summary>
+        /// Auto generated method by Peponi.CodeGenerators
+        /// </summary>
         partial void OnTestBoolChanged();
+        /// <summary>
+        /// Auto generated method by Peponi.CodeGenerators
+        /// </summary>
         partial void OnTestIntChanged();
     }
 }"));
@@ -136,6 +157,9 @@ namespace CodeGeneratorTest
 {
     public partial class CodeTest
     {
+        /// <summary>
+        /// Auto generated property by Peponi.CodeGenerators
+        /// </summary>
         public bool Test
         {
             get
@@ -154,6 +178,9 @@ namespace CodeGeneratorTest
             }
         }
 
+        /// <summary>
+        /// Auto generated method by Peponi.CodeGenerators
+        /// </summary>
         partial void OnTestChanged();
     }
 }"));

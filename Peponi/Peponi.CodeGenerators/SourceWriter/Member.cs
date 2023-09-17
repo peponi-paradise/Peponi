@@ -42,6 +42,9 @@ internal static partial class SourceWriterExtension
     {
         foreach (var property in propertyTargets)
         {
+            builder.AppendLine("/// <summary>");
+            builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
+            builder.AppendLine("/// </summary>");
             builder.Append("public ", true);
             if (property.IsStatic) builder.Append("static ");
             builder.Append($"{property.Type} ");
@@ -108,6 +111,9 @@ internal static partial class SourceWriterExtension
         {
             if (propertyTargets[i].IsReadOnly == false)
             {
+                builder.AppendLine("/// <summary>");
+                builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+                builder.AppendLine("/// </summary>");
                 builder.AppendLine($"partial void On{propertyTargets[i].PropertyName}Changed();");
             }
         }
