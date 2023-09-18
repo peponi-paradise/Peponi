@@ -1,4 +1,6 @@
-﻿namespace TestNamespace
+﻿using TestNamespace;
+
+namespace TestNamespace
 {
     public class MyModel
     {
@@ -25,7 +27,7 @@ using Peponi.CodeGenerators;
 
 namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
 
-[ModelInject(typeof(MyModel))]
+[ModelInject(typeof(MyModel), ModelName = ""TESTMODEL"")]
 public partial class CodeTest
 {
 }",
@@ -42,19 +44,19 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
         /// <summary>
         /// Auto generated model by Peponi.CodeGenerators
         /// </summary>
-        protected TestNamespace.MyModel Model { get; set; }
+        protected TestNamespace.MyModel MyModelModel { get; set; }
 
         /// <summary>
         /// Auto generated property by Peponi.CodeGenerators
         /// </summary>
         public int Aaa
         {
-            get => Model._aaa;
+            get => MyModelModel._aaa;
             set
             {
-                if(Model._aaa != value)
+                if(MyModelModel._aaa != value)
                 {
-                    Model._aaa = value;
+                    MyModelModel._aaa = value;
                     OnAaaChanged();
                 }
             }
@@ -94,19 +96,19 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
         /// <summary>
         /// Auto generated model by Peponi.CodeGenerators
         /// </summary>
-        protected TestNamespace.MyModel Model { get; set; }
+        protected TestNamespace.MyModel MyModelModel { get; set; }
 
         /// <summary>
         /// Auto generated property by Peponi.CodeGenerators
         /// </summary>
         public int Aaa
         {
-            get => Model._aaa;
+            get => MyModelModel._aaa;
             set
             {
-                if(Model._aaa != value)
+                if(MyModelModel._aaa != value)
                 {
-                    Model._aaa = value;
+                    MyModelModel._aaa = value;
                     OnPropertyChanged(nameof(Aaa));
                     OnAaaChanged();
                 }
@@ -215,5 +217,12 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
     }
 }"));
         }
+    }
+
+    [NotifyInterface]
+    [ModelInject(typeof(MyModel), ModelName = "TESTMODEL")]
+    [ModelInject(typeof(TestStaticModel), PropertyNotifyType = NotifyType.Notify)]
+    public partial class CodeTest
+    {
     }
 }

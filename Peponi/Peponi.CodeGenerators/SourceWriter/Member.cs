@@ -118,97 +118,121 @@ internal static partial class SourceWriterExtension
         }
     }
 
-    internal static void WriteModelInjectMembers(this CodeBuilder builder, ModelInjectTarget injectTarget, List<PropertyTarget> propertyTargets)
+    internal static void WriteModelInjectMembers(this CodeBuilder builder, ImmutableArray<ModelInjectTarget> injectTarget)
     {
-        if (injectTarget.IsStatic == false)
+        bool isFirst = true;
+        foreach (var inject in injectTarget)
         {
-            builder.AppendLine("/// <summary>");
-            builder.AppendLine("/// Auto generated model by Peponi.CodeGenerators");
-            builder.AppendLine("/// </summary>");
-            builder.AppendLine($"protected {injectTarget.TypeName} Model {{ get; set; }}");
-            builder.NewLine();
-        }
+            if (isFirst) isFirst = false;
+            else builder.NewLine();
 
-        foreach (var property in propertyTargets)
-        {
-            builder.AppendLine("/// <summary>");
-            builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
-            builder.AppendLine("/// </summary>");
-            builder.Append("public ", true);
-            builder.Append($"{property.Type} ");
-            builder.Append($"{property.PropertyName}");
-            builder.NewLine();
-            builder.AppendLine("{");
-            builder.Indent++;
-            if (property.PropertyMethods == null || property.PropertyMethods.Count == 0)
+            if (inject.IsStatic == false)
             {
-                if (injectTarget.IsStatic == false) builder.AppendLine($"get => Model.{property.FieldName};");
-                else builder.AppendLine($"get => {injectTarget.TypeName}.{property.FieldName};");
+                builder.AppendLine("/// <summary>");
+                builder.AppendLine("/// Auto generated model by Peponi.CodeGenerators");
+                builder.AppendLine("/// </summary>");
+                if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {inject.TypeName}Model {{ get; set; }}");
+                else builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {inject.CustomName} {{ get; set; }}");
+                builder.NewLine();
             }
-            else if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+
+            foreach (var property in inject.Properties)
             {
-                builder.AppendLine("get");
+                builder.AppendLine("/// <summary>");
+                builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
+                builder.AppendLine("/// </summary>");
+                builder.Append("public ", true);
+                builder.Append($"{property.Type} ");
+                builder.Append($"{property.PropertyName}");
+                builder.NewLine();
                 builder.AppendLine("{");
                 builder.Indent++;
-                foreach (var method in property.PropertyMethods)
+                if (property.PropertyMethods == null || property.PropertyMethods.Count == 0)
                 {
-                    if (method.Section == PropertyMethodSection.Getter)
+                    if (inject.IsStatic == false)
                     {
-                        builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"get => {inject.TypeName}Model.{property.FieldName};");
+                        else builder.AppendLine($"get => {inject.CustomName}.{property.FieldName};");
                     }
+                    else builder.AppendLine($"get => {inject.NamespaceName}.{inject.TypeName}.{property.FieldName};");
                 }
-
-                if (injectTarget.IsStatic == false) builder.AppendLine($"return Model.{property.FieldName};");
-                else builder.AppendLine($"return {injectTarget.TypeName}.{property.FieldName};");
-
-                builder.Indent--;
-                builder.AppendLine("}");
-            }
-            if (property.IsReadOnly == false)
-            {
-                builder.AppendLine("set");
-                builder.AppendLine("{");
-                builder.Indent++;
-                if (injectTarget.IsStatic == false) builder.AppendLine($"if(Model.{property.FieldName} != value)");
-                else builder.AppendLine($"if({injectTarget.TypeName}.{property.FieldName} != value)");
-                builder.AppendLine("{");
-                builder.Indent++;
-                if (injectTarget.IsStatic == false) builder.AppendLine($"Model.{property.FieldName} = value;");
-                else builder.AppendLine($"{injectTarget.TypeName}.{property.FieldName} = value;");
-                if (property.NotifyType == NotifyType.Notify)
+                else if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
                 {
-                    builder.AppendLine($"OnPropertyChanged(nameof({property.PropertyName}));");
-                }
-                builder.AppendLine($"On{property.PropertyName}Changed();");
-                if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
-                {
+                    builder.AppendLine("get");
+                    builder.AppendLine("{");
+                    builder.Indent++;
                     foreach (var method in property.PropertyMethods)
                     {
-                        if (method.Section == PropertyMethodSection.Setter)
+                        if (method.Section == PropertyMethodSection.Getter)
                         {
                             builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                         }
                     }
-                }
-                for (int i = 0; i < 2; i++)
-                {
+
+                    if (inject.IsStatic == false)
+                    {
+                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"return {inject.TypeName}Model.{property.FieldName};");
+                        else builder.AppendLine($"return {inject.CustomName}.{property.FieldName};");
+                    }
+                    else builder.AppendLine($"return {inject.NamespaceName}.{inject.TypeName}.{property.FieldName};");
+
                     builder.Indent--;
                     builder.AppendLine("}");
                 }
+                if (property.IsReadOnly == false)
+                {
+                    builder.AppendLine("set");
+                    builder.AppendLine("{");
+                    builder.Indent++;
+                    if (inject.IsStatic == false)
+                    {
+                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"if({inject.TypeName}Model.{property.FieldName} != value)");
+                        else builder.AppendLine($"if({inject.CustomName}.{property.FieldName} != value)");
+                    }
+                    else builder.AppendLine($"if({inject.NamespaceName}.{inject.TypeName}.{property.FieldName} != value)");
+                    builder.AppendLine("{");
+                    builder.Indent++;
+                    if (inject.IsStatic == false)
+                    {
+                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"{inject.TypeName}Model.{property.FieldName} = value;");
+                        else builder.AppendLine($"{inject.CustomName}.{property.FieldName} = value;");
+                    }
+                    else builder.AppendLine($"{inject.NamespaceName}.{inject.TypeName}.{property.FieldName} = value;");
+                    if (property.NotifyType == NotifyType.Notify)
+                    {
+                        builder.AppendLine($"OnPropertyChanged(nameof({property.PropertyName}));");
+                    }
+                    builder.AppendLine($"On{property.PropertyName}Changed();");
+                    if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+                    {
+                        foreach (var method in property.PropertyMethods)
+                        {
+                            if (method.Section == PropertyMethodSection.Setter)
+                            {
+                                builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                            }
+                        }
+                    }
+                    for (int i = 0; i < 2; i++)
+                    {
+                        builder.Indent--;
+                        builder.AppendLine("}");
+                    }
+                }
+                builder.Indent--;
+                builder.AppendLine("}");
+                builder.NewLine();
             }
-            builder.Indent--;
-            builder.AppendLine("}");
-            builder.NewLine();
-        }
 
-        for (int i = 0; i < propertyTargets.Count; i++)
-        {
-            if (propertyTargets[i].IsReadOnly == false)
+            for (int i = 0; i < inject.Properties.Count; i++)
             {
-                builder.AppendLine("/// <summary>");
-                builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
-                builder.AppendLine("/// </summary>");
-                builder.AppendLine($"partial void On{propertyTargets[i].PropertyName}Changed();");
+                if (inject.Properties[i].IsReadOnly == false)
+                {
+                    builder.AppendLine("/// <summary>");
+                    builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+                    builder.AppendLine("/// </summary>");
+                    builder.AppendLine($"partial void On{inject.Properties[i].PropertyName}Changed();");
+                }
             }
         }
     }

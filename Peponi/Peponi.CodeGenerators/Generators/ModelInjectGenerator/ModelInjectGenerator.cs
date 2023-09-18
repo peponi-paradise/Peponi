@@ -1,6 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Peponi.CodeGenerators.SemanticTarget;
+using System.Collections.Immutable;
 
 namespace Peponi.CodeGenerators.ModelInjectGenerator;
 
@@ -12,29 +13,38 @@ public sealed partial class ModelInjectGenerator : IIncrementalGenerator
         var syntaxProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (s, _) => IsValidTarget(s),
             transform: static (context, _) => GetModelInjectTarget(context))
-                 .Where(static target => target.InjectTarget is not null);
+                 .Where(static target => target.ObjectTarget is not null && target.InjectTarget.Count() > 0);
+
+        IncrementalValuesProvider<(ObjectDeclarationTarget ObjectTarget, ImmutableArray<ImmutableArray<ModelInjectTarget>> InjectTarget)> propertyInfos =
+           syntaxProvider.GroupBy(static item => item.Left, static item => item.Right);
 
         context.RegisterSourceOutput(syntaxProvider, static (productionContext, target) => Execute(productionContext, target));
     }
 
     private static bool IsValidTarget(SyntaxNode node) => node is ClassDeclarationSyntax or RecordDeclarationSyntax or StructDeclarationSyntax { AttributeLists: { Count: > 0 } };
 
-    private static (ObjectDeclarationTarget ObjectTarget, ModelInjectTarget InjectTarget, List<PropertyTarget> PropertyTarget) GetModelInjectTarget(GeneratorSyntaxContext context)
+    private static (ObjectDeclarationTarget ObjectTarget, ImmutableArray<ModelInjectTarget> InjectTarget) GetModelInjectTarget(GeneratorSyntaxContext context)
     {
         var objectSymbol = Creater.GetTypeSymbol(context);
-        if (objectSymbol is null) return (null, null, null)!;
-
-        AttributeData? attributeData = Creater.GetAttribute(objectSymbol, "Peponi.CodeGenerators.ModelInjectAttribute");
-        if (attributeData is null) return (null, null, null)!;
+        if (objectSymbol is null) return (null, default)!;
 
         ObjectType? objectType = Creater.GetObjectType(objectSymbol);
-        if (objectType is null) return (null, null, null)!;
+        if (objectType is null) return (null, default)!;
 
         var modifier = Creater.GetAccessibilityString(objectSymbol.DeclaredAccessibility);
-        if (string.IsNullOrEmpty(modifier)) return (null, null, null)!;
+        if (string.IsNullOrEmpty(modifier)) return (null, default)!;
 
-        var modelInfo = Creater.GetModelInfo(attributeData);
-        if (modelInfo is null) return (null, null, null)!;
+        var attributeDatas = Creater.GetAttributes(objectSymbol, "Peponi.CodeGenerators.ModelInjectAttribute");
+        if (attributeDatas is null) return (null, default)!;
+
+        List<ModelInjectTarget> injectTargets = new();
+        foreach (var attr in attributeDatas)
+        {
+            var info = Creater.GetModelInfo(attr);
+            if (info is null) return (null, default)!;
+
+            injectTargets.Add(info);
+        }
 
         return (new ObjectDeclarationTarget(
             objectSymbol!.Name,
@@ -46,8 +56,6 @@ public sealed partial class ModelInjectGenerator : IIncrementalGenerator
             objectSymbol.IsSealed,
             objectSymbol.IsAbstract
             ),
-            modelInfo?.ModelInfo,
-            modelInfo?.PropertyTarget
-            )!;
+            injectTargets.ToImmutableArray())!;
     }
 }

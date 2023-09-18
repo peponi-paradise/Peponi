@@ -24,6 +24,11 @@ internal static partial class Creater
         return typeSymbol?.GetAttributes().FirstOrDefault(x => Inspector.CheckAttribute(x, attributeFullName));
     }
 
+    internal static IEnumerable<AttributeData>? GetAttributes(ISymbol? typeSymbol, string attributeFullName)
+    {
+        return typeSymbol?.GetAttributes().Where(x => Inspector.CheckAttribute(x, attributeFullName));
+    }
+
     internal static ObjectType? GetObjectType(INamedTypeSymbol typeSymbol)
     {
         if (typeSymbol.TypeKind == TypeKind.Class && typeSymbol.IsRecord) return ObjectType.Record;

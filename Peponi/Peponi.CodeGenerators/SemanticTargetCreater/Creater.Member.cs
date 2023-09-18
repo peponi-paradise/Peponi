@@ -59,7 +59,7 @@ internal static partial class Creater
         return rtnString;
     }
 
-    internal static (ModelInjectTarget? ModelInfo, List<PropertyTarget>? PropertyTarget)? GetModelInfo(AttributeData attributeData)
+    internal static ModelInjectTarget? GetModelInfo(AttributeData attributeData)
     {
         var modelType = GetConstructorArgument(attributeData, 0);
         if (modelType?.Value is null) return null;
@@ -69,12 +69,23 @@ internal static partial class Creater
 
         if (modelType.Value.Value is INamedTypeSymbol model)
         {
-            string modelName = $"{model}";
+            string namespaceName = model.ContainingNamespace.ToDisplayString();
+            string modelName = model.Name;
+            string customName = string.Empty;
             bool isStatic = model.IsStatic;
-            var argument = GetNamedArgument(attributeData, 0);
-            NotifyType notifyType = argument == null ? NotifyType.None : (NotifyType)argument?.Value!;
-
-            modelTarget = new(modelName, isStatic, notifyType);
+            NotifyType notifyType = NotifyType.None;
+            for (int i = 0; i < attributeData.NamedArguments.Length; i++)
+            {
+                var argument = GetNamedArgument(attributeData, i);
+                if (argument is not null && argument?.Value!.GetType() == typeof(NotifyType))
+                {
+                    notifyType = (NotifyType)argument?.Value!;
+                }
+                else if (argument is not null && argument?.Value!.GetType() == typeof(string))
+                {
+                    customName = (string)argument?.Value!;
+                }
+            }
 
             List<ISymbol> members = new(model.GetMembers());
             while (model.BaseType is not null)
@@ -109,8 +120,9 @@ internal static partial class Creater
                     }
                 }
             }
+            modelTarget = new(namespaceName, modelName, customName, isStatic, notifyType, rtns);
         }
 
-        return (modelTarget, rtns);
+        return modelTarget;
     }
 }

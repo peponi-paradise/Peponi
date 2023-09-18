@@ -2,15 +2,16 @@
 using Microsoft.CodeAnalysis.Text;
 using Peponi.CodeGenerators.SemanticTarget;
 using Peponi.CodeGenerators.SourceWriter;
+using System.Collections.Immutable;
 using System.Text;
 
 namespace Peponi.CodeGenerators.ModelInjectGenerator;
 
 public sealed partial class ModelInjectGenerator
 {
-    private static void Execute(SourceProductionContext context, (ObjectDeclarationTarget ObjectTarget, ModelInjectTarget InjectTarget, List<PropertyTarget> PropertyTarget) target)
+    private static void Execute(SourceProductionContext context, (ObjectDeclarationTarget ObjectTarget, ImmutableArray<ModelInjectTarget> InjectTarget) target)
     {
-        if (target.ObjectTarget is null || target.InjectTarget is null || target.PropertyTarget is null) return;
+        if (target.ObjectTarget is null || target.InjectTarget.Count() == 0) return;
 
         var codeFileName = $"{target.ObjectTarget.NamespaceName}.{target.ObjectTarget.TypeName}.ModelInject.g.cs";
 
@@ -28,7 +29,7 @@ public sealed partial class ModelInjectGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteModelInjectMembers(target.InjectTarget, target.PropertyTarget);
+        codeBuilder.WriteModelInjectMembers(target.InjectTarget);
 
         while (codeBuilder.Indent > 0)
         {
