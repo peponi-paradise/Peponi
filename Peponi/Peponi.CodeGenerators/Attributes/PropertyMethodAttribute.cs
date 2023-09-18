@@ -1,12 +1,4 @@
-﻿#nullable enable
-
-namespace Peponi.CodeGenerators;
-
-public enum PropertyMethodSection
-{
-    Setter,
-    Getter
-}
+﻿namespace Peponi.CodeGenerators;
 
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
 public class PropertyMethodAttribute : Attribute

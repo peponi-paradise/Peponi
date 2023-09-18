@@ -6,9 +6,3 @@ public enum ObjectType
     Record,
     Struct
 }
-
-public enum NotifyType
-{
-    None,
-    Notify
-}

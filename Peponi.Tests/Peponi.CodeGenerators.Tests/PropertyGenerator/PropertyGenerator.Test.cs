@@ -61,10 +61,10 @@ namespace CodeGeneratorTest;
 public sealed partial record CodeTest
 {
     [Property]
-    private bool _testBool = false;
+    private static bool _testBool = false;
 
     [NotifyProperty]
-    private int? testInt = 0;
+    private static int? testInt = 0;
 
     [NotifyProperty]
     private readonly double TestDouble = 1.2;

@@ -52,7 +52,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         if (attributeData is not null)
         {
             notifyType = NotifyType.None;
-            customPropertyName = Creater.GetNamedArgument(attributeData, 0);
+            customPropertyName = Creater.GetNamedArgumentString(attributeData, 0);
         }
         else
         {
@@ -60,7 +60,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             if (attributeData is not null)
             {
                 notifyType = NotifyType.Notify;
-                customPropertyName = Creater.GetNamedArgument(attributeData, 0);
+                customPropertyName = Creater.GetNamedArgumentString(attributeData, 0);
             }
             else return (null, null)!;
         }
@@ -75,17 +75,18 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         {
             foreach (var attr in methodsAttr)
             {
-                var methodName = Creater.GetConstructorArgument(attr, 0);
+                var methodName = Creater.GetConstructorArgumentString(attr, 0);
 
                 if (methodName is not null and { Length: > 0 })
                 {
-                    PropertyMethodTarget addTarget = new(PropertyMethodSection.Setter, methodName, string.Empty);
+                    PropertyMethodTarget addTarget = new(PropertyMethodSection.Setter, methodName, "");
 
                     foreach (var arg in attr.NamedArguments)
                     {
                         if (arg.Key == "Section") addTarget.Section = (PropertyMethodSection)arg.Value.Value!;
                         else if (arg.Key == "Args") addTarget.MethodArgs = (string)arg.Value.Value!;
                     }
+
                     if (!string.IsNullOrWhiteSpace(addTarget.MethodName)) methodTargets.Add(addTarget);
                 }
             }
@@ -95,7 +96,6 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             fieldSymbol.Name,
             customPropertyName ?? Creater.GetPropertyName(fieldSymbol.Name),
             fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
-            fieldSymbol.IsStatic,
             fieldSymbol.IsReadOnly,
             notifyType,
             methodTargets
@@ -115,6 +115,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
     }
 }
 
+// From MVVM Toolkit
 internal static class IncrementalValuesProviderExtensions
 {
     /// <summary>
