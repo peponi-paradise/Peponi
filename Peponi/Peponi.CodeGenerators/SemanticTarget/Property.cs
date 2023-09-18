@@ -6,15 +6,17 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
     public string PropertyName;
     public string Type;
     public bool IsReadOnly;
+    public bool IsStatic;
     public NotifyType NotifyType;
     public List<PropertyMethodTarget> PropertyMethods;
 
-    public PropertyTarget(string fieldName, string propertyName, string type, bool isReadOnly, NotifyType notifyType, List<PropertyMethodTarget> propertyMethods)
+    public PropertyTarget(string fieldName, string propertyName, string type, bool isReadOnly, bool isStatic, NotifyType notifyType, List<PropertyMethodTarget> propertyMethods)
     {
         FieldName = fieldName;
         PropertyName = propertyName;
         Type = type;
         IsReadOnly = isReadOnly;
+        IsStatic = isStatic;
         NotifyType = notifyType;
         PropertyMethods = propertyMethods;
     }
@@ -27,8 +29,8 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
     public bool Equals(PropertyTarget? other)
     {
         return other is not null && FieldName == other.FieldName && PropertyName == other.PropertyName &&
-            Type == other.Type && IsReadOnly == other.IsReadOnly && NotifyType == other.NotifyType &&
-            PropertyMethods == other.PropertyMethods;
+            Type == other.Type && IsReadOnly == other.IsReadOnly && IsStatic == other.IsStatic &&
+            NotifyType == other.NotifyType && PropertyMethods == other.PropertyMethods;
     }
 
     public override int GetHashCode()
@@ -38,6 +40,7 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
             EqualityComparer<string>.Default.GetHashCode(PropertyName) +
             EqualityComparer<string>.Default.GetHashCode(Type) +
             EqualityComparer<bool>.Default.GetHashCode(IsReadOnly) +
+            EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
             EqualityComparer<NotifyType>.Default.GetHashCode(NotifyType) +
             EqualityComparer<List<PropertyMethodTarget>>.Default.GetHashCode(PropertyMethods);
     }

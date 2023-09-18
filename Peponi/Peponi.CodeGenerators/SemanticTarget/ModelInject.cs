@@ -1,6 +1,6 @@
 ﻿namespace Peponi.CodeGenerators.SemanticTarget;
 
-internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
+internal class InjectModelTarget : IEquatable<InjectModelTarget?>
 {
     public string NamespaceName;
     public string TypeName;
@@ -9,7 +9,7 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
     public NotifyType NotifyType;
     public List<PropertyTarget> Properties;
 
-    public ModelInjectTarget(string namespaceName, string typeName, string customName, bool isStatic, NotifyType notifyType, List<PropertyTarget> properties)
+    public InjectModelTarget(string namespaceName, string typeName, string customName, bool isStatic, NotifyType notifyType, List<PropertyTarget> properties)
     {
         NamespaceName = namespaceName;
         TypeName = typeName;
@@ -21,10 +21,10 @@ internal class ModelInjectTarget : IEquatable<ModelInjectTarget?>
 
     public override bool Equals(object? other)
     {
-        return Equals(other as ModelInjectTarget);
+        return Equals(other as InjectModelTarget);
     }
 
-    public bool Equals(ModelInjectTarget? other)
+    public bool Equals(InjectModelTarget? other)
     {
         return other is not null && NamespaceName == other.NamespaceName &&
             TypeName == other.TypeName &&

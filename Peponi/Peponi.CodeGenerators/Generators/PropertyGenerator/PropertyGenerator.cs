@@ -97,6 +97,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             customPropertyName ?? Creater.GetPropertyName(fieldSymbol.Name),
             fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
             fieldSymbol.IsReadOnly,
+            fieldSymbol.IsStatic,
             notifyType,
             methodTargets
             );

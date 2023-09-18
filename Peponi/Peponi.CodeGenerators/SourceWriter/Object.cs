@@ -24,7 +24,7 @@ internal static partial class SourceWriterExtension
         builder.AppendLine("{");
     }
 
-    internal static void WriteModelInjectType(this CodeBuilder builder, ObjectDeclarationTarget target)
+    internal static void WriteInjectModelType(this CodeBuilder builder, ObjectDeclarationTarget target)
     {
         if (target.ObjectType == ObjectType.Struct && target.NotifyType == NotifyType.Notify)
         {

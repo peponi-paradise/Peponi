@@ -2,32 +2,39 @@
 
 namespace TestNamespace
 {
-    public class MyModel
+    public partial record MyModel
     {
-        public int _aaa = 0;
+        public int _aaa;
     }
 
     public static class TestStaticModel
     {
         public static double _double = 12;
     }
+
+    public struct MyStruct
+    {
+        public DateTime DateTime { get; set; }
+
+        public static string Name;
+    }
 }
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator
 {
     [TestClass]
-    public class ModelInject
+    public class InjectModel
     {
         [TestMethod]
-        public void SimpleModelInjectWithoutNotify()
+        public void InjectSimpleModelWithoutNotify()
         {
-            Assert.IsTrue(ModelInjectCompare.CompareCode(
+            Assert.IsTrue(InjectModelCompare.CompareCode(
     @"using TestNamespace;
 using Peponi.CodeGenerators;
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
 
-[ModelInject(typeof(MyModel), ModelName = ""TESTMODEL"")]
+[InjectModel(typeof(MyModel))]
 public partial class CodeTest
 {
 }",
@@ -37,26 +44,26 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator
 {
     public partial class CodeTest
     {
         /// <summary>
         /// Auto generated model by Peponi.CodeGenerators
         /// </summary>
-        protected TestNamespace.MyModel MyModelModel { get; set; }
+        protected TestNamespace.MyModel MyModel;
 
         /// <summary>
         /// Auto generated property by Peponi.CodeGenerators
         /// </summary>
         public int Aaa
         {
-            get => MyModelModel._aaa;
+            get => MyModel._aaa;
             set
             {
-                if(MyModelModel._aaa != value)
+                if(MyModel._aaa != value)
                 {
-                    MyModelModel._aaa = value;
+                    MyModel._aaa = value;
                     OnAaaChanged();
                 }
             }
@@ -71,15 +78,15 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
         }
 
         [TestMethod]
-        public void SimpleModelInjectWithNotify()
+        public void InjectSimpleModelWithNotify()
         {
-            Assert.IsTrue(ModelInjectCompare.CompareCode(
+            Assert.IsTrue(InjectModelCompare.CompareCode(
 @"using TestNamespace;
 using Peponi.CodeGenerators;
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
 
-[ModelInject(typeof(MyModel), PropertyNotifyType=NotifyType.Notify)]
+[InjectModel(typeof(MyModel), PropertyNotifyType=NotifyType.Notify)]
 public partial class CodeTest
 {
 }",
@@ -89,7 +96,7 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator
 {
     public partial class CodeTest
     {
@@ -124,15 +131,15 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
         }
 
         [TestMethod]
-        public void SimpleStaticModelInjectWithoutNotify()
+        public void InjectSimpleStaticModelWithoutNotify()
         {
-            Assert.IsTrue(ModelInjectCompare.CompareCode(
+            Assert.IsTrue(InjectModelCompare.CompareCode(
 @"using TestNamespace;
 using Peponi.CodeGenerators;
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
 
-[ModelInject(typeof(TestStaticModel))]
+[InjectModel(typeof(TestStaticModel))]
 public partial class CodeTest
 {
 }",
@@ -142,7 +149,7 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator
 {
     public partial class CodeTest
     {
@@ -171,15 +178,15 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
         }
 
         [TestMethod]
-        public void SimpleStaticModelInjectWithNotify()
+        public void InjectSimpleStaticModelWithNotify()
         {
-            Assert.IsTrue(ModelInjectCompare.CompareCode(
+            Assert.IsTrue(InjectModelCompare.CompareCode(
 @"using TestNamespace;
 using Peponi.CodeGenerators;
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
 
-[ModelInject(typeof(TestStaticModel), PropertyNotifyType=NotifyType.Notify)]
+[InjectModel(typeof(TestStaticModel), PropertyNotifyType=NotifyType.Notify)]
 public partial class CodeTest
 {
 }",
@@ -189,7 +196,7 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator
 {
     public partial class CodeTest
     {
@@ -217,11 +224,29 @@ namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator
     }
 }"));
         }
+
+        [TestMethod]
+        public void InjectComplicatedModelWithNotify()
+        {
+            Assert.IsTrue(InjectModelCompare.CompareCode(
+@"using TestNamespace;
+using Peponi.CodeGenerators;
+
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
+
+[InjectModel(typeof(MyModel), ModelName = ""TESTMODEL"")]
+[InjectModel(typeof(TestStaticModel), PropertyNotifyType = NotifyType.Notify)]
+public partial class CodeTest
+{
+}
+", ""));
+        }
     }
 
     [NotifyInterface]
-    [ModelInject(typeof(MyModel), ModelName = "TESTMODEL")]
-    [ModelInject(typeof(TestStaticModel), PropertyNotifyType = NotifyType.Notify)]
+    [InjectModel(typeof(MyModel), ModelName = "TESTMODEL")]
+    [InjectModel(typeof(TestStaticModel), PropertyNotifyType = NotifyType.Notify)]
+    [InjectModel(typeof(MyStruct))]
     public partial class CodeTest
     {
     }

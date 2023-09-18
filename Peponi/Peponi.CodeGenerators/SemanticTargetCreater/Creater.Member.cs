@@ -1,4 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
+using System.Diagnostics;
 
 namespace Peponi.CodeGenerators.SemanticTarget;
 
@@ -59,12 +60,12 @@ internal static partial class Creater
         return rtnString;
     }
 
-    internal static ModelInjectTarget? GetModelInfo(AttributeData attributeData)
+    internal static InjectModelTarget? GetModelInfo(AttributeData attributeData)
     {
         var modelType = GetConstructorArgument(attributeData, 0);
         if (modelType?.Value is null) return null;
 
-        ModelInjectTarget? modelTarget = null;
+        InjectModelTarget? modelTarget = null;
         List<PropertyTarget> rtns = new();
 
         if (modelType.Value.Value is INamedTypeSymbol model)
@@ -77,7 +78,8 @@ internal static partial class Creater
             for (int i = 0; i < attributeData.NamedArguments.Length; i++)
             {
                 var argument = GetNamedArgument(attributeData, i);
-                if (argument is not null && argument?.Value!.GetType() == typeof(NotifyType))
+                // Enum catched by int
+                if (argument is not null && argument?.Value!.GetType() == typeof(int))
                 {
                     notifyType = (NotifyType)argument?.Value!;
                 }
@@ -95,17 +97,19 @@ internal static partial class Creater
             }
             foreach (var member in members)
             {
-                if (member is IFieldSymbol fieldSymbol)
+                // Base object의 오만가지 다 끼어들 수 있어 public 제한
+                if (member is IFieldSymbol fieldSymbol && member.DeclaredAccessibility == Accessibility.Public)
                 {
                     rtns.Add(new PropertyTarget(
                                      fieldSymbol.Name,
                                      GetPropertyName(fieldSymbol.Name),
                                      fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                      fieldSymbol.IsReadOnly,
+                                     fieldSymbol.IsStatic,
                                      notifyType,
                                      new()));
                 }
-                else if (member is IMethodSymbol { MethodKind: MethodKind.PropertyGet } methodSymbol)
+                else if (member is IMethodSymbol { MethodKind: MethodKind.PropertyGet } methodSymbol && member.DeclaredAccessibility == Accessibility.Public)
                 {
                     var propertySymbol = (IPropertySymbol?)methodSymbol.AssociatedSymbol;
                     if (propertySymbol is not null)
@@ -115,6 +119,7 @@ internal static partial class Creater
                                          GetPropertyName(propertySymbol.Name),
                                          propertySymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                          propertySymbol.IsReadOnly,
+                                         propertySymbol.IsStatic,
                                          notifyType,
                                          new()));
                     }

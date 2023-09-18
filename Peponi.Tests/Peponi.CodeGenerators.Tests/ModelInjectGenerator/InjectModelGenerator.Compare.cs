@@ -1,13 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Peponi.CodeGenerators.Tests.ModelInjectGenerator;
+namespace Peponi.CodeGenerators.Tests.InjectModelGenerator;
 
-internal static class ModelInjectCompare
+internal static class InjectModelCompare
 {
     private static readonly PortableExecutableReference[] _assemblyReferences;
 
-    static ModelInjectCompare()
+    static InjectModelCompare()
     {
         _assemblyReferences = AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => !a.IsDynamic)
@@ -21,7 +21,7 @@ internal static class ModelInjectCompare
                                                                            new[] { CSharpSyntaxTree.ParseText(testCode) },
                                                                            _assemblyReferences,
                                                                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        CodeGenerators.ModelInjectGenerator.ModelInjectGenerator generator = new();
+        CodeGenerators.InjectModelGenerator.InjectModelGenerator generator = new();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         driver = driver.RunGeneratorsAndUpdateCompilation(generatedCompilation, out var compilationOutput, out var diagnostics);

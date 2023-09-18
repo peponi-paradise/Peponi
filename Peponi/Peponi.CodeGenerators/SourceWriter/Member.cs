@@ -118,7 +118,7 @@ internal static partial class SourceWriterExtension
         }
     }
 
-    internal static void WriteModelInjectMembers(this CodeBuilder builder, ImmutableArray<ModelInjectTarget> injectTarget)
+    internal static void WriteInjectModelMembers(this CodeBuilder builder, ImmutableArray<InjectModelTarget> injectTarget)
     {
         bool isFirst = true;
         foreach (var inject in injectTarget)
@@ -128,16 +128,25 @@ internal static partial class SourceWriterExtension
 
             if (inject.IsStatic == false)
             {
+                string modelName = inject.TypeName.EndsWith("Model") ? inject.TypeName : $"{inject.TypeName}Model";
                 builder.AppendLine("/// <summary>");
                 builder.AppendLine("/// Auto generated model by Peponi.CodeGenerators");
                 builder.AppendLine("/// </summary>");
-                if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {inject.TypeName}Model {{ get; set; }}");
-                else builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {inject.CustomName} {{ get; set; }}");
+                if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {modelName};");
+                else builder.AppendLine($"protected {inject.NamespaceName}.{inject.TypeName} {inject.CustomName};");
                 builder.NewLine();
             }
 
             foreach (var property in inject.Properties)
             {
+                string getSetWriteName;
+                if (inject.IsStatic == false && property.IsStatic == false)
+                {
+                    if (string.IsNullOrEmpty(inject.CustomName)) getSetWriteName = inject.TypeName.EndsWith("Model") ? $"{inject.TypeName}.{property.FieldName}" : $"{inject.TypeName}Model.{property.FieldName}";
+                    else getSetWriteName = $"{inject.CustomName}.{property.FieldName}";
+                }
+                else getSetWriteName = $"{inject.NamespaceName}.{inject.TypeName}.{property.FieldName}";
+
                 builder.AppendLine("/// <summary>");
                 builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
                 builder.AppendLine("/// </summary>");
@@ -149,18 +158,14 @@ internal static partial class SourceWriterExtension
                 builder.Indent++;
                 if (property.PropertyMethods == null || property.PropertyMethods.Count == 0)
                 {
-                    if (inject.IsStatic == false)
-                    {
-                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"get => {inject.TypeName}Model.{property.FieldName};");
-                        else builder.AppendLine($"get => {inject.CustomName}.{property.FieldName};");
-                    }
-                    else builder.AppendLine($"get => {inject.NamespaceName}.{inject.TypeName}.{property.FieldName};");
+                    builder.AppendLine($"get => {getSetWriteName};");
                 }
                 else if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
                 {
                     builder.AppendLine("get");
                     builder.AppendLine("{");
                     builder.Indent++;
+
                     foreach (var method in property.PropertyMethods)
                     {
                         if (method.Section == PropertyMethodSection.Getter)
@@ -169,12 +174,7 @@ internal static partial class SourceWriterExtension
                         }
                     }
 
-                    if (inject.IsStatic == false)
-                    {
-                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"return {inject.TypeName}Model.{property.FieldName};");
-                        else builder.AppendLine($"return {inject.CustomName}.{property.FieldName};");
-                    }
-                    else builder.AppendLine($"return {inject.NamespaceName}.{inject.TypeName}.{property.FieldName};");
+                    builder.AppendLine($"return {getSetWriteName};");
 
                     builder.Indent--;
                     builder.AppendLine("}");
@@ -184,20 +184,10 @@ internal static partial class SourceWriterExtension
                     builder.AppendLine("set");
                     builder.AppendLine("{");
                     builder.Indent++;
-                    if (inject.IsStatic == false)
-                    {
-                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"if({inject.TypeName}Model.{property.FieldName} != value)");
-                        else builder.AppendLine($"if({inject.CustomName}.{property.FieldName} != value)");
-                    }
-                    else builder.AppendLine($"if({inject.NamespaceName}.{inject.TypeName}.{property.FieldName} != value)");
+                    builder.AppendLine($"if({getSetWriteName} != value)");
                     builder.AppendLine("{");
                     builder.Indent++;
-                    if (inject.IsStatic == false)
-                    {
-                        if (string.IsNullOrEmpty(inject.CustomName)) builder.AppendLine($"{inject.TypeName}Model.{property.FieldName} = value;");
-                        else builder.AppendLine($"{inject.CustomName}.{property.FieldName} = value;");
-                    }
-                    else builder.AppendLine($"{inject.NamespaceName}.{inject.TypeName}.{property.FieldName} = value;");
+                    builder.AppendLine($"{getSetWriteName} = value;");
                     if (property.NotifyType == NotifyType.Notify)
                     {
                         builder.AppendLine($"OnPropertyChanged(nameof({property.PropertyName}));");
