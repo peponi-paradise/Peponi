@@ -226,4 +226,76 @@ internal static partial class SourceWriterExtension
             }
         }
     }
+
+    internal static void WriteDependencyMembers(this CodeBuilder builder, ObjectDeclarationTarget target, ImmutableArray<InjectDependencyTarget> dependencies)
+    {
+        List<(string TypeName, string FieldName)> dependencyAdded = new();
+        foreach (var inject in dependencies)
+        {
+            builder.AppendLine("/// <summary>");
+            builder.AppendLine("/// Auto generated member by Peponi.CodeGenerators");
+            builder.AppendLine("/// </summary>");
+            if (string.IsNullOrEmpty(inject.CustomName))
+            {
+                builder.AppendLine($"{Creater.GetAccessibilityString(inject.Modifier)} {inject.NamespaceName}.{inject.TypeName} {Creater.GetObjectName(inject.TypeName, inject.Modifier)};");
+                dependencyAdded.Add(($"{inject.NamespaceName}.{inject.TypeName}", Creater.GetObjectName(inject.TypeName, inject.Modifier)));
+            }
+            else
+            {
+                builder.AppendLine($"{Creater.GetAccessibilityString(inject.Modifier)} {inject.NamespaceName}.{inject.TypeName} {inject.CustomName};");
+                dependencyAdded.Add(($"{inject.NamespaceName}.{inject.TypeName}", inject.CustomName));
+            }
+            builder.NewLine();
+        }
+
+        builder.AppendLine("/// <summary>");
+        builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+        builder.AppendLine("/// </summary>");
+        builder.Append($"public ", true);
+        builder.Append(target.TypeName);
+        string injectString = string.Empty;
+        foreach (var item in dependencyAdded)
+        {
+            injectString += $"{item.TypeName} {item.FieldName},";
+        }
+        if (dependencyAdded.Count > 0) injectString = injectString.Remove(injectString.Length - 1, 1);
+        builder.Append($"({injectString})");
+        builder.NewLine();
+        builder.AppendLine("{");
+        builder.Indent++;
+        foreach (var inject in dependencyAdded)
+        {
+            builder.AppendLine($"this.{inject.FieldName} = {inject.FieldName};");
+        }
+        builder.Indent--;
+        builder.AppendLine("}");
+    }
+
+    internal static void WriteCommandMembers(this CodeBuilder builder, ImmutableArray<MethodTarget> methods)
+    {
+        foreach (var method in methods)
+        {
+            builder.AppendLine($"private CommandBase? {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
+            builder.AppendLine("/// <summary>");
+            builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+            builder.AppendLine("/// </summary>");
+            builder.Append($"public ", true);
+            builder.Append($"ICommandBase {method.Name}Command => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new CommandBase(");
+            string action = GetMethodDesc(method);
+            string func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
+            if (!string.IsNullOrEmpty(func)) builder.AppendLine($"{action}, {func});", false);
+            else builder.AppendLine($"{action});", false);
+        }
+
+        string GetMethodDesc(MethodBase method)
+        {
+            return (method.HasParameter, method.IsAsync) switch
+            {
+                (true, true) => $"async x => await {method.Name}(x)",
+                (true, false) => $"{method.Name}",
+                (false, true) => $"async _ => await {method.Name}()",
+                (false, false) => $"_ => {method.Name}()"
+            };
+        }
+    }
 }

@@ -11,3 +11,11 @@ public enum NotifyType
     None,
     Notify
 }
+
+public enum Modifier
+{
+    Public,
+    Protected,
+    Internal,
+    Private
+}

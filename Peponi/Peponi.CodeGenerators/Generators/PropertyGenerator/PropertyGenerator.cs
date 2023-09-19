@@ -92,15 +92,6 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             }
         }
 
-        var propertyTarget = new PropertyTarget(
-            fieldSymbol.Name,
-            customPropertyName ?? Creater.GetPropertyName(fieldSymbol.Name),
-            fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
-            fieldSymbol.IsReadOnly,
-            fieldSymbol.IsStatic,
-            notifyType,
-            methodTargets
-            );
         var objectTarget = new ObjectDeclarationTarget(
             typeSymbol.Name,
             Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility),
@@ -110,6 +101,15 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             typeSymbol.IsStatic,
             typeSymbol.IsSealed,
             typeSymbol.IsAbstract
+            );
+        var propertyTarget = new PropertyTarget(
+            fieldSymbol.Name,
+            customPropertyName ?? Creater.GetPropertyName(fieldSymbol.Name),
+            fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
+            fieldSymbol.IsReadOnly,
+            fieldSymbol.IsStatic,
+            notifyType,
+            methodTargets
             );
 
         return (objectTarget, propertyTarget);

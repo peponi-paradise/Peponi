@@ -14,4 +14,10 @@ internal static partial class SourceWriterExtension
         if (target.ObjectType == ObjectType.Struct) builder.AppendLine("using System.Runtime.InteropServices;");
         builder.NewLine();
     }
+
+    internal static void WriteCommandUsing(this CodeBuilder builder, ObjectDeclarationTarget target)
+    {
+        builder.AppendLine("using Peponi.CodeGenerators.Commands;");
+        builder.NewLine();
+    }
 }

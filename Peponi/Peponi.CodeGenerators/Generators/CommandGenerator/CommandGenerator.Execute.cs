@@ -5,19 +5,21 @@ using Peponi.CodeGenerators.SourceWriter;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace Peponi.CodeGenerators.InjectModelGenerator;
+namespace Peponi.CodeGenerators.CommandGenerator;
 
-public sealed partial class InjectModelGenerator
+public sealed partial class CommandGenerator
 {
-    private static void Execute(SourceProductionContext context, (ObjectDeclarationTarget ObjectTarget, ImmutableArray<InjectModelTarget> InjectTarget) target)
+    private static void Execute(SourceProductionContext context, (ObjectDeclarationTarget ObjectTarget, ImmutableArray<MethodTarget> MethodTarget) target)
     {
-        if (target.ObjectTarget is null || target.InjectTarget.Count() == 0) return;
+        if (target.ObjectTarget is null || target.MethodTarget.Count() == 0) return;
 
-        var codeFileName = $"{target.ObjectTarget.NamespaceName}.{target.ObjectTarget.TypeName}.InjectModel.g.cs";
+        var codeFileName = $"{target.ObjectTarget.NamespaceName}.{target.ObjectTarget.TypeName}.Command.g.cs";
 
         var codeBuilder = new CodeBuilder();
 
         codeBuilder.WriteHeader();
+
+        codeBuilder.WriteCommandUsing(target.ObjectTarget);
 
         codeBuilder.WriteNullable();
 
@@ -25,11 +27,11 @@ public sealed partial class InjectModelGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteInjectModelType(target.ObjectTarget);
+        codeBuilder.WriteNotifyObjectType(target.ObjectTarget);
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteInjectModelMembers(target.InjectTarget);
+        codeBuilder.WriteCommandMembers(target.MethodTarget);
 
         while (codeBuilder.Indent > 0)
         {

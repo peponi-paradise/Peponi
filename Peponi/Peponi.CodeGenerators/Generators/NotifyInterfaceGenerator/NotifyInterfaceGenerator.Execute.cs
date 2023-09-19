@@ -26,7 +26,7 @@ public sealed partial class NotifyInterfaceGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteObjectType(target);
+        codeBuilder.WriteNotifyObjectType(target);
 
         codeBuilder.Indent++;
 

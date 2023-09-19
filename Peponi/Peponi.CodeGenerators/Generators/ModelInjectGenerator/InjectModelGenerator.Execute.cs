@@ -5,16 +5,15 @@ using Peponi.CodeGenerators.SourceWriter;
 using System.Collections.Immutable;
 using System.Text;
 
-namespace Peponi.CodeGenerators.PropertyGenerator;
+namespace Peponi.CodeGenerators.InjectModelGenerator;
 
-public sealed partial class PropertyGenerator
+public sealed partial class InjectModelGenerator
 {
-    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget objectTarget, ImmutableArray<PropertyTarget> propertyTarget)
+    private static void Execute(SourceProductionContext context, (ObjectDeclarationTarget ObjectTarget, ImmutableArray<InjectModelTarget> InjectTarget) target)
     {
-        if (objectTarget == null) return;
-        else if (propertyTarget == null) return;
+        if (target.ObjectTarget is null || target.InjectTarget.Count() == 0) return;
 
-        var codeFileName = $"{objectTarget.NamespaceName}.{objectTarget.TypeName}.Property.g.cs";
+        var codeFileName = $"{target.ObjectTarget.NamespaceName}.{target.ObjectTarget.TypeName}.InjectModel.g.cs";
 
         var codeBuilder = new CodeBuilder();
 
@@ -22,15 +21,15 @@ public sealed partial class PropertyGenerator
 
         codeBuilder.WriteNullable();
 
-        codeBuilder.WriteNamespace(objectTarget.NamespaceName);
+        codeBuilder.WriteNamespace(target.ObjectTarget.NamespaceName);
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteNotifyObjectType(objectTarget);
+        codeBuilder.WriteNotifyObjectType(target.ObjectTarget);
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteProperties(propertyTarget);
+        codeBuilder.WriteInjectModelMembers(target.InjectTarget);
 
         while (codeBuilder.Indent > 0)
         {

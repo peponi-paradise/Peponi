@@ -3,19 +3,19 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Peponi.CodeGenerators.SemanticTarget;
 using System.Collections.Immutable;
 
-namespace Peponi.CodeGenerators.InjectModelGenerator;
+namespace Peponi.CodeGenerators.InjectDependencyGenerator;
 
 [Generator]
-public sealed partial class InjectModelGenerator : IIncrementalGenerator
+public sealed partial class InjectDependencyGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var syntaxProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (s, _) => IsValidTarget(s),
-            transform: static (context, _) => GetInjectModelTarget(context))
+            transform: static (context, _) => GetInjectDependencyTarget(context))
                  .Where(static target => target.ObjectTarget is not null && target.InjectTarget.Count() > 0);
 
-        IncrementalValuesProvider<(ObjectDeclarationTarget ObjectTarget, ImmutableArray<ImmutableArray<InjectModelTarget>> InjectTarget)> propertyInfos =
+        IncrementalValuesProvider<(ObjectDeclarationTarget ObjectTarget, ImmutableArray<ImmutableArray<InjectDependencyTarget>> InjectTarget)> propertyInfos =
            syntaxProvider.GroupBy(static item => item.Left, static item => item.Right);
 
         context.RegisterSourceOutput(syntaxProvider, static (productionContext, target) => Execute(productionContext, target));
@@ -23,7 +23,7 @@ public sealed partial class InjectModelGenerator : IIncrementalGenerator
 
     private static bool IsValidTarget(SyntaxNode node) => node is ClassDeclarationSyntax or RecordDeclarationSyntax or StructDeclarationSyntax { AttributeLists: { Count: > 0 } };
 
-    private static (ObjectDeclarationTarget ObjectTarget, ImmutableArray<InjectModelTarget> InjectTarget) GetInjectModelTarget(GeneratorSyntaxContext context)
+    private static (ObjectDeclarationTarget ObjectTarget, ImmutableArray<InjectDependencyTarget> InjectTarget) GetInjectDependencyTarget(GeneratorSyntaxContext context)
     {
         var objectSymbol = Creater.GetTypeSymbol(context);
         if (objectSymbol is null) return (null, default)!;
@@ -34,13 +34,13 @@ public sealed partial class InjectModelGenerator : IIncrementalGenerator
         var modifier = Creater.GetAccessibilityString(objectSymbol.DeclaredAccessibility);
         if (string.IsNullOrEmpty(modifier)) return (null, default)!;
 
-        var attributeDatas = Creater.GetAttributes(objectSymbol, "Peponi.CodeGenerators.InjectModelAttribute");
+        var attributeDatas = Creater.GetAttributes(objectSymbol, "Peponi.CodeGenerators.InjectDependencyAttribute");
         if (attributeDatas is null) return (null, default)!;
 
-        List<InjectModelTarget> injectTargets = new();
+        List<InjectDependencyTarget> injectTargets = new();
         foreach (var attr in attributeDatas)
         {
-            var info = Creater.GetModelInfo(attr);
+            var info = Creater.GetDependencyInfo(attr);
             if (info is null) return (null, default)!;
 
             injectTargets.Add(info);
@@ -51,7 +51,7 @@ public sealed partial class InjectModelGenerator : IIncrementalGenerator
             modifier,
             objectSymbol.ContainingNamespace.ToDisplayString(),
             (ObjectType)objectType!,
-            NotifyType.Notify,
+            NotifyType.None,
             objectSymbol.IsStatic!,
             objectSymbol.IsSealed,
             objectSymbol.IsAbstract

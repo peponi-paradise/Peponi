@@ -1,5 +1,4 @@
 ﻿using Microsoft.CodeAnalysis;
-using System.Diagnostics;
 
 namespace Peponi.CodeGenerators.SemanticTarget;
 
@@ -8,6 +7,11 @@ internal static partial class Creater
     internal static IFieldSymbol? GetFieldSymbol(GeneratorSyntaxContext context)
     {
         return (IFieldSymbol?)context.SemanticModel.GetDeclaredSymbol(context.Node);
+    }
+
+    internal static IMethodSymbol? GetMethodSymbol(GeneratorSyntaxContext context)
+    {
+        return (IMethodSymbol?)context.SemanticModel.GetDeclaredSymbol(context.Node);
     }
 
     internal static IEnumerable<AttributeData>? GetAttributes(IFieldSymbol? fieldSymbol, string attributeFullName)
@@ -39,25 +43,49 @@ internal static partial class Creater
         return attributeData.NamedArguments[index].Value;
     }
 
-    internal static string GetPropertyName(string identifier)
+    internal static string GetPropertyName(string identifier, Modifier modifier = Modifier.Public)
     {
-        string rtnString = identifier.Clone().ToString();
-
-        if (rtnString[0] == '_')
+        if (modifier == Modifier.Public)
         {
-            rtnString = identifier.Substring(1);
-        }
+            string rtnString = identifier.Clone().ToString();
 
-        if (char.IsLower(rtnString[0]))
-        {
-            rtnString = rtnString[0].ToString().ToUpper() + rtnString.Substring(1);
-        }
-        else if (char.IsUpper(rtnString[0]))
-        {
-            rtnString = rtnString.ToUpper();
-        }
+            if (rtnString[0] == '_')
+            {
+                rtnString = identifier.Substring(1);
+            }
 
-        return rtnString;
+            if (char.IsLower(rtnString[0]))
+            {
+                rtnString = rtnString[0].ToString().ToUpper() + rtnString.Substring(1);
+            }
+            else if (char.IsUpper(rtnString[0]))
+            {
+                rtnString = rtnString.ToUpper();
+            }
+
+            return rtnString;
+        }
+        else if (modifier == Modifier.Private || modifier == Modifier.Protected || modifier == Modifier.Internal)
+        {
+            string rtnString = identifier.Clone().ToString();
+
+            if (rtnString.IsAllUpper())
+            {
+                rtnString = rtnString.ToLower();
+            }
+            else if (rtnString[0] == '_')
+            {
+                // Temp remove
+                rtnString = rtnString.Substring(1);
+            }
+            if (char.IsUpper(rtnString[0]))
+            {
+                rtnString = rtnString[0].ToString().ToLower() + rtnString.Substring(1);
+            }
+
+            return $"_{rtnString}";
+        }
+        else return identifier;
     }
 
     internal static InjectModelTarget? GetModelInfo(AttributeData attributeData)
@@ -129,5 +157,15 @@ internal static partial class Creater
         }
 
         return modelTarget;
+    }
+
+    private static bool IsAllUpper(this string input)
+    {
+        for (int i = 0; i < input.Length; i++)
+        {
+            if (Char.IsLetter(input[i]) && !Char.IsUpper(input[i]))
+                return false;
+        }
+        return true;
     }
 }
