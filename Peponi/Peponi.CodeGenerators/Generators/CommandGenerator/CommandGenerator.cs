@@ -50,7 +50,8 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                 var canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
                 if (canExecuteSymbol is not null)
                 {
-                    canTarget = new CanExecuteTarget(canExecuteName, canExecuteSymbol.Parameters.Any(), canExecuteSymbol.IsAsync && canExecuteSymbol.ReturnType.Name.Contains("Task"));
+                    string parameterName = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
+                    canTarget = new CanExecuteTarget(canExecuteName, parameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name.Contains("Task"));
                 }
             }
         }
@@ -65,7 +66,8 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
             typeSymbol.IsSealed,
             typeSymbol.IsAbstract
             );
-        var methodTarget = new MethodTarget(methodSymbol.Name, methodSymbol.Parameters.Any(), methodSymbol.IsAsync && methodSymbol.ReturnType.Name.Contains("Task"), canTarget);
+        string methodParameterName = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
+        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name.Contains("Task"), canTarget);
 
         return (objectTarget, methodTarget);
     }

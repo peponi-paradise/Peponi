@@ -4,8 +4,8 @@ namespace asdasfasfasf;
 
 public partial class rwqa325rar
 {
-    [Command]
-    private async Task<string> TestFunc(string Aaa)
+    [Command(CanExecute = nameof(CanTestFunc))]
+    private bool TestFunc(bool p)
     {
     }
 

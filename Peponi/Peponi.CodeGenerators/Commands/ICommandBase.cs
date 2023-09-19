@@ -2,11 +2,14 @@
 
 namespace Peponi.CodeGenerators.Commands;
 
-public interface ICommandBase<T> : ICommand
+public interface ICommandBase : ICommand
 {
     void RaiseCanExecuteChanged();
+}
 
-    bool CanExecute(T? parameter);
+public interface ICommandBase<in T> : ICommandBase
+{
+    bool CanExecute(T parameter);
 
-    void Execute(T? parameter);
+    void Execute(T parameter);
 }

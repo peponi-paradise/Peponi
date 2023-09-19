@@ -14,5 +14,5 @@ public struct MyStruct
 {
     public DateTime DateTime { get; set; }
 
-    public static string Name;
+    public static string Name = string.Empty;
 }

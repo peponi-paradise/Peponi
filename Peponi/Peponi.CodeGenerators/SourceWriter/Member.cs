@@ -275,12 +275,17 @@ internal static partial class SourceWriterExtension
     {
         foreach (var method in methods)
         {
-            builder.AppendLine($"private CommandBase? {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
+            string commandBaseName = "CommandBase";
+            if (!string.IsNullOrWhiteSpace(method.Parameter)) commandBaseName += $"<{method.Parameter}>?";
+            else commandBaseName += "?";
+
+            builder.AppendLine($"private {commandBaseName.Clone()} {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
+            commandBaseName = commandBaseName.Remove(commandBaseName.Length - 1, 1);
             builder.AppendLine("/// <summary>");
             builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
             builder.AppendLine("/// </summary>");
             builder.Append($"public ", true);
-            builder.Append($"ICommandBase {method.Name}Command => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new CommandBase(");
+            builder.Append($"ICommandBase {method.Name}Command => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
             string action = GetMethodDesc(method);
             string func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
             if (!string.IsNullOrEmpty(func)) builder.AppendLine($"{action}, {func});", false);
@@ -289,12 +294,12 @@ internal static partial class SourceWriterExtension
 
         string GetMethodDesc(MethodBase method)
         {
-            return (method.HasParameter, method.IsAsync) switch
+            return (method.Parameter, method.IsAsync) switch
             {
-                (true, true) => $"async x => await {method.Name}(x)",
-                (true, false) => $"{method.Name}",
-                (false, true) => $"async _ => await {method.Name}()",
-                (false, false) => $"_ => {method.Name}()"
+                ({ Length: > 0 }, true) => $"async x => await {method.Name}(x)",
+                ({ Length: > 0 }, false) => $"{method.Name}",
+                ({ Length: < 1 }, true) => $"async _ => await {method.Name}()",
+                ({ Length: < 1 }, false) => $"_ => {method.Name}()"
             };
         }
     }
