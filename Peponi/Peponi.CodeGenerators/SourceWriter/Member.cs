@@ -280,7 +280,9 @@ internal static partial class SourceWriterExtension
             else commandBaseName += "?";
 
             builder.AppendLine($"private {commandBaseName.Clone()} {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
+            builder.NewLine();
             commandBaseName = commandBaseName.Remove(commandBaseName.Length - 1, 1);
+
             builder.AppendLine("/// <summary>");
             builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
             builder.AppendLine("/// </summary>");
@@ -298,8 +300,8 @@ internal static partial class SourceWriterExtension
             {
                 ({ Length: > 0 }, true) => $"async x => await {method.Name}(x)",
                 ({ Length: > 0 }, false) => $"{method.Name}",
-                ({ Length: < 1 }, true) => $"async _ => await {method.Name}()",
-                ({ Length: < 1 }, false) => $"_ => {method.Name}()"
+                ({ Length: < 1 }, true) => $"async () => {{ await {method.Name}(); }}",
+                ({ Length: < 1 }, false) => $"{method.Name}"
             };
         }
     }

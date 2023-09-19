@@ -4,10 +4,10 @@ public sealed class CommandBase : ICommandBase
 {
     public event EventHandler? CanExecuteChanged;
 
-    private readonly Action<object> _execute;
-    private readonly Func<object, bool>? _canExecute;
+    private readonly Action _execute;
+    private readonly Func<bool>? _canExecute;
 
-    public CommandBase(Action<object> execute, Func<object, bool>? canExecute = null)
+    public CommandBase(Action execute, Func<bool>? canExecute = null)
     {
         _execute = execute;
         _canExecute = canExecute;
@@ -15,12 +15,12 @@ public sealed class CommandBase : ICommandBase
 
     public bool CanExecute(object parameter)
     {
-        return _canExecute?.Invoke(parameter) != false;
+        return _canExecute?.Invoke() != false;
     }
 
     public void Execute(object parameter)
     {
-        _execute(parameter);
+        _execute();
     }
 
     public void RaiseCanExecuteChanged()
@@ -34,9 +34,9 @@ public sealed class CommandBase<T> : ICommandBase<T>
     public event EventHandler? CanExecuteChanged;
 
     private readonly Action<T> _execute;
-    private readonly Func<T, bool>? _canExecute;
+    private readonly Predicate<T>? _canExecute;
 
-    public CommandBase(Action<T> execute, Func<T, bool>? canExecute = null)
+    public CommandBase(Action<T> execute, Predicate<T>? canExecute = null)
     {
         _execute = execute;
         _canExecute = canExecute;
@@ -59,15 +59,21 @@ public sealed class CommandBase<T> : ICommandBase<T>
 
     public bool CanExecute(object parameter)
     {
-        T? param = default!;
-        if (parameter is T arg) param = arg;
-        return CanExecute(param);
+        // From MVVM toolkit
+        if (parameter is null && default(T) is not null)
+        {
+            return false;
+        }
+
+        T arg = (T)parameter!;
+
+        return CanExecute(arg);
     }
 
     public void Execute(object parameter)
     {
-        T? param = default!;
-        if (parameter is T arg) param = arg;
-        Execute(param);
+        T arg = (T)parameter!;
+
+        Execute(arg);
     }
 }

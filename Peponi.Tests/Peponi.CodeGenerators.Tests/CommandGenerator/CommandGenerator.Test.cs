@@ -5,8 +5,9 @@ namespace asdasfasfasf;
 public partial class rwqa325rar
 {
     [Command(CanExecute = nameof(CanTestFunc))]
-    private bool TestFunc(bool p)
+    private void TestFunc()
     {
+        return;
     }
 
     private bool CanTestFunc()

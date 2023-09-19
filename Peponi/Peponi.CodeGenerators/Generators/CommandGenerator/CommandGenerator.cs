@@ -37,6 +37,7 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
 
         var methodSymbol = Creater.GetMethodSymbol(context);
         if (methodSymbol is null) return (null, null)!;
+        if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return (null, null)!;
 
         string? canExecuteName;
         CanExecuteTarget? canTarget = null;
@@ -51,7 +52,7 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                 if (canExecuteSymbol is not null)
                 {
                     string parameterName = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
-                    canTarget = new CanExecuteTarget(canExecuteName, parameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name.Contains("Task"));
+                    canTarget = new CanExecuteTarget(canExecuteName, parameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name == "Task");
                 }
             }
         }
@@ -67,7 +68,11 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
             typeSymbol.IsAbstract
             );
         string methodParameterName = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
-        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name.Contains("Task"), canTarget);
+        if (canTarget is not null)
+        {
+            if (canTarget.Parameter != methodParameterName) return (null, null)!;
+        }
+        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget);
 
         return (objectTarget, methodTarget);
     }
