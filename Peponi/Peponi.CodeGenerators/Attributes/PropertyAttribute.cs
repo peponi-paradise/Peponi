@@ -3,7 +3,8 @@
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public class PropertyAttribute : Attribute
 {
-    public string? Name { get; set; }
+    public string? PropertyName { get; set; }
+    public NotifyType NotifyType { get; set; } = NotifyType.Notify;
 
     public PropertyAttribute()
     {

@@ -46,30 +46,24 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         ObjectType? objectType = Creater.GetObjectType(typeSymbol);
         if (objectType is null) return (null, null)!;
 
-        NotifyType notifyType;
-        string? customPropertyName;
+        NotifyType notifyType = NotifyType.Notify;
+        string? customPropertyName = null;
         AttributeData? attributeData = Creater.GetAttribute(fieldSymbol, "Peponi.CodeGenerators.PropertyAttribute");
         if (attributeData is not null)
         {
-            notifyType = NotifyType.None;
-            customPropertyName = Creater.GetNamedArgumentString(attributeData, 0);
-        }
-        else
-        {
-            attributeData = Creater.GetAttribute(fieldSymbol, "Peponi.CodeGenerators.NotifyPropertyAttribute");
-            if (attributeData is not null)
+            foreach (var arg in attributeData.NamedArguments)
             {
-                notifyType = NotifyType.Notify;
-                customPropertyName = Creater.GetNamedArgumentString(attributeData, 0);
+                if (arg.Key == "PropertyName") customPropertyName = (string)arg.Value.Value!;
+                else if (arg.Key == "NotifyType") notifyType = (NotifyType)arg.Value.Value!;
             }
-            else return (null, null)!;
         }
+        else return (null, null)!;
 
         // Get custom method call information
 
-        List<PropertyMethodTarget> methodTargets = new();
+        List<PropertyMethodCallTarget> methodTargets = new();
 
-        var methodsAttr = Creater.GetAttributes(fieldSymbol, "Peponi.CodeGenerators.PropertyMethodAttribute");
+        var methodsAttr = Creater.GetAttributes(fieldSymbol, "Peponi.CodeGenerators.MethodCallAttribute");
 
         if (methodsAttr != null && methodsAttr.Count() > 0)
         {
@@ -79,7 +73,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
 
                 if (methodName is not null and { Length: > 0 })
                 {
-                    PropertyMethodTarget addTarget = new(PropertyMethodSection.Setter, methodName, "");
+                    PropertyMethodCallTarget addTarget = new(PropertyMethodSection.Setter, methodName, "");
 
                     foreach (var arg in attr.NamedArguments)
                     {
@@ -88,6 +82,38 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
                     }
 
                     if (!string.IsNullOrWhiteSpace(addTarget.MethodName)) methodTargets.Add(addTarget);
+                }
+            }
+        }
+
+        List<CanExecuteChangedTarget> canExecuteChangedTargets = new();
+
+        var canExecuteAttr = Creater.GetAttributes(fieldSymbol, "Peponi.CodeGenerators.RaiseCanExecuteChangedAttribute");
+
+        if (canExecuteAttr != null && canExecuteAttr.Count() > 0)
+        {
+            foreach (var attr in canExecuteAttr)
+            {
+                var commandName = Creater.GetConstructorArgumentString(attr, 0);
+                if (commandName is not null && commandName.Length > 0)
+                {
+                    canExecuteChangedTargets.Add(new(commandName));
+                }
+            }
+        }
+
+        List<RaisePropertyChangedTarget> raisePropertyChangedTargets = new();
+
+        var propertyChangedAttr = Creater.GetAttributes(fieldSymbol, "Peponi.CodeGenerators.RaisePropertyChangedAttribute");
+
+        if (propertyChangedAttr != null && propertyChangedAttr.Count() > 0)
+        {
+            foreach (var attr in propertyChangedAttr)
+            {
+                var propertyName = Creater.GetConstructorArgumentString(attr, 0);
+                if (propertyName is not null && propertyName.Length > 0)
+                {
+                    raisePropertyChangedTargets.Add(new(propertyName));
                 }
             }
         }
@@ -109,7 +135,9 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
             fieldSymbol.IsReadOnly,
             fieldSymbol.IsStatic,
             notifyType,
-            methodTargets
+            methodTargets,
+            canExecuteChangedTargets,
+            raisePropertyChangedTargets
             );
 
         return (objectTarget, propertyTarget);

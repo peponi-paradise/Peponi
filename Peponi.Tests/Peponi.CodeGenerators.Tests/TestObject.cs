@@ -8,6 +8,12 @@ public partial record MyModel
 public static class TestStaticModel
 {
     public static double _double = 12;
+    private static string _string = string.Empty;
+    public static bool _bool = false;
+
+    public delegate int TestEventHandler();
+
+    public static event TestEventHandler _ewrt;
 }
 
 public struct MyStruct

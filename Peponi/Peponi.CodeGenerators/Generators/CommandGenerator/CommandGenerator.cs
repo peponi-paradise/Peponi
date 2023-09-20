@@ -2,7 +2,6 @@
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Peponi.CodeGenerators.SemanticTarget;
 using System.Collections.Immutable;
-using System.Reflection;
 
 namespace Peponi.CodeGenerators.CommandGenerator;
 
@@ -39,21 +38,29 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
         if (methodSymbol is null) return (null, null)!;
         if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return (null, null)!;
 
+        string? customMethodName = null;
         string? canExecuteName;
         CanExecuteTarget? canTarget = null;
         AttributeData? attributeData = Creater.GetAttribute(methodSymbol, "Peponi.CodeGenerators.CommandAttribute");
         if (attributeData is null) return (null, null)!;
         else
         {
-            canExecuteName = Creater.GetNamedArgumentString(attributeData, 0) ?? "";
-            if (!string.IsNullOrWhiteSpace(canExecuteName))
+            foreach (var arg in attributeData.NamedArguments)
             {
-                var canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
-                if (canExecuteSymbol is not null)
+                if (arg.Key == "CanExecute")
                 {
-                    string parameterName = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
-                    canTarget = new CanExecuteTarget(canExecuteName, parameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name == "Task");
+                    canExecuteName = (string)arg.Value.Value!;
+                    if (!string.IsNullOrWhiteSpace(canExecuteName))
+                    {
+                        var canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
+                        if (canExecuteSymbol is not null)
+                        {
+                            string parameterName = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
+                            canTarget = new CanExecuteTarget(canExecuteName, parameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name == "Task");
+                        }
+                    }
                 }
+                else if (arg.Key == "CommandName") customMethodName = (string)arg.Value.Value!;
             }
         }
 
@@ -72,7 +79,7 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
         {
             if (canTarget.Parameter != methodParameterName) return (null, null)!;
         }
-        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget);
+        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget) { CustomMethodName = customMethodName };
 
         return (objectTarget, methodTarget);
     }

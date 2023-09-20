@@ -135,7 +135,7 @@ internal static partial class Creater
                                      fieldSymbol.IsReadOnly,
                                      fieldSymbol.IsStatic,
                                      notifyType,
-                                     new()));
+                                     new(), new(), new()));
                 }
                 else if (member is IMethodSymbol { MethodKind: MethodKind.PropertyGet } methodSymbol && member.DeclaredAccessibility == Accessibility.Public)
                 {
@@ -149,7 +149,7 @@ internal static partial class Creater
                                          propertySymbol.IsReadOnly,
                                          propertySymbol.IsStatic,
                                          notifyType,
-                                         new()));
+                                         new(), new(), new()));
                     }
                 }
             }
@@ -163,7 +163,7 @@ internal static partial class Creater
     {
         for (int i = 0; i < input.Length; i++)
         {
-            if (Char.IsLetter(input[i]) && !Char.IsUpper(input[i]))
+            if (char.IsLetter(input[i]) && !char.IsUpper(input[i]))
                 return false;
         }
         return true;

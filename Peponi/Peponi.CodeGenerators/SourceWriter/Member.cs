@@ -95,6 +95,20 @@ internal static partial class SourceWriterExtension
                         }
                     }
                 }
+                if (property.CanExecuteChangedTargets != null && property.CanExecuteChangedTargets.Count > 0)
+                {
+                    foreach (var target in property.CanExecuteChangedTargets)
+                    {
+                        builder.AppendLine($"{target.CommandName}.RaiseCanExecuteChanged();");
+                    }
+                }
+                if (property.RaisePropertyChangedTargets != null && property.RaisePropertyChangedTargets.Count > 0)
+                {
+                    foreach (var target in property.RaisePropertyChangedTargets)
+                    {
+                        builder.AppendLine($"OnPropertyChanged(nameof({target.PropertyName}));");
+                    }
+                }
                 for (int i = 0; i < 2; i++)
                 {
                     builder.Indent--;
@@ -279,6 +293,8 @@ internal static partial class SourceWriterExtension
             if (!string.IsNullOrWhiteSpace(method.Parameter)) commandBaseName += $"<{method.Parameter}>?";
             else commandBaseName += "?";
 
+            string commandName = string.IsNullOrWhiteSpace(method.CustomMethodName) ? $"{method.Name}Command" : method.CustomMethodName!;
+
             builder.AppendLine($"private {commandBaseName.Clone()} {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
             builder.NewLine();
             commandBaseName = commandBaseName.Remove(commandBaseName.Length - 1, 1);
@@ -287,7 +303,7 @@ internal static partial class SourceWriterExtension
             builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
             builder.AppendLine("/// </summary>");
             builder.Append($"public ", true);
-            builder.Append($"ICommandBase {method.Name}Command => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
+            builder.Append($"ICommandBase {commandName} => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
             string action = GetMethodDesc(method);
             string func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
             if (!string.IsNullOrEmpty(func)) builder.AppendLine($"{action}, {func});", false);

@@ -1,6 +1,4 @@
-﻿using System.Collections.Immutable;
-
-namespace Peponi.CodeGenerators.SemanticTarget;
+﻿namespace Peponi.CodeGenerators.SemanticTarget;
 
 internal class MethodBase
 {
@@ -12,6 +10,7 @@ internal class MethodBase
 internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
 {
     public CanExecuteTarget? CanExecuteTarget;
+    public string? CustomMethodName;
 
     public MethodTarget(string name, string parameter, bool isAsync, CanExecuteTarget? canExecuteTarget)
     {
@@ -28,7 +27,7 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
 
     public bool Equals(MethodTarget? other)
     {
-        return other is not null && Name == other.Name &&
+        return other is not null && Name == other.Name && CustomMethodName == other.CustomMethodName &&
                 Parameter == other.Parameter && IsAsync == other.IsAsync &&
                 CanExecuteTarget == other.CanExecuteTarget;
     }
@@ -37,6 +36,7 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
     {
         return 4357 +
                 EqualityComparer<string>.Default.GetHashCode(Name) +
+                EqualityComparer<string?>.Default.GetHashCode(CustomMethodName) +
                 EqualityComparer<string>.Default.GetHashCode(Parameter) +
                 EqualityComparer<bool>.Default.GetHashCode(IsAsync) +
                 EqualityComparer<CanExecuteTarget?>.Default.GetHashCode(CanExecuteTarget);
