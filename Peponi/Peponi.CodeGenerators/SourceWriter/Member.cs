@@ -1,4 +1,5 @@
 ﻿using Peponi.CodeGenerators.SemanticTarget;
+using System;
 using System.Collections.Immutable;
 
 namespace Peponi.CodeGenerators.SourceWriter;
@@ -283,6 +284,148 @@ internal static partial class SourceWriterExtension
         }
         builder.Indent--;
         builder.AppendLine("}");
+    }
+
+    internal static void WriteInjectMembers(this CodeBuilder builder, ObjectDeclarationTarget objectTarget, ImmutableArray<ImmutableArray<InjectTarget>> injectTargets)
+    {
+        List<(string InjectTypeName, string InjectObjectName)> dependencyAdded = new();
+
+        foreach (var targets in injectTargets)
+        {
+            foreach (var target in targets)
+            {
+                // Inject object
+
+                string injectObjectName = target.FullTypeName.Split('.').Last().Replace("?", "");
+                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.TypeModifier) : target.CustomName;
+                if (!target.IsStatic)
+                {
+                    builder.AppendLine("/// <summary>");
+                    builder.AppendLine("/// Auto generated member by Peponi.CodeGenerators");
+                    builder.AppendLine("/// </summary>");
+                    builder.AppendLine($"{Creater.GetAccessibilityString(target.TypeModifier)} {target.FullTypeName} {injectObjectName};");
+                    builder.NewLine();
+
+                    if (target.InjectionMode == InjectionType.Dependency || target.InjectionMode == (InjectionType.Dependency | InjectionType.Model))
+                    {
+                        dependencyAdded.Add(($"{target.FullTypeName}", injectObjectName));
+                    }
+                }
+
+                // Property
+
+                foreach (var property in target.Properties)
+                {
+                    string getSetWriteName = $"{injectObjectName}.{property.FieldName}";
+                    if (target.IsStatic || property.IsStatic)
+                    {
+                        getSetWriteName = $"{target.FullTypeName}.{property.FieldName}";
+                    }
+
+                    builder.AppendLine("/// <summary>");
+                    builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
+                    builder.AppendLine("/// </summary>");
+                    builder.AppendLine($"public {property.Type} {property.PropertyName}");
+                    builder.AppendLine("{");
+                    builder.Indent++;
+                    if (property.PropertyMethods == null || property.PropertyMethods.Count == 0)
+                    {
+                        builder.AppendLine($"get => {getSetWriteName};");
+                    }
+                    else if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+                    {
+                        builder.AppendLine("get");
+                        builder.AppendLine("{");
+                        builder.Indent++;
+
+                        foreach (var method in property.PropertyMethods)
+                        {
+                            if (method.Section == PropertyMethodSection.Getter)
+                            {
+                                builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                            }
+                        }
+
+                        builder.AppendLine($"return {getSetWriteName};");
+
+                        builder.Indent--;
+                        builder.AppendLine("}");
+                    }
+                    if (property.IsReadOnly == false)
+                    {
+                        builder.AppendLine("set");
+                        builder.AppendLine("{");
+                        builder.Indent++;
+                        builder.AppendLine($"if({getSetWriteName} != value)");
+                        builder.AppendLine("{");
+                        builder.Indent++;
+                        builder.AppendLine($"{getSetWriteName} = value;");
+                        if (property.NotifyType == NotifyType.Notify)
+                        {
+                            builder.AppendLine($"OnPropertyChanged(nameof({property.PropertyName}));");
+                        }
+                        builder.AppendLine($"On{property.PropertyName}Changed();");
+                        if (property.PropertyMethods != null && property.PropertyMethods.Count > 0)
+                        {
+                            foreach (var method in property.PropertyMethods)
+                            {
+                                if (method.Section == PropertyMethodSection.Setter)
+                                {
+                                    builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
+                                }
+                            }
+                        }
+                        for (int i = 0; i < 2; i++)
+                        {
+                            builder.Indent--;
+                            builder.AppendLine("}");
+                        }
+                    }
+                    builder.Indent--;
+                    builder.AppendLine("}");
+                    builder.NewLine();
+                }
+
+                for (int i = 0; i < target.Properties.Count; i++)
+                {
+                    if (target.Properties[i].IsReadOnly == false)
+                    {
+                        builder.AppendLine("/// <summary>");
+                        builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+                        builder.AppendLine("/// </summary>");
+                        builder.AppendLine($"partial void On{target.Properties[i].PropertyName}Changed();");
+                        builder.NewLine();
+                    }
+                }
+            }
+        }
+
+        if (dependencyAdded.Count > 0)
+        {
+            // ctor
+
+            builder.AppendLine("/// <summary>");
+            builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
+            builder.AppendLine("/// </summary>");
+            builder.Append($"public ", true);
+            builder.Append(objectTarget.TypeName);
+            string injectString = string.Empty;
+            foreach (var item in dependencyAdded)
+            {
+                injectString += $"{item.InjectTypeName} {item.InjectObjectName},";
+            }
+            if (dependencyAdded.Count > 0) injectString = injectString.Remove(injectString.Length - 1, 1);
+            builder.Append($"({injectString})");
+            builder.NewLine();
+            builder.AppendLine("{");
+            builder.Indent++;
+            foreach (var inject in dependencyAdded)
+            {
+                builder.AppendLine($"this.{inject.InjectObjectName} = {inject.InjectObjectName};");
+            }
+            builder.Indent--;
+            builder.AppendLine("}");
+        }
     }
 
     internal static void WriteCommandMembers(this CodeBuilder builder, ImmutableArray<MethodTarget> methods)

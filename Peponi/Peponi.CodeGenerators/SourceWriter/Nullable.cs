@@ -7,4 +7,10 @@ internal static partial class SourceWriterExtension
         builder.AppendLine("#nullable enable");
         builder.NewLine();
     }
+
+    internal static void WriteNullableDisable(this CodeBuilder builder)
+    {
+        builder.AppendLine("#nullable disable");
+        builder.NewLine();
+    }
 }

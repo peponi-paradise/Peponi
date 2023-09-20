@@ -19,3 +19,10 @@ public enum Modifier
     Internal,
     Private
 }
+
+[Flags]
+public enum InjectionType
+{
+    Dependency = 0b_1,
+    Model = 0b_10
+}
