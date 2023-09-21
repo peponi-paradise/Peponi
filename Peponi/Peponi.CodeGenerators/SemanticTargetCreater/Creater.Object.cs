@@ -105,28 +105,4 @@ internal static partial class Creater
             _ => ""
         };
     }
-
-    internal static InjectDependencyTarget? GetDependencyInfo(AttributeData attributeData)
-    {
-        var modelType = GetConstructorArgument(attributeData, 0);
-        if (modelType?.Value is null) return null;
-
-        InjectDependencyTarget? target = null;
-
-        if (modelType.Value.Value is INamedTypeSymbol symbol && symbol.IsStatic == false)
-        {
-            string namespaceName = symbol.ContainingNamespace.ToDisplayString();
-            string typeName = symbol.Name;
-            string customName = string.Empty;
-            Modifier modifier = Modifier.Public;
-
-            foreach (var arg in attributeData.NamedArguments)
-            {
-                if (arg.Key == "Name") customName = (string)arg.Value.Value!;
-                else if (arg.Key == "Modifier") modifier = (Modifier)arg.Value.Value!;
-            }
-            target = new(namespaceName, typeName, customName, modifier);
-        }
-        return target;
-    }
 }
