@@ -17,7 +17,7 @@ public sealed partial class InjectGenerator
 
         var codeBuilder = new CodeBuilder();
 
-        codeBuilder.WriteHeader();
+        codeBuilder.WriteHeaderComment();
 
         codeBuilder.WriteNullableDisable();
 

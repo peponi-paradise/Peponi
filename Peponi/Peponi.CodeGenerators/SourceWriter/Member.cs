@@ -1,5 +1,4 @@
 ﻿using Peponi.CodeGenerators.SemanticTarget;
-using System;
 using System.Collections.Immutable;
 
 namespace Peponi.CodeGenerators.SourceWriter;
@@ -43,9 +42,7 @@ internal static partial class SourceWriterExtension
     {
         foreach (var property in propertyTargets)
         {
-            builder.AppendLine("/// <summary>");
-            builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
-            builder.AppendLine("/// </summary>");
+            builder.WritePropertyComment();
             builder.Append("public ", true);
             builder.Append($"{property.Type} ");
             builder.Append($"{property.PropertyName}");
@@ -125,9 +122,7 @@ internal static partial class SourceWriterExtension
         {
             if (propertyTargets[i].IsReadOnly == false)
             {
-                builder.AppendLine("/// <summary>");
-                builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
-                builder.AppendLine("/// </summary>");
+                builder.WriteMethodComment();
                 builder.AppendLine($"partial void On{propertyTargets[i].PropertyName}Changed();");
             }
         }
@@ -147,9 +142,7 @@ internal static partial class SourceWriterExtension
                 injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.TypeModifier) : target.CustomName;
                 if (!target.IsStatic)
                 {
-                    builder.AppendLine("/// <summary>");
-                    builder.AppendLine("/// Auto generated member by Peponi.CodeGenerators");
-                    builder.AppendLine("/// </summary>");
+                    builder.WriteMemberComment();
                     builder.AppendLine($"{Creater.GetAccessibilityString(target.TypeModifier)} {target.FullTypeName} {injectObjectName};");
                     builder.NewLine();
 
@@ -169,9 +162,7 @@ internal static partial class SourceWriterExtension
                         getSetWriteName = $"{target.FullTypeName}.{property.FieldName}";
                     }
 
-                    builder.AppendLine("/// <summary>");
-                    builder.AppendLine("/// Auto generated property by Peponi.CodeGenerators");
-                    builder.AppendLine("/// </summary>");
+                    builder.WritePropertyComment();
                     builder.AppendLine($"public {property.Type} {property.PropertyName}");
                     builder.AppendLine("{");
                     builder.Indent++;
@@ -237,9 +228,7 @@ internal static partial class SourceWriterExtension
                 {
                     if (target.Properties[i].IsReadOnly == false)
                     {
-                        builder.AppendLine("/// <summary>");
-                        builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
-                        builder.AppendLine("/// </summary>");
+                        builder.WriteMethodComment();
                         builder.AppendLine($"partial void On{target.Properties[i].PropertyName}Changed();");
                         builder.NewLine();
                     }
@@ -251,9 +240,7 @@ internal static partial class SourceWriterExtension
         {
             // ctor
 
-            builder.AppendLine("/// <summary>");
-            builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
-            builder.AppendLine("/// </summary>");
+            builder.WriteMethodComment();
             builder.Append($"public ", true);
             builder.Append(objectTarget.TypeName);
             string injectString = string.Empty;
@@ -289,9 +276,7 @@ internal static partial class SourceWriterExtension
             builder.NewLine();
             commandBaseName = commandBaseName.Remove(commandBaseName.Length - 1, 1);
 
-            builder.AppendLine("/// <summary>");
-            builder.AppendLine("/// Auto generated method by Peponi.CodeGenerators");
-            builder.AppendLine("/// </summary>");
+            builder.WriteMethodComment();
             builder.Append($"public ", true);
             builder.Append($"ICommandBase {commandName} => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
             string action = GetMethodDesc(method);

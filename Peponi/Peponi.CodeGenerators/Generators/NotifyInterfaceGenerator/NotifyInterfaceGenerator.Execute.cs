@@ -16,7 +16,7 @@ public sealed partial class NotifyInterfaceGenerator
 
         var codeBuilder = new CodeBuilder();
 
-        codeBuilder.WriteHeader();
+        codeBuilder.WriteHeaderComment();
 
         codeBuilder.WriteNullable();
 

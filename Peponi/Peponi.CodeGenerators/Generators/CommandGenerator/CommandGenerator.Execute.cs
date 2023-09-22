@@ -17,7 +17,7 @@ public sealed partial class CommandGenerator
 
         var codeBuilder = new CodeBuilder();
 
-        codeBuilder.WriteHeader();
+        codeBuilder.WriteHeaderComment();
 
         codeBuilder.WriteCommandUsing(target.ObjectTarget);
 

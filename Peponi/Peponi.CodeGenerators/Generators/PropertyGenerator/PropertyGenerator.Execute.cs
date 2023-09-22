@@ -18,7 +18,7 @@ public sealed partial class PropertyGenerator
 
         var codeBuilder = new CodeBuilder();
 
-        codeBuilder.WriteHeader();
+        codeBuilder.WriteHeaderComment();
 
         codeBuilder.WriteNullable();
 
