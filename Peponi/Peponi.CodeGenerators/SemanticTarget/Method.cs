@@ -3,7 +3,7 @@
 internal class MethodBase
 {
     public string Name = string.Empty;
-    public string Parameter = string.Empty;
+    public string ParameterType = string.Empty;
     public bool IsAsync;
 }
 
@@ -12,10 +12,10 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
     public CanExecuteTarget? CanExecuteTarget;
     public string? CustomMethodName;
 
-    public MethodTarget(string name, string parameter, bool isAsync, CanExecuteTarget? canExecuteTarget)
+    public MethodTarget(string name, string parameterType, bool isAsync, CanExecuteTarget? canExecuteTarget)
     {
         Name = name;
-        Parameter = parameter;
+        ParameterType = parameterType;
         IsAsync = isAsync;
         CanExecuteTarget = canExecuteTarget;
     }
@@ -28,7 +28,7 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
     public bool Equals(MethodTarget? other)
     {
         return other is not null && Name == other.Name && CustomMethodName == other.CustomMethodName &&
-                Parameter == other.Parameter && IsAsync == other.IsAsync &&
+                ParameterType == other.ParameterType && IsAsync == other.IsAsync &&
                 CanExecuteTarget == other.CanExecuteTarget;
     }
 
@@ -37,7 +37,7 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
         return 4357 +
                 EqualityComparer<string>.Default.GetHashCode(Name) +
                 EqualityComparer<string?>.Default.GetHashCode(CustomMethodName) +
-                EqualityComparer<string>.Default.GetHashCode(Parameter) +
+                EqualityComparer<string>.Default.GetHashCode(ParameterType) +
                 EqualityComparer<bool>.Default.GetHashCode(IsAsync) +
                 EqualityComparer<CanExecuteTarget?>.Default.GetHashCode(CanExecuteTarget);
     }
@@ -45,10 +45,13 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
 
 internal class CanExecuteTarget : MethodBase
 {
-    public CanExecuteTarget(string name, string parameter, bool isAsync)
+    public string? CustomArg;
+
+    public CanExecuteTarget(string name, string parameterType, bool isAsync, string? customArg = null)
     {
         Name = name;
-        Parameter = parameter;
+        ParameterType = parameterType;
         IsAsync = isAsync;
+        CustomArg = customArg;
     }
 }

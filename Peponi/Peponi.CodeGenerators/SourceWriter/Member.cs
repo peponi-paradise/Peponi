@@ -267,10 +267,17 @@ internal static partial class SourceWriterExtension
         foreach (var method in methods)
         {
             string commandBaseName = "CommandBase";
-            if (!string.IsNullOrWhiteSpace(method.Parameter)) commandBaseName += $"<{method.Parameter}>?";
-            else commandBaseName += "?";
+            if (string.IsNullOrWhiteSpace(method.ParameterType) && string.IsNullOrWhiteSpace(method.CanExecuteTarget?.ParameterType)) commandBaseName += "?";
+            if (method.ParameterType == method.CanExecuteTarget?.ParameterType) commandBaseName += $"<{method.ParameterType}>?";
+            else commandBaseName += $"<{method.ParameterType}, {method.CanExecuteTarget?.ParameterType}>?";
 
-            string commandName = string.IsNullOrWhiteSpace(method.CustomMethodName) ? $"{method.Name}Command" : method.CustomMethodName!;
+            string commandName;
+            if (!string.IsNullOrWhiteSpace(method.CustomMethodName)) commandName = method.CustomMethodName!;
+            else
+            {
+                if (method.Name.EndsWith("Command")) commandName = method.Name;
+                else commandName = $"{method.Name}Command";
+            }
 
             builder.AppendLine($"private {commandBaseName.Clone()} {Creater.GetObjectName(method.Name, Modifier.Private)}Command;");
             builder.NewLine();
@@ -280,20 +287,37 @@ internal static partial class SourceWriterExtension
             builder.Append($"public ", true);
             builder.Append($"ICommandBase {commandName} => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
             string action = GetMethodDesc(method);
-            string func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
+            string? func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
             if (!string.IsNullOrEmpty(func)) builder.AppendLine($"{action}, {func});", false);
             else builder.AppendLine($"{action});", false);
         }
 
-        string GetMethodDesc(MethodBase method)
+        string GetMethodDesc(MethodTarget method)
         {
-            return (method.Parameter, method.IsAsync) switch
+            return (method.ParameterType, method.IsAsync) switch
             {
                 ({ Length: > 0 }, true) => $"async x => await {method.Name}(x)",
                 ({ Length: > 0 }, false) => $"{method.Name}",
                 ({ Length: < 1 }, true) => $"async () => {{ await {method.Name}(); }}",
                 ({ Length: < 1 }, false) => $"{method.Name}"
             };
+        }
+        string? GetCanMethodDesc(MethodTarget method)
+        {
+            if (method.CanExecuteTarget != null)
+            {
+                if (!string.IsNullOrWhiteSpace(method.CanExecuteTarget.CustomArg))
+                {
+                    return method.
+                }
+                if (method.ParameterType == method.CanExecuteTarget.ParameterType)
+                {
+                }
+                else
+                {
+                }
+            }
+            return null;
         }
     }
 }

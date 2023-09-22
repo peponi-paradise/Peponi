@@ -13,3 +13,10 @@ public interface ICommandBase<in T> : ICommandBase
 
     void Execute(T parameter);
 }
+
+public interface ICommandBase<in T, in V> : ICommandBase
+{
+    bool CanExecute(V parameter);
+
+    void Execute(T parameter);
+}

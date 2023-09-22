@@ -77,3 +77,52 @@ public sealed class CommandBase<T> : ICommandBase<T>
         Execute(arg);
     }
 }
+
+public sealed class CommandBase<T, V> : ICommandBase<T, V>
+{
+    public event EventHandler? CanExecuteChanged;
+
+    private readonly Action<T> _execute;
+    private readonly Predicate<V>? _canExecute;
+
+    public CommandBase(Action<T> execute, Predicate<V>? canExecute = null)
+    {
+        _execute = execute;
+        _canExecute = canExecute;
+    }
+
+    public bool CanExecute(V parameter)
+    {
+        return _canExecute?.Invoke(parameter) != false;
+    }
+
+    public void Execute(T parameter)
+    {
+        _execute(parameter);
+    }
+
+    public void RaiseCanExecuteChanged()
+    {
+        CanExecuteChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    public bool CanExecute(object parameter)
+    {
+        // From MVVM toolkit
+        if (parameter is null && default(V) is not null)
+        {
+            return false;
+        }
+
+        V arg = (V)parameter!;
+
+        return CanExecute(arg);
+    }
+
+    public void Execute(object parameter)
+    {
+        T arg = (T)parameter!;
+
+        Execute(arg);
+    }
+}

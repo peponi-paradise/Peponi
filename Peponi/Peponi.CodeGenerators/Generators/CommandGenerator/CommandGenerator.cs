@@ -37,38 +37,40 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
         var methodSymbol = Creater.GetMethodSymbol(context);
         if (methodSymbol is null) return (null, null)!;
         if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return (null, null)!;
-        string methodParameterName = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
+        string methodParameterType = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
 
         string? customMethodName = null;
-        string? canExecuteName;
         CanExecuteTarget? canTarget = null;
         AttributeData? attributeData = Creater.GetAttribute(methodSymbol, "Peponi.CodeGenerators.CommandAttribute");
         if (attributeData is null) return (null, null)!;
         else
         {
+            string? canExecuteName = null;
+            string? canExecuteParameterType = null;
+            string? canExecuteArg = null;
+            IMethodSymbol? canExecuteSymbol = null;
             foreach (var arg in attributeData.NamedArguments)
             {
-                if (arg.Key == "CanExecute")
+                if (arg.Key == "CustomName") customMethodName = (string)arg.Value.Value!;
+                else if (arg.Key == "CanExecute")
                 {
                     canExecuteName = (string)arg.Value.Value!;
                     if (!string.IsNullOrWhiteSpace(canExecuteName))
                     {
-                        var canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
+                        canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
                         if (canExecuteSymbol is not null)
                         {
-                            // 파라미터 확인해서 canExecute는 원래 파라미터 타입하고 다르게 가져갈 수 있게 하자. attribute, canTarget 모두 변경 필요
-                            string parameterName = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
-
-                            canTarget = new CanExecuteTarget(canExecuteName, methodParameterName, canExecuteSymbol.IsAsync || canExecuteSymbol.ReturnType.Name == "Task");
+                            canExecuteParameterType = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
                         }
                     }
                 }
-                else if (arg.Key == "CommandName") customMethodName = (string)arg.Value.Value!;
+                else if (arg.Key == "CanExecuteArgument")
+                {
+                    canExecuteArg = (string)arg.Value.Value!;
+                }
             }
-        }
-        if (canTarget is not null)
-        {
-            if (canTarget.Parameter != methodParameterName) return (null, null)!;
+            if (string.IsNullOrWhiteSpace(canExecuteName)) return (null, null)!;
+            canTarget = new CanExecuteTarget(canExecuteName!, canExecuteParameterType!, canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task", canExecuteArg);
         }
 
         var objectTarget = new ObjectDeclarationTarget(
@@ -81,7 +83,7 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
             typeSymbol.IsSealed,
             typeSymbol.IsAbstract
             );
-        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterName, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget) { CustomMethodName = customMethodName };
+        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterType, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget) { CustomMethodName = customMethodName };
 
         return (objectTarget, methodTarget);
     }
