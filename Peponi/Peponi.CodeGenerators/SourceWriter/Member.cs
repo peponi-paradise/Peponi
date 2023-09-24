@@ -268,8 +268,18 @@ internal static partial class SourceWriterExtension
         {
             string commandBaseName = "CommandBase";
             if (string.IsNullOrWhiteSpace(method.ParameterType) && string.IsNullOrWhiteSpace(method.CanExecuteTarget?.ParameterType)) commandBaseName += "?";
-            if (method.ParameterType == method.CanExecuteTarget?.ParameterType) commandBaseName += $"<{method.ParameterType}>?";
-            else commandBaseName += $"<{method.ParameterType}, {method.CanExecuteTarget?.ParameterType}>?";
+            else if (method.ParameterType == method.CanExecuteTarget?.ParameterType) commandBaseName += $"<{method.ParameterType}>?";
+            else
+            {
+                if (!string.IsNullOrWhiteSpace(method.ParameterType))
+                {
+                    commandBaseName += $"<{method.ParameterType}, {method.CanExecuteTarget?.ParameterType}>?";
+                }
+                else
+                {
+                    commandBaseName += $"<{method.CanExecuteTarget?.ParameterType}>?";
+                }
+            }
 
             string commandName;
             if (!string.IsNullOrWhiteSpace(method.CustomMethodName)) commandName = method.CustomMethodName!;
@@ -287,7 +297,7 @@ internal static partial class SourceWriterExtension
             builder.Append($"public ", true);
             builder.Append($"ICommandBase {commandName} => {Creater.GetObjectName(method.Name, Modifier.Private)}Command ??= new {commandBaseName}(");
             string action = GetMethodDesc(method);
-            string? func = method.CanExecuteTarget != null ? GetMethodDesc(method.CanExecuteTarget) : "";
+            string? func = method.CanExecuteTarget != null ? GetCanMethodDesc(method) : "";
             if (!string.IsNullOrEmpty(func)) builder.AppendLine($"{action}, {func});", false);
             else builder.AppendLine($"{action});", false);
         }
@@ -308,13 +318,31 @@ internal static partial class SourceWriterExtension
             {
                 if (!string.IsNullOrWhiteSpace(method.CanExecuteTarget.CustomArg))
                 {
-                    return method.
+                    return method.CanExecuteTarget.IsAsync switch
+                    {
+                        true => $"async _ => await {method.CanExecuteTarget.Name}({method.CanExecuteTarget.CustomArg})",
+                        false => $"_ => {method.CanExecuteTarget.Name}({method.CanExecuteTarget.CustomArg})"
+                    };
                 }
                 if (method.ParameterType == method.CanExecuteTarget.ParameterType)
                 {
+                    return (method.CanExecuteTarget.ParameterType, method.CanExecuteTarget.IsAsync) switch
+                    {
+                        ({ Length: > 0 }, true) => $"async x => await {method.CanExecuteTarget.Name}(x)",
+                        ({ Length: > 0 }, false) => $"{method.CanExecuteTarget.Name}",
+                        ({ Length: < 1 }, true) => $"async () => {{ await {method.CanExecuteTarget.Name}(); }}",
+                        ({ Length: < 1 }, false) => $"{method.CanExecuteTarget.Name}"
+                    };
                 }
                 else
                 {
+                    return (method.CanExecuteTarget.ParameterType, method.CanExecuteTarget.IsAsync) switch
+                    {
+                        ({ Length: > 0 }, true) => $"async y => await {method.CanExecuteTarget.Name}(y)",
+                        ({ Length: > 0 }, false) => $"{method.CanExecuteTarget.Name}",
+                        ({ Length: < 1 }, true) => $"async () => {{ await {method.CanExecuteTarget.Name}(); }}",
+                        ({ Length: < 1 }, false) => $"{method.CanExecuteTarget.Name}"
+                    };
                 }
             }
             return null;
