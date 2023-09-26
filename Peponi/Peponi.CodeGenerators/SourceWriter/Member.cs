@@ -304,14 +304,26 @@ internal static partial class SourceWriterExtension
 
         string GetMethodDesc(MethodTarget method)
         {
-            return (method.ParameterType, method.IsAsync) switch
+            if (!string.IsNullOrEmpty(method.ParameterType) || method.ParameterType == method.CanExecuteTarget?.ParameterType)
             {
-                ({ Length: > 0 }, true) => $"async x => await {method.Name}(x)",
-                ({ Length: > 0 }, false) => $"{method.Name}",
-                ({ Length: < 1 }, true) => $"async () => {{ await {method.Name}(); }}",
-                ({ Length: < 1 }, false) => $"{method.Name}"
-            };
+                return (method.ParameterType, method.IsAsync) switch
+                {
+                    ({ Length: > 0 }, true) => $"async x => await {method.Name}(x)",
+                    ({ Length: > 0 }, false) => $"{method.Name}",
+                    ({ Length: < 1 }, true) => $"async () => {{ await {method.Name}(); }}",
+                    ({ Length: < 1 }, false) => $"{method.Name}"
+                };
+            }
+            else
+            {
+                return method.IsAsync switch
+                {
+                    true => $"async _ => await {method.Name}()",
+                    false => $"_ => {method.Name}()",
+                };
+            }
         }
+
         string? GetCanMethodDesc(MethodTarget method)
         {
             if (method.CanExecuteTarget != null)
