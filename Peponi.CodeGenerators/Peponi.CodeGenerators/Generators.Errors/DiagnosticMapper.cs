@@ -2,7 +2,7 @@
 
 namespace Peponi.CodeGenerators.Diagnostics;
 
-internal static class DiagnosticCreater
+internal static class DiagnosticMapper
 {
     internal static Diagnostic Create(DiagnosticDescriptor descriptor)
     {
@@ -17,5 +17,10 @@ internal static class DiagnosticCreater
     internal static Diagnostic Create(IMethodSymbol methodSymbol, DiagnosticDescriptor descriptor)
     {
         return Diagnostic.Create(descriptor, methodSymbol.Locations[0], methodSymbol.Name);
+    }
+
+    internal static void Report(SourceProductionContext context, Diagnostic error)
+    {
+        context.ReportDiagnostic(error);
     }
 }

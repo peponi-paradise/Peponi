@@ -42,9 +42,4 @@ public sealed partial class CommandGenerator
 
         context.AddSource(codeFileName, SourceText.From(codeBuilder.ToString(), Encoding.UTF8));
     }
-
-    private static void Report(SourceProductionContext context, Diagnostic error)
-    {
-        context.ReportDiagnostic(error);
-    }
 }

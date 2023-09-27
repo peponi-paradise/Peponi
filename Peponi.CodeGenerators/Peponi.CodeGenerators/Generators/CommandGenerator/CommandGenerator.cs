@@ -16,11 +16,10 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                 transform: static (context, _) => GetMethodTarget(context));
 
         var errorInfos = syntaxProvider.Where(static item => item.Error is not null);
-        context.RegisterSourceOutput(errorInfos, static (productionContext, target) => Report(productionContext, target.Error));
+        context.RegisterSourceOutput(errorInfos, static (productionContext, target) => DiagnosticMapper.Report(productionContext, target.Error));
 
         IncrementalValuesProvider<(ObjectDeclarationTarget ObjectTarget, ImmutableArray<MethodTarget> PropertyTarget)> methodInfos =
             syntaxProvider.Where(static item => item.Target.ObjectTarget is not null && item.Target.MethodTarget is not null).GroupBy(static item => item.Left.ObjectTarget, static item => item.Left.MethodTarget);
-
         context.RegisterSourceOutput(methodInfos, static (productionContext, target) => Execute(productionContext, target));
     }
 
@@ -39,15 +38,15 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
         else
         {
             var typeSymbol = Creater.GetTypeSymbol(context);
-            if (typeSymbol is null) return ((null, null)!, DiagnosticCreater.Create(CommandErrors.CouldNotFindTypeSymbol));
+            if (typeSymbol is null) return ((null, null)!, DiagnosticMapper.Create(CommandErrors.CouldNotFindTypeSymbol));
 
             ObjectType? objectType = Creater.GetObjectType(typeSymbol);
-            if (objectType is null) return ((null, null)!, DiagnosticCreater.Create(typeSymbol, CommandErrors.CouldNotFindTypeObject));
+            if (objectType is null) return ((null, null)!, DiagnosticMapper.Create(typeSymbol, CommandErrors.CouldNotFindTypeObject));
 
             var modifier = Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility);
-            if (string.IsNullOrEmpty(modifier)) return ((null, null)!, DiagnosticCreater.Create(typeSymbol, CommandErrors.CouldNotFindTypeModifier))!;
+            if (string.IsNullOrEmpty(modifier)) return ((null, null)!, DiagnosticMapper.Create(typeSymbol, CommandErrors.CouldNotFindTypeModifier))!;
 
-            if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.MethodReturnType));
+            if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return ((null, null)!, DiagnosticMapper.Create(methodSymbol, CommandErrors.MethodReturnType));
             string methodParameterType = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
 
             string? canExecuteName = null;
@@ -64,10 +63,14 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                         canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
                         if (canExecuteSymbol is not null)
                         {
-                            if (canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task") return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.CanExecuteReturnType));
+                            if (canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task") return ((null, null)!, DiagnosticMapper.Create(methodSymbol, CommandErrors.CanExecuteReturnType));
                             canExecuteParameterType = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
 
-                            if (string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.CanExecuteParameterType));
+                            if ((string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) ||
+                                ((!string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) && (methodParameterType != canExecuteParameterType)))
+                            {
+                                return ((null, null)!, DiagnosticMapper.Create(methodSymbol, CommandErrors.CanExecuteParameterType));
+                            }
                         }
                     }
                 }
