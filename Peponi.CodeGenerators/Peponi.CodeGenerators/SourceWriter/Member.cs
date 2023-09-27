@@ -303,7 +303,7 @@ internal static partial class SourceWriterExtension
             {
                 if (method.CanExecuteTarget?.ParameterType.Length < 1) return $"_ => {method.CanExecuteTarget.Name}()";
             }
-            // 오류 띄워야함. Not proper target.
+            // 여기까지 들어오면 앞의 코드에 문제 있음. 에러 내보내야 함
             return string.Empty;
         }
     }

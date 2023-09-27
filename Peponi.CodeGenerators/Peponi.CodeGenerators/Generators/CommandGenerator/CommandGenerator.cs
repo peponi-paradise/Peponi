@@ -1,5 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Peponi.CodeGenerators.Diagnostics;
 using Peponi.CodeGenerators.SemanticTarget;
 using System.Collections.Immutable;
 
@@ -11,40 +12,44 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var syntaxProvider = context.SyntaxProvider.CreateSyntaxProvider(
-            predicate: static (s, _) => IsValidTarget(s),
-            transform: static (context, _) => GetMethodTarget(context))
-                 .Where(static target => target.MethodTarget is not null);
+                predicate: static (s, _) => IsValidTarget(s),
+                transform: static (context, _) => GetMethodTarget(context));
+
+        var errorInfos = syntaxProvider.Where(static item => item.Error is not null);
+        context.RegisterSourceOutput(errorInfos, static (productionContext, target) => Report(productionContext, target.Error));
 
         IncrementalValuesProvider<(ObjectDeclarationTarget ObjectTarget, ImmutableArray<MethodTarget> PropertyTarget)> methodInfos =
-            syntaxProvider.GroupBy(static item => item.Left, static item => item.Right);
+            syntaxProvider.Where(static item => item.Target.ObjectTarget is not null && item.Target.MethodTarget is not null).GroupBy(static item => item.Left.ObjectTarget, static item => item.Left.MethodTarget);
 
         context.RegisterSourceOutput(methodInfos, static (productionContext, target) => Execute(productionContext, target));
     }
 
     private static bool IsValidTarget(SyntaxNode node) => node is MethodDeclarationSyntax { AttributeLists: { Count: > 0 } };
 
-    private static (ObjectDeclarationTarget ObjectTarget, MethodTarget MethodTarget) GetMethodTarget(GeneratorSyntaxContext context)
+    private static ((ObjectDeclarationTarget ObjectTarget, MethodTarget MethodTarget) Target, Diagnostic Error) GetMethodTarget(GeneratorSyntaxContext context)
     {
-        var typeSymbol = Creater.GetTypeSymbol(context);
-        if (typeSymbol is null) return (null, null)!;
-
-        ObjectType? objectType = Creater.GetObjectType(typeSymbol);
-        if (objectType is null) return (null, null)!;
-
-        var modifier = Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility);
-        if (string.IsNullOrEmpty(modifier)) return (null, null)!;
-
-        var methodSymbol = Creater.GetMethodSymbol(context);
-        if (methodSymbol is null) return (null, null)!;
-        if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return (null, null)!;
-        string methodParameterType = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
-
         string? customMethodName = null;
         CanExecuteTarget? canTarget = null;
+
+        var methodSymbol = Creater.GetMethodSymbol(context);
+        if (methodSymbol is null) return ((null, null)!, null)!;
+
         AttributeData? attributeData = Creater.GetAttribute(methodSymbol, "Peponi.CodeGenerators.CommandAttribute");
-        if (attributeData is null) return (null, null)!;
+        if (attributeData is null) return ((null, null)!, null)!;
         else
         {
+            var typeSymbol = Creater.GetTypeSymbol(context);
+            if (typeSymbol is null) return ((null, null)!, DiagnosticCreater.Create(CommandErrors.CouldNotFindTypeSymbol));
+
+            ObjectType? objectType = Creater.GetObjectType(typeSymbol);
+            if (objectType is null) return ((null, null)!, DiagnosticCreater.Create(typeSymbol, CommandErrors.CouldNotFindTypeObject));
+
+            var modifier = Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility);
+            if (string.IsNullOrEmpty(modifier)) return ((null, null)!, DiagnosticCreater.Create(typeSymbol, CommandErrors.CouldNotFindTypeModifier))!;
+
+            if (methodSymbol.ReturnType.Name != "Task" && methodSymbol.ReturnType.Name != "Void") return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.MethodReturnType));
+            string methodParameterType = methodSymbol.Parameters.Any() ? methodSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
+
             string? canExecuteName = null;
             string? canExecuteParameterType = null;
             IMethodSymbol? canExecuteSymbol = null;
@@ -59,10 +64,10 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                         canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
                         if (canExecuteSymbol is not null)
                         {
-                            if (canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task") return (null, null)!;
+                            if (canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task") return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.CanExecuteReturnType));
                             canExecuteParameterType = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
 
-                            if (string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) return (null, null)!;
+                            if (string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) return ((null, null)!, DiagnosticCreater.Create(methodSymbol, CommandErrors.CanExecuteParameterType));
                         }
                     }
                 }
@@ -71,20 +76,20 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
             {
                 canTarget = new CanExecuteTarget(canExecuteName!, canExecuteParameterType!);
             }
+
+            var objectTarget = new ObjectDeclarationTarget(
+                  typeSymbol!.Name,
+                  modifier,
+                  typeSymbol.ContainingNamespace.ToDisplayString(),
+                  (ObjectType)objectType!,
+                  NotifyType.None,
+                  typeSymbol.IsStatic!,
+                  typeSymbol.IsSealed,
+                  typeSymbol.IsAbstract
+                  );
+            var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterType, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget) { CustomMethodName = customMethodName };
+
+            return ((objectTarget, methodTarget), null)!;
         }
-
-        var objectTarget = new ObjectDeclarationTarget(
-            typeSymbol!.Name,
-            modifier,
-            typeSymbol.ContainingNamespace.ToDisplayString(),
-            (ObjectType)objectType!,
-            NotifyType.None,
-            typeSymbol.IsStatic!,
-            typeSymbol.IsSealed,
-            typeSymbol.IsAbstract
-            );
-        var methodTarget = new MethodTarget(methodSymbol.Name, methodParameterType, methodSymbol.IsAsync || methodSymbol.ReturnType.Name == "Task", canTarget) { CustomMethodName = customMethodName };
-
-        return (objectTarget, methodTarget);
     }
 }

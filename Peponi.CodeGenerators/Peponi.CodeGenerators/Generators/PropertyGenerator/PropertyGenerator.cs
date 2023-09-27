@@ -53,7 +53,7 @@ public sealed partial class PropertyGenerator : IIncrementalGenerator
         {
             foreach (var arg in attributeData.NamedArguments)
             {
-                if (arg.Key == "PropertyName") customPropertyName = (string)arg.Value.Value!;
+                if (arg.Key == "CustomName") customPropertyName = (string)arg.Value.Value!;
                 else if (arg.Key == "NotifyType") notifyType = (NotifyType)arg.Value.Value!;
             }
         }

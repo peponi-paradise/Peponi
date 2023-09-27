@@ -6,7 +6,7 @@ namespace asdasfasfasf;
 public partial class rwqa325rar
 {
     [Property(NotifyType = NotifyType.None)]
-    [RaiseCanExecuteChanged(nameof(TestFuncCommand))]
+    //[RaiseCanExecuteChanged(nameof(TestFuncCommand))]
     [RaisePropertyChanged(nameof(Boolean))]
     private string _string = string.Empty;
 
@@ -16,7 +16,7 @@ public partial class rwqa325rar
     private bool _boolean = false;
 
     [Command(CanExecute = nameof(CanTestFunc))]
-    private async Task TestFunc(int a)
+    private void TestFunc(int a)
     {
         return;
     }

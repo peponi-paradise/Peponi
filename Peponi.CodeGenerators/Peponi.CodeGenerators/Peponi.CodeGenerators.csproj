@@ -6,6 +6,7 @@
 	  <ImplicitUsings>enable</ImplicitUsings>
 	  <Nullable>enable</Nullable>
 	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
   </PropertyGroup>
 
 	<ItemGroup>
