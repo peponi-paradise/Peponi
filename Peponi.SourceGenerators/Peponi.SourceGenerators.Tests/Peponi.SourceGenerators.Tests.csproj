@@ -19,7 +19,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Peponi.SourceGenerators\Peponi.SourceGenerators.csproj" />
+    <ProjectReference Include="..\Peponi.SourceGenerators\Peponi.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true"/>
   </ItemGroup>
 
 </Project>
