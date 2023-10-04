@@ -1,7 +1,7 @@
 ﻿namespace Peponi.SourceGenerators.Tests.CommandGenerator;
 
 [TestClass]
-public class Command
+public partial class CommandTestSync
 {
     [TestMethod]
     public void CommandBase()
@@ -123,7 +123,7 @@ namespace GeneratorTest
     }
 
     [TestMethod]
-    public void CustomNameAndCanExecute()
+    public void CustomNameWithCanExecute()
     {
         Assert.IsTrue(CommandCompare.CompareCode(
 @"using Peponi.SourceGenerators;
@@ -199,6 +199,130 @@ namespace GeneratorTest
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
         public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(Test);
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void InputParamWithCustomName()
+    {
+        Assert.IsTrue(CommandCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Command(CustomName = ""MyCommand"")]
+    private void Test(int a)
+    {
+        return;
+    }
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+using Peponi.SourceGenerators.Commands;
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        private CommandBase<int>? _testCommand;
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test);
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void InputParamWithCanExecute()
+    {
+        Assert.IsTrue(CommandCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Command(CanExecute = ""CanExe"")]
+    private void Test(int a)
+    {
+        return;
+    }
+
+    private bool CanExe()
+    {
+        return true;
+    }
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+using Peponi.SourceGenerators.Commands;
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        private CommandBase<int>? _testCommand;
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void InputParamWithCustomNameWithCanExecute()
+    {
+        Assert.IsTrue(CommandCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Command(CustomName = ""MyCommand"", CanExecute = ""CanExe"")]
+    private void Test(int a)
+    {
+        return;
+    }
+
+    private bool CanExe()
+    {
+        return true;
+    }
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+using Peponi.SourceGenerators.Commands;
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        private CommandBase<int>? _testCommand;
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
     }
 }"));
     }
