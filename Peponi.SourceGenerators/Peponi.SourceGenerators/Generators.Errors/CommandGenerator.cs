@@ -45,16 +45,16 @@ internal static class CommandErrors
     internal static readonly DiagnosticDescriptor CanExecuteReturnType = new DiagnosticDescriptor(
        id: "PNCMD020",
        title: "CanExecute return type error",
-       messageFormat: "Not supported return type",
+       messageFormat: "Not supported CanExecute return type",
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported return type is void.");
+       description: "Supported return type is boolean.");
 
     internal static readonly DiagnosticDescriptor CanExecuteParameterType = new DiagnosticDescriptor(
        id: "PNCMD021",
        title: "CanExecute parameter type error",
-       messageFormat: "Not supported parameter type",
+       messageFormat: "Not supported CanExecute parameter type",
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,

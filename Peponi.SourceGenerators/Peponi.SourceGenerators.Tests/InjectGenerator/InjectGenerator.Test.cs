@@ -1,6 +1,4 @@
-﻿using TestNamespace;
-
-namespace Peponi.SourceGenerators.Tests.InjectGenerator;
+﻿namespace Peponi.SourceGenerators.Tests.InjectGenerator;
 
 #nullable disable
 

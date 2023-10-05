@@ -63,7 +63,7 @@ public sealed partial class CommandGenerator : IIncrementalGenerator
                         canExecuteSymbol = typeSymbol.GetMembers().OfType<IMethodSymbol>().FirstOrDefault(x => x.Name == canExecuteName);
                         if (canExecuteSymbol is not null)
                         {
-                            if (canExecuteSymbol!.IsAsync || canExecuteSymbol.ReturnType.Name == "Task") return ((null, null)!, DiagnosticMapper.Create(methodSymbol, CommandErrors.CanExecuteReturnType));
+                            if (canExecuteSymbol.ReturnType.Name != "Boolean") return ((null, null)!, DiagnosticMapper.Create(methodSymbol, CommandErrors.CanExecuteReturnType));
                             canExecuteParameterType = canExecuteSymbol.Parameters.Any() ? canExecuteSymbol.Parameters.First().Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)) : string.Empty;
 
                             if ((string.IsNullOrWhiteSpace(methodParameterType) && !string.IsNullOrWhiteSpace(canExecuteParameterType)) ||
