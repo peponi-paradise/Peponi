@@ -32,7 +32,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
         if (typeSymbol is null) return ((null, default)!, null)!;
 
         var attributeDatas = Creater.GetAttributes(typeSymbol, "Peponi.SourceGenerators.InjectAttribute");
-        if (attributeDatas is null) return ((null, default)!, null)!;
+        if (attributeDatas is null || attributeDatas.Count() == 0) return ((null, default)!, null)!;
 
         ObjectType? objectType = Creater.GetObjectType(typeSymbol);
         if (objectType is null) return ((null, default)!, DiagnosticMapper.Create(typeSymbol, InjectErrors.CouldNotFindTypeObject))!;

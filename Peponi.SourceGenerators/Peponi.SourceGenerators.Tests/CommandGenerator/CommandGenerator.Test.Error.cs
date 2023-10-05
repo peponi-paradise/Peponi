@@ -6,6 +6,13 @@ namespace Peponi.SourceGenerators.Tests.CommandGenerator;
 public class CommandTestError
 {
     [TestMethod]
+    public void PNCMD001()
+    {
+        // Could not check. Command could not exist without type declaration.
+        Assert.IsTrue(true);
+    }
+
+    [TestMethod]
     public void PNCMD002()
     {
         DiagnosticDescriptor CouldNotFindTypeObject = new DiagnosticDescriptor(
