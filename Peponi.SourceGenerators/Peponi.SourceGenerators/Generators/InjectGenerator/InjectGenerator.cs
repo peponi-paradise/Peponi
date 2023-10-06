@@ -62,7 +62,11 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                 foreach (var arg in attributeData.NamedArguments)
                 {
                     if (arg.Key == "CustomName") customName = (string)arg.Value.Value!;
-                    else if (arg.Key == "TypeModifier") typeModifier = (Modifier)arg.Value.Value!;
+                    else if (arg.Key == "TypeModifier")
+                    {
+                        typeModifier = (Modifier)arg.Value.Value!;
+                        if (typeModifier == Modifier.Protected && objectType == ObjectType.Struct) return ((null, default)!, DiagnosticMapper.Create(typeSymbol, InjectErrors.StructObjectInjectModifierError))!;
+                    }
                     else if (arg.Key == "PropertyNotifyMode") propertyNotifyMode = (NotifyType)arg.Value.Value!;
                 }
 

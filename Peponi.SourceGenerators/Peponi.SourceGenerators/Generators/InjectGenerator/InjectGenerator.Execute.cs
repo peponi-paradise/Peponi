@@ -21,6 +21,8 @@ public sealed partial class InjectGenerator
 
         codeBuilder.WriteNullableDisable();
 
+        if (createTarget.ObjectTarget.ObjectType == ObjectType.Struct) codeBuilder.WriteUsing(createTarget.ObjectTarget);
+
         codeBuilder.WriteNamespace(createTarget.ObjectTarget.NamespaceName);
 
         codeBuilder.Indent++;

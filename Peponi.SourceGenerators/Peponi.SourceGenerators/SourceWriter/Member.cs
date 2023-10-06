@@ -230,7 +230,8 @@ internal static partial class SourceWriterExtension
                     {
                         builder.WriteMethodComment();
                         builder.AppendLine($"partial void On{target.Properties[i].PropertyName}Changed();");
-                        builder.NewLine();
+                        if (i != target.Properties.Count - 1) builder.NewLine();
+                        else if (dependencyAdded.Count > 0 || targets.Last() != target) builder.NewLine();
                     }
                 }
             }
@@ -239,16 +240,12 @@ internal static partial class SourceWriterExtension
         if (dependencyAdded.Count > 0)
         {
             // ctor
-
             builder.WriteMethodComment();
             builder.Append($"public ", true);
             builder.Append(objectTarget.TypeName);
-            string injectString = string.Empty;
-            foreach (var item in dependencyAdded)
-            {
-                injectString += $"{item.InjectTypeName} {item.InjectObjectName},";
-            }
-            if (dependencyAdded.Count > 0) injectString = injectString.Remove(injectString.Length - 1, 1);
+            List<string> injectItems = new();
+            foreach (var item in dependencyAdded) injectItems.Add($"{item.InjectTypeName} {item.InjectObjectName}");
+            string injectString = string.Join(", ", injectItems);
             builder.Append($"({injectString})");
             builder.NewLine();
             builder.AppendLine("{");

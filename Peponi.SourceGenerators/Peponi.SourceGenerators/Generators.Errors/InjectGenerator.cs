@@ -32,4 +32,13 @@ internal static class InjectErrors
       defaultSeverity: DiagnosticSeverity.Error,
       isEnabledByDefault: true,
       description: "Please check inject object.");
+
+    internal static readonly DiagnosticDescriptor StructObjectInjectModifierError = new DiagnosticDescriptor(
+      id: "PNIJT004",
+      title: "Inject target modifier error",
+      messageFormat: "Not supported modifier - Could not use 'protected' to 'struct' object",
+      category: "Inject",
+      defaultSeverity: DiagnosticSeverity.Error,
+      isEnabledByDefault: true,
+      description: "Please check inject modifier.");
 }
