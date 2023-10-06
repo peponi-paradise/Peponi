@@ -89,7 +89,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                         {
                             properties.Add(new PropertyTarget(
                                              fieldSymbol.Name,
-                                             Creater.GetPropertyName(fieldSymbol.Name),
+                                             fieldSymbol.Name,
                                              fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                              fieldSymbol.IsReadOnly,
                                              fieldSymbol.IsStatic,
@@ -103,7 +103,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                             {
                                 properties.Add(new PropertyTarget(
                                                  propertySymbol.Name,
-                                                 Creater.GetPropertyName(propertySymbol.Name),
+                                                 propertySymbol.Name,
                                                  propertySymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                                  propertySymbol.IsReadOnly,
                                                  propertySymbol.IsStatic,

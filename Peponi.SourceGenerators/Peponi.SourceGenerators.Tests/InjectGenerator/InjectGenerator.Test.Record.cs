@@ -87,7 +87,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public int TESTINT
+        public int TestInt
         {
             get => BaseClass.TestInt;
             set
@@ -95,8 +95,8 @@ namespace GeneratorTest
                 if(BaseClass.TestInt != value)
                 {
                     BaseClass.TestInt = value;
-                    OnPropertyChanged(nameof(TESTINT));
-                    OnTESTINTChanged();
+                    OnPropertyChanged(nameof(TestInt));
+                    OnTestIntChanged();
                 }
             }
         }
@@ -104,7 +104,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool TESTBOOL
+        public bool TestBool
         {
             get => BaseClass.TestBool;
             set
@@ -112,8 +112,8 @@ namespace GeneratorTest
                 if(BaseClass.TestBool != value)
                 {
                     BaseClass.TestBool = value;
-                    OnPropertyChanged(nameof(TESTBOOL));
-                    OnTESTBOOLChanged();
+                    OnPropertyChanged(nameof(TestBool));
+                    OnTestBoolChanged();
                 }
             }
         }
@@ -121,7 +121,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public List<string> TESTLIST
+        public List<string> TestList
         {
             get => BaseClass.TestList;
             set
@@ -129,8 +129,8 @@ namespace GeneratorTest
                 if(BaseClass.TestList != value)
                 {
                     BaseClass.TestList = value;
-                    OnPropertyChanged(nameof(TESTLIST));
-                    OnTESTLISTChanged();
+                    OnPropertyChanged(nameof(TestList));
+                    OnTestListChanged();
                 }
             }
         }
@@ -138,17 +138,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTINTChanged();
+        partial void OnTestIntChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTBOOLChanged();
+        partial void OnTestBoolChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLISTChanged();
+        partial void OnTestListChanged();
     }
 }"));
     }
@@ -190,7 +190,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public int TESTINT
+        public int TestInt
         {
             get => BaseClass.TestInt;
             set
@@ -198,8 +198,8 @@ namespace GeneratorTest
                 if(BaseClass.TestInt != value)
                 {
                     BaseClass.TestInt = value;
-                    OnPropertyChanged(nameof(TESTINT));
-                    OnTESTINTChanged();
+                    OnPropertyChanged(nameof(TestInt));
+                    OnTestIntChanged();
                 }
             }
         }
@@ -207,7 +207,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool TESTBOOL
+        public bool TestBool
         {
             get => BaseClass.TestBool;
             set
@@ -215,8 +215,8 @@ namespace GeneratorTest
                 if(BaseClass.TestBool != value)
                 {
                     BaseClass.TestBool = value;
-                    OnPropertyChanged(nameof(TESTBOOL));
-                    OnTESTBOOLChanged();
+                    OnPropertyChanged(nameof(TestBool));
+                    OnTestBoolChanged();
                 }
             }
         }
@@ -224,7 +224,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public List<string> TESTLIST
+        public List<string> TestList
         {
             get => BaseClass.TestList;
             set
@@ -232,8 +232,8 @@ namespace GeneratorTest
                 if(BaseClass.TestList != value)
                 {
                     BaseClass.TestList = value;
-                    OnPropertyChanged(nameof(TESTLIST));
-                    OnTESTLISTChanged();
+                    OnPropertyChanged(nameof(TestList));
+                    OnTestListChanged();
                 }
             }
         }
@@ -241,17 +241,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTINTChanged();
+        partial void OnTestIntChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTBOOLChanged();
+        partial void OnTestBoolChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLISTChanged();
+        partial void OnTestListChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
@@ -391,7 +391,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public int TESTINT
+        public int TestInt
         {
             get => BaseClass.TestInt;
             set
@@ -399,7 +399,7 @@ namespace GeneratorTest
                 if(BaseClass.TestInt != value)
                 {
                     BaseClass.TestInt = value;
-                    OnTESTINTChanged();
+                    OnTestIntChanged();
                 }
             }
         }
@@ -407,7 +407,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool TESTBOOL
+        public bool TestBool
         {
             get => BaseClass.TestBool;
             set
@@ -415,7 +415,7 @@ namespace GeneratorTest
                 if(BaseClass.TestBool != value)
                 {
                     BaseClass.TestBool = value;
-                    OnTESTBOOLChanged();
+                    OnTestBoolChanged();
                 }
             }
         }
@@ -423,7 +423,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public List<string> TESTLIST
+        public List<string> TestList
         {
             get => BaseClass.TestList;
             set
@@ -431,7 +431,7 @@ namespace GeneratorTest
                 if(BaseClass.TestList != value)
                 {
                     BaseClass.TestList = value;
-                    OnTESTLISTChanged();
+                    OnTestListChanged();
                 }
             }
         }
@@ -439,17 +439,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTINTChanged();
+        partial void OnTestIntChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTBOOLChanged();
+        partial void OnTestBoolChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLISTChanged();
+        partial void OnTestListChanged();
     }
 }"));
     }
@@ -558,7 +558,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public int TESTINT
+        public int TestInt
         {
             get => BaseClassA.TestInt;
             set
@@ -566,8 +566,8 @@ namespace GeneratorTest
                 if(BaseClassA.TestInt != value)
                 {
                     BaseClassA.TestInt = value;
-                    OnPropertyChanged(nameof(TESTINT));
-                    OnTESTINTChanged();
+                    OnPropertyChanged(nameof(TestInt));
+                    OnTestIntChanged();
                 }
             }
         }
@@ -575,7 +575,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool TESTBOOL
+        public bool TestBool
         {
             get => BaseClassA.TestBool;
             set
@@ -583,8 +583,8 @@ namespace GeneratorTest
                 if(BaseClassA.TestBool != value)
                 {
                     BaseClassA.TestBool = value;
-                    OnPropertyChanged(nameof(TESTBOOL));
-                    OnTESTBOOLChanged();
+                    OnPropertyChanged(nameof(TestBool));
+                    OnTestBoolChanged();
                 }
             }
         }
@@ -592,7 +592,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public List<string> TESTLIST
+        public List<string> TestList
         {
             get => BaseClassA.TestList;
             set
@@ -600,8 +600,8 @@ namespace GeneratorTest
                 if(BaseClassA.TestList != value)
                 {
                     BaseClassA.TestList = value;
-                    OnPropertyChanged(nameof(TESTLIST));
-                    OnTESTLISTChanged();
+                    OnPropertyChanged(nameof(TestList));
+                    OnTestListChanged();
                 }
             }
         }
@@ -609,17 +609,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTINTChanged();
+        partial void OnTestIntChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTBOOLChanged();
+        partial void OnTestBoolChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLISTChanged();
+        partial void OnTestListChanged();
 
         /// <summary>
         /// Auto generated member by Peponi.SourceGenerators
@@ -629,7 +629,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public float TESTFLOAT
+        public float TestFloat
         {
             get => BaseClassB.TestFloat;
             set
@@ -637,8 +637,8 @@ namespace GeneratorTest
                 if(BaseClassB.TestFloat != value)
                 {
                     BaseClassB.TestFloat = value;
-                    OnPropertyChanged(nameof(TESTFLOAT));
-                    OnTESTFLOATChanged();
+                    OnPropertyChanged(nameof(TestFloat));
+                    OnTestFloatChanged();
                 }
             }
         }
@@ -646,7 +646,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public string TESTSTRING
+        public string TestString
         {
             get => BaseClassB.TestString;
             set
@@ -654,8 +654,8 @@ namespace GeneratorTest
                 if(BaseClassB.TestString != value)
                 {
                     BaseClassB.TestString = value;
-                    OnPropertyChanged(nameof(TESTSTRING));
-                    OnTESTSTRINGChanged();
+                    OnPropertyChanged(nameof(TestString));
+                    OnTestStringChanged();
                 }
             }
         }
@@ -663,7 +663,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public Dictionary<string, string> TESTDIC
+        public Dictionary<string, string> TestDic
         {
             get => BaseClassB.TestDic;
             set
@@ -671,8 +671,8 @@ namespace GeneratorTest
                 if(BaseClassB.TestDic != value)
                 {
                     BaseClassB.TestDic = value;
-                    OnPropertyChanged(nameof(TESTDIC));
-                    OnTESTDICChanged();
+                    OnPropertyChanged(nameof(TestDic));
+                    OnTestDicChanged();
                 }
             }
         }
@@ -680,17 +680,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTFLOATChanged();
+        partial void OnTestFloatChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTSTRINGChanged();
+        partial void OnTestStringChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTDICChanged();
+        partial void OnTestDicChanged();
     }
 }"));
     }
@@ -748,7 +748,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public int TESTINT
+        public int TestInt
         {
             get => ChangedClassName.TestInt;
             set
@@ -756,8 +756,8 @@ namespace GeneratorTest
                 if(ChangedClassName.TestInt != value)
                 {
                     ChangedClassName.TestInt = value;
-                    OnPropertyChanged(nameof(TESTINT));
-                    OnTESTINTChanged();
+                    OnPropertyChanged(nameof(TestInt));
+                    OnTestIntChanged();
                 }
             }
         }
@@ -765,7 +765,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool TESTBOOL
+        public bool TestBool
         {
             get => ChangedClassName.TestBool;
             set
@@ -773,8 +773,8 @@ namespace GeneratorTest
                 if(ChangedClassName.TestBool != value)
                 {
                     ChangedClassName.TestBool = value;
-                    OnPropertyChanged(nameof(TESTBOOL));
-                    OnTESTBOOLChanged();
+                    OnPropertyChanged(nameof(TestBool));
+                    OnTestBoolChanged();
                 }
             }
         }
@@ -782,7 +782,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public List<string> TESTLIST
+        public List<string> TestList
         {
             get => ChangedClassName.TestList;
             set
@@ -790,8 +790,8 @@ namespace GeneratorTest
                 if(ChangedClassName.TestList != value)
                 {
                     ChangedClassName.TestList = value;
-                    OnPropertyChanged(nameof(TESTLIST));
-                    OnTESTLISTChanged();
+                    OnPropertyChanged(nameof(TestList));
+                    OnTestListChanged();
                 }
             }
         }
@@ -799,17 +799,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTINTChanged();
+        partial void OnTestIntChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTBOOLChanged();
+        partial void OnTestBoolChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLISTChanged();
+        partial void OnTestListChanged();
 
         /// <summary>
         /// Auto generated member by Peponi.SourceGenerators
@@ -819,7 +819,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public float TESTFLOAT
+        public float TestFloat
         {
             get => ChangedRecord.TestFloat;
             set
@@ -827,8 +827,8 @@ namespace GeneratorTest
                 if(ChangedRecord.TestFloat != value)
                 {
                     ChangedRecord.TestFloat = value;
-                    OnPropertyChanged(nameof(TESTFLOAT));
-                    OnTESTFLOATChanged();
+                    OnPropertyChanged(nameof(TestFloat));
+                    OnTestFloatChanged();
                 }
             }
         }
@@ -836,7 +836,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public string TESTSTRING
+        public string TestString
         {
             get => ChangedRecord.TestString;
             set
@@ -844,8 +844,8 @@ namespace GeneratorTest
                 if(ChangedRecord.TestString != value)
                 {
                     ChangedRecord.TestString = value;
-                    OnPropertyChanged(nameof(TESTSTRING));
-                    OnTESTSTRINGChanged();
+                    OnPropertyChanged(nameof(TestString));
+                    OnTestStringChanged();
                 }
             }
         }
@@ -853,7 +853,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public Dictionary<string, string> TESTDIC
+        public Dictionary<string, string> TestDic
         {
             get => ChangedRecord.TestDic;
             set
@@ -861,8 +861,8 @@ namespace GeneratorTest
                 if(ChangedRecord.TestDic != value)
                 {
                     ChangedRecord.TestDic = value;
-                    OnPropertyChanged(nameof(TESTDIC));
-                    OnTESTDICChanged();
+                    OnPropertyChanged(nameof(TestDic));
+                    OnTestDicChanged();
                 }
             }
         }
@@ -870,17 +870,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTFLOATChanged();
+        partial void OnTestFloatChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTSTRINGChanged();
+        partial void OnTestStringChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTDICChanged();
+        partial void OnTestDicChanged();
 
         /// <summary>
         /// Auto generated member by Peponi.SourceGenerators
@@ -890,7 +890,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public double TESTDOUBLE
+        public double TestDouble
         {
             get => ChangedStruct.TestDouble;
             set
@@ -898,7 +898,7 @@ namespace GeneratorTest
                 if(ChangedStruct.TestDouble != value)
                 {
                     ChangedStruct.TestDouble = value;
-                    OnTESTDOUBLEChanged();
+                    OnTestDoubleChanged();
                 }
             }
         }
@@ -906,7 +906,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public char TESTCHAR
+        public char TestChar
         {
             get => ChangedStruct.TestChar;
             set
@@ -914,7 +914,7 @@ namespace GeneratorTest
                 if(ChangedStruct.TestChar != value)
                 {
                     ChangedStruct.TestChar = value;
-                    OnTESTCHARChanged();
+                    OnTestCharChanged();
                 }
             }
         }
@@ -922,7 +922,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public long TESTLONG
+        public long TestLong
         {
             get => ChangedStruct.TestLong;
             set
@@ -930,7 +930,7 @@ namespace GeneratorTest
                 if(ChangedStruct.TestLong != value)
                 {
                     ChangedStruct.TestLong = value;
-                    OnTESTLONGChanged();
+                    OnTestLongChanged();
                 }
             }
         }
@@ -938,17 +938,17 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTDOUBLEChanged();
+        partial void OnTestDoubleChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTCHARChanged();
+        partial void OnTestCharChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTESTLONGChanged();
+        partial void OnTestLongChanged();
 
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
