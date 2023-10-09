@@ -963,15 +963,3 @@ namespace GeneratorTest
 }"));
     }
 }
-
-//public class BaseClass
-//{
-//    public int TestInt = 0;
-//    public bool TestBool = false;
-//    public List<string> TestList = new();
-//}
-
-//[Inject(typeof(BaseClass), InjectionType.Dependency | InjectionType.Model)]
-//public partial class CodeTest
-//{
-//}
