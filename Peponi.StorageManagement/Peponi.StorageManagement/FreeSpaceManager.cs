@@ -2,7 +2,7 @@
 
 namespace Peponi.StorageManagement;
 
-public static class FolderManager
+public static class FreeSpaceManager
 {
     public static bool IsRunning => _isRun;
 
