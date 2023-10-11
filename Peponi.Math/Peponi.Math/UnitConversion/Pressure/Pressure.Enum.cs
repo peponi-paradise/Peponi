@@ -18,10 +18,73 @@ public enum PressureUnit
 
     /// <summary>
     /// <code>
+    /// aPa
+    /// </code>
+    /// </summary>
+    AttoPascal,
+
+    /// <summary>
+    /// <code>
+    /// fPa
+    /// </code>
+    /// </summary>
+    FemtoPascal,
+
+    /// <summary>
+    /// <code>
+    /// pPa
+    /// </code>
+    /// </summary>
+    PicoPascal,
+
+    /// <summary>
+    /// <code>
+    /// nPa
+    /// </code>
+    /// </summary>
+    NanoPascal,
+
+    /// <summary>
+    /// <code>
+    /// µPa
+    /// </code>
+    /// </summary>
+    MicroPascal,
+
+    /// <summary>
+    /// <code>
+    /// mPa
+    /// </code>
+    /// </summary>
+    MilliPascal,
+
+    /// <summary>
+    /// <code>
+    /// cPa
+    /// </code>
+    /// </summary>
+    CentiPascal,
+
+    /// <summary>
+    /// <code>
+    /// dPa
+    /// </code>
+    /// </summary>
+    DeciPascal,
+
+    /// <summary>
+    /// <code>
     /// Pa
     /// </code>
     /// </summary>
     Pascal,
+
+    /// <summary>
+    /// <code>
+    /// daPa
+    /// </code>
+    /// </summary>
+    DekaPascal,
 
     /// <summary>
     /// <code>
@@ -43,6 +106,34 @@ public enum PressureUnit
     /// </code>
     /// </summary>
     MegaPascal,
+
+    /// <summary>
+    /// <code>
+    /// GPa
+    /// </code>
+    /// </summary>
+    GigaPascal,
+
+    /// <summary>
+    /// <code>
+    /// TPa
+    /// </code>
+    /// </summary>
+    TeraPascal,
+
+    /// <summary>
+    /// <code>
+    /// PPa
+    /// </code>
+    /// </summary>
+    PetaPascal,
+
+    /// <summary>
+    /// <code>
+    /// EPa
+    /// </code>
+    /// </summary>
+    ExaPascal,
 
     /// <summary>
     /// <code>
@@ -71,6 +162,13 @@ public enum PressureUnit
     /// </code>
     /// </summary>
     KiloNewtonPerSquareMeter,
+
+    /// <summary>
+    /// <code>
+    /// µbar
+    /// </code>
+    /// </summary>
+    MicroBar,
 
     /// <summary>
     /// <code>
@@ -113,6 +211,42 @@ public enum PressureUnit
     /// </code>
     /// </summary>
     KiloGramForcePerSquareMeter,
+
+    /// <summary>
+    /// <code>
+    /// tonf / ft^2
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    TonForcePerSquareFoot_US,
+
+    /// <summary>
+    /// <code>
+    /// tonf / in^2
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    TonForcePerSquareInch_US,
+
+    /// <summary>
+    /// <code>
+    /// tonf / ft^2
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    TonForcePerSquareFoot_UK,
+
+    /// <summary>
+    /// <code>
+    /// tonf / in^2
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    TonForcePerSquareInch_UK,
 
     /// <summary>
     /// <code>

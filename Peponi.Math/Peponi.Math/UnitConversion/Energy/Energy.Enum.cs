@@ -254,7 +254,7 @@ public enum EnergyUnit
     /// Council of the European Communities (now the European Union, EU)
     /// </code>
     /// </summary>
-    ThermEC,
+    Therm_EC,
 
     /// <summary>
     /// <code>
@@ -263,7 +263,7 @@ public enum EnergyUnit
     /// US natural gas industry
     /// </code>
     /// </summary>
-    ThermUS,
+    Therm_US,
 
     /// <summary>
     /// <code>
@@ -272,7 +272,7 @@ public enum EnergyUnit
     /// UK
     /// </code>
     /// </summary>
-    ThermUK,
+    Therm_UK,
 
     /// <summary>
     /// <code>
@@ -282,7 +282,7 @@ public enum EnergyUnit
     /// Abbreviated as RT
     /// </code>
     /// </summary>
-    TonHourRefrigeration,
+    TonHour_Refrigeration,
 
     /// <summary>
     /// <code>
@@ -291,7 +291,7 @@ public enum EnergyUnit
     /// Fuel oil equivalent @kiloliter
     /// </code>
     /// </summary>
-    FuelOilKiloLiter,
+    FuelOilEquivalent_KiloLiter,
 
     /// <summary>
     /// <code>
@@ -300,7 +300,7 @@ public enum EnergyUnit
     /// Fuel oil equivalent @barrel (US)
     /// </code>
     /// </summary>
-    FuelOilBarrelUS,
+    FuelOilEquivalent_Barrel_US,
 
     /// <summary>
     /// <code>
@@ -309,7 +309,7 @@ public enum EnergyUnit
     /// Ton of TNT
     /// </code>
     /// </summary>
-    TonTNT,
+    Ton_TNT,
 
     /// <summary>
     /// <code>
@@ -318,7 +318,7 @@ public enum EnergyUnit
     /// Ton of TNT
     /// </code>
     /// </summary>
-    KiloTonTNT,
+    KiloTon_TNT,
 
     /// <summary>
     /// <code>
@@ -327,7 +327,7 @@ public enum EnergyUnit
     /// Ton of TNT
     /// </code>
     /// </summary>
-    MegaTonTNT,
+    MegaTon_TNT,
 
     /// <summary>
     /// <code>
@@ -336,7 +336,7 @@ public enum EnergyUnit
     /// Ton of TNT
     /// </code>
     /// </summary>
-    GigaTonTNT,
+    GigaTon_TNT,
 
     /// <summary>
     /// <code>
@@ -345,7 +345,7 @@ public enum EnergyUnit
     /// Nutrition
     /// </code>
     /// </summary>
-    CalorieNutritional,
+    Calorie_Nutritional,
 
     /// <summary>
     /// <code>
@@ -354,7 +354,7 @@ public enum EnergyUnit
     /// International table
     /// </code>
     /// </summary>
-    CalorieInternationalTable,
+    Calorie_InternationalTable,
 
     /// <summary>
     /// <code>
@@ -363,7 +363,7 @@ public enum EnergyUnit
     /// International table
     /// </code>
     /// </summary>
-    KiloCalorieInternationalTable,
+    KiloCalorie_InternationalTable,
 
     /// <summary>
     /// <code>
@@ -372,7 +372,7 @@ public enum EnergyUnit
     /// Thermochemical
     /// </code>
     /// </summary>
-    CalorieThermochemical,
+    Calorie_Thermochemical,
 
     /// <summary>
     /// <code>
@@ -381,7 +381,7 @@ public enum EnergyUnit
     /// Thermochemical
     /// </code>
     /// </summary>
-    KiloCalorieThermochemical,
+    KiloCalorie_Thermochemical,
 
     /// <summary>
     /// <code>
@@ -399,7 +399,7 @@ public enum EnergyUnit
     /// UK
     /// </code>
     /// </summary>
-    HorsePowerHourUK,
+    HorsePowerHour_UK,
 
     /// <summary>
     /// <code>
@@ -409,7 +409,7 @@ public enum EnergyUnit
     /// International table
     /// </code>
     /// </summary>
-    BritishThermalUnitInternationalTable,
+    BritishThermalUnit_InternationalTable,
 
     /// <summary>
     /// <code>
@@ -419,7 +419,7 @@ public enum EnergyUnit
     /// International table
     /// </code>
     /// </summary>
-    MegaBritishThermalUnitInternationalTable,
+    MegaBritishThermalUnit_InternationalTable,
 
     /// <summary>
     /// <code>
@@ -429,7 +429,7 @@ public enum EnergyUnit
     /// Thermochemical
     /// </code>
     /// </summary>
-    BritishThermalUnitThermochemical,
+    BritishThermalUnit_Thermochemical,
 
     /// <summary>
     /// <code>
@@ -439,7 +439,7 @@ public enum EnergyUnit
     /// Thermochemical
     /// </code>
     /// </summary>
-    MegaBritishThermalUnitThermochemical,
+    MegaBritishThermalUnit_Thermochemical,
 
     /// <summary>
     /// <code>

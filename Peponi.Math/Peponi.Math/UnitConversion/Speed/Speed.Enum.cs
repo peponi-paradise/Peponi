@@ -165,7 +165,7 @@ public enum SpeedUnit
     /// UK
     /// </code>
     /// </summary>
-    KnotUK,
+    Knot_UK,
 
     /// <summary>
     /// <code>
@@ -175,7 +175,7 @@ public enum SpeedUnit
     /// Mach number at 20°C, 1atm
     /// </code>
     /// </summary>
-    MachATM20C,
+    Mach_ATM20C,
 
     /// <summary>
     /// <code>
@@ -185,7 +185,7 @@ public enum SpeedUnit
     /// SI standard Mach number
     /// </code>
     /// </summary>
-    MachSI,
+    Mach_SI,
 
     /// <summary>
     /// <code>
@@ -214,8 +214,8 @@ public enum SpeedUnit
     /// </summary>
     SpeedOfLightInVacuum,
 
-    CosmicVelocity1st,
-    CosmicVelocity2nd,
-    CosmicVelocity3rd,
+    CosmicVelocity_1st,
+    CosmicVelocity_2nd,
+    CosmicVelocity_3rd,
     EarthVelocity
 }

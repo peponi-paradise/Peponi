@@ -1,285 +1,407 @@
 ﻿namespace Peponi.Math.UnitConversion;
 
-public enum AreaUnit
+public enum VolumeUnit
 {
     /// <summary>
     /// <code>
-    /// nm^2
+    /// mm^3
     /// </code>
     /// </summary>
-    SquareNanoMeter,
+    CubicMilliMeter,
 
     /// <summary>
     /// <code>
-    /// µm^2
+    /// cm^3
     /// </code>
     /// </summary>
-    SquareMicroMeter,
+    CubicCentiMeter,
 
     /// <summary>
     /// <code>
-    /// mm^2
+    /// dm^3
     /// </code>
     /// </summary>
-    SquareMilliMeter,
+    CubicDeciMeter,
 
     /// <summary>
     /// <code>
-    /// cm^2
+    /// m^3
     /// </code>
     /// </summary>
-    SquareCentiMeter,
+    CubicMeter,
 
     /// <summary>
     /// <code>
-    /// dm^2
+    /// km^3
     /// </code>
     /// </summary>
-    SquareDeciMeter,
+    CubicKiloMeter,
+
+    Drop,
 
     /// <summary>
     /// <code>
-    /// m^2
+    /// cc
+    /// cm^3
     /// </code>
     /// </summary>
-    SquareMeter,
+    CC,
 
     /// <summary>
     /// <code>
-    /// dam^2
+    /// aL
     /// </code>
     /// </summary>
-    SquareDekaMeter,
+    AttoLiter,
 
     /// <summary>
     /// <code>
-    /// hm^2
+    /// fL
     /// </code>
     /// </summary>
-    SquareHectoMeter,
+    FemtoLiter,
 
     /// <summary>
     /// <code>
-    /// km^2
+    /// pL
     /// </code>
     /// </summary>
-    SquareKiloMeter,
+    PicoLiter,
 
     /// <summary>
     /// <code>
-    /// ha
+    /// nL
     /// </code>
     /// </summary>
-    Hectare,
+    NanoLiter,
 
     /// <summary>
     /// <code>
-    /// ac
+    /// µL
     /// </code>
     /// </summary>
-    Acre,
+    MicroLiter,
 
     /// <summary>
     /// <code>
-    /// ac
+    /// mL
+    /// </code>
+    /// </summary>
+    MilliLiter,
+
+    /// <summary>
+    /// <code>
+    /// cL
+    /// </code>
+    /// </summary>
+    CentiLiter,
+
+    /// <summary>
+    /// <code>
+    /// dL
+    /// </code>
+    /// </summary>
+    DeciLiter,
+
+    /// <summary>
+    /// <code>
+    /// L
+    /// l
+    /// </code>
+    /// </summary>
+    Liter,
+
+    /// <summary>
+    /// <code>
+    /// daL
+    /// </code>
+    /// </summary>
+    DekaLiter,
+
+    /// <summary>
+    /// <code>
+    /// hL
+    /// </code>
+    /// </summary>
+    HectoLiter,
+
+    /// <summary>
+    /// <code>
+    /// kL
+    /// </code>
+    /// </summary>
+    KiloLiter,
+
+    /// <summary>
+    /// <code>
+    /// ML
+    /// </code>
+    /// </summary>
+    MegaLiter,
+
+    /// <summary>
+    /// <code>
+    /// GL
+    /// </code>
+    /// </summary>
+    GigaLiter,
+
+    /// <summary>
+    /// <code>
+    /// TL
+    /// </code>
+    /// </summary>
+    TeraLiter,
+
+    /// <summary>
+    /// <code>
+    /// PL
+    /// </code>
+    /// </summary>
+    PetaLiter,
+
+    /// <summary>
+    /// <code>
+    /// EL
+    /// </code>
+    /// </summary>
+    ExaLiter,
+
+    TeaSpoon,
+    TeaSpoon_US,
+    TeaSpoon_UK,
+    DessertSpoon_US,
+    DessertSpoon_UK,
+    TableSpoon,
+    TableSpoon_US,
+    TableSpoon_UK,
+
+    /// <summary>
+    /// <code>
+    /// fl oz
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Ounce_US,
+
+    /// <summary>
+    /// <code>
+    /// fl oz
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Ounce_UK,
+
+    Cup,
+    Cup_US,
+    Cup_UK,
+
+    /// <summary>
+    /// <code>
+    /// pt
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Pint_US,
+
+    /// <summary>
+    /// <code>
+    /// pt
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Pint_UK,
+
+    /// <summary>
+    /// <code>
+    /// qt
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Quart_US,
+
+    /// <summary>
+    /// <code>
+    /// qt
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Quart_UK,
+
+    /// <summary>
+    /// <code>
+    /// gal
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Gallon_US,
+
+    /// <summary>
+    /// <code>
+    /// gal
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Gallon_UK,
+
+    /// <summary>
+    /// <code>
+    /// bbl
+    /// </code>
+    /// </summary>
+    Barrel,
+
+    /// <summary>
+    /// <code>
+    /// bbl
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Barrel_US,
+
+    /// <summary>
+    /// <code>
+    /// bbl
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Barrel_UK,
+
+    /// <summary>
+    /// <code>
+    /// gi
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Gill_US,
+
+    /// <summary>
+    /// <code>
+    /// gi
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    Gill_UK,
+
+    Minim_US,
+    Minim_UK,
+
+    /// <summary>
+    /// <code>
+    /// in^3
+    /// </code>
+    /// </summary>
+    CubicInch,
+
+    /// <summary>
+    /// <code>
+    /// ac * in
+    /// </code>
+    /// </summary>
+    AcreInch,
+
+    BoardFoot,
+
+    /// <summary>
+    /// <code>
+    /// ft^3
+    /// </code>
+    /// </summary>
+    CubicFoot,
+
+    /// <summary>
+    /// <code>
+    /// 100 * ft^3
+    /// </code>
+    /// </summary>
+    HundredCubicFoot,
+
+    /// <summary>
+    /// <code>
+    /// ac * ft
+    /// </code>
+    /// </summary>
+    AcreFoot,
+
+    /// <summary>
+    /// <code>
+    /// ac * ft
     ///
     /// US survey
     /// </code>
     /// </summary>
-    Acre_US,
+    AcreFoot_US,
 
     /// <summary>
     /// <code>
-    /// a
+    /// yd^3
     /// </code>
     /// </summary>
-    Are,
+    CubicYard,
 
     /// <summary>
     /// <code>
-    /// mi^2
+    /// mi^3
     /// </code>
     /// </summary>
-    SquareMile,
+    CubicMile,
 
     /// <summary>
     /// <code>
-    /// mi^2
-    ///
-    /// US survey
+    /// ton reg
     /// </code>
     /// </summary>
-    SquareMile_US,
+    TonRegister,
+
+    Ccf,
 
     /// <summary>
     /// <code>
-    /// yd^2
+    /// dst
     /// </code>
     /// </summary>
-    SquareYard,
+    DeciStere,
 
     /// <summary>
     /// <code>
-    /// ft^2
+    /// st
     /// </code>
     /// </summary>
-    SquareFoot,
+    Stere,
 
     /// <summary>
     /// <code>
-    /// ft^2
-    ///
-    /// US survey
+    /// dast
     /// </code>
     /// </summary>
-    SquareFoot_US,
+    DekaStere,
 
     /// <summary>
     /// <code>
-    /// in^2
+    /// cd
     /// </code>
     /// </summary>
-    SquareInch,
+    Cord,
+
+    Tun,
+    Hogshead,
 
     /// <summary>
     /// <code>
-    /// circ in
+    /// dr
     /// </code>
     /// </summary>
-    CircularInch,
-
-    /// <summary>
-    /// <code>
-    /// b
-    /// </code>
-    /// </summary>
-    Barn,
-
-    /// <summary>
-    /// <code>
-    /// twp
-    /// </code>
-    /// </summary>
-    Township,
-
-    /// <summary>
-    /// <code>
-    /// sec
-    /// </code>
-    /// </summary>
-    Section,
-
-    /// <summary>
-    /// <code>
-    /// hs
-    /// </code>
-    /// </summary>
-    Homestead,
-
-    /// <summary>
-    /// <code>
-    /// plaza
-    /// </code>
-    /// </summary>
-    Plaza,
-
-    /// <summary>
-    /// <code>
-    /// ch^2
-    /// </code>
-    /// </summary>
-    SquareChain,
-
-    /// <summary>
-    /// <code>
-    /// rd
-    /// </code>
-    /// </summary>
-    Rood,
-
-    /// <summary>
-    /// <code>
-    /// rd^2
-    /// </code>
-    /// </summary>
-    SquareRod,
-
-    /// <summary>
-    /// <code>
-    /// rd^2
-    ///
-    /// US survey
-    /// </code>
-    /// </summary>
-    SquareRod_US,
-
-    /// <summary>
-    /// <code>
-    /// per^2
-    /// </code>
-    /// </summary>
-    SquarePerch,
-
-    /// <summary>
-    /// <code>
-    /// pole^2
-    /// </code>
-    /// </summary>
-    SquarePole,
-
-    /// <summary>
-    /// <code>
-    /// mil^2
-    /// </code>
-    /// </summary>
-    SquareMil,
-
-    /// <summary>
-    /// <code>
-    /// circ mil
-    /// </code>
-    /// </summary>
-    CircularMil,
-
-    /// <summary>
-    /// <code>
-    /// sabin
-    /// </code>
-    /// </summary>
-    Sabin,
-
-    /// <summary>
-    /// <code>
-    /// ar
-    /// </code>
-    /// </summary>
-    Arpent,
-
-    /// <summary>
-    /// <code>
-    /// cue
-    /// </code>
-    /// </summary>
-    Cuerda,
-
-    /// <summary>
-    /// <code>
-    /// varas castellanas cuad
-    /// </code>
-    /// </summary>
-    VarasCastellanasCuad,
-
-    /// <summary>
-    /// <code>
-    /// varas conuqueras cuad
-    /// </code>
-    /// </summary>
-    VarasConuquerasCuad,
-
-    /// <summary>
-    /// <code>
-    /// σ
-    /// </code>
-    /// </summary>
-    ElectronCrossSection,
+    Dram,
 }

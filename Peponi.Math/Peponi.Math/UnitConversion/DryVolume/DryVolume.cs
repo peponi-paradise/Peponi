@@ -17,10 +17,10 @@ internal static partial class DryVolume
             DryVolumeUnit.Pint => 0.5506104714,
             DryVolumeUnit.Quart => 1.1012209428,
             DryVolumeUnit.Barrel => 115.6271236039,
-            DryVolumeUnit.PeckUS => 8.8097675424,
-            DryVolumeUnit.PeckUK => 9.09218,
-            DryVolumeUnit.BushelUS => 35.2390701696,
-            DryVolumeUnit.BushelUK => 36.36872,
+            DryVolumeUnit.Peck_US => 8.8097675424,
+            DryVolumeUnit.Peck_UK => 9.09218,
+            DryVolumeUnit.Bushel_US => 35.2390701696,
+            DryVolumeUnit.Bushel_UK => 36.36872,
             _ => throw new ArgumentException($"{unit} is not supported")
         };
     }

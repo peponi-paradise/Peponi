@@ -6,7 +6,7 @@ public enum PrefixUnit
     /// <code>
     /// a
     ///
-    /// 10 ^ -18
+    /// 10^-18
     /// </code>
     /// </summary>
     Atto = -18,
@@ -15,7 +15,7 @@ public enum PrefixUnit
     /// <code>
     /// f
     ///
-    /// 10 ^ -15
+    /// 10^-15
     /// </code>
     /// </summary>
     Femto = -15,
@@ -24,7 +24,7 @@ public enum PrefixUnit
     /// <code>
     /// p
     ///
-    /// 10 ^ -12
+    /// 10^-12
     /// </code>
     /// </summary>
     Pico = -12,
@@ -33,7 +33,7 @@ public enum PrefixUnit
     /// <code>
     /// n
     ///
-    /// 10 ^ -9
+    /// 10^-9
     /// </code>
     /// </summary>
     Nano = -9,
@@ -42,7 +42,7 @@ public enum PrefixUnit
     /// <code>
     /// μ
     ///
-    /// 10 ^ -6
+    /// 10^-6
     /// </code>
     /// </summary>
     Micro = -6,
@@ -51,7 +51,7 @@ public enum PrefixUnit
     /// <code>
     /// m
     ///
-    /// 10 ^ -3
+    /// 10^-3
     /// </code>
     /// </summary>
     Milli = -3,
@@ -60,7 +60,7 @@ public enum PrefixUnit
     /// <code>
     /// c
     ///
-    /// 10 ^ -2
+    /// 10^-2
     /// </code>
     /// </summary>
     Centi = -2,
@@ -69,14 +69,14 @@ public enum PrefixUnit
     /// <code>
     /// d
     ///
-    /// 10 ^ -1
+    /// 10^-1
     /// </code>
     /// </summary>
     Deci = -1,
 
     /// <summary>
     /// <code>
-    /// 10 ^ 0
+    /// 10^0
     /// </code>
     /// </summary>
     None = 0,
@@ -85,7 +85,7 @@ public enum PrefixUnit
     /// <code>
     /// da
     ///
-    /// 10 ^ 1
+    /// 10^1
     /// </code>
     /// </summary>
     Deca = 1,
@@ -94,7 +94,7 @@ public enum PrefixUnit
     /// <code>
     /// h
     ///
-    /// 10 ^ 2
+    /// 10^2
     /// </code>
     /// </summary>
     Hecto = 2,
@@ -103,7 +103,7 @@ public enum PrefixUnit
     /// <code>
     /// k
     ///
-    /// 10 ^ 3
+    /// 10^3
     /// </code>
     /// </summary>
     Kilo = 3,
@@ -112,7 +112,7 @@ public enum PrefixUnit
     /// <code>
     /// M
     ///
-    /// 10 ^ 6
+    /// 10^6
     /// </code>
     /// </summary>
     Mega = 6,
@@ -121,7 +121,7 @@ public enum PrefixUnit
     /// <code>
     /// G
     ///
-    /// 10 ^ 9
+    /// 10^9
     /// </code>
     /// </summary>
     Giga = 9,
@@ -130,7 +130,7 @@ public enum PrefixUnit
     /// <code>
     /// T
     ///
-    /// 10 ^ 12
+    /// 10^12
     /// </code>
     /// </summary>
     Tera = 12,
@@ -139,7 +139,7 @@ public enum PrefixUnit
     /// <code>
     /// P
     ///
-    /// 10 ^ 15
+    /// 10^15
     /// </code>
     /// </summary>
     Peta = 15,
@@ -148,7 +148,7 @@ public enum PrefixUnit
     /// <code>
     /// E
     ///
-    /// 10 ^ 18
+    /// 10^18
     /// </code>
     /// </summary>
     Exa = 18

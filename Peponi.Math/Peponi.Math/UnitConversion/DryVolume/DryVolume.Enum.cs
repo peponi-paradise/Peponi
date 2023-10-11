@@ -38,7 +38,7 @@ public enum DryVolumeUnit
     /// US
     /// </code>
     /// </summary>
-    PeckUS,
+    Peck_US,
 
     /// <summary>
     /// <code>
@@ -47,7 +47,7 @@ public enum DryVolumeUnit
     /// UK
     /// </code>
     /// </summary>
-    PeckUK,
+    Peck_UK,
 
     /// <summary>
     /// <code>
@@ -56,7 +56,7 @@ public enum DryVolumeUnit
     /// US
     /// </code>
     /// </summary>
-    BushelUS,
+    Bushel_US,
 
     /// <summary>
     /// <code>
@@ -65,5 +65,5 @@ public enum DryVolumeUnit
     /// UK
     /// </code>
     /// </summary>
-    BushelUK
+    Bushel_UK
 }

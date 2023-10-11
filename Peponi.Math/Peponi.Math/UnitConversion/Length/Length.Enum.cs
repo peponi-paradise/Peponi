@@ -72,7 +72,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    FootUS,
+    Foot_US,
 
     /// <summary>
     /// <code>
@@ -109,7 +109,7 @@ public enum LengthUnit
     /// US
     /// </code>
     /// </summary>
-    MileUSStatute,
+    Mile_USStatute,
 
     /// <summary>
     /// <code>
@@ -118,7 +118,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    MileUSSurvey,
+    Mile_USSurvey,
 
     /// <summary>
     /// <code>
@@ -127,7 +127,16 @@ public enum LengthUnit
     /// Roman
     /// </code>
     /// </summary>
-    MileRoman,
+    Mile_Roman,
+
+    /// <summary>
+    /// <code>
+    /// M
+    /// NM
+    /// nmi
+    /// </code>
+    /// </summary>
+    NauticalMile,
 
     /// <summary>
     /// <code>
@@ -138,16 +147,7 @@ public enum LengthUnit
     /// UK
     /// </code>
     /// </summary>
-    NauticalMileUK,
-
-    /// <summary>
-    /// <code>
-    /// M
-    /// NM
-    /// nmi
-    /// </code>
-    /// </summary>
-    NauticalMile,
+    NauticalMile_UK,
 
     /// <summary>
     /// <code>
@@ -177,7 +177,7 @@ public enum LengthUnit
     /// US
     /// </code>
     /// </summary>
-    InchUS,
+    Inch_US,
 
     /// <summary>
     /// <code>
@@ -200,7 +200,14 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    LeagueUS,
+    League_US,
+
+    /// <summary>
+    /// <code>
+    /// NL
+    /// </code>
+    /// </summary>
+    NauticalLeague,
 
     /// <summary>
     /// <code>
@@ -209,14 +216,7 @@ public enum LengthUnit
     /// UK
     /// </code>
     /// </summary>
-    NauticalLeagueUK,
-
-    /// <summary>
-    /// <code>
-    /// NL
-    /// </code>
-    /// </summary>
-    NauticalLeague,
+    NauticalLeague_UK,
 
     /// <summary>
     /// <code>
@@ -232,7 +232,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    FurlongUS,
+    Furlong_US,
 
     /// <summary>
     /// <code>
@@ -248,7 +248,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    ChainUS,
+    Chain_US,
 
     Rope,
 
@@ -266,7 +266,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    RodUS,
+    Rod_US,
 
     /// <summary>
     /// <code>
@@ -296,7 +296,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    FathomUS,
+    Fathom_US,
 
     /// <summary>
     /// <code>
@@ -319,7 +319,7 @@ public enum LengthUnit
     /// US survey
     /// </code>
     /// </summary>
-    LinkUS,
+    Link_US,
 
     /// <summary>
     /// <code>
@@ -328,7 +328,7 @@ public enum LengthUnit
     /// UK
     /// </code>
     /// </summary>
-    CubitUK,
+    Cubit_UK,
 
     /// <summary>
     /// <code>
@@ -337,7 +337,7 @@ public enum LengthUnit
     /// Greek
     /// </code>
     /// </summary>
-    CubitGR,
+    Cubit_GR,
 
     LongCubit,
     Hand,

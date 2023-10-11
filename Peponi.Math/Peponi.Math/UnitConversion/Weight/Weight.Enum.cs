@@ -1,215 +1,214 @@
 ﻿namespace Peponi.Math.UnitConversion;
 
-public enum ForceUnit
+public enum WeightUnit
 {
     /// <summary>
     /// <code>
-    /// aN
+    /// ag
     /// </code>
     /// </summary>
-    AttoNewton,
+    AttoGram,
 
     /// <summary>
     /// <code>
-    /// fN
+    /// fg
     /// </code>
     /// </summary>
-    FemtoNewton,
+    FemtoGram,
 
     /// <summary>
     /// <code>
-    /// pN
+    /// pg
     /// </code>
     /// </summary>
-    PicoNewton,
+    PicoGram,
 
     /// <summary>
     /// <code>
-    /// nN
+    /// ng
     /// </code>
     /// </summary>
-    NanoNewton,
+    NanoGram,
 
     /// <summary>
     /// <code>
-    /// µN
+    /// µg
     /// </code>
     /// </summary>
-    MicroNewton,
+    MicroGram,
 
     /// <summary>
     /// <code>
-    /// mN
+    /// mg
     /// </code>
     /// </summary>
-    MilliNewton,
+    MilliGram,
 
     /// <summary>
     /// <code>
-    /// cN
+    /// cg
     /// </code>
     /// </summary>
-    CentiNewton,
+    CentiGram,
 
     /// <summary>
     /// <code>
-    /// dN
+    /// dg
     /// </code>
     /// </summary>
-    DeciNewton,
+    DeciGram,
 
     /// <summary>
     /// <code>
-    /// N
+    /// g
     /// </code>
     /// </summary>
-    Newton,
+    Gram,
 
     /// <summary>
     /// <code>
-    /// daN
+    /// dag
     /// </code>
     /// </summary>
-    DekaNewton,
+    DekaGram,
 
     /// <summary>
     /// <code>
-    /// hN
+    /// hg
     /// </code>
     /// </summary>
-    HectoNewton,
+    HectoGram,
 
     /// <summary>
     /// <code>
-    /// kN
+    /// kg
     /// </code>
     /// </summary>
-    KiloNewton,
+    KiloGram,
 
     /// <summary>
     /// <code>
-    /// MN
+    /// Mg
     /// </code>
     /// </summary>
-    MegaNewton,
+    MegaGram,
 
     /// <summary>
     /// <code>
-    /// GN
+    /// Gg
     /// </code>
     /// </summary>
-    GigaNewton,
+    GigaGram,
 
     /// <summary>
     /// <code>
-    /// TN
+    /// Tg
     /// </code>
     /// </summary>
-    TeraNewton,
+    TeraGram,
 
     /// <summary>
     /// <code>
-    /// PN
+    /// Pg
     /// </code>
     /// </summary>
-    PetaNewton,
+    PetaGram,
 
     /// <summary>
     /// <code>
-    /// EN
+    /// Eg
     /// </code>
     /// </summary>
-    ExaNewton,
+    ExaGram,
 
     /// <summary>
     /// <code>
-    /// gf
+    /// gr
     /// </code>
     /// </summary>
-    GramForce,
+    Grain,
+
+    Stone_US,
+    Stone_UK,
 
     /// <summary>
     /// <code>
-    /// kgf
+    /// t
     /// </code>
     /// </summary>
-    KiloGramForce,
+    Tonne,
 
     /// <summary>
     /// <code>
-    /// tf
+    /// t
+    /// </code>
+    /// </summary>
+    Ton,
+
+    /// <summary>
+    /// <code>
+    /// kt
+    /// </code>
+    /// </summary>
+    KiloTon,
+
+    /// <summary>
+    /// <code>
+    /// ton
     ///
-    /// Metric
+    /// short ton (US)
     /// </code>
     /// </summary>
-    TonForce,
+    Ton_US,
 
     /// <summary>
     /// <code>
-    /// tf
+    /// ton
     ///
-    /// Short ton (US)
+    /// long ton (UK)
     /// </code>
     /// </summary>
-    TonForce_US,
+    Ton_UK,
 
     /// <summary>
     /// <code>
-    /// tf
+    /// AT
     ///
-    /// Long ton (UK)
+    /// US
     /// </code>
     /// </summary>
-    TonForce_UK,
+    AssayTon_US,
 
     /// <summary>
     /// <code>
-    /// dyn
+    /// AT
+    ///
+    /// UK
     /// </code>
     /// </summary>
-    Dyne,
+    AssayTon_UK,
 
     /// <summary>
     /// <code>
-    /// J / cm
+    /// s.ap
     /// </code>
     /// </summary>
-    JoulePerCentiMeter,
+    Scruple_Apothecary,
 
     /// <summary>
     /// <code>
-    /// J / m
+    /// lb
+    /// lbs
     /// </code>
     /// </summary>
-    JoulePerMeter,
+    Pound,
 
     /// <summary>
     /// <code>
-    /// kipf
+    /// lb
     /// </code>
     /// </summary>
-    KipForce,
-
-    /// <summary>
-    /// <code>
-    /// ozf
-    /// </code>
-    /// </summary>
-    OunceForce,
-
-    /// <summary>
-    /// <code>
-    /// lbf
-    /// </code>
-    /// </summary>
-    PoundForce,
-
-    /// <summary>
-    /// <code>
-    /// kipf
-    /// </code>
-    /// </summary>
-    KiloPoundForce,
+    Pound_TroyOrApothecary,
 
     /// <summary>
     /// <code>
@@ -220,22 +219,111 @@ public enum ForceUnit
 
     /// <summary>
     /// <code>
-    /// lb * ft / s^2
+    /// kip
     /// </code>
     /// </summary>
-    PoundFootPerSquareSecond,
+    KiloPound,
 
     /// <summary>
     /// <code>
-    /// p
+    /// kip
     /// </code>
     /// </summary>
-    Pond,
+    Kip,
+
+    Slug,
 
     /// <summary>
     /// <code>
-    /// kp
+    /// oz
     /// </code>
     /// </summary>
-    KiloPond,
+    Ounce,
+
+    /// <summary>
+    /// <code>
+    /// car
+    /// ct
+    /// </code>
+    /// </summary>
+    Carat,
+
+    Dalton,
+
+    /// <summary>
+    /// <code>
+    /// kgf * s^2 / m
+    /// </code>
+    /// </summary>
+    KiloGramForceSquareSecondPerMeter,
+
+    /// <summary>
+    /// <code>
+    /// lbf * s^2 / ft
+    /// </code>
+    /// </summary>
+    PoundForceSquareSecondPerFoot,
+
+    /// <summary>
+    /// <code>
+    /// cwt
+    /// </code>
+    /// </summary>
+    Quintal_kg,
+
+    /// <summary>
+    /// <code>
+    /// pwt
+    /// </code>
+    /// </summary>
+    PennyWeight,
+
+    /// <summary>
+    /// <code>
+    /// cwt
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    HundredWeight_US,
+
+    /// <summary>
+    /// <code>
+    /// cwt
+    ///
+    /// UK
+    /// </code>
+    /// </summary>
+    HundredWeight_UK,
+
+    /// <summary>
+    /// <code>
+    /// qr
+    ///
+    /// US
+    /// </code>
+    /// </summary>
+    Quarter_US,
+
+    /// <summary>
+    /// <code>
+    /// qr
+    /// </code>
+    /// </summary>
+    Quarter_UK,
+
+    Gamma,
+    PlanckMass,
+    ElectronMass,
+    MuonMass,
+    ProtonMass,
+    NeutronMass,
+    DeuteronMass,
+
+    /// <summary>
+    /// <code>
+    /// u
+    /// </code>
+    /// </summary>
+    AtomicMassUnit,
 }
