@@ -1,41 +1,5 @@
 ﻿namespace Peponi.Math.UnitConversion;
 
-public enum SpeedUnit
-{
-    MilliMeterPerSecond,
-    MilliMeterPerMinute,
-    MilliMeterPerHour,
-    CentiMeterPerSecond,
-    CentiMeterPerMinute,
-    CentiMeterPerHour,
-    MeterPerSecond,
-    MeterPerMinute,
-    MeterPerHour,
-    KilometerPerSecond,
-    KilometerPerMinute,
-    KiloMeterPerHour,
-    FootPerSecond,
-    FootPerMinute,
-    FootPerHour,
-    MilePerSecond,
-    MilePerMinute,
-    MilePerHour,
-    YardPerSecond,
-    YardPerMinute,
-    YardPerHour,
-    Knot,
-    KnotUK,
-    MachATM20C,
-    MachSI,
-    VelocityOfSoundInPureWater,
-    VelocityOfSoundInSeaWater10Meter20C,
-    VelocityOfLightInVacuum,
-    CosmicVelocity1st,
-    CosmicVelocity2nd,
-    CosmicVelocity3nd,
-    EarthVelocity
-}
-
 public enum TemperatureUnit
 {
     Kelvin,
