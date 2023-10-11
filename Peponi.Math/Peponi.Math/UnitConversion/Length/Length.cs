@@ -65,7 +65,7 @@ internal static partial class Length
             LengthUnit.Finger_Cloth => 0.1143,
             LengthUnit.Nail_Cloth => 0.05715,
             LengthUnit.Barleycorn => 0.0084666667,
-            LengthUnit.AUOfLength => 5.2917724900001E-11,
+            LengthUnit.AtomicUnitOfLength => 5.2917724900001E-11,
             LengthUnit.Angstrom => 1E-10,
             LengthUnit.Fermi => 1E-15,
             LengthUnit.PlanckLength => 1.61605E-35,
@@ -90,7 +90,7 @@ internal static partial class Length
             LengthUnit.Parsec => 3.08567758128E+16,
             LengthUnit.KiloParsec => 3.08567758128E+19,
             LengthUnit.MegaParsec => 3.08567758128E+22,
-            LengthUnit.AU => 149597870691,
+            LengthUnit.AstronomicalUnit => 149597870691,
             LengthUnit.LightYear => 9.46073047258E+15,
             _ => throw new ArgumentException($"{unit} is not supported")
         };

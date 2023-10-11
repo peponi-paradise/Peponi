@@ -2,6 +2,16 @@
 
 public static class UnitConvert
 {
+    public static T Convert<T>(T value, AngleUnit convertFrom, AngleUnit convertTo) where T : struct
+    {
+        return Angle.ConvertTo(value, convertFrom, convertTo);
+    }
+
+    public static T Convert<T>(T value, AngularSpeedUnit convertFrom, AngularSpeedUnit convertTo) where T : struct
+    {
+        return AngularSpeed.ConvertTo(value, convertFrom, convertTo);
+    }
+
     public static T Convert<T>(T value, AreaUnit convertFrom, AreaUnit convertTo) where T : struct
     {
         return Area.ConvertTo(value, convertFrom, convertTo);
@@ -10,6 +20,11 @@ public static class UnitConvert
     public static T Convert<T>(T value, DryVolumeUnit convertFrom, DryVolumeUnit convertTo) where T : struct
     {
         return DryVolume.ConvertTo(value, convertFrom, convertTo);
+    }
+
+    public static T Convert<T>(T value, EnergyUnit convertFrom, EnergyUnit convertTo) where T : struct
+    {
+        return Energy.ConvertTo(value, convertFrom, convertTo);
     }
 
     public static T Convert<T>(T value, LengthUnit convertFrom, LengthUnit convertTo) where T : struct
@@ -25,6 +40,11 @@ public static class UnitConvert
     public static T Convert<T>(T value, PressureUnit convertFrom, PressureUnit convertTo) where T : struct
     {
         return Pressure.ConvertTo(value, convertFrom, convertTo);
+    }
+
+    public static T Convert<T>(T value, SpeedUnit convertFrom, SpeedUnit convertTo) where T : struct
+    {
+        return Speed.ConvertTo(value, convertFrom, convertTo);
     }
 
     public static T Convert<T>(T value, TemperatureUnit convertFrom, TemperatureUnit convertTo) where T : struct
