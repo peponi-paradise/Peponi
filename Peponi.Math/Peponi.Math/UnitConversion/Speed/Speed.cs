@@ -40,7 +40,7 @@ internal static partial class Speed
             SpeedUnit.Mach_ATM20C => 343.6,
             SpeedUnit.Mach_SI => 295.0464000003,
             SpeedUnit.SpeedOfSoundInPureWater => 1482.6999999998,
-            SpeedUnit.SpeedOfSoundInSeaWater10Meter20C => 1521.6,
+            SpeedUnit.SpeedOfSoundInSeaWater_10Meter20C => 1521.6,
             SpeedUnit.SpeedOfLightInVacuum => 299792458,
             SpeedUnit.CosmicVelocity_1st => 7899.9999999999,
             SpeedUnit.CosmicVelocity_2nd => 11200,

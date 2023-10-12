@@ -304,7 +304,7 @@ public enum PressureUnit
     /// 0°C
     /// </code>
     /// </summary>
-    MilliMeterMercury0C,
+    MilliMeterMercury_0C,
 
     /// <summary>
     /// <code>
@@ -313,7 +313,7 @@ public enum PressureUnit
     /// 0°C
     /// </code>
     /// </summary>
-    CentiMeterMercury0C,
+    CentiMeterMercury_0C,
 
     /// <summary>
     /// <code>
@@ -322,7 +322,7 @@ public enum PressureUnit
     /// 32°F
     /// </code>
     /// </summary>
-    InchMercury32F,
+    InchMercury_32F,
 
     /// <summary>
     /// <code>
@@ -331,7 +331,7 @@ public enum PressureUnit
     /// 60°F
     /// </code>
     /// </summary>
-    InchMercury60F,
+    InchMercury_60F,
 
     /// <summary>
     /// <code>
@@ -340,7 +340,7 @@ public enum PressureUnit
     /// 4°C
     /// </code>
     /// </summary>
-    MilliMeterWater4C,
+    MilliMeterWater_4C,
 
     /// <summary>
     /// <code>
@@ -349,7 +349,7 @@ public enum PressureUnit
     /// 4°C
     /// </code>
     /// </summary>
-    CentiMeterWater4C,
+    CentiMeterWater_4C,
 
     /// <summary>
     /// <code>
@@ -358,7 +358,7 @@ public enum PressureUnit
     /// 4°C
     /// </code>
     /// </summary>
-    InchWater4C,
+    InchWater_4C,
 
     /// <summary>
     /// <code>
@@ -367,7 +367,7 @@ public enum PressureUnit
     /// 4°C
     /// </code>
     /// </summary>
-    FootWater4C,
+    FootWater_4C,
 
     /// <summary>
     /// <code>
@@ -376,7 +376,7 @@ public enum PressureUnit
     /// 60°F
     /// </code>
     /// </summary>
-    InchWater60F,
+    InchWater_60F,
 
     /// <summary>
     /// <code>
@@ -385,5 +385,5 @@ public enum PressureUnit
     /// 60°F
     /// </code>
     /// </summary>
-    FootWater60F
+    FootWater_60F
 }

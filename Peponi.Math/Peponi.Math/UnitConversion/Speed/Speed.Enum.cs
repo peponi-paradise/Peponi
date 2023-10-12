@@ -203,7 +203,7 @@ public enum SpeedUnit
     /// Speed of sound in sea water (20°C, 10 meter deep)
     /// </code>
     /// </summary>
-    SpeedOfSoundInSeaWater10Meter20C,
+    SpeedOfSoundInSeaWater_10Meter20C,
 
     /// <summary>
     /// <code>
