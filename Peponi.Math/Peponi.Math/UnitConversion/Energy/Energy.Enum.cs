@@ -11,6 +11,20 @@ public enum EnergyUnit
 
     /// <summary>
     /// <code>
+    /// fJ
+    /// </code>
+    /// </summary>
+    FemtoJoule,
+
+    /// <summary>
+    /// <code>
+    /// pJ
+    /// </code>
+    /// </summary>
+    PicoJoule,
+
+    /// <summary>
+    /// <code>
     /// nJ
     /// </code>
     /// </summary>

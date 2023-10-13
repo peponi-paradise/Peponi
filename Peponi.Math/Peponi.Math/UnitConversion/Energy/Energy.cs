@@ -15,6 +15,8 @@ internal static partial class Energy
         return unit switch
         {
             EnergyUnit.AttoJoule => 1E-18,
+            EnergyUnit.FemtoJoule => 1E-15,
+            EnergyUnit.PicoJoule => 1E-12,
             EnergyUnit.NanoJoule => 1E-9,
             EnergyUnit.MicroJoule => 1E-6,
             EnergyUnit.MilliJoule => 1E-3,
