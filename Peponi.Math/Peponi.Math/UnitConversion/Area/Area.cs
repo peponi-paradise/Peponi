@@ -19,7 +19,7 @@ internal static partial class Area
             AreaUnit.SquareCentiMeter => 0.0001,
             AreaUnit.SquareDeciMeter => 0.01,
             AreaUnit.SquareMeter => 1,
-            AreaUnit.SquareDekaMeter => 100,
+            AreaUnit.SquareDecaMeter => 100,
             AreaUnit.SquareHectoMeter => 10000,
             AreaUnit.SquareKiloMeter => 1000000,
             AreaUnit.Hectare => 10000,

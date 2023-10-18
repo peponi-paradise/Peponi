@@ -22,7 +22,7 @@ internal static partial class Weight
             WeightUnit.CentiGram => 1E-5,
             WeightUnit.DeciGram => 0.0001,
             WeightUnit.Gram => 0.001,
-            WeightUnit.DekaGram => 0.01,
+            WeightUnit.DecaGram => 0.01,
             WeightUnit.HectoGram => 0.1,
             WeightUnit.KiloGram => 1,
             WeightUnit.MegaGram => 1000,

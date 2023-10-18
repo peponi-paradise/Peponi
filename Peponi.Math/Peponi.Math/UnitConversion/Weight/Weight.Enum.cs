@@ -70,7 +70,7 @@ public enum WeightUnit
     /// dag
     /// </code>
     /// </summary>
-    DekaGram,
+    DecaGram,
 
     /// <summary>
     /// <code>

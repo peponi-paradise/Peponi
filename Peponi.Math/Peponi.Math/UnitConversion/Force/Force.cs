@@ -22,7 +22,7 @@ internal static partial class Force
             ForceUnit.CentiNewton => 1E-2,
             ForceUnit.DeciNewton => 0.1,
             ForceUnit.Newton => 1,
-            ForceUnit.DekaNewton => 10,
+            ForceUnit.DecaNewton => 10,
             ForceUnit.HectoNewton => 1E2,
             ForceUnit.KiloNewton => 1E3,
             ForceUnit.MegaNewton => 1E6,

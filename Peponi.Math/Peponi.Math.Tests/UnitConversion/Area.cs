@@ -16,7 +16,7 @@ public class Area
         Assert.AreEqual(21653000.0, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareMilliMeter).Round(0));
         Assert.AreEqual(216530.0, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareCentiMeter).Round(0));
         Assert.AreEqual(2165.3, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareDeciMeter).Round(1));
-        Assert.AreEqual(0.21653, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareDekaMeter).Round(6));
+        Assert.AreEqual(0.21653, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareDecaMeter).Round(6));
         Assert.AreEqual(0.002165, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareHectoMeter).Round(6));
         Assert.AreEqual(0.000022, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.SquareKiloMeter).Round(6));
         Assert.AreEqual(0.002165, baseValue.Convert(AreaUnit.SquareMeter, AreaUnit.Hectare).Round(6));

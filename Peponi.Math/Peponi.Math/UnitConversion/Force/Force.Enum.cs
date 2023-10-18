@@ -70,7 +70,7 @@ public enum ForceUnit
     /// daN
     /// </code>
     /// </summary>
-    DekaNewton,
+    DecaNewton,
 
     /// <summary>
     /// <code>

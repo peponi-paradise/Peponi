@@ -84,7 +84,7 @@ public enum PressureUnit
     /// daPa
     /// </code>
     /// </summary>
-    DekaPascal,
+    DecaPascal,
 
     /// <summary>
     /// <code>

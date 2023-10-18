@@ -25,7 +25,7 @@ internal static partial class Pressure
             PressureUnit.CentiPascal => 0.01,
             PressureUnit.DeciPascal => 0.1,
             PressureUnit.Pascal => 1,
-            PressureUnit.DekaPascal => 10,
+            PressureUnit.DecaPascal => 10,
             PressureUnit.HectoPascal => 100,
             PressureUnit.KiloPascal => 1000,
             PressureUnit.MegaPascal => 1E6,

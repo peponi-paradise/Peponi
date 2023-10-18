@@ -4,6 +4,13 @@ public enum LengthUnit
 {
     /// <summary>
     /// <code>
+    /// am
+    /// </code>
+    /// </summary>
+    AtttoMeter,
+
+    /// <summary>
+    /// <code>
     /// fm
     /// </code>
     /// </summary>
@@ -46,6 +53,13 @@ public enum LengthUnit
 
     /// <summary>
     /// <code>
+    /// dm
+    /// </code>
+    /// </summary>
+    DeciMeter,
+
+    /// <summary>
+    /// <code>
     /// m
     /// </code>
     /// </summary>
@@ -53,10 +67,59 @@ public enum LengthUnit
 
     /// <summary>
     /// <code>
+    /// dam
+    /// </code>
+    /// </summary>
+    DecaMeter,
+
+    /// <summary>
+    /// <code>
+    /// hm
+    /// </code>
+    /// </summary>
+    HectoMeter,
+
+    /// <summary>
+    /// <code>
     /// km
     /// </code>
     /// </summary>
     KiloMeter,
+
+    /// <summary>
+    /// <code>
+    /// Mm
+    /// </code>
+    /// </summary>
+    MegaMeter,
+
+    /// <summary>
+    /// <code>
+    /// Gm
+    /// </code>
+    /// </summary>
+    GigaMeter,
+
+    /// <summary>
+    /// <code>
+    /// Tm
+    /// </code>
+    /// </summary>
+    TeraMeter,
+
+    /// <summary>
+    /// <code>
+    /// Pm
+    /// </code>
+    /// </summary>
+    PetaMeter,
+
+    /// <summary>
+    /// <code>
+    /// Em
+    /// </code>
+    /// </summary>
+    ExaMeter,
 
     /// <summary>
     /// <code>

@@ -116,7 +116,7 @@ public enum VolumeUnit
     /// daL
     /// </code>
     /// </summary>
-    DekaLiter,
+    DecaLiter,
 
     /// <summary>
     /// <code>
@@ -386,7 +386,7 @@ public enum VolumeUnit
     /// dast
     /// </code>
     /// </summary>
-    DekaStere,
+    DecaStere,
 
     /// <summary>
     /// <code>

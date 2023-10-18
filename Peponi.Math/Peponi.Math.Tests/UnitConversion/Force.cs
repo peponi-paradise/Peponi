@@ -19,7 +19,7 @@ public class Force
         Assert.AreEqual(2.1653E+4, baseValue.Convert(ForceUnit.Newton, ForceUnit.MilliNewton).Round(0));
         Assert.AreEqual(2.1653E+3, baseValue.Convert(ForceUnit.Newton, ForceUnit.CentiNewton).Round(1));
         Assert.AreEqual(2.1653E+2, baseValue.Convert(ForceUnit.Newton, ForceUnit.DeciNewton).Round(2));
-        Assert.AreEqual(2.1653, baseValue.Convert(ForceUnit.Newton, ForceUnit.DekaNewton).Round(4));
+        Assert.AreEqual(2.1653, baseValue.Convert(ForceUnit.Newton, ForceUnit.DecaNewton).Round(4));
         Assert.AreEqual(0.21653, baseValue.Convert(ForceUnit.Newton, ForceUnit.HectoNewton).Round(5));
         Assert.AreEqual(0.021653, baseValue.Convert(ForceUnit.Newton, ForceUnit.KiloNewton).Round(6));
         Assert.AreEqual(0.021653E-3, baseValue.Convert(ForceUnit.Newton, ForceUnit.MegaNewton).Round(9));

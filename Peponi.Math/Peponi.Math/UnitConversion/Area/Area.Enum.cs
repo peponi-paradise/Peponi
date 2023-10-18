@@ -49,7 +49,7 @@ public enum AreaUnit
     /// dam^2
     /// </code>
     /// </summary>
-    SquareDekaMeter,
+    SquareDecaMeter,
 
     /// <summary>
     /// <code>
