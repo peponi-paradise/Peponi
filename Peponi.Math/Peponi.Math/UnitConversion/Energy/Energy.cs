@@ -62,6 +62,7 @@ internal static partial class Energy
             EnergyUnit.MegaTon_TNT => 4184000000E6,
             EnergyUnit.GigaTon_TNT => 4184000000E9,
             EnergyUnit.Calorie_Nutritional => 4186.8,
+            EnergyUnit.KiloCalorie_Nutritional => 4186800,
             EnergyUnit.Calorie_InternationalTable => 4.1868,
             EnergyUnit.KiloCalorie_InternationalTable => 4186.8,
             EnergyUnit.Calorie_Thermochemical => 4.184,

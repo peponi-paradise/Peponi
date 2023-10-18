@@ -363,6 +363,15 @@ public enum EnergyUnit
 
     /// <summary>
     /// <code>
+    /// kcal
+    ///
+    /// Nutrition
+    /// </code>
+    /// </summary>
+    KiloCalorie_Nutritional,
+
+    /// <summary>
+    /// <code>
     /// cal
     ///
     /// International table

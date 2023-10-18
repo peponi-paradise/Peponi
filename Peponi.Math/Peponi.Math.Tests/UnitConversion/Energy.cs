@@ -51,5 +51,36 @@ public class Energy
         Assert.AreEqual(191.645199, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.InchPoundForce).Round(6));
         Assert.AreEqual(15.970433, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.FootPoundForce).Round(6));
         Assert.AreEqual(513.833495, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.PoundalFoot).Round(6));
+        Assert.AreEqual(2.05230034E-7, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Therm_EC).Round(15));
+        Assert.AreEqual(2.05279843E-7, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Therm_US).Round(15));
+        Assert.AreEqual(2.05230841E-7, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Therm_UK).Round(15));
+        Assert.AreEqual(1.7103E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.TonHour_Refrigeration).Round(10));
+        Assert.AreEqual(5.38664E-10, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.FuelOilEquivalent_KiloLiter).Round(15));
+        Assert.AreEqual(3.392245E-9, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.FuelOilEquivalent_Barrel_US).Round(15));
+        Assert.AreEqual(5.175191E-9, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Ton_TNT).Round(15));
+        baseValue *= 1E9;
+        Assert.AreEqual(5.175191E-3, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.KiloTon_TNT).Round(9));
+        Assert.AreEqual(5.175191E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.MegaTon_TNT).Round(12));
+        Assert.AreEqual(5.175191E-9, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.GigaTon_TNT).Round(15));
+        baseValue *= 1E-9;
+        Assert.AreEqual(0.005172, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Calorie_Nutritional).Round(6));
+        Assert.AreEqual(5.171730, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Calorie_InternationalTable).Round(6));
+        Assert.AreEqual(5.175191, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Calorie_Thermochemical).Round(6));
+        Assert.AreEqual(0.000005172, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.KiloCalorie_Nutritional).Round(9));
+        Assert.AreEqual(0.005171730, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.KiloCalorie_InternationalTable).Round(9));
+        Assert.AreEqual(0.005175191, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.KiloCalorie_Thermochemical).Round(9));
+        Assert.AreEqual(8.177746E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.HorsePowerHour).Round(12));
+        Assert.AreEqual(8.065875E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.HorsePowerHour_UK).Round(12));
+        Assert.AreEqual(0.020523084, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.BritishThermalUnit_InternationalTable).Round(9));
+        Assert.AreEqual(0.020536824, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.BritishThermalUnit_Thermochemical).Round(9));
+        Assert.AreEqual(0.020523084E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.MegaBritishThermalUnit_InternationalTable).Round(15));
+        Assert.AreEqual(0.020536824E-6, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.MegaBritishThermalUnit_Thermochemical).Round(15));
+        Assert.AreEqual(216530000, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Erg).Round(0));
+        Assert.AreEqual(1.3514739598930736E+20, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.ElectronVolt).Round(0));
+        Assert.AreEqual(1.3514739598930736E+17, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.KiloElectronVolt).Round(3));
+        Assert.AreEqual(1.3514739598930736E+14, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.MegaElectronVolt).Round(6));
+        Assert.AreEqual(1.3514739598930736E+11, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.GigaElectronVolt).Round(9));
+        Assert.AreEqual(4.966571234549741E+18, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.Hartree).Round(0));
+        Assert.AreEqual(9.933142469099481E+18, baseValue.Convert(EnergyUnit.Joule, EnergyUnit.RydbergConstant).Round(0));
     }
 }

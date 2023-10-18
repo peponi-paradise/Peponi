@@ -29,6 +29,11 @@ public static class UnitConvertExtensions
         return Energy.ConvertTo(value, convertFrom, convertTo);
     }
 
+    public static T Convert<T>(this T value, ForceUnit convertFrom, ForceUnit convertTo) where T : struct
+    {
+        return Force.ConvertTo(value, convertFrom, convertTo);
+    }
+
     public static T Convert<T>(this T value, LengthUnit convertFrom, LengthUnit convertTo) where T : struct
     {
         return Length.ConvertTo(value, convertFrom, convertTo);
