@@ -221,6 +221,13 @@ public enum LengthUnit
 
     /// <summary>
     /// <code>
+    /// min
+    /// </code>
+    /// </summary>
+    MilliInch,
+
+    /// <summary>
+    /// <code>
     /// cin
     /// </code>
     /// </summary>

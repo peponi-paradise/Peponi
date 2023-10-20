@@ -42,6 +42,7 @@ internal static partial class Length
             LengthUnit.NauticalMile => 1852,
             LengthUnit.NauticalMile_UK => 1853.184,
             LengthUnit.MicroInch => 2.54E-8,
+            LengthUnit.MilliInch => 0.0000254,
             LengthUnit.CentiInch => 0.000254,
             LengthUnit.Inch => 0.0254,
             LengthUnit.Inch_US => 0.0254000508,
