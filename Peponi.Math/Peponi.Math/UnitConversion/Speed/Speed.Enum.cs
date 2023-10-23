@@ -70,14 +70,14 @@ public enum SpeedUnit
     /// km / s
     /// </code>
     /// </summary>
-    KilometerPerSecond,
+    KiloMeterPerSecond,
 
     /// <summary>
     /// <code>
     /// km / min
     /// </code>
     /// </summary>
-    KilometerPerMinute,
+    KiloMeterPerMinute,
 
     /// <summary>
     /// <code>

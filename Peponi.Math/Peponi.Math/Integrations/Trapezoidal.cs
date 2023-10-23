@@ -5,16 +5,20 @@ public static class Trapezoidal
     /// <summary>
     /// 사다리꼴은 이산값 직선으로 이을수록 정확성 올라감
     /// </summary>
-    public static double Integrate(List<double> xs, List<double> ys)
+    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
+                                                                            where V : struct
     {
         if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
         else if (xs.Count < 2) throw new ArgumentException("Required at least 2 points");
+
+        List<double> _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+        List<double> _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
 
         double result = 0;
 
         for (int i = 0; i < xs.Count - 1; i++)
         {
-            result += (xs[i + 1] - xs[i]) * (ys[i + 1] + ys[i]) / 2;
+            result += (_Xs[i + 1] - _Xs[i]) * (_Ys[i + 1] + _Ys[i]) / 2;
         }
 
         return result;

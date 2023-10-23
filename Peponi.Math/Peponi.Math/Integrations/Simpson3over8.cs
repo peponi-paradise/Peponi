@@ -7,18 +7,26 @@ public static class Simpson3over8
     /// <summary>
     /// 심슨 3/8은 잘 쓰이지 않음.
     /// </summary>
-    public static double Integrate(List<double> xs, List<double> ys)
+    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
+                                                                            where V : struct
     {
+        List<double> _Xs;
+        List<double> _Ys;
         if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
         else if ((xs.Count - 1) % 3 != 0) throw new ArgumentException("\"Array length - 1\" must be multiple of 3");
-        else if (!xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
+        else
+        {
+            _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            if (!_Xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
+        }
 
-        double intervalH = (xs.Max() - xs.Min()) / (xs.Count - 1) * 3 / 8;
+        double intervalH = (_Xs.Max() - _Xs.Min()) / (_Xs.Count - 1) * 3 / 8;
 
         double yTotal = 0;
-        for (int i = 0; i < ys.Count - 2; i += 3)
+        for (int i = 0; i < _Ys.Count - 2; i += 3)
         {
-            yTotal += ys[i] + 3 * ys[i + 1] + 3 * ys[i + 2] + ys[i + 3];
+            yTotal += _Ys[i] + 3 * _Ys[i + 1] + 3 * _Ys[i + 2] + _Ys[i + 3];
         }
 
         double result = intervalH * yTotal;

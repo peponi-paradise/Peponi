@@ -94,5 +94,13 @@ public class Length
         Assert.AreEqual(8.642339, baseValue.Convert(LengthUnit.Meter, LengthUnit.VaraDeTarea).Round(6));
         Assert.AreEqual(8.642339, baseValue.Convert(LengthUnit.Meter, LengthUnit.VaraConuquera).Round(6));
         Assert.AreEqual(25.927017, baseValue.Convert(LengthUnit.Meter, LengthUnit.VaraCastellana).Round(6));
+        Assert.AreEqual(7.893336, baseValue.Convert(LengthUnit.Meter, LengthUnit.Reed).Round(6));
+        Assert.AreEqual(6.765717, baseValue.Convert(LengthUnit.Meter, LengthUnit.LongReed).Round(6));
+        baseValue *= 1E13;
+        Assert.AreEqual(7.017259E-3, baseValue.Convert(LengthUnit.Meter, LengthUnit.Parsec).Round(9));
+        Assert.AreEqual(7.017259E-6, baseValue.Convert(LengthUnit.Meter, LengthUnit.KiloParsec).Round(12));
+        Assert.AreEqual(7.017259E-9, baseValue.Convert(LengthUnit.Meter, LengthUnit.MegaParsec).Round(15));
+        Assert.AreEqual(1447.41365, baseValue.Convert(LengthUnit.Meter, LengthUnit.AstronomicalUnit).Round(6));
+        Assert.AreEqual(0.022887, baseValue.Convert(LengthUnit.Meter, LengthUnit.LightYear).Round(6));
     }
 }

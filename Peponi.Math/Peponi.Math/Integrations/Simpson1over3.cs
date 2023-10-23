@@ -8,27 +8,35 @@ public static class Simpson1over3
     /// 심슨 1/3오더는 곡선구간이고 각 구간이 짧을 수록 정확, 반드시 구간의 수가 짝수여야 함 <br/>
     /// 각 구간의 길이는 일정해야 함
     /// </summary>
-    public static double Integrate(List<double> xs, List<double> ys)
+    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
+                                                                            where V : struct
     {
+        List<double> _Xs;
+        List<double> _Ys;
         if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
         else if (xs.Count < 3) throw new ArgumentException("Required at least 3 points");
         else if (!xs.Count.IsOdd()) throw new ArgumentException("Input array's count should be odd");
-        else if (!xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
+        else
+        {
+            _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            if (!_Xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
+        }
 
         double sumOdd = 0;
         double sumEven = 0;
-        double intervalH = (xs.Max() - xs.Min()) / (xs.Count - 1) / 3;
+        double intervalH = (_Xs.Max() - _Xs.Min()) / (_Xs.Count - 1) / 3;
 
-        for (int i = 1; i < ys.Count - 1; i++)
+        for (int i = 1; i < _Ys.Count - 1; i++)
         {
-            if (i.IsEven()) sumEven += ys[i];
-            else sumOdd += ys[i];
+            if (i.IsEven()) sumEven += _Ys[i];
+            else sumOdd += _Ys[i];
         }
 
         sumOdd = 4 * sumOdd;
         sumEven = 2 * sumEven;
 
-        double yTotal = ys[0] + ys[ys.Count - 1] + sumOdd + sumEven;
+        double yTotal = _Ys[0] + _Ys[_Ys.Count - 1] + sumOdd + sumEven;
         double result = intervalH * yTotal;
 
         return result;
