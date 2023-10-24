@@ -51,7 +51,7 @@ public static partial class TumblingWindows
         datas = datas.Order();
         List<List<DateTime>> rtnDatas = new();
 
-        while (startTime + windowSize <= endTime)
+        while (true)
         {
             rtnDatas.Add(datas.Where((x) => x.IsBetween(startTime, startTime + windowSize) && x.IsBetween(startTime, endTime)).ToList());
             startTime += windowSize;
@@ -68,7 +68,7 @@ public static partial class TumblingWindows
         datas = datas.OrderBy(dateTimeSelector).ToList();
         List<List<V>> rtnDatas = new();
 
-        while (startTime + windowSize <= endTime)
+        while (true)
         {
             var window = datas.Where((x) => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize) && dateTimeSelector(x).IsBetween(startTime, endTime));
             var inputData = from data in window select dataSelector(data);

@@ -24,14 +24,11 @@ public class SimpleMovingAverage
     [TestMethod]
     public void AveragingTest()
     {
-        double sum = 0;
-        double average = 0;
-        for (int i = 0; i < 10; i++)
+        List<double> exp = new() { 0, 0.5, 1, 1.5, 2 };
+        for (int i = 0; i < 5; i++)
         {
-            sum += i;
-            average = sum / (i + 1);
             double rtn = _movingAverage.Average(i);
-            Assert.AreEqual(average, rtn);
+            Assert.AreEqual(exp[i], rtn);
         }
     }
 }

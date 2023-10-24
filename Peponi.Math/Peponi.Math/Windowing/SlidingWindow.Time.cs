@@ -51,31 +51,29 @@ public static partial class SlidingWindows
         datas = datas.Order();
         List<List<DateTime>> rtnDatas = new();
         List<DateTime> windows = new();
-        DateTime currentTime = startTime;
 
         for (int i = 0; i < datas.Count(); i++)
         {
-            if (datas.ElementAt(i).IsBetween(currentTime, currentTime + windowSize) && datas.ElementAt(i).IsBetween(currentTime, endTime))
+            bool isBreak = false;
+            for (int j = i; j < datas.Count(); j++)
             {
-                windows.Add(datas.ElementAt(i));
-                List<DateTime> currentWindow = new List<DateTime>();
-                foreach (var item in windows)
+                if (windows.Count == 0 && datas.ElementAt(j) >= startTime && datas.ElementAt(j) <= endTime) windows.Add(datas.ElementAt(j));
+                else if (datas.ElementAt(j) >= startTime
+                    && datas.ElementAt(j).IsBetween(windows[0], windows[0] + windowSize)
+                    && datas.ElementAt(j).IsBetween(windows[0], endTime))
                 {
-                    if (item < datas.ElementAt(i) - windowSize) continue;
-                    else currentWindow.Add(item);
+                    windows.Add(datas.ElementAt(j));
+                    if (datas.ElementAt(j) >= datas.Last() || datas.ElementAt(j) >= endTime)
+                    {
+                        isBreak = true;
+                        break;
+                    }
                 }
-                rtnDatas.Add(currentWindow.ToList());
-                windows = currentWindow.ToList();
+                else break;
             }
-            else if (datas.ElementAt(i) > endTime)
-            {
-                break;
-            }
-            else if (datas.ElementAt(i) < currentTime || datas.ElementAt(i) > currentTime)
-            {
-                i--;
-                currentTime += windowSize;
-            }
+            if (windows.Count != 0) rtnDatas.Add(windows.ToList());
+            if (isBreak) break;
+            windows.Clear();
         }
 
         return rtnDatas;
@@ -88,31 +86,29 @@ public static partial class SlidingWindows
         datas = datas.OrderBy(dateTimeSelector).ToList();
         List<List<V>> rtnDatas = new();
         List<(DateTime Time, V Value)> windows = new();
-        DateTime currentTime = startTime;
 
         for (int i = 0; i < datas.Count(); i++)
         {
-            if (dateTimeSelector(datas.ElementAt(i)).IsBetween(currentTime, currentTime + windowSize) && dateTimeSelector(datas.ElementAt(i)).IsBetween(currentTime, endTime))
+            bool isBreak = false;
+            for (int j = i; j < datas.Count(); j++)
             {
-                windows.Add((dateTimeSelector(datas.ElementAt(i)), dataSelector(datas.ElementAt(i))));
-                List<(DateTime Time, V Value)> currentWindow = new();
-                foreach (var item in windows)
+                if (windows.Count == 0 && dateTimeSelector(datas.ElementAt(j)) >= startTime && dateTimeSelector(datas.ElementAt(j)) <= endTime) windows.Add((dateTimeSelector(datas.ElementAt(j)), dataSelector(datas.ElementAt(j))));
+                else if (dateTimeSelector(datas.ElementAt(j)) >= startTime
+                    && dateTimeSelector(datas.ElementAt(j)).IsBetween(windows[0].Time, windows[0].Time + windowSize)
+                    && dateTimeSelector(datas.ElementAt(j)).IsBetween(windows[0].Time, endTime))
                 {
-                    if (item.Time < dateTimeSelector(datas.ElementAt(i)) - windowSize) continue;
-                    else currentWindow.Add(item);
+                    windows.Add((dateTimeSelector(datas.ElementAt(j)), dataSelector(datas.ElementAt(j))));
+                    if (dateTimeSelector(datas.ElementAt(j)) >= dateTimeSelector(datas.Last()) || dateTimeSelector(datas.ElementAt(j)) >= endTime)
+                    {
+                        isBreak = true;
+                        break;
+                    }
                 }
-                rtnDatas.Add((from data in currentWindow select data.Value).ToList());
-                windows = currentWindow.ToList();
+                else break;
             }
-            else if (dateTimeSelector(datas.ElementAt(i)) > endTime)
-            {
-                break;
-            }
-            else if (dateTimeSelector(datas.ElementAt(i)) < currentTime || dateTimeSelector(datas.ElementAt(i)) > currentTime)
-            {
-                i--;
-                currentTime += windowSize;
-            }
+            if (windows.Count != 0) rtnDatas.Add((from data in windows select data.Value).ToList());
+            if (isBreak) break;
+            windows.Clear();
         }
 
         return rtnDatas;

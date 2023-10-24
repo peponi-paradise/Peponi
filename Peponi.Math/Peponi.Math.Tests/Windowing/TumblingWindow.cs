@@ -3,7 +3,7 @@
 namespace Peponi.Math.Tests.Windowing;
 
 [TestClass]
-public class HoppingWindowsTest
+public class TumblingWindowsTest
 {
     [TestMethod]
     public void Count1()
@@ -14,12 +14,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 5)));
     }
 
     [TestMethod]
@@ -31,12 +29,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 5)));
     }
 
     [TestMethod]
@@ -46,12 +42,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(i);
 
         List<List<int>> exp = new();
-        List<int> input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 2, 3, 4, 5, 6 };
         exp.Add(input);
         input = new() { 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 4, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 2, 5)));
     }
 
     [TestMethod]
@@ -61,12 +57,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(i);
 
         List<List<int>> exp = new();
-        List<int> input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 2, 3, 4, 5, 6 };
         exp.Add(input);
         input = new() { 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 4, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 2, 5)));
     }
 
     [TestMethod]
@@ -76,14 +72,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(i);
 
         List<List<int>> exp = new();
-        List<int> input = new() { 1, 2, 3, 4, 5 };
-        exp.Add(input);
-        input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 2, 3, 4, 5, 6 };
         exp.Add(input);
         input = new() { 7, 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 1, 8, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 2, 8, 5)));
     }
 
     [TestMethod]
@@ -93,14 +87,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(i);
 
         List<List<int>> exp = new();
-        List<int> input = new() { 1, 2, 3, 4, 5 };
-        exp.Add(input);
-        input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 2, 3, 4, 5, 6 };
         exp.Add(input);
         input = new() { 7, 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 1, 8, 5, 3)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 2, 8, 5)));
     }
 
     [TestMethod]
@@ -112,12 +104,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -129,12 +119,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -144,12 +132,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 3, 4, 5, 6, 7 };
         exp.Add(input);
-        input = new() { 7, 8, 9 };
+        input = new() { 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 4, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 3, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -159,12 +147,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 4, 5, 6, 7, 8 };
+        List<int> input = new() { 3, 4, 5, 6, 7 };
         exp.Add(input);
-        input = new() { 7, 8, 9 };
+        input = new() { 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 4, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 3, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -174,14 +162,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 1, 2, 3, 4, 5 };
+        List<int> input = new() { 3, 4, 5, 6, 7 };
         exp.Add(input);
-        input = new() { 4, 5, 6, 7, 8 };
-        exp.Add(input);
-        input = new() { 7, 8 };
+        input = new() { 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, 1, 8, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, 3, 8, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -191,14 +177,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 1, 2, 3, 4, 5 };
+        List<int> input = new() { 3, 4, 5, 6, 7 };
         exp.Add(input);
-        input = new() { 4, 5, 6, 7, 8 };
-        exp.Add(input);
-        input = new() { 7, 8 };
+        input = new() { 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, 1, 8, 5, 3, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, 3, 8, 5, x => x.Data)));
     }
 
     [TestMethod]
@@ -213,13 +197,10 @@ public class HoppingWindowsTest
         for (timeIndex = 0; timeIndex < 6; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
         input = new();
-        for (timeIndex = 3; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
-        exp.Add(input);
-        input = new();
-        for (timeIndex = 6; timeIndex < 10; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 5; timeIndex < 10; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3))));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, DateTime.Today, TimeSpan.FromSeconds(5))));
     }
 
     [TestMethod]
@@ -234,13 +215,10 @@ public class HoppingWindowsTest
         for (timeIndex = 0; timeIndex < 6; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
         input = new();
-        for (timeIndex = 3; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
-        exp.Add(input);
-        input = new();
-        for (timeIndex = 6; timeIndex < 10; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 5; timeIndex < 10; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, DateTime.Today, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3))));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, DateTime.Today, TimeSpan.FromSeconds(5))));
     }
 
     [TestMethod]
@@ -252,13 +230,13 @@ public class HoppingWindowsTest
         List<List<DateTime>> exp = new();
         int timeIndex;
         List<DateTime> input = new();
-        for (timeIndex = 0; timeIndex < 6; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 2; timeIndex < 8; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
         input = new();
-        for (timeIndex = 3; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 7; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(9), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3))));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(2), DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5))));
     }
 
     [TestMethod]
@@ -270,13 +248,13 @@ public class HoppingWindowsTest
         List<List<DateTime>> exp = new();
         int timeIndex;
         List<DateTime> input = new();
-        for (timeIndex = 0; timeIndex < 6; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 2; timeIndex < 8; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
         input = new();
-        for (timeIndex = 3; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
+        for (timeIndex = 7; timeIndex < 9; timeIndex++) input.Add(DateTime.Today + TimeSpan.FromSeconds(timeIndex));
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(9), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3))));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, DateTime.Today + TimeSpan.FromSeconds(2), DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5))));
     }
 
     [TestMethod]
@@ -288,12 +266,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4, 5 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7, 8 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, DateTime.Today, TimeSpan.FromSeconds(5), x => x.Time, x => x.Data)));
     }
 
     [TestMethod]
@@ -305,12 +281,10 @@ public class HoppingWindowsTest
         List<List<int>> exp = new();
         List<int> input = new() { 0, 1, 2, 3, 4, 5 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7, 8 };
-        exp.Add(input);
-        input = new() { 6, 7, 8, 9 };
+        input = new() { 5, 6, 7, 8, 9 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, DateTime.Today, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, DateTime.Today, TimeSpan.FromSeconds(5), x => x.Time, x => x.Data)));
     }
 
     [TestMethod]
@@ -320,12 +294,12 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i), i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 0, 1, 2, 3, 4, 5 };
+        List<int> input = new() { 1, 2, 3, 4, 5, 6 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7, 8 };
+        input = new() { 6, 7, 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(9), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, TumblingWindows.ToTumblingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1), DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), x => x.Time, x => x.Data)));
     }
 
     [TestMethod]
@@ -335,11 +309,11 @@ public class HoppingWindowsTest
         for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i), i));
 
         List<List<int>> exp = new();
-        List<int> input = new() { 0, 1, 2, 3, 4, 5 };
+        List<int> input = new() { 1, 2, 3, 4, 5, 6 };
         exp.Add(input);
-        input = new() { 3, 4, 5, 6, 7, 8 };
+        input = new() { 6, 7, 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, await HoppingWindows.ToHoppingWindowsAsync(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(9), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, await TumblingWindows.ToTumblingWindowsAsync(datas, DateTime.Today + TimeSpan.FromSeconds(1), DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), x => x.Time, x => x.Data)));
     }
 }

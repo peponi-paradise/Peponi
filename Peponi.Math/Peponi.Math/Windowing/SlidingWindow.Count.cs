@@ -73,12 +73,17 @@ public static partial class SlidingWindows
         {
             for (int j = i; j < i + windowSize; j++)
             {
-                if (j >= datas.Count() || j > endPosition)
+                if (j >= datas.Count())
                 {
                     i = datas.Count();
                     break;
                 }
                 windows.Add(datas.ElementAt(j));
+                if (j >= endPosition)
+                {
+                    i = datas.Count();
+                    break;
+                }
             }
             rtnDatas.Add(windows.ToList());
             windows.Clear();
@@ -103,12 +108,17 @@ public static partial class SlidingWindows
         {
             for (int j = i; j < i + windowSize; j++)
             {
-                if (j >= datas.Count() || j > endPosition)
+                if (j >= datas.Count())
                 {
                     i = datas.Count();
                     break;
                 }
                 windows.Add(dataSelector(datas.ElementAt(j)));
+                if (j >= endPosition)
+                {
+                    i = datas.Count();
+                    break;
+                }
             }
             rtnDatas.Add(windows.ToList());
             windows.Clear();
