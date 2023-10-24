@@ -15,7 +15,7 @@ internal static partial class Temperature
 
     private static T Compute<T>(T value, Func<double, double> funcFrom, Func<double, double> funcTo)
     {
-        return (T)Convert.ChangeType(funcTo(funcFrom((double)Convert.ChangeType(value!, typeof(double)))), typeof(T));
+        return (T)Convert.ChangeType(funcTo(funcFrom(Convert.ToDouble(value!))), typeof(T));
     }
 
     private static Func<double, double> GetFunc(ConvertDirection direction, TemperatureUnit unit)

@@ -27,7 +27,7 @@ public class SimpleMovingAverage<T> where T : struct
 
         foreach (var data in _data)
         {
-            averageData += (double)Convert.ChangeType(data, typeof(double));
+            averageData += Convert.ToDouble(data);
         }
 
         averageData /= _data.Count;

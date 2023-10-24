@@ -11,8 +11,8 @@ public static class Trapezoidal
         if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
         else if (xs.Count < 2) throw new ArgumentException("Required at least 2 points");
 
-        List<double> _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
-        List<double> _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+        List<double> _Xs = xs.Select(x => Convert.ToDouble(x)).ToList();
+        List<double> _Ys = ys.Select(x => Convert.ToDouble(x)).ToList();
 
         double result = 0;
 

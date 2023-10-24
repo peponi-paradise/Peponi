@@ -16,8 +16,8 @@ public static class Simpson3over8
         else if ((xs.Count - 1) % 3 != 0) throw new ArgumentException("\"Array length - 1\" must be multiple of 3");
         else
         {
-            _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
-            _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            _Xs = xs.Select(x => Convert.ToDouble(x)).ToList();
+            _Ys = ys.Select(x => Convert.ToDouble(x)).ToList();
             if (!_Xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
         }
 

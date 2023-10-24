@@ -17,8 +17,8 @@ public static class Midpoint
         else if (!xs.Count.IsOdd()) throw new ArgumentException("Input array's count should be odd");
         else
         {
-            _Xs = xs.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
-            _Ys = ys.Select(x => (double)Convert.ChangeType(x, typeof(double))).ToList();
+            _Xs = xs.Select(x => Convert.ToDouble(x)).ToList();
+            _Ys = ys.Select(x => Convert.ToDouble(x)).ToList();
             if (!_Xs.IsIntervalUniform()) throw new ArgumentException("X axis array's interval should be uniform");
         }
 
