@@ -22,12 +22,12 @@ public class SphericalTest
 
         _coordinate.PropertyChanged += (o, e) => eventsReceived.Add(e.PropertyName);
 
-        _coordinate.Rho = 1;
+        _coordinate.R = 1;
         _coordinate.Theta = 2;
         _coordinate.Phi = 3;
 
         Assert.IsTrue(eventsReceived.Count() == 3);
-        Assert.IsTrue(_coordinate.Rho == 1);
+        Assert.IsTrue(_coordinate.R == 1);
         Assert.IsTrue(_coordinate.Theta == 2);
         Assert.IsTrue(_coordinate.Phi == 3);
     }
@@ -42,8 +42,8 @@ public class SphericalTest
     [TestMethod]
     public void DeconstructTest()
     {
-        var (Rho, Theta, Phi) = _coordinate;
-        Assert.AreEqual((3d, 4d, 5d), (Rho, Theta, Phi));
+        var (R, Theta, Phi) = _coordinate;
+        Assert.AreEqual((3d, 4d, 5d), (R, Theta, Phi));
     }
 
     [TestMethod]

@@ -6,15 +6,15 @@ public class SphericalCoordinate : ICoordinate
 {
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    private double _rho;
+    private double _r;
 
-    public double Rho
+    public double R
     {
-        get => _rho;
+        get => _r;
         set
         {
-            _rho = value;
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(Rho)));
+            _r = value;
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(R)));
         }
     }
 
@@ -46,27 +46,27 @@ public class SphericalCoordinate : ICoordinate
     {
     }
 
-    public SphericalCoordinate(double rho, double theta, double phi)
+    public SphericalCoordinate(double r, double theta, double phi)
     {
-        Rho = rho;
+        R = r;
         Theta = theta;
         Phi = phi;
     }
 
-    public void Deconstruct(out double rho, out double theta, out double phi)
+    public void Deconstruct(out double r, out double theta, out double phi)
     {
-        rho = Rho;
+        r = R;
         theta = Theta;
         phi = Phi;
     }
 
     public double GetDistanceFromOrigin()
     {
-        return Rho;
+        return R;
     }
 
     public override string ToString()
     {
-        return $"{Rho}, {Theta}, {Phi}";
+        return $"{R}, {Theta}, {Phi}";
     }
 }
