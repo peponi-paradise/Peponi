@@ -12,7 +12,7 @@
     <Company>https://peponi-paradise.tistory.com</Company>
     <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
     <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
-    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Development/Peponi.Math</PackageProjectUrl>
+    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Math</PackageProjectUrl>
     <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
     <Description>Peponi.Math is a package for Mathematics.
 Including contents are:
@@ -52,6 +52,30 @@ Including contents are:
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Docs\Img\CylindricalCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Midpoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\PolarCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SimpleMovingAverage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Simpson1over3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Simpson3over8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SphericalCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Trapezoidal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Docs\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

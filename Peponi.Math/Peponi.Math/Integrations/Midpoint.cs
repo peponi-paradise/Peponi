@@ -7,8 +7,8 @@ public static class Midpoint
     /// <summary>
     /// 중점공식은 바 그래프 형태에서 가장 정확성 높음
     /// </summary>
-    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
-                                                                            where V : struct
+    public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
+                                                                            where Y : struct
     {
         List<double> _Xs;
         List<double> _Ys;

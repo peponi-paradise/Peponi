@@ -7,8 +7,8 @@ public static class Simpson3over8
     /// <summary>
     /// 심슨 3/8은 잘 쓰이지 않음.
     /// </summary>
-    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
-                                                                            where V : struct
+    public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
+                                                                            where Y : struct
     {
         List<double> _Xs;
         List<double> _Ys;

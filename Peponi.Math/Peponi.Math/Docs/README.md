@@ -14,6 +14,20 @@
     - [2.5. SphericalCoordinate](#25-sphericalcoordinate)
   - [3. Peponi.Math.Integration](#3-peponimathintegration)
     - [3.1. Midpoint](#31-midpoint)
+    - [3.2. Simpson 1/3](#32-simpson-13)
+    - [3.3. Simpson 3/8](#33-simpson-38)
+    - [3.4. Trapezoidal](#34-trapezoidal)
+  - [4. Peponi.Math.MovingAverage](#4-peponimathmovingaverage)
+    - [4.1. SimpleMovingAverage\<T\>](#41-simplemovingaveraget)
+  - [5. Peponi.Math.UnitConversion](#5-peponimathunitconversion)
+    - [5.1. Introduction](#51-introduction)
+    - [5.2. Angle](#52-angle)
+    - [5.3. AngularSpeed](#53-angularspeed)
+    - [5.4. Area](#54-area)
+    - [5.5. DryVolume](#55-dryvolume)
+    - [5.6. Energy](#56-energy)
+    - [5.7. Force](#57-force)
+    - [5.8. Length](#58-length)
 
 
 
@@ -123,6 +137,8 @@ NuGet\Install-Package Peponi.Math
     |string|ToString()|Returns `X, Y`|
 3. Example
     ```cs
+    using Peponi.Math.Coordinates;
+
     var coordinate = new(3, 4);
     var (x, y) = coordinate;
 
@@ -156,6 +172,8 @@ NuGet\Install-Package Peponi.Math
     |string|ToString()|Returns `X, Y, Z`|
 3. Example
     ```cs
+    using Peponi.Math.Coordinates;
+
     var coordinate = new(3, 4, 5);
     var (x, y, z) = coordinate;
 
@@ -190,6 +208,8 @@ NuGet\Install-Package Peponi.Math
     |string|ToString()|Returns `R, Theta, Z`|
 3. Example
     ```cs
+    using Peponi.Math.Coordinates;
+
     var coordinate = new(3, 4, 5);
     var (r, theta, z) = coordinate;
 
@@ -223,6 +243,8 @@ NuGet\Install-Package Peponi.Math
     |string|ToString()|Returns `R, Theta`|
 3. Example
     ```cs
+    using Peponi.Math.Coordinates;
+
     var coordinate = new(3, 4);
     var (r, theta) = coordinate;
 
@@ -257,6 +279,8 @@ NuGet\Install-Package Peponi.Math
     |string|ToString()|Returns `R, Theta, Phi`|
 3. Example
     ```cs
+    using Peponi.Math.Coordinates;
+
     var coordinate = new(3, 4, 5);
     var (r, theta, phi) = coordinate;
 
@@ -276,3 +300,296 @@ NuGet\Install-Package Peponi.Math
 ### 3.1. Midpoint
 
 
+![Midpoint](./Img/Midpoint.png)
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be odd|
+    |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null|
+2. Example
+    ```cs
+    using Peponi.Math.Integration;
+    
+    /// List type
+
+    List<int> xs = new() { 1, 4, 7, 10, 13 };
+    List<double> ys = new() { 0, 1, -1, 4, 7 };
+
+    Console.WriteLine(Midpoint.Integrate(xs, ys));
+
+    /* output:
+    30
+    */
+    ```
+    ```cs
+    using Peponi.Math.Extensions;
+    using Peponi.Math.Integration;
+
+    /// Function type
+
+    Console.WriteLine(Midpoint.Integrate(System.Math.Sin, 0, 17.2, 9).Round(6));
+
+    /* output:
+    1.262177
+    */
+    ```
+
+
+### 3.2. Simpson 1/3
+
+
+![Simpson1over3](./Img/Simpson1over3.png)
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be odd|
+    |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null<br>Interval count should be even|
+2. Example
+    ```cs
+    using Peponi.Math.Integration;
+
+    /// List type
+
+    List<int> xs = new() { 1, 4, 7, 10, 13 };
+    List<double> ys = new() { 0, 1, -1, 4, 7 };
+
+    Console.WriteLine(Simpson1over3.Integrate(xs, ys));
+
+    /* output:
+    25
+    */
+    ```
+    ```cs
+    using Peponi.Math.Extensions;
+    using Peponi.Math.Integration;
+
+    /// Function type
+
+    Console.WriteLine(Simpson1over3.Integrate(System.Math.Sin, 0, 17.2, 8).Round(6));
+
+    /* output:
+    1.341822
+    */
+    ```
+
+
+### 3.3. Simpson 3/8
+
+
+![Simpson3over8](./Img/Simpson3over8.png)
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be multiple of 3|
+    |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null<br>Interval count should be multiple of 3|
+2. Example
+    ```cs
+    using Peponi.Math.Integration;
+
+    /// List type
+
+    List<int> xs = new() { 1, 4, 7, 10, 13, 16, 19 };
+    List<double> ys = new() { 0, 1, -1, 4, 7, -2, 5 };
+
+    Console.WriteLine(Simpson3over8.Integrate(xs, ys));
+
+    /* output:
+    31.5
+    */
+    ```
+    ```cs
+    using Peponi.Math.Extensions;
+    using Peponi.Math.Integration;
+
+    /// Function type
+
+    Console.WriteLine(Simpson3over8.Integrate(System.Math.Sin, 0, 17.2, 9).Round(6));
+
+    /* output:
+    2.189858
+    */
+    ```
+
+
+### 3.4. Trapezoidal
+
+
+![Trapezoidal](./Img/Trapezoidal.png)
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> should be over than 1|
+    |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null|
+2. Example
+    ```cs
+    using Peponi.Math.Integration;
+
+    /// List type
+
+    List<int> xs = new() { 1, 4, 8, 12, 15, 20 };
+    List<double> ys = new() { 0, 1, -1, 4, 7, 5 };
+
+    Console.WriteLine(Trapezoidal.Integrate(xs, ys));
+
+    /* output:
+    54
+    */
+    ```
+    ```cs
+    using Peponi.Math.Extensions;
+    using Peponi.Math.Integration;
+
+    /// Function type
+
+    Console.WriteLine(Trapezoidal.Integrate(System.Math.Sin, 0, 17.2, 8).Round(6));
+
+    /* output:
+    0.627166
+    */
+    ```
+
+
+## 4. Peponi.Math.MovingAverage
+
+
+### 4.1. SimpleMovingAverage\<T>
+
+
+![SMA](./Img/SimpleMovingAverage.png)
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |SimpleMovingAverage|SimpleMovingAverage(uint)|Window size could not be 0|
+    |T|Average(T)|Returns average value|
+2. Example
+    ```cs
+    using Peponi.Math.MovingAverage;
+
+    SimpleMovingAverage<double> movingAverage = new(3);
+
+    for (int i = 1; i < 5; i++)
+    {
+        Console.WriteLine(movingAverage.Average(i));
+    }
+
+    /* output:
+    1
+    1.5
+    2
+    3
+    */
+    ```
+
+
+## 5. Peponi.Math.UnitConversion
+
+
+### 5.1. Introduction
+
+
+- Call UnitConvert.Convert\<T>(T, Enum, Enum) for converting unit
+
+
+### 5.2. Angle
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(1.234, AngleUnit.Degree, AngleUnit.Radian).Round(6));
+
+/* output:
+0.021537
+*/
+```
+
+
+### 5.3. AngularSpeed
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, AngularSpeedUnit.RadianPerSecond, AngularSpeedUnit.RadianPerMinute).Round(6));
+
+/* output:
+1299.18
+*/
+```
+
+
+### 5.4. Area
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, AreaUnit.SquareMeter, AreaUnit.SquareFoot).Round(8));
+
+/* output:
+233.07095225
+*/
+```
+
+
+### 5.5. DryVolume
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, DryVolumeUnit.Liter, DryVolumeUnit.Barrel).Round(6));
+
+/* output:
+0.187266
+*/
+```
+
+
+### 5.6. Energy
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, EnergyUnit.Joule, EnergyUnit.WattHour).Round(6));
+
+/* output:
+0.006015
+*/
+```
+
+
+### 5.7. Force
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, ForceUnit.Newton, ForceUnit.KiloGramForce).Round(6));
+
+/* output:
+2.207992
+*/
+```
+
+
+### 5.8. Length
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, LengthUnit.Meter, LengthUnit.Mile).Round(6));
+
+/* output:
+0.013455
+*/
+```

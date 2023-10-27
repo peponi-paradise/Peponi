@@ -12,7 +12,7 @@ public class SimpleMovingAverage
     [TestInitialize]
     public void TestInitialize()
     {
-        _movingAverage = new SimpleMovingAverage<double>(10);
+        _movingAverage = new SimpleMovingAverage<double>(3);
     }
 
     [TestMethod]
@@ -24,8 +24,8 @@ public class SimpleMovingAverage
     [TestMethod]
     public void AveragingTest()
     {
-        List<double> exp = new() { 0, 0.5, 1, 1.5, 2 };
-        for (int i = 0; i < 5; i++)
+        List<double> exp = new() { 0, 1, 1.5, 2, 3 };
+        for (int i = 1; i < 5; i++)
         {
             double rtn = _movingAverage.Average(i);
             Assert.AreEqual(exp[i], rtn);

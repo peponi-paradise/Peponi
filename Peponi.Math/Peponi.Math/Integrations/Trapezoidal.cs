@@ -5,8 +5,8 @@ public static class Trapezoidal
     /// <summary>
     /// 사다리꼴은 이산값 직선으로 이을수록 정확성 올라감
     /// </summary>
-    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
-                                                                            where V : struct
+    public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
+                                                                            where Y : struct
     {
         if (xs.Count != ys.Count) throw new ArgumentException($"Input value count mismatched. xs : {xs.Count}, ys : {ys.Count}");
         else if (xs.Count < 2) throw new ArgumentException("Required at least 2 points");

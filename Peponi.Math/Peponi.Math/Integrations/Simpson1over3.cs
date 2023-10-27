@@ -8,8 +8,8 @@ public static class Simpson1over3
     /// 심슨 1/3오더는 곡선구간이고 각 구간이 짧을 수록 정확, 반드시 구간의 수가 짝수여야 함 <br/>
     /// 각 구간의 길이는 일정해야 함
     /// </summary>
-    public static double Integrate<T, V>(List<T> xs, List<V> ys) where T : struct
-                                                                            where V : struct
+    public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
+                                                                            where Y : struct
     {
         List<double> _Xs;
         List<double> _Ys;
