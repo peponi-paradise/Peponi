@@ -28,6 +28,14 @@
     - [5.6. Energy](#56-energy)
     - [5.7. Force](#57-force)
     - [5.8. Length](#58-length)
+    - [5.9. Prefix](#59-prefix)
+    - [5.10. Pressure](#510-pressure)
+    - [5.10. Speed](#510-speed)
+    - [5.11. Temperature](#511-temperature)
+    - [5.12. Volume](#512-volume)
+    - [5.13. Weight](#513-weight)
+  - [6. Windowing](#6-windowing)
+    - [6.1. Hopping window](#61-hopping-window)
 
 
 
@@ -487,7 +495,8 @@ NuGet\Install-Package Peponi.Math
 ### 5.1. Introduction
 
 
-- Call UnitConvert.Convert\<T>(T, Enum, Enum) for converting unit
+- Call UnitConvert.Convert\<T>(T, Enum, Enum) for converting unit.
+- The name of enums are full name. Symbol and descriptions could find on comments.
 
 
 ### 5.2. Angle
@@ -593,3 +602,123 @@ Console.WriteLine(UnitConvert.Convert(21.653, LengthUnit.Meter, LengthUnit.Mile)
 0.013455
 */
 ```
+
+
+### 5.9. Prefix
+
+
+```cs
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, PrefixUnit.None, PrefixUnit.Kilo));
+
+/* output:
+21.653E-3
+*/
+```
+
+
+### 5.10. Pressure
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, PressureUnit.Pascal, PressureUnit.Torr).Round(9));
+
+/* output:
+0.162410856
+*/
+```
+
+
+### 5.10. Speed
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, SpeedUnit.MeterPerSecond, SpeedUnit.MilePerHour).Round(6));
+
+/* output:
+48.436382
+*/
+```
+
+
+### 5.11. Temperature
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, TemperatureUnit.Celsius, TemperatureUnit.Fahrenheit).Round(6));
+
+/* output:
+70.9754
+*/
+```
+
+
+### 5.12. Volume
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, VolumeUnit.CubicMeter, VolumeUnit.CubicYard).Round(6));
+
+/* output:
+28.321055
+*/
+```
+
+
+### 5.13. Weight
+
+
+```cs
+using Peponi.Math.Extensions;
+using Peponi.Math.UnitConversion;
+
+Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Pound).Round(6));
+
+/* output:
+47.736694
+*/
+```
+
+
+## 6. Windowing
+
+
+### 6.1. Hopping window
+
+
+![HoppingWindow1](./Img/HoppingWindow1.png)
+![HoppingWindow2](./Img/HoppingWindow2.png)
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |IEnumerable<IEnumerable\<T>>|ToHoppingWindows(IEnumerable\<T>, uint, uint)|Get windows for given parameters|
+    |Task<IEnumerable<IEnumerable\<T>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint)||
+    |IEnumerable<IEnumerable\<T>>|ToHoppingWindows(IEnumerable\<T>, uint, uint, uint)||
+    |Task<IEnumerable<IEnumerable\<T>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint, uint)||
+    |IEnumerable<IEnumerable\<T>>|ToHoppingWindows(IEnumerable\<T>, uint, uint, uint, uint)||
+    |Task<IEnumerable<IEnumerable\<T>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint, uint, uint)||
+    |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, uint, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, uint, uint, uint, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, uint, uint, uint, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToHoppingWindows(IEnumerable\<DateTime>, DateTime, TimeSpan, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToHoppingWindowsAsync(IEnumerable\<DateTime>, DateTime, TimeSpan, TimeSpan)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToHoppingWindows(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToHoppingWindowsAsync(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan, TimeSpan)||

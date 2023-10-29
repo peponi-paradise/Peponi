@@ -55,6 +55,12 @@ Including contents are:
     <None Update="Docs\Img\CylindricalCoordinate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Update="Docs\Img\HoppingWindow1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\HoppingWindow2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
     <None Update="Docs\Img\Midpoint.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
