@@ -53,7 +53,7 @@ public partial class HoppingWindows
 
         while (startTime <= endTime)
         {
-            rtnDatas.Add(datas.Where((x) => x.IsBetween(startTime, startTime + windowSize)).ToList());
+            rtnDatas.Add(datas.Where(x => x.IsBetween(startTime, startTime + windowSize)).ToList());
             startTime += hoppingStep;
             if (startTime >= datas.Last() || rtnDatas.Last().Last() >= datas.Last()) break;
         }
@@ -70,7 +70,7 @@ public partial class HoppingWindows
 
         while (startTime <= endTime)
         {
-            var window = datas.Where((x) => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize)).ToList();
+            var window = datas.Where(x => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize)).ToList();
             var inputData = from data in window select dataSelector(data);
 
             rtnDatas.Add(inputData.ToList());
