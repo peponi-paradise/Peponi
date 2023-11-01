@@ -48,14 +48,14 @@ public static partial class TumblingWindows
     {
         DataCheck(startTime, endTime, windowSize);
 
-        datas = datas.Order();
+        datas = datas.Where(x => x.IsBetween(startTime, endTime)).Order().ToList();
         List<List<DateTime>> rtnDatas = new();
 
         while (true)
         {
-            rtnDatas.Add(datas.Where((x) => x.IsBetween(startTime, startTime + windowSize) && x.IsBetween(startTime, endTime)).ToList());
+            rtnDatas.Add(datas.Where((x) => x.IsBetween(startTime, startTime + windowSize)).ToList());
             startTime += windowSize;
-            if (startTime >= datas.Last()) break;
+            if (startTime >= datas.Last() || rtnDatas.Last().Last() >= datas.Last()) break;
         }
 
         return rtnDatas;
@@ -65,19 +65,19 @@ public static partial class TumblingWindows
     {
         DataCheck(startTime, endTime, windowSize);
 
-        datas = datas.OrderBy(dateTimeSelector).ToList();
+        datas = datas.Where(x => dateTimeSelector(x).IsBetween(startTime, endTime)).OrderBy(dateTimeSelector).ToList();
         List<List<V>> rtnDatas = new();
 
         while (true)
         {
-            var window = datas.Where((x) => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize) && dateTimeSelector(x).IsBetween(startTime, endTime));
+            var window = datas.Where(x => dateTimeSelector(x).IsBetween(startTime, startTime + windowSize)).ToList();
             var inputData = from data in window select dataSelector(data);
 
             rtnDatas.Add(inputData.ToList());
 
             startTime += windowSize;
 
-            if (startTime >= dateTimeSelector(datas.Last())) break;
+            if (startTime >= dateTimeSelector(datas.Last()) || dateTimeSelector(window.Last()) >= dateTimeSelector(datas.Last())) break;
         }
 
         return rtnDatas;

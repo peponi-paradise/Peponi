@@ -325,7 +325,7 @@ public class HoppingWindowsTest
         input = new() { 3, 4, 5, 6, 7, 8 };
         exp.Add(input);
 
-        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(9), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
+        Assert.IsTrue(DataCheck.IsEqual(exp, HoppingWindows.ToHoppingWindows(datas, DateTime.Today, DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3), x => x.Time, x => x.Data)));
     }
 
     [TestMethod]

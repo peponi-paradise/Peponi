@@ -36,6 +36,7 @@
     - [5.13. Weight](#513-weight)
   - [6. Windowing](#6-windowing)
     - [6.1. Hopping window](#61-hopping-window)
+    - [6.2. Sliding window](#62-sliding-window)
 
 
 
@@ -722,3 +723,200 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     |Task<IEnumerable<IEnumerable\<DateTime>>>|ToHoppingWindowsAsync(IEnumerable\<DateTime>, DateTime, TimeSpan, TimeSpan)||
     |IEnumerable<IEnumerable\<DateTime>>|ToHoppingWindows(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan, TimeSpan)||
     |Task<IEnumerable<IEnumerable\<DateTime>>>|ToHoppingWindowsAsync(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan, TimeSpan)||
+    |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+2. Example
+    ```cs
+    internal class DataClass
+    {
+        public DateTime Time;
+        public int Data;
+
+        public DataClass(int data)
+        {
+            Data = data;
+        }
+
+        public DataClass(DateTime time, int data)
+        {
+            Time = time;
+            Data = data;
+        }
+    }
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<int> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(i);
+
+    var result = HoppingWindows.ToHoppingWindows(datas, 1, 8, 5, 3);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    1, 2, 3, 4, 5
+    4, 5, 6, 7, 8
+    7, 8
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DataClass> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(new(i));
+
+    var result = HoppingWindows.ToHoppingWindows(datas, 1, 8, 5, 3, x => x.Data);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    1, 2, 3, 4, 5
+    4, 5, 6, 7, 8
+    7, 8
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DateTime> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(DateTime.Today + TimeSpan.FromSeconds(i));
+
+    var result = HoppingWindows.ToHoppingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
+                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(3));
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr.Select(x => x.ToString("HH.mm.ss"))));
+
+    /* output:
+    00.00.01, 00.00.02, 00.00.03, 00.00.04, 00.00.05, 00.00.06
+    00.00.04, 00.00.05, 00.00.06, 00.00.07, 00.00.08
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DataClass> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i) + TimeSpan.FromMilliseconds(i), i));
+
+    var result = SlidingWindows.ToSlidingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
+                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), x => x.Time, x => x.Data);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    1, 2, 3, 4, 5
+    2, 3, 4, 5, 6
+    3, 4, 5, 6, 7
+    */
+    ```
+
+
+### 6.2. Sliding window
+
+
+![SlidingWindow1](./Img/SlidingWindow1.png)
+![SlidingWindow2](./Img/SlidingWindow2.png)
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |IEnumerable<IEnumerable\<T>>|ToSlidingWindows(IEnumerable\<T>, uint)|Get windows for given parameters|
+    |Task<IEnumerable<IEnumerable\<T>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint)||
+    |IEnumerable<IEnumerable\<T>>|ToSlidingWindows(IEnumerable\<T>, uint, uint)||
+    |Task<IEnumerable<IEnumerable\<T>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint, uint)||
+    |IEnumerable<IEnumerable\<T>>|ToSlidingWindows(IEnumerable\<T>, uint, uint, uint)||
+    |Task<IEnumerable<IEnumerable\<T>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint, uint, uint)||
+    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, uint, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToSlidingWindows(IEnumerable\<DateTime>, DateTime, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToSlidingWindowsAsync(IEnumerable\<DateTime>, DateTime, TimeSpan)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToSlidingWindows(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToSlidingWindowsAsync(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
+    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+2. Example
+    ```cs
+    internal class DataClass
+    {
+        public DateTime Time;
+        public int Data;
+
+        public DataClass(int data)
+        {
+            Data = data;
+        }
+
+        public DataClass(DateTime time, int data)
+        {
+            Time = time;
+            Data = data;
+        }
+    }
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<int> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(i);
+
+    var result = SlidingWindows.ToSlidingWindows(datas, 2, 8, 5);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    2, 3, 4, 5, 6
+    3, 4, 5, 6, 7
+    4, 5, 6, 7, 8
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DataClass> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(new(i));
+
+    var result = SlidingWindows.ToSlidingWindows(datas, 2, 8, 5, x => x.Data);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    2, 3, 4, 5, 6
+    3, 4, 5, 6, 7
+    4, 5, 6, 7, 8
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DateTime> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(DateTime.Today + TimeSpan.FromSeconds(i));
+
+    var result = SlidingWindows.ToSlidingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
+                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5));
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr.Select(x => x.ToString("HH.mm.ss"))));
+
+    /* output:
+    00.00.01, 00.00.02, 00.00.03, 00.00.04, 00.00.05, 00.00.06
+    00.00.02, 00.00.03, 00.00.04, 00.00.05, 00.00.06, 00.00.07
+    00.00.03, 00.00.04, 00.00.05, 00.00.06, 00.00.07, 00.00.08
+    */
+    ```
+    ```cs
+    using Peponi.Math.Windowing;
+
+    List<DataClass> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i) + TimeSpan.FromMilliseconds(i), i));
+
+    var result = SlidingWindows.ToSlidingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
+                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), x => x.Time, x => x.Data);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
+
+    /* output:
+    1, 2, 3, 4, 5
+    2, 3, 4, 5, 6
+    3, 4, 5, 6, 7
+    */
+    ```
