@@ -73,12 +73,12 @@ public static partial class HoppingWindows
         {
             for (int j = i; j < i + windowSize; j++)
             {
-                if (j >= datas.Count() || j > endPosition)
+                windows.Add(datas.ElementAt(j));
+                if (j >= datas.Count() || j >= endPosition)
                 {
                     i = datas.Count();
                     break;
                 }
-                windows.Add(datas.ElementAt(j));
             }
             rtnDatas.Add(windows.ToList());
             windows.Clear();
@@ -102,12 +102,12 @@ public static partial class HoppingWindows
         {
             for (int j = i; j < i + windowSize; j++)
             {
-                if (j >= datas.Count() || j > endPosition)
+                windows.Add(dataSelector(datas.ElementAt(j)));
+                if (j >= datas.Count() || j >= endPosition)
                 {
                     i = datas.Count();
                     break;
                 }
-                windows.Add(dataSelector(datas.ElementAt(j)));
             }
             rtnDatas.Add(windows.ToList());
             windows.Clear();
