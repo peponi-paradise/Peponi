@@ -943,14 +943,14 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, uint, uint, Func<T, V>)||
     |IEnumerable<IEnumerable\<V>>|ToTumblingWindows(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
     |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, uint, uint, uint, Func<T, V>)||
-    |IEnumerable<IEnumerable\<DateTime>>|ToSlidingWindows(IEnumerable\<DateTime>, DateTime, TimeSpan)||
-    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToSlidingWindowsAsync(IEnumerable\<DateTime>, DateTime, TimeSpan)||
-    |IEnumerable<IEnumerable\<DateTime>>|ToSlidingWindows(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
-    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToSlidingWindowsAsync(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
-    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
-    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
-    |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
-    |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToTumblingWindows(IEnumerable\<DateTime>, DateTime, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToTumblingWindowsAsync(IEnumerable\<DateTime>, DateTime, TimeSpan)||
+    |IEnumerable<IEnumerable\<DateTime>>|ToTumblingWindows(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
+    |Task<IEnumerable<IEnumerable\<DateTime>>>|ToTumblingWindowsAsync(IEnumerable\<DateTime>, DateTime, DateTime, TimeSpan)||
+    |IEnumerable<IEnumerable\<V>>|ToTumblingWindows(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |IEnumerable<IEnumerable\<V>>|ToTumblingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+    |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
 2. Example
     ```cs
     internal class DataClass
@@ -976,13 +976,12 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     List<int> datas = new();
     for (int i = 0; i < 10; i++) datas.Add(i);
 
-    var result = SlidingWindows.ToSlidingWindows(datas, 2, 8, 5);
+    var result = TumblingWindows.ToTumblingWindows(datas, 2, 8, 5);
     foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
 
     /* output:
     2, 3, 4, 5, 6
-    3, 4, 5, 6, 7
-    4, 5, 6, 7, 8
+    7, 8
     */
     ```
     ```cs
@@ -991,29 +990,26 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     List<DataClass> datas = new();
     for (int i = 0; i < 10; i++) datas.Add(new(i));
 
-    var result = SlidingWindows.ToSlidingWindows(datas, 2, 8, 5, x => x.Data);
+    var result = TumblingWindows.ToTumblingWindows(datas, 3, 8, 5, x => x.Data);
     foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
 
     /* output:
-    2, 3, 4, 5, 6
     3, 4, 5, 6, 7
-    4, 5, 6, 7, 8
+    8
     */
     ```
     ```cs
     using Peponi.Math.Windowing;
 
-    List<DateTime> datas = new();
-    for (int i = 0; i < 10; i++) datas.Add(DateTime.Today + TimeSpan.FromSeconds(i));
+    List<DataClass> datas = new();
+    for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i), i));
 
-    var result = SlidingWindows.ToSlidingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
-                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5));
-    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr.Select(x => x.ToString("HH.mm.ss"))));
+    var result = TumblingWindows.ToTumblingWindows(datas, DateTime.Today, TimeSpan.FromSeconds(5), x => x.Time, x => x.Data);
+    foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
 
     /* output:
-    00.00.01, 00.00.02, 00.00.03, 00.00.04, 00.00.05, 00.00.06
-    00.00.02, 00.00.03, 00.00.04, 00.00.05, 00.00.06, 00.00.07
-    00.00.03, 00.00.04, 00.00.05, 00.00.06, 00.00.07, 00.00.08
+    0, 1, 2, 3, 4, 5
+    5, 6, 7, 8, 9
     */
     ```
     ```cs
@@ -1022,13 +1018,13 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     List<DataClass> datas = new();
     for (int i = 0; i < 10; i++) datas.Add(new(DateTime.Today + TimeSpan.FromSeconds(i) + TimeSpan.FromMilliseconds(i), i));
 
-    var result = SlidingWindows.ToSlidingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
-                                                 DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5), x => x.Time, x => x.Data);
+    var result = TumblingWindows.ToTumblingWindows(datas, DateTime.Today + TimeSpan.FromSeconds(1),
+                                                   DateTime.Today + TimeSpan.FromSeconds(8), TimeSpan.FromSeconds(5),
+                                                   x => x.Time, x => x.Data);
     foreach (var arr in result) Console.WriteLine(string.Join(", ", arr));
 
     /* output:
     1, 2, 3, 4, 5
-    2, 3, 4, 5, 6
-    3, 4, 5, 6, 7
+    6, 7
     */
     ```
