@@ -7,7 +7,7 @@
 
     <IsPackable>false</IsPackable>
     <IsTestProject>true</IsTestProject>
-	  <RunSettingsFilePath>$(MSBuildProjectDirectory)\Peponi.Math.Tests.runsettings</RunSettingsFilePath>
+	  <RunSettingsFilePath>$(MSBuildProjectDirectory)\Peponi.Maths.Tests.runsettings</RunSettingsFilePath>
   </PropertyGroup>
 
   <ItemGroup>
