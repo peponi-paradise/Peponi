@@ -1,42 +1,121 @@
 ﻿namespace Peponi.Maths.Windowing;
 
+/// <summary>
+/// Compute hopping windows
+/// <br/>
+/// <see href="주소 넣어야 함"/>
+/// </summary>
 public static partial class HoppingWindows
 {
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas: datas, windowSize: windowSize, hoppingStep: hoppingStep);
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, windowSize, hoppingStep));
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, hoppingStep: hoppingStep);
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, windowSize, hoppingStep));
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas, startPosition, endPosition, windowSize, hoppingStep);
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, endPosition, windowSize, hoppingStep));
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas: datas, windowSize: windowSize, hoppingStep: hoppingStep, dataSelector: dataSelector);
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, windowSize, hoppingStep, dataSelector));
@@ -124,6 +203,10 @@ public static partial class HoppingWindows
         if (windowSize == 0 || hoppingStep == 0)
         {
             throw new ArgumentException($"Window size, hopping step could not be 0");
+        }
+        else if (startPosition > endPosition)
+        {
+            throw new ArgumentException($"Start position could not bigger than end position");
         }
         else if (startPosition > datas.Count() - 1)
         {

@@ -1,10 +1,25 @@
 ﻿namespace Peponi.Maths.Integration;
 
+/// <summary>
+/// Compute by Trapezoidal rule.
+/// <br/>
+/// <see href="주소 넣어야 함"/>
+/// </summary>
 public static class Trapezoidal
 {
     /// <summary>
-    /// 사다리꼴은 이산값 직선으로 이을수록 정확성 올라감
+    /// <code>
+    /// Compute by given params
+    /// Convert values to double internally
+    /// Count of xs and ys are should be equal
+    /// </code>
     /// </summary>
+    /// <typeparam name="X">Struct type</typeparam>
+    /// <typeparam name="Y">Struct type</typeparam>
+    /// <param name="xs">At least 2 points</param>
+    /// <param name="ys"></param>
+    /// <returns>Computed value</returns>
+    /// <exception cref="ArgumentException"></exception>
     public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
                                                                             where Y : struct
     {
@@ -24,6 +39,16 @@ public static class Trapezoidal
         return result;
     }
 
+    /// <summary>
+    /// Compute by given function
+    /// </summary>
+    /// <param name="fx"></param>
+    /// <param name="lowLimit">Low limit &lt; Upper limit</param>
+    /// <param name="upperLimit">Low limit &lt; Upper limit</param>
+    /// <param name="intervalCount"></param>
+    /// <returns>Computed value</returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static double Integrate(Func<double, double> fx, double lowLimit, double upperLimit, int intervalCount)
     {
         if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");

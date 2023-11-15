@@ -2,11 +2,27 @@
 
 namespace Peponi.Maths.Integration;
 
+/// <summary>
+/// Compute by Simpson's 3/8 rule.
+/// <br/>
+/// <see href="주소 넣어야 함"/>
+/// </summary>
 public static class Simpson3over8
 {
     /// <summary>
-    /// 심슨 3/8은 잘 쓰이지 않음.
+    /// <code>
+    /// Compute by given params
+    /// Convert values to double internally
+    /// Count of xs and ys are should be equal
+    /// ' Data length - 1 ' must be multiple of 3
+    /// </code>
     /// </summary>
+    /// <typeparam name="X">Struct type</typeparam>
+    /// <typeparam name="Y">Struct type</typeparam>
+    /// <param name="xs">Interval of xs should be uniform</param>
+    /// <param name="ys"></param>
+    /// <returns>Computed value</returns>
+    /// <exception cref="ArgumentException"></exception>
     public static double Integrate<X, Y>(List<X> xs, List<Y> ys) where X : struct
                                                                             where Y : struct
     {
@@ -34,6 +50,16 @@ public static class Simpson3over8
         return result;
     }
 
+    /// <summary>
+    /// Compute by given function
+    /// </summary>
+    /// <param name="fx"></param>
+    /// <param name="lowLimit">Low limit &lt; Upper limit</param>
+    /// <param name="upperLimit">Low limit &lt; Upper limit</param>
+    /// <param name="intervalCount">Must be multiple of 3</param>
+    /// <returns>Computed value</returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static double Integrate(Func<double, double> fx, double lowLimit, double upperLimit, int intervalCount)
     {
         if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");

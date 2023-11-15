@@ -4,6 +4,8 @@ namespace Peponi.Maths.Coordinates;
 
 /// <summary>
 /// X, Y coordinates that support INotifyPropertyChanged
+/// <br/>
+/// <see href="주소 넣어야 함"/>
 /// </summary>
 public class CartesianCoordinate2D<T> : ICoordinate where T : struct
 {

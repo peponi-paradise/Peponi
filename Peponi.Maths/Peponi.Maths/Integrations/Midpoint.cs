@@ -12,7 +12,7 @@ public static class Midpoint
     /// <summary>
     /// <code>
     /// Compute by given params
-    /// Converted values to double internally
+    /// Convert values to double internally
     /// </code>
     /// </summary>
     /// <typeparam name="X">Struct type</typeparam>
@@ -46,6 +46,16 @@ public static class Midpoint
         return result;
     }
 
+    /// <summary>
+    /// Compute by given function
+    /// </summary>
+    /// <param name="fx"></param>
+    /// <param name="lowLimit">Low limit &lt; Upper limit</param>
+    /// <param name="upperLimit">Low limit &lt; Upper limit</param>
+    /// <param name="intervalCount"></param>
+    /// <returns>Computed value</returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static double Integrate(Func<double, double> fx, double lowLimit, double upperLimit, int intervalCount)
     {
         if (lowLimit > upperLimit) throw new ArgumentException($"Low limit ({lowLimit}) could not bigger than upper limit ({upperLimit})");

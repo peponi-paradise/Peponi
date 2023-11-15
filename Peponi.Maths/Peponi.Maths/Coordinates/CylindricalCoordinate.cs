@@ -4,6 +4,8 @@ namespace Peponi.Maths.Coordinates;
 
 /// <summary>
 /// R, Theta, Z coordinates that support INotifyPropertyChanged
+/// <br/>
+/// <see href="주소 넣어야 함"/>
 /// </summary>
 public class CylindricalCoordinate<T> : ICoordinate where T : struct
 {
