@@ -4,46 +4,64 @@ namespace Peponi.Maths.Windowing;
 
 public partial class HoppingWindows
 {
+    /// <inheritdoc cref="ToHoppingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan, TimeSpan)"/>
     public static IEnumerable<IEnumerable<DateTime>> ToHoppingWindows(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
         return ToHoppingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize, hoppingStep);
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToHoppingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
         return Task.Run(() => ToHoppingWindows(datas, startTime, windowSize, hoppingStep));
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan, TimeSpan)"/>
     public static IEnumerable<IEnumerable<DateTime>> ToHoppingWindows(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
         return ToHoppingWindowsCore(datas, startTime, endTime, windowSize, hoppingStep);
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToHoppingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
         return Task.Run(() => ToHoppingWindows(datas, startTime, endTime, windowSize, hoppingStep));
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize, hoppingStep, dateTimeSelector, dataSelector);
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startTime, windowSize, hoppingStep, dateTimeSelector, dataSelector));
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas, startTime, endTime, windowSize, hoppingStep, dateTimeSelector, dataSelector);
     }
 
+    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startTime, endTime, windowSize, hoppingStep, dateTimeSelector, dataSelector));
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <param name="hoppingStep">Bigger than TimeSpan.Zero</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     private static IEnumerable<IEnumerable<DateTime>> ToHoppingWindowsCore(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep)
     {
         DataCheck(startTime, endTime, windowSize);
@@ -61,6 +79,20 @@ public partial class HoppingWindows
         return rtnDatas;
     }
 
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <param name="hoppingStep">Bigger than TimeSpan.Zero</param>
+    /// <param name="dateTimeSelector">DateTime select function</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     private static IEnumerable<IEnumerable<V>> ToHoppingWindowsCore<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, TimeSpan hoppingStep, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         DataCheck(startTime, endTime, windowSize);

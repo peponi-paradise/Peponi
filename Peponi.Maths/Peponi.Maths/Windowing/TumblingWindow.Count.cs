@@ -1,67 +1,95 @@
 ﻿namespace Peponi.Maths.Windowing;
 
+/// <summary>
+/// Compute tumbling windows
+/// <br/>
+/// <see href="주소 넣어야 함"/>
+/// </summary>
 public static partial class TumblingWindows
 {
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas: datas, windowSize: windowSize);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, windowSize));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas: datas, windowSize: windowSize, dataSelector: dataSelector);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, windowSize, dataSelector));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, dataSelector: dataSelector);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize, dataSelector));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize, dataSelector);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize, dataSelector));
     }
 
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     private static IEnumerable<IEnumerable<T>> ToTumblingWindowsCore<T>(IEnumerable<T> datas, uint startPosition = uint.MaxValue, uint endPosition = uint.MaxValue, uint windowSize = 0) where T : struct
     {
         DataCheck(datas, ref startPosition, ref endPosition, windowSize);
@@ -87,6 +115,20 @@ public static partial class TumblingWindows
         return rtnDatas;
     }
 
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     private static IEnumerable<IEnumerable<V>> ToTumblingWindowsCore<T, V>(IEnumerable<T> datas, uint startPosition = uint.MaxValue, uint endPosition = uint.MaxValue, uint windowSize = 0, Func<T, V>? dataSelector = null) where V : struct
     {
         DataCheck(datas, ref startPosition, ref endPosition, windowSize);
@@ -125,6 +167,10 @@ public static partial class TumblingWindows
         if (windowSize == 0)
         {
             throw new ArgumentException($"Window size could not be 0");
+        }
+        else if (startPosition > endPosition)
+        {
+            throw new ArgumentException($"Start position could not bigger than end position");
         }
         else if (startPosition > datas.Count() - 1)
         {

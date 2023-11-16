@@ -4,46 +4,63 @@ namespace Peponi.Maths.Windowing;
 
 public static partial class TumblingWindows
 {
+    /// <inheritdoc cref="ToTumblingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static IEnumerable<IEnumerable<DateTime>> ToTumblingWindows(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize)
     {
         return ToTumblingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToTumblingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize)
     {
         return Task.Run(() => ToTumblingWindows(datas, startTime, windowSize));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static IEnumerable<IEnumerable<DateTime>> ToTumblingWindows(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
     {
         return ToTumblingWindowsCore(datas, startTime, endTime, windowSize);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToTumblingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
     {
         return Task.Run(() => ToTumblingWindows(datas, startTime, endTime, windowSize));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize, dateTimeSelector, dataSelector);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startTime, windowSize, dateTimeSelector, dataSelector));
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas, startTime, endTime, windowSize, dateTimeSelector, dataSelector);
     }
 
+    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startTime, endTime, windowSize, dateTimeSelector, dataSelector));
     }
 
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"/>
     private static IEnumerable<IEnumerable<DateTime>> ToTumblingWindowsCore(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
     {
         DataCheck(startTime, endTime, windowSize);
@@ -61,6 +78,19 @@ public static partial class TumblingWindows
         return rtnDatas;
     }
 
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <param name="dateTimeSelector">DateTime select function</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"/>
     private static IEnumerable<IEnumerable<V>> ToTumblingWindowsCore<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         DataCheck(startTime, endTime, windowSize);
