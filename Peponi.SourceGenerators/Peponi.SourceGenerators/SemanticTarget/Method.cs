@@ -6,6 +6,15 @@ internal class MethodBase
     public string ParameterType = string.Empty;
 }
 
+internal class CanExecuteTarget : MethodBase
+{
+    public CanExecuteTarget(string name, string parameterType)
+    {
+        Name = name;
+        ParameterType = parameterType;
+    }
+}
+
 internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
 {
     public CanExecuteTarget? CanExecuteTarget;
@@ -20,34 +29,29 @@ internal class MethodTarget : MethodBase, IEquatable<MethodTarget?>
         CanExecuteTarget = canExecuteTarget;
     }
 
-    public override bool Equals(object? other)
+    public override bool Equals(object? obj)
     {
-        return Equals(other as MethodTarget);
+        return Equals(obj as MethodTarget);
     }
 
     public bool Equals(MethodTarget? other)
     {
-        return other is not null && Name == other.Name && CustomMethodName == other.CustomMethodName &&
-                ParameterType == other.ParameterType && IsAsync == other.IsAsync &&
-                CanExecuteTarget == other.CanExecuteTarget;
+        return other is not null &&
+               Name == other.Name &&
+               ParameterType == other.ParameterType &&
+               EqualityComparer<CanExecuteTarget?>.Default.Equals(CanExecuteTarget, other.CanExecuteTarget) &&
+               CustomMethodName == other.CustomMethodName &&
+               IsAsync == other.IsAsync;
     }
 
     public override int GetHashCode()
     {
-        return 4357 +
-                EqualityComparer<string>.Default.GetHashCode(Name) +
-                EqualityComparer<string?>.Default.GetHashCode(CustomMethodName) +
-                EqualityComparer<string>.Default.GetHashCode(ParameterType) +
-                EqualityComparer<bool>.Default.GetHashCode(IsAsync) +
-                EqualityComparer<CanExecuteTarget?>.Default.GetHashCode(CanExecuteTarget);
-    }
-}
-
-internal class CanExecuteTarget : MethodBase
-{
-    public CanExecuteTarget(string name, string parameterType)
-    {
-        Name = name;
-        ParameterType = parameterType;
+        int hashCode = -366949162;
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Name);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ParameterType);
+        hashCode = hashCode * -1521134295 + EqualityComparer<CanExecuteTarget?>.Default.GetHashCode(CanExecuteTarget);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string?>.Default.GetHashCode(CustomMethodName);
+        hashCode = hashCode * -1521134295 + IsAsync.GetHashCode();
+        return hashCode;
     }
 }

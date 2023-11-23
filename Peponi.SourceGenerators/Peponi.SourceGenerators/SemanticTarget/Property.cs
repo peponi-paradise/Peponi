@@ -32,24 +32,31 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
 
     public bool Equals(PropertyTarget? other)
     {
-        return other is not null && FieldName == other.FieldName && PropertyName == other.PropertyName &&
-            Type == other.Type && IsReadOnly == other.IsReadOnly && IsStatic == other.IsStatic &&
-            NotifyType == other.NotifyType && PropertyMethods == other.PropertyMethods && CanExecuteChangedTargets == other.CanExecuteChangedTargets &&
-            RaisePropertyChangedTargets == other.RaisePropertyChangedTargets;
+        return other is not null &&
+               FieldName == other.FieldName &&
+               PropertyName == other.PropertyName &&
+               Type == other.Type &&
+               IsReadOnly == other.IsReadOnly &&
+               IsStatic == other.IsStatic &&
+               NotifyType == other.NotifyType &&
+               EqualityComparer<List<PropertyMethodCallTarget>>.Default.Equals(PropertyMethods, other.PropertyMethods) &&
+               EqualityComparer<List<CanExecuteChangedTarget>>.Default.Equals(CanExecuteChangedTargets, other.CanExecuteChangedTargets) &&
+               EqualityComparer<List<RaisePropertyChangedTarget>>.Default.Equals(RaisePropertyChangedTargets, other.RaisePropertyChangedTargets);
     }
 
     public override int GetHashCode()
     {
-        return 24247 +
-            EqualityComparer<string>.Default.GetHashCode(FieldName) +
-            EqualityComparer<string>.Default.GetHashCode(PropertyName) +
-            EqualityComparer<string>.Default.GetHashCode(Type) +
-            EqualityComparer<bool>.Default.GetHashCode(IsReadOnly) +
-            EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
-            EqualityComparer<NotifyType>.Default.GetHashCode(NotifyType) +
-            EqualityComparer<List<PropertyMethodCallTarget>>.Default.GetHashCode(PropertyMethods) +
-            EqualityComparer<List<CanExecuteChangedTarget>>.Default.GetHashCode(CanExecuteChangedTargets) +
-            EqualityComparer<List<RaisePropertyChangedTarget>>.Default.GetHashCode(RaisePropertyChangedTargets);
+        int hashCode = 1958544934;
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FieldName);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(PropertyName);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Type);
+        hashCode = hashCode * -1521134295 + IsReadOnly.GetHashCode();
+        hashCode = hashCode * -1521134295 + IsStatic.GetHashCode();
+        hashCode = hashCode * -1521134295 + NotifyType.GetHashCode();
+        hashCode = hashCode * -1521134295 + EqualityComparer<List<PropertyMethodCallTarget>>.Default.GetHashCode(PropertyMethods);
+        hashCode = hashCode * -1521134295 + EqualityComparer<List<CanExecuteChangedTarget>>.Default.GetHashCode(CanExecuteChangedTargets);
+        hashCode = hashCode * -1521134295 + EqualityComparer<List<RaisePropertyChangedTarget>>.Default.GetHashCode(RaisePropertyChangedTargets);
+        return hashCode;
     }
 }
 
@@ -73,15 +80,19 @@ internal class PropertyMethodCallTarget : IEquatable<PropertyMethodCallTarget?>
 
     public bool Equals(PropertyMethodCallTarget? other)
     {
-        return other is not null && Section == other.Section && MethodName == other.MethodName && MethodArgs == other.MethodArgs;
+        return other is not null &&
+               Section == other.Section &&
+               MethodName == other.MethodName &&
+               MethodArgs == other.MethodArgs;
     }
 
     public override int GetHashCode()
     {
-        return 94559 +
-           EqualityComparer<PropertyMethodSection>.Default.GetHashCode(Section) +
-           EqualityComparer<string>.Default.GetHashCode(MethodName) +
-           EqualityComparer<string>.Default.GetHashCode(MethodArgs);
+        int hashCode = -105004156;
+        hashCode = hashCode * -1521134295 + Section.GetHashCode();
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MethodName);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MethodArgs);
+        return hashCode;
     }
 }
 
@@ -101,13 +112,13 @@ internal class CanExecuteChangedTarget : IEquatable<CanExecuteChangedTarget?>
 
     public bool Equals(CanExecuteChangedTarget? other)
     {
-        return other is not null && CommandName == other.CommandName;
+        return other is not null &&
+               CommandName == other.CommandName;
     }
 
     public override int GetHashCode()
     {
-        return 423427 +
-           EqualityComparer<string>.Default.GetHashCode(CommandName);
+        return -365693919 + EqualityComparer<string>.Default.GetHashCode(CommandName);
     }
 }
 
@@ -127,12 +138,12 @@ internal class RaisePropertyChangedTarget : IEquatable<RaisePropertyChangedTarge
 
     public bool Equals(RaisePropertyChangedTarget? other)
     {
-        return other is not null && PropertyName == other.PropertyName;
+        return other is not null &&
+               PropertyName == other.PropertyName;
     }
 
     public override int GetHashCode()
     {
-        return 56767 +
-           EqualityComparer<string>.Default.GetHashCode(PropertyName);
+        return 487910435 + EqualityComparer<string>.Default.GetHashCode(PropertyName);
     }
 }
