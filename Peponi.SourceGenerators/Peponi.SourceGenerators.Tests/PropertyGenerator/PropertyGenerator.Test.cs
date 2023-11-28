@@ -46,7 +46,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTestBoolChanged();
+        private partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -94,7 +94,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnMyPropChanged();
+        private partial void OnMyPropChanged();
     }
 }"));
     }
@@ -141,7 +141,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTestBoolChanged();
+        private partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -188,7 +188,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnMyPropChanged();
+        private partial void OnMyPropChanged();
     }
 }"));
     }
@@ -246,7 +246,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnMyPropChanged();
+        private partial void OnMyPropChanged();
     }
 }"));
     }

@@ -123,7 +123,7 @@ internal static partial class SourceWriterExtension
             if (propertyTargets[i].IsReadOnly == false)
             {
                 builder.WriteMethodComment();
-                builder.AppendLine($"partial void On{propertyTargets[i].PropertyName}Changed();");
+                builder.AppendLine($"private partial void On{propertyTargets[i].PropertyName}Changed();");
             }
         }
     }
