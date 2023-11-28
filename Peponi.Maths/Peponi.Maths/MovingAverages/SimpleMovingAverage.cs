@@ -40,7 +40,7 @@ public class SimpleMovingAverage<T> where T : struct
             _data.RemoveAt(0);
         }
 
-        _data.Add(Convert.ToDouble(newValue) / _windowSize);
+        _data.Add(Convert.ToDouble(newValue));
 
         double averageData = 0;
 
@@ -48,6 +48,8 @@ public class SimpleMovingAverage<T> where T : struct
         {
             averageData += data;
         }
+
+        averageData /= _data.Count;
 
         return (T)Convert.ChangeType(averageData, typeof(T));
     }
