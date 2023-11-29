@@ -45,8 +45,9 @@ namespace Peponi.SourceGenerators;
 /// {
 ///     private CommandBase? _testCommand;
 ///
-///     public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });</code>
+///     public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
 /// }
+/// </code>
 /// </para>
 /// </summary>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
@@ -74,8 +75,9 @@ public class CommandAttribute : Attribute
     /// {
     ///     private CommandBase? _testCommand;
     ///
-    ///     public ICommandBase MyCommand => _testCommand ??= new CommandBase(Test);</code>
+    ///     public ICommandBase MyCommand => _testCommand ??= new CommandBase(Test);
     /// }
+    /// </code>
     /// </para>
     /// </summary>
     public string? CustomName { get; set; }
