@@ -53,7 +53,7 @@ namespace Peponi.SourceGenerators;
 public class CommandAttribute : Attribute
 {
     /// <summary>
-    /// Sets the name of command
+    /// Sets the name of command<br/>
     /// Basically, generated backing member's name is target method's name with "Command" suffix
     /// <para>
     /// Input and generated code looks like followings:
@@ -80,5 +80,37 @@ public class CommandAttribute : Attribute
     /// </summary>
     public string? CustomName { get; set; }
 
+    /// <summary>
+    /// Sets the name of member that will be invoked to check whether command could executed<br/>
+    /// The member have to return <see cref="bool"/> value
+    /// <para>
+    /// Input and generated code looks like followings:
+    /// <code>
+    /// // Input
+    /// public partial class CodeTest
+    /// {
+    ///     [Command(CanExecute = ""CanExe"")]
+    ///     private void Test()
+    ///     {
+    ///         return;
+    ///     }
+    ///
+    ///     private bool CanExe()
+    ///     {
+    ///         return true;
+    ///     }
+    /// }
+    /// </code>
+    /// <code>
+    /// // Generated
+    /// public partial class CodeTest
+    /// {
+    ///     private CommandBase? _testCommand;
+    ///
+    ///     public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test, CanExe);
+    /// }
+    /// </code>
+    /// </para>
+    /// </summary>
     public string? CanExecute { get; set; }
 }
