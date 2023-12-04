@@ -9,7 +9,7 @@ namespace Peponi.SourceGenerators;
 /// <para>
 /// Input and generated code looks like followings:
 /// <code>
-/// // Input
+/// // Input - Sync
 /// public partial class CodeTest
 /// {
 ///    [Command]
@@ -29,7 +29,7 @@ namespace Peponi.SourceGenerators;
 /// }
 /// </code>
 /// <code>
-/// // Input
+/// // Input - Async
 /// public partial class CodeTest
 /// {
 ///     [Command]
@@ -91,7 +91,7 @@ public class CommandAttribute : Attribute
     /// // Input
     /// public partial class CodeTest
     /// {
-    ///     [Command(CanExecute = ""CanExe"")]
+    ///     [Command(CanExecute = "CanExe")]
     ///     private void Test()
     ///     {
     ///         return;
