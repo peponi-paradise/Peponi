@@ -10,7 +10,7 @@ internal static partial class SourceWriterExtension
         {
             builder.AppendLine("[StructLayout(LayoutKind.Auto)]");
         }
-        builder.Append($"{target.TypeModifier} ", true);
+        builder.Append($"{target.Modifier} ", true);
         if (target.IsStatic) builder.Append("static ");
         if (target.IsSealed && target.ObjectType != ObjectType.Struct) builder.Append("sealed ");
         if (target.IsAbstract) builder.Append("abstract ");

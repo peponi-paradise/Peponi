@@ -51,7 +51,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -67,7 +67,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property]
-    [MethodCall(""MyMethod"", Section = PropertyMethodSection.Getter)]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter)]
     private bool _testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
@@ -104,7 +104,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -157,7 +157,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -212,7 +212,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -228,8 +228,8 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property]
-    [MethodCall(""MyMethod"", Section = PropertyMethodSection.Getter)]
-    [MethodCall(""OtherMethod"", Section = PropertyMethodSection.Getter)]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter)]
+    [MethodCall(""OtherMethod"", Section = PropertySection.Getter)]
     private bool _testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
@@ -267,7 +267,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -283,7 +283,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property]
-    [MethodCall(""MyMethod"", Section = PropertyMethodSection.Getter)]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter)]
     [MethodCall(""OtherMethod"")]
     private bool _testBool = false;
 }",
@@ -322,7 +322,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -338,7 +338,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property]
-    [MethodCall(""MyMethod"", Section = PropertyMethodSection.Getter, Args = ""TestBool, FieldA"")]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter, Args = ""TestBool, FieldA"")]
     [MethodCall(""OtherMethod"", Args = ""TestBool, FieldB"")]
     private bool _testBool = false;
 }",
@@ -377,7 +377,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }

@@ -97,7 +97,7 @@ public class BaseClass
     public List<string> TestList = new();
 }
 
-[Inject(typeof(BaseClass), InjectionType.Dependency, TypeModifier = Modifier.Protected)]
+[Inject(typeof(BaseClass), InjectionType.Dependency, Modifier = Modifier.Protected)]
 public partial struct TestClass
 {}", diag));
     }

@@ -48,7 +48,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -98,7 +98,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }

@@ -154,7 +154,7 @@ public class InjectAttribute : Attribute
     ///     public bool TestBool = false;
     /// }
     ///
-    /// [Inject(typeof(BaseClass), InjectionType.Dependency, TypeModifier = Modifier.Protected)]
+    /// [Inject(typeof(BaseClass), InjectionType.Dependency, Modifier = Modifier.Protected)]
     /// public partial class CodeTest
     /// {
     /// }
@@ -173,7 +173,7 @@ public class InjectAttribute : Attribute
     /// </code>
     /// </para>
     /// </summary>
-    public Modifier TypeModifier { get; set; } = Modifier.Public;
+    public Modifier Modifier { get; set; } = Modifier.Public;
 
     /// <summary>
     /// Sets the notify mode of injected target's member<br/>

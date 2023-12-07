@@ -5,19 +5,19 @@ internal class InjectTarget : IEquatable<InjectTarget?>
     public string FullTypeName;
     public string CustomName;
     public bool IsStatic;
-    public Modifier TypeModifier;
+    public Modifier Modifier;
     public NotifyType PropertyNotifyMode;
     public InjectionType InjectionMode;
     public List<PropertyTarget> Properties;
 
     public InjectTarget(string fullTypeName, string customName, bool isStatic,
-        Modifier typeModifier, NotifyType propertyNotify, InjectionType injectionMode,
+        Modifier modifier, NotifyType propertyNotify, InjectionType injectionMode,
         List<PropertyTarget> properties)
     {
         FullTypeName = fullTypeName;
         CustomName = customName;
         IsStatic = isStatic;
-        TypeModifier = typeModifier;
+        Modifier = modifier;
         PropertyNotifyMode = propertyNotify;
         InjectionMode = injectionMode;
         Properties = properties;
@@ -34,7 +34,7 @@ internal class InjectTarget : IEquatable<InjectTarget?>
                FullTypeName == other.FullTypeName &&
                CustomName == other.CustomName &&
                IsStatic == other.IsStatic &&
-               TypeModifier == other.TypeModifier &&
+               Modifier == other.Modifier &&
                PropertyNotifyMode == other.PropertyNotifyMode &&
                InjectionMode == other.InjectionMode &&
                EqualityComparer<List<PropertyTarget>>.Default.Equals(Properties, other.Properties);
@@ -46,7 +46,7 @@ internal class InjectTarget : IEquatable<InjectTarget?>
         hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(FullTypeName);
         hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(CustomName);
         hashCode = hashCode * -1521134295 + IsStatic.GetHashCode();
-        hashCode = hashCode * -1521134295 + TypeModifier.GetHashCode();
+        hashCode = hashCode * -1521134295 + Modifier.GetHashCode();
         hashCode = hashCode * -1521134295 + PropertyNotifyMode.GetHashCode();
         hashCode = hashCode * -1521134295 + InjectionMode.GetHashCode();
         hashCode = hashCode * -1521134295 + EqualityComparer<List<PropertyTarget>>.Default.GetHashCode(Properties);

@@ -46,7 +46,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -94,7 +94,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnMyPropChanged();
+        partial void OnMyPropChanged();
     }
 }"));
     }
@@ -141,7 +141,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnTestBoolChanged();
+        partial void OnTestBoolChanged();
     }
 }"));
     }
@@ -188,7 +188,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnMyPropChanged();
+        partial void OnMyPropChanged();
     }
 }"));
     }
@@ -204,7 +204,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property(CustomName = ""MyProp"", NotifyType = NotifyType.None)]
-    [MethodCall(""MyMethod"", Section = PropertyMethodSection.Getter, Args = ""TestBool, FieldA"")]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter, Args = ""TestBool, FieldA"")]
     [MethodCall(""OtherMethod"", Args = ""TestBool, FieldB"")]
     [RaiseCanExecuteChanged(""TestCommand"")]
     [RaisePropertyChanged(""TestParam"")]
@@ -246,7 +246,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        private partial void OnMyPropChanged();
+        partial void OnMyPropChanged();
     }
 }"));
     }

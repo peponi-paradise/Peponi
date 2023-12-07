@@ -3,7 +3,7 @@
 internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
 {
     public string TypeName;
-    public string TypeModifier;
+    public string Modifier;
     public string NamespaceName;
     public ObjectType ObjectType;
     public NotifyType NotifyType;
@@ -11,10 +11,10 @@ internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
     public bool IsSealed;
     public bool IsAbstract;
 
-    public ObjectDeclarationTarget(string typeName, string typeModifier, string namespaceName, ObjectType objectType, NotifyType notifyType, bool isStatic, bool isSealed, bool isAbstract)
+    public ObjectDeclarationTarget(string typeName, string modifier, string namespaceName, ObjectType objectType, NotifyType notifyType, bool isStatic, bool isSealed, bool isAbstract)
     {
         TypeName = typeName;
-        TypeModifier = typeModifier;
+        Modifier = modifier;
         NamespaceName = namespaceName;
         ObjectType = objectType;
         NotifyType = notifyType;
@@ -32,7 +32,7 @@ internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
     {
         return other is not null &&
                TypeName == other.TypeName &&
-               TypeModifier == other.TypeModifier &&
+               Modifier == other.Modifier &&
                NamespaceName == other.NamespaceName &&
                ObjectType == other.ObjectType &&
                NotifyType == other.NotifyType &&
@@ -45,7 +45,7 @@ internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
     {
         int hashCode = -478015754;
         hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TypeName);
-        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TypeModifier);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Modifier);
         hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(NamespaceName);
         hashCode = hashCode * -1521134295 + ObjectType.GetHashCode();
         hashCode = hashCode * -1521134295 + NotifyType.GetHashCode();

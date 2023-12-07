@@ -60,7 +60,7 @@ internal static partial class SourceWriterExtension
                 builder.Indent++;
                 foreach (var method in property.PropertyMethods)
                 {
-                    if (method.Section == PropertyMethodSection.Getter)
+                    if (method.Section == PropertySection.Getter)
                     {
                         builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                     }
@@ -87,7 +87,7 @@ internal static partial class SourceWriterExtension
                 {
                     foreach (var method in property.PropertyMethods)
                     {
-                        if (method.Section == PropertyMethodSection.Setter)
+                        if (method.Section == PropertySection.Setter)
                         {
                             builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                         }
@@ -123,7 +123,7 @@ internal static partial class SourceWriterExtension
             if (propertyTargets[i].IsReadOnly == false)
             {
                 builder.WriteMethodComment();
-                builder.AppendLine($"private partial void On{propertyTargets[i].PropertyName}Changed();");
+                builder.AppendLine($"partial void On{propertyTargets[i].PropertyName}Changed();");
             }
         }
     }
@@ -139,11 +139,11 @@ internal static partial class SourceWriterExtension
                 // Inject object
 
                 string injectObjectName = target.FullTypeName.Split('.').Last().Replace("?", "");
-                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.TypeModifier) : target.CustomName;
+                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.Modifier) : target.CustomName;
                 if (!target.IsStatic)
                 {
                     builder.WriteMemberComment();
-                    builder.AppendLine($"{Creater.GetAccessibilityString(target.TypeModifier)} {target.FullTypeName} {injectObjectName};");
+                    builder.AppendLine($"{Creater.GetAccessibilityString(target.Modifier)} {target.FullTypeName} {injectObjectName};");
                     builder.NewLine();
 
                     if (target.InjectionMode == InjectionType.Dependency || target.InjectionMode == (InjectionType.Dependency | InjectionType.Model))
@@ -178,7 +178,7 @@ internal static partial class SourceWriterExtension
 
                         foreach (var method in property.PropertyMethods)
                         {
-                            if (method.Section == PropertyMethodSection.Getter)
+                            if (method.Section == PropertySection.Getter)
                             {
                                 builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                             }
@@ -207,7 +207,7 @@ internal static partial class SourceWriterExtension
                         {
                             foreach (var method in property.PropertyMethods)
                             {
-                                if (method.Section == PropertyMethodSection.Setter)
+                                if (method.Section == PropertySection.Setter)
                                 {
                                     builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                                 }

@@ -1,6 +1,6 @@
 ﻿namespace Peponi.SourceGenerators;
 
-public enum PropertyMethodSection
+public enum PropertySection
 {
     Setter,
     Getter

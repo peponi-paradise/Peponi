@@ -322,7 +322,7 @@ namespace GeneratorTest
     }
 
     [TestMethod]
-    public void StructWithTypeModifier()
+    public void StructWithModifier()
     {
         Assert.IsTrue(InjectCompare.CompareCode(
 @"using Peponi.SourceGenerators;
@@ -336,7 +336,7 @@ public class BaseClass
     public List<string> TestList = new();
 }
 
-[Inject(typeof(BaseClass), InjectionType.Dependency, TypeModifier = Modifier.Private)]
+[Inject(typeof(BaseClass), InjectionType.Dependency, Modifier = Modifier.Private)]
 public partial struct CodeTest
 {
 }",
@@ -749,8 +749,8 @@ public struct BaseStruct
 }
 
 [Inject(typeof(BaseClass), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedClassName"")]
-[Inject(typeof(BaseRecord), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedRecord"", TypeModifier = Modifier.Internal)]
-[Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedStruct"", TypeModifier = Modifier.Private, PropertyNotifyMode = NotifyType.None)]
+[Inject(typeof(BaseRecord), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedRecord"", Modifier = Modifier.Internal)]
+[Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedStruct"", Modifier = Modifier.Private, PropertyNotifyMode = NotifyType.None)]
 public partial struct CodeTest
 {
 }",

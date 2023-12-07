@@ -62,11 +62,11 @@ internal class PropertyTarget : IEquatable<PropertyTarget?>
 
 internal class PropertyMethodCallTarget : IEquatable<PropertyMethodCallTarget?>
 {
-    public PropertyMethodSection Section;
+    public PropertySection Section;
     public string MethodName;
     public string MethodArgs;
 
-    public PropertyMethodCallTarget(PropertyMethodSection section, string methodName, string methodArgs)
+    public PropertyMethodCallTarget(PropertySection section, string methodName, string methodArgs)
     {
         Section = section;
         MethodName = methodName;
