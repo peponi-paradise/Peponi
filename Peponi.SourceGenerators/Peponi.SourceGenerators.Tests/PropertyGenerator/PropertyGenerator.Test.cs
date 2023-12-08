@@ -14,7 +14,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property]
-    private bool _testBool = false;
+    private bool b_testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
 // Github : https://github.com/peponi-paradise/Peponi
@@ -31,12 +31,12 @@ namespace GeneratorTest
         /// </summary>
         public bool TestBool
         {
-            get => _testBool;
+            get => b_testBool;
             set
             {
-                if(_testBool != value)
+                if(b_testBool != value)
                 {
-                    _testBool = value;
+                    b_testBool = value;
                     OnPropertyChanged(nameof(TestBool));
                     OnTestBoolChanged();
                 }
@@ -110,7 +110,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Property(NotifyType = NotifyType.None)]
-    private bool _testBool = false;
+    private bool testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
 // Github : https://github.com/peponi-paradise/Peponi
@@ -127,12 +127,12 @@ namespace GeneratorTest
         /// </summary>
         public bool TestBool
         {
-            get => _testBool;
+            get => testBool;
             set
             {
-                if(_testBool != value)
+                if(testBool != value)
                 {
-                    _testBool = value;
+                    testBool = value;
                     OnTestBoolChanged();
                 }
             }
