@@ -2,11 +2,32 @@
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
-	  <LangVersion>10.0</LangVersion>
-	  <ImplicitUsings>enable</ImplicitUsings>
-	  <Nullable>enable</Nullable>
-	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
-	  <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+	<LangVersion>10.0</LangVersion>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	<PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+    <Title>$(AssemblyName)</Title>
+    <Authors>Peponi</Authors>
+	<Owners>Peponi</Owners>
+    <Company>https://peponi-paradise.tistory.com</Company>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators</PackageProjectUrl>
+    <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+    <Description>Peponi.SourceGenerators is a package for generating codes.
+Including generators are:
+
+1. ICommand
+2. Object injection
+3. Method caller in property
+4. INotifyPropertyChanged
+5. Property
+6. Raise can execute
+7. Raise property changed</Description>
+    <Copyright>Copyright (c) 2023 peponi</Copyright>
+    <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+    <PackageTags>Peponi;Source generator;Code generator</PackageTags>
   </PropertyGroup>
 
 	<ItemGroup>
@@ -15,5 +36,18 @@
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+	<ItemGroup>
+	  <Folder Include="Docs\" />
+      <None Update="Docs\LICENSE.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Docs\README.md">
+        <Pack>True</Pack>
+        <PackagePath>\</PackagePath>
+        <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
 	</ItemGroup>
 </Project>
