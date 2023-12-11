@@ -197,33 +197,82 @@ NuGet\Install-Package Peponi.SourceGenerators
 1. Members
     |Type|Name|Description|
     |----|----|-----------|
-    |double|X|X axis value<br>Raising `PropertyChanged` event|
-    |double|Y|Y axis value<br>Raising `PropertyChanged` event|
-    |double|Z|Z axis value<br>Raising `PropertyChanged` event|
-    |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+    |Type|Type|Sets the type will be injected<br/>Class, record, struct types are supported|
+    |InjectionType|InjectionMode|Sets the injecting mode<br/>Supports<br/>`InjectionType.Dependency`<br/>`InjectionType.Model`<br/>`InjectionType.Dependency \| InjectionType.Model`|
+    |string?|CustomName|Sets the name of injecting target<br/>Basically, generated member's name is same as injecting target|
+    |Modifier|Modifier|Sets the modifier of injecting target|
+    |NotifyType|PropertyNotifyMode|Sets the notify mode of injected target's member<br/>This is valid for `InjectionType.Model`|
 2. Methods
     |Return type|Name|Description|
     |-----------|----|-----------|
-    |CartesianCoordinate3D|CartesianCoordinate3D()|Default constructor|
-    |CartesianCoordinate3D|CartesianCoordinate3D(double, double, double)|Constructor|
-    |void|Deconstruct(out double, out double, out double)|Deconstructor|
-    |double|GetDistanceFromOrigin()|Returns <code>√(X<sup>2</sup>+Y<sup>2</sup>+Z<sup>2</sup>)</code>|
-    |string|ToString()|Returns `X, Y, Z`|
-3. Example
+    |InjectAttribute|Inject(Type, InjectionType)|Default constructor|
+3. Description
+    Use this attribute for injecting members by the selected object.
+    Partial type declaration is required for using this attribute.
+    Using multiple attributes is allowed.
+    Class, record, struct types are supported.
+
+    Input and generated code looks like followings:
+
     ```cs
-    using Peponi.Maths.Coordinates;
+    // Input
+    public class BaseClass
+    {
+        public int TestIng = 0;
+        public bool TestBool = false;
+        public List<string> TestList = new();
+    }
 
-    var coordinate = new(3, 4, 5);
-    var (x, y, z) = coordinate;
-
-    Console.WriteLine(coordinate.GetDistanceFromOrigin());
-    Console.WriteLine(coordinate.ToString());
-
-    /* output:
-    7.071068 ...
-    3, 4, 5
-    */
+    [Inject(typeof(BaseClass), InjectionType.Dependency)]
+    public partial class CodeTest
+    {
+    }
     ```
+    ```cs
+    // Generated
+    public partial class CodeTest
+    {
+        public global::GeneratorTest.BaseClass BaseClass;
+
+        public CodeTest(global::GeneratorTest.BaseClass BaseClass)
+        {
+            this.BaseClass = BaseClass;
+        }
+    }
+    ```
+
+    As a result, user could use `Inject` attribute like followings:
+
+    ```cs
+    public class BaseClass
+    {
+        public int TestInt = 0;
+        public bool TestBool = false;
+        public List<string> TestList = new();
+    }
+
+    public record BaseRecord
+    {
+        public float TestFloat = 0;
+        public string TestString = string.Empty;
+        public Dictionary<string, string> TestDic = new();
+    }
+
+    public struct BaseStruct
+    {
+        public double TestDouble;
+        public char TestChar;
+        public long TestLong;
+    }
+
+    [Inject(typeof(BaseClass), InjectionType.Dependency)]
+    [Inject(typeof(BaseRecord), InjectionType.Model, CustomName = "ChangedRecord")]
+    [Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, CustomName = ""ChangedStruct"", Modifier = Modifier.Protected, PropertyNotifyMode = NotifyType.None)]
+    public partial class CodeTest
+    {
+    }
+    ```
+
 
 
 ### 2.3. CylindricalCoordinate
