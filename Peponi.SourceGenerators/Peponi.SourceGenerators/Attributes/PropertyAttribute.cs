@@ -2,6 +2,7 @@
 
 /// <summary>
 /// This attribute creates a property using given field as backing field<br/>
+/// Partial type declaration is required for using this attribute<br/>
 /// By default, Notify type is <see cref="NotifyType.Notify"/>
 /// <para>
 /// <code>
@@ -30,7 +31,8 @@
 /// </para>
 /// </summary>
 /// <remarks>
-/// Generated properties use the UpperCamelCase as name format<br/>
+/// Generated properties use the UpperCamelCase as name format<br/><br/>
+/// <see href="주소 넣어야 함"/>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public class PropertyAttribute : Attribute

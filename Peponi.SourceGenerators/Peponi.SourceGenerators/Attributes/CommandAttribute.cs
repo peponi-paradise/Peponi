@@ -50,6 +50,9 @@ namespace Peponi.SourceGenerators;
 /// </code>
 /// </para>
 /// </summary>
+/// <remarks>
+/// <see href="주소 넣어야 함"/>
+/// </remarks>
 [AttributeUsage(AttributeTargets.Method, AllowMultiple = false, Inherited = false)]
 public class CommandAttribute : Attribute
 {

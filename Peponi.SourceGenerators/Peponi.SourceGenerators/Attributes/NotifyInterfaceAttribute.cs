@@ -4,6 +4,7 @@ namespace Peponi.SourceGenerators;
 
 /// <summary>
 /// This is an attribute that creating <see cref="INotifyPropertyChanged"/> automatically<br/>
+/// Partial type declaration is required for using this attribute<br/>
 /// Supports <see langword="class"/>, <see langword="record"/>, <see langword="struct"/>
 /// <para>
 /// <code>
@@ -32,6 +33,9 @@ namespace Peponi.SourceGenerators;
 /// </code>
 /// </para>
 /// </summary>
+/// <remarks>
+/// <see href="주소 넣어야 함"/>
+/// </remarks>
 [AttributeUsage(AttributeTargets.Class | AttributeTargets.Struct, AllowMultiple = false, Inherited = false)]
 public class NotifyInterfaceAttribute : Attribute
 {

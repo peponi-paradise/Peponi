@@ -4,6 +4,7 @@ namespace Peponi.SourceGenerators;
 
 /// <summary>
 /// This is an attribute for raising whether certain command could execute or not<br/>
+/// <see cref="PropertyAttribute"/> is required to use this attribute<br/>
 /// Generated property will call <see cref="ICommandBase.RaiseCanExecuteChanged"/> at setter
 /// <para>
 /// <code>
@@ -33,6 +34,9 @@ namespace Peponi.SourceGenerators;
 /// </code>
 /// </para>
 /// </summary>
+/// <remarks>
+/// <see href="주소 넣어야 함"/>
+/// </remarks>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true, Inherited = false)]
 public class RaiseCanExecuteChangedAttribute : Attribute
 {

@@ -1,7 +1,8 @@
 ﻿namespace Peponi.SourceGenerators;
 
 /// <summary>
-/// Inject methods on getter or setter of property
+/// Inject methods on getter or setter of property<br/>
+/// <see cref="PropertyAttribute"/> is required to use this attribute
 /// <para>
 /// <code>
 /// // input
@@ -41,6 +42,9 @@
 /// </code>
 /// </para>
 /// </summary>
+/// <remarks>
+/// <see href="주소 넣어야 함"/>
+/// </remarks>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
 public class MethodCallAttribute : Attribute
 {
