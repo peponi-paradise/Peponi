@@ -13,7 +13,8 @@ internal static class InjectErrors
        category: "Inject",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported objects are - class, record, struct.");
+       description: "Supported objects are - class, record, struct.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/InjectGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CouldNotFindTypeModifier = new DiagnosticDescriptor(
        id: "PNIJT002",
@@ -22,23 +23,26 @@ internal static class InjectErrors
        category: "Inject",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported modifiers are - public, protected, internal, private.");
+       description: "Supported modifiers are - public, protected, internal, private.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/InjectGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor InjectTargetResolveError = new DiagnosticDescriptor(
-      id: "PNIJT003",
-      title: "Inject target resolve error",
-      messageFormat: "Failed to resolve inject object",
-      category: "Inject",
-      defaultSeverity: DiagnosticSeverity.Error,
-      isEnabledByDefault: true,
-      description: "Please check inject object.");
+       id: "PNIJT003",
+       title: "Inject target resolve error",
+       messageFormat: "Failed to resolve inject object",
+       category: "Inject",
+       defaultSeverity: DiagnosticSeverity.Error,
+       isEnabledByDefault: true,
+       description: "Please check inject object.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/InjectGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor StructObjectInjectModifierError = new DiagnosticDescriptor(
-      id: "PNIJT004",
-      title: "Inject target modifier error",
-      messageFormat: "Not supported modifier - Could not use 'protected' to 'struct' object",
-      category: "Inject",
-      defaultSeverity: DiagnosticSeverity.Error,
-      isEnabledByDefault: true,
-      description: "Please check inject modifier.");
+       id: "PNIJT004",
+       title: "Inject target modifier error",
+       messageFormat: "Not supported modifier - Could not use 'protected' to 'struct' object",
+       category: "Inject",
+       defaultSeverity: DiagnosticSeverity.Error,
+       isEnabledByDefault: true,
+       description: "Please check inject modifier.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/InjectGenerator.Errors.md");
 }
