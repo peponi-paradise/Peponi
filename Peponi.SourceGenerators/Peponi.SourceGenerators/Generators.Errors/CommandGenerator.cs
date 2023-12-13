@@ -13,7 +13,8 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Could not find proper type symbol. Please check type declaration.");
+       description: "Could not find proper type symbol. Please check type declaration.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CouldNotFindTypeObject = new DiagnosticDescriptor(
        id: "PNCMD002",
@@ -22,7 +23,8 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported objects are - class, record, struct.");
+       description: "Supported objects are - class, record, struct.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CouldNotFindTypeModifier = new DiagnosticDescriptor(
        id: "PNCMD003",
@@ -31,7 +33,8 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported modifiers are - public, protected, internal, private.");
+       description: "Supported modifiers are - public, protected, internal, private.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor MethodReturnType = new DiagnosticDescriptor(
        id: "PNCMD010",
@@ -40,7 +43,8 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported return types are - void, Task, Task<T>.");
+       description: "Supported return types are - void, Task, Task<T>.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CanExecuteReturnType = new DiagnosticDescriptor(
        id: "PNCMD020",
@@ -49,7 +53,8 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported return type is boolean.");
+       description: "Supported return type is boolean.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CanExecuteParameterType = new DiagnosticDescriptor(
        id: "PNCMD021",
@@ -58,5 +63,6 @@ internal static class CommandErrors
        category: "Command",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Parameter type should be void or matched with command parameter.");
+       description: "Parameter type should be void or matched with command parameter.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/CommandGenerator.Errors.md");
 }
