@@ -38,11 +38,22 @@ Including generators are:
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 	<ItemGroup>
-	  <Folder Include="Docs\" />
+      <None Update="Docs\CommandGenerator.Errors.md">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+      <None Update="Docs\InjectGenerator.Errors.md">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
       <None Update="Docs\LICENSE.md">
         <Pack>True</Pack>
         <PackagePath>\</PackagePath>
         <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      </None>
+      <None Update="Docs\NotifyInterfaceGenerator.Errors.md">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+      </None>
+      <None Update="Docs\PropertyGenerator.Errors.md">
+        <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>
       <None Update="Docs\README.md">
         <Pack>True</Pack>

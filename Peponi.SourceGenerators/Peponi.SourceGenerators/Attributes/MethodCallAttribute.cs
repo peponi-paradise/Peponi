@@ -43,7 +43,7 @@
 /// </para>
 /// </summary>
 /// <remarks>
-/// <see href="주소 넣어야 함"/>
+/// <see href="https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators"/>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = true)]
 public class MethodCallAttribute : Attribute

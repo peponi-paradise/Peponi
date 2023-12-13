@@ -32,7 +32,7 @@
 /// </summary>
 /// <remarks>
 /// Generated properties use the UpperCamelCase as name format<br/><br/>
-/// <see href="주소 넣어야 함"/>
+/// <see href="https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators"/>
 /// </remarks>
 [AttributeUsage(AttributeTargets.Field, AllowMultiple = false, Inherited = false)]
 public class PropertyAttribute : Attribute

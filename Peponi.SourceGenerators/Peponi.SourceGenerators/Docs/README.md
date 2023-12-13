@@ -85,38 +85,37 @@ NuGet\Install-Package Peponi.SourceGenerators
 
 
 1. Description
-    This is an attribute that creating `INotifyPropertyChanged` automatically.
-    Partial type declaration is required for using this attribute.
-    Supports `class`, `record`, `struct`.
+    - This is an attribute that creating `INotifyPropertyChanged` automatically.
+    - Partial type declaration is required for using this attribute.
+    - Supports `class`, `record`, `struct`.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    [NotifyInterface]
-    public partial class CodeTest
-    {
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest : INotifyPropertyChanged
-    {
-        public event PropertyChangedEventHandler? PropertyChanged;
-
-        protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+        [NotifyInterface]
+        public partial class CodeTest
         {
-            PropertyChanged?.Invoke(this, e);
         }
+        ```
+        ```cs
+        // Generated
 
-        protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+        public partial class CodeTest : INotifyPropertyChanged
         {
-            OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            public event PropertyChangedEventHandler? PropertyChanged;
+
+            protected virtual void OnPropertyChanged(PropertyChangedEventArgs e)
+            {
+                PropertyChanged?.Invoke(this, e);
+            }
+
+            protected void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+            {
+                OnPropertyChanged(new PropertyChangedEventArgs(propertyName));
+            }
         }
-    }
-    ```
+        ```
 
 
 ### 2.2. Property
@@ -128,120 +127,117 @@ NuGet\Install-Package Peponi.SourceGenerators
     |string?|CustomName|Sets the custom name of property|
     |NotifyType|NotifyType|Sets the property's notification type|
 2. Description
-    This attribute creates a property using given field as backing field.
-    Partial type declaration is required for using this attribute.
-    By default, Notify type is `NotifyType.Notify`.
+    - This attribute creates a property using given field as backing field.
+    - Partial type declaration is required for using this attribute.
+    - By default, Notify type is `NotifyType.Notify`.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool TestBool
+        public partial class CodeTest
         {
-            get => _testBool;
-            set
+            [Property]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool TestBool
             {
-                if(_testBool != value)
+                get => _testBool;
+                set
                 {
-                    _testBool = value;
-                    OnPropertyChanged(nameof(TestBool));
-                    OnTestBoolChanged();
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnPropertyChanged(nameof(TestBool));
+                        OnTestBoolChanged();
+                    }
                 }
             }
+
+            partial void OnTestBoolChanged();
         }
+        ```
 
-        partial void OnTestBoolChanged();
-    }
-    ```
+    - User could change property's name and its notification type.
+        ```cs
+        // Input
 
-    User could change property's name and its notification type.
-
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property(CustomName = "MyProp", NotifyType = NotifyType.None)]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool MyProp
+        public partial class CodeTest
         {
-            get => _testBool;
-            set
+            [Property(CustomName = "MyProp", NotifyType = NotifyType.None)]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool MyProp
             {
-                if(_testBool != value)
+                get => _testBool;
+                set
                 {
-                    _testBool = value;
-                    OnMyPropChanged();
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnMyPropChanged();
+                    }
                 }
             }
+
+            partial void OnMyPropChanged();
         }
+        ```
 
-        partial void OnMyPropChanged();
-    }
-    ```
+    - Finally, user could use `Property` attribute like followings:
+        ```cs
+        // Input
 
-    Finally, user could use `Property` attribute like followings:
-
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property(CustomName = "MyProp", NotifyType = NotifyType.None)]
-        [MethodCall("MyMethod", Section = PropertySection.Getter, Args = "TestBool, FieldA")]
-        [MethodCall("OtherMethod", Args = "TestBool, FieldB")]
-        [RaiseCanExecuteChanged("TestCommand")]
-        [RaisePropertyChanged("TestParam")]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool MyProp
+        public partial class CodeTest
         {
-            get
+            [Property(CustomName = "MyProp", NotifyType = NotifyType.None)]
+            [MethodCall("MyMethod", Section = PropertySection.Getter, Args = "TestBool, FieldA")]
+            [MethodCall("OtherMethod", Args = "TestBool, FieldB")]
+            [RaiseCanExecuteChanged("TestCommand")]
+            [RaisePropertyChanged("TestParam")]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool MyProp
             {
-                MyMethod(TestBool, FieldA);
-                return _testBool;
-            }
-            set
-            {
-                if(_testBool != value)
+                get
                 {
-                    _testBool = value;
-                    OnMyPropChanged();
-                    OtherMethod(TestBool, FieldB);
-                    TestCommand.RaiseCanExecuteChanged();
-                    OnPropertyChanged(nameof(TestParam));
+                    MyMethod(TestBool, FieldA);
+                    return _testBool;
+                }
+                set
+                {
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnMyPropChanged();
+                        OtherMethod(TestBool, FieldB);
+                        TestCommand.RaiseCanExecuteChanged();
+                        OnPropertyChanged(nameof(TestParam));
+                    }
                 }
             }
-        }
 
-        partial void OnMyPropChanged();
-    }
-    ```
+            partial void OnMyPropChanged();
+        }
+        ```
 
 
 ### 2.3. MethodCall
@@ -258,88 +254,86 @@ NuGet\Install-Package Peponi.SourceGenerators
     |-----------|----|-----------|
     |MethodCallAttribute|MethodCall(string)|Default constructor|
 3. Description
-    Inject methods on getter or setter of property.
-    [2.2. Property](#22-property) is required to use this attribute.
+    - Inject methods on getter or setter of property.
+    - [2.2. Property](#22-property) is required to use this attribute.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property]
-        [MethodCall("MyMethod")]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-    
-    public partial class CodeTest
-    {
-        public bool TestBool
+        public partial class CodeTest
         {
-            get
+            [Property]
+            [MethodCall("MyMethod")]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool TestBool
             {
-                return _testBool;
-            }
-            set
-            {
-                if(_testBool != value)
+                get
                 {
-                    _testBool = value;
-                    OnPropertyChanged(nameof(TestBool));
-                    OnTestBoolChanged();
-                    MyMethod();
+                    return _testBool;
+                }
+                set
+                {
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnPropertyChanged(nameof(TestBool));
+                        OnTestBoolChanged();
+                        MyMethod();
+                    }
                 }
             }
+
+            partial void OnTestBoolChanged();
         }
+        ```
 
-        partial void OnTestBoolChanged();
-    }
-    ```
+    - As a result, user could use `MethodCall` attribute like followings:
+        ```cs
+        // Input
 
-    As a result, user could use `MethodCall` attribute like followings:
-
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property]
-        [MethodCall("MyMethod", Section = PropertySection.Getter, Args = "TestBool, FieldA")]
-        [MethodCall("OtherMethod", Args = "TestBool, FieldB")]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool TestBool
+        public partial class CodeTest
         {
-            get
+            [Property]
+            [MethodCall("MyMethod", Section = PropertySection.Getter, Args = "TestBool, FieldA")]
+            [MethodCall("OtherMethod", Args = "TestBool, FieldB")]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool TestBool
             {
-                MyMethod(TestBool, FieldA);
-                return _testBool;
-            }
-            set
-            {
-                if(_testBool != value)
+                get
                 {
-                    _testBool = value;
-                    OnPropertyChanged(nameof(TestBool));
-                    OnTestBoolChanged();
-                    OtherMethod(TestBool, FieldB);
+                    MyMethod(TestBool, FieldA);
+                    return _testBool;
+                }
+                set
+                {
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnPropertyChanged(nameof(TestBool));
+                        OnTestBoolChanged();
+                        OtherMethod(TestBool, FieldB);
+                    }
                 }
             }
-        }
 
-        partial void OnTestBoolChanged();
-    }
-    ```
+            partial void OnTestBoolChanged();
+        }
+        ```
 
 
 ### 2.4. RaiseCanExecuteChanged
@@ -354,45 +348,44 @@ NuGet\Install-Package Peponi.SourceGenerators
     |-----------|----|-----------|
     |RaiseCanExecuteChangedAttribute|RaiseCanExecuteChanged(string)|Default constructor|
 3. Description
-    This is an attribute for raising whether certain command could execute or not.
-    [2.2. Property](#22-property) is required to use this attribute.
-    Generated property will call `ICommandBase.RaiseCanExecuteChanged` at setter.
+    - This is an attribute for raising whether certain command could execute or not.
+    - [2.2. Property](#22-property) is required to use this attribute.
+    - Generated property will call `ICommandBase.RaiseCanExecuteChanged` at setter.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property]
-        [RaiseCanExecuteChanged("TestCommand")]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool TestBool
+        public partial class CodeTest
         {
-            get => _testBool;
-            set
+            [Property]
+            [RaiseCanExecuteChanged("TestCommand")]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool TestBool
             {
-                if(_testBool != value)
+                get => _testBool;
+                set
                 {
-                    _testBool = value;
-                    OnPropertyChanged(nameof(TestBool));
-                    OnTestBoolChanged();
-                    TestCommand.RaiseCanExecuteChanged();
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnPropertyChanged(nameof(TestBool));
+                        OnTestBoolChanged();
+                        TestCommand.RaiseCanExecuteChanged();
+                    }
                 }
             }
-        }
 
-        partial void OnTestBoolChanged();
-    }
-    ```
+            partial void OnTestBoolChanged();
+        }
+        ```
 
 
 ### 2.5. RaisePropertyChanged
@@ -407,45 +400,44 @@ NuGet\Install-Package Peponi.SourceGenerators
     |-----------|----|-----------|
     |RaisePropertyChangedAttribute|RaisePropertyChanged(string)|Default constructor|
 3. Description
-    This is an attribute for raising `INotifyPropertyChanged.PropertyChanged` for other property.
-    [2.2. Property](#22-property) is required to use this attribute.
-    Generated property will call `INotifyPropertyChanged.PropertyChanged` at setter.
+    - This is an attribute for raising `INotifyPropertyChanged.PropertyChanged` for other property.
+    - [2.2. Property](#22-property) is required to use this attribute.
+    - Generated property will call `INotifyPropertyChanged.PropertyChanged` at setter.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Property]
-        [RaisePropertyChanged("TestParam")]
-        private bool _testBool = false;
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public bool TestBool
+        public partial class CodeTest
         {
-            get => _testBool;
-            set
+            [Property]
+            [RaisePropertyChanged("TestParam")]
+            private bool _testBool = false;
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public bool TestBool
             {
-                if(_testBool != value)
+                get => _testBool;
+                set
                 {
-                    _testBool = value;
-                    OnPropertyChanged(nameof(TestBool));
-                    OnTestBoolChanged();
-                    OnPropertyChanged(nameof(TestParam));
+                    if(_testBool != value)
+                    {
+                        _testBool = value;
+                        OnPropertyChanged(nameof(TestBool));
+                        OnTestBoolChanged();
+                        OnPropertyChanged(nameof(TestParam));
+                    }
                 }
             }
-        }
 
-        partial void OnTestBoolChanged();
-    }
-    ```
+            partial void OnTestBoolChanged();
+        }
+        ```
 
 
 ### 2.6. Command
@@ -457,86 +449,84 @@ NuGet\Install-Package Peponi.SourceGenerators
     |string?|CustomName|Sets the name of command<br/>Basically, generated backing member's name is target method's name with "Command" suffix|
     |string?|CanExecute|Sets the name of member that will be invoked to check whether command could executed<br/>The member have to return bool value|
 2. Description
-    Use this attribute for generating `ICommand` members.
-    Partial type declaration is required for using this attribute.
-    Generated method's name has "Command" suffix.
+    - Use this attribute for generating `ICommand` members.
+    - Partial type declaration is required for using this attribute.
+    - Generated method's name has "Command" suffix.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input - Sync
 
-    ```cs
-    // Input - Sync
-
-    public partial class CodeTest
-    {
-       [Command]
-       private void Test()
-       {
-           return;
-       }
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        private CommandBase? _testCommand;
-
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test);
-    }
-    ```
-    ```cs
-    // Input - Async
-
-    public partial class CodeTest
-    {
-        [Command]
-        private async Task Test()
+        public partial class CodeTest
         {
-            return;
+           [Command]
+           private void Test()
+           {
+               return;
+           }
         }
-    }
-    ```
-    ```cs
-    // Generated
+        ```
+        ```cs
+        // Generated
 
-    public partial class CodeTest
-    {
-        private CommandBase? _testCommand;
-
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
-    }
-    ```
-
-    As a result, user could use `Command` attribute like followings:
-
-    ```cs
-    // Input
-
-    public partial class CodeTest
-    {
-        [Command(CustomName = "MyCommand", CanExecute = "CanExe")]
-        private void Test(int a)
+        public partial class CodeTest
         {
-            return;
-        }
+            private CommandBase? _testCommand;
 
-        private bool CanExe()
+            public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test);
+        }
+        ```
+        ```cs
+        // Input - Async
+
+        public partial class CodeTest
         {
-            return true;
+            [Command]
+            private async Task Test()
+            {
+                return;
+            }
         }
-    }
-    ```
-    ```cs
-    // Generated
+        ```
+        ```cs
+        // Generated
 
-    public partial class CodeTest
-    {
-        private CommandBase<int>? _testCommand;
+        public partial class CodeTest
+        {
+            private CommandBase? _testCommand;
 
-        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
-    }
-    ```
+            public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
+        }
+        ```
+
+    - As a result, user could use `Command` attribute like followings:
+        ```cs
+        // Input
+
+        public partial class CodeTest
+        {
+            [Command(CustomName = "MyCommand", CanExecute = "CanExe")]
+            private void Test(int a)
+            {
+                return;
+            }
+
+            private bool CanExe()
+            {
+                return true;
+            }
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            private CommandBase<int>? _testCommand;
+
+            public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
+        }
+        ```
 
 
 ### 2.7. Inject
@@ -555,179 +545,177 @@ NuGet\Install-Package Peponi.SourceGenerators
     |-----------|----|-----------|
     |InjectAttribute|Inject(Type, InjectionType)|Default constructor|
 3. Description
-    Use this attribute for injecting members by the selected object.
-    Partial type declaration is required for using this attribute.
-    Using multiple attributes is allowed.
-    Class, record, struct types are supported.
+    - Use this attribute for injecting members by the selected object.
+    - Partial type declaration is required for using this attribute.
+    - Using multiple attributes is allowed.
+    - Class, record, struct types are supported.
 
-    Input and generated code looks like followings:
+    - Input and generated code looks like followings:
+        ```cs
+        // Input
 
-    ```cs
-    // Input
-
-    public class BaseClass
-    {
-        public int TestIng = 0;
-        public bool TestBool = false;
-        public List<string> TestList = new();
-    }
-
-    [Inject(typeof(BaseClass), InjectionType.Dependency)]
-    public partial class CodeTest
-    {
-    }
-    ```
-    ```cs
-    // Generated
-
-    public partial class CodeTest
-    {
-        public global::GeneratorTest.BaseClass BaseClass;
-
-        public CodeTest(global::GeneratorTest.BaseClass BaseClass)
+        public class BaseClass
         {
-            this.BaseClass = BaseClass;
+            public int TestIng = 0;
+            public bool TestBool = false;
+            public List<string> TestList = new();
         }
-    }
-    ```
 
-    As a result, user could use `Inject` attribute like followings:
-
-    ```cs
-    // Input
-
-    public class BaseClass
-    {
-        public int TestInt = 0;
-        public bool TestBool = false;
-        public List<string> TestList = new();
-    }
-
-    public record BaseRecord
-    {
-        public float TestFloat = 0;
-        public string TestString = string.Empty;
-        public Dictionary<string, string> TestDic = new();
-    }
-
-    public struct BaseStruct
-    {
-        public double TestDouble;
-        public char TestChar;
-        public long TestLong;
-    }
-
-    [Inject(typeof(BaseClass), InjectionType.Dependency)]
-    [Inject(typeof(BaseRecord), InjectionType.Model, CustomName = "ChangedRecord", Modifier = Modifier.Internal)]
-    [Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, PropertyNotifyMode = NotifyType.None)]
-    public partial class CodeTest
-    {
-    }
-    ```
-    ```cs
-    // Generated
-    
-    public partial class CodeTest
-    {
-        public global::GeneratorTest.BaseClass BaseClass;
-
-        internal global::GeneratorTest.BaseRecord ChangedRecord;
-
-        public float TestFloat
+        [Inject(typeof(BaseClass), InjectionType.Dependency)]
+        public partial class CodeTest
         {
-            get => ChangedRecord.TestFloat;
-            set
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public global::GeneratorTest.BaseClass BaseClass;
+
+            public CodeTest(global::GeneratorTest.BaseClass BaseClass)
             {
-                if(ChangedRecord.TestFloat != value)
-                {
-                    ChangedRecord.TestFloat = value;
-                    OnPropertyChanged(nameof(TestFloat));
-                    OnTestFloatChanged();
-                }
+                this.BaseClass = BaseClass;
             }
         }
+        ```
 
-        public string TestString
+    - As a result, user could use `Inject` attribute like followings:
+        ```cs
+        // Input
+
+        public class BaseClass
         {
-            get => ChangedRecord.TestString;
-            set
+            public int TestInt = 0;
+            public bool TestBool = false;
+            public List<string> TestList = new();
+        }
+
+        public record BaseRecord
+        {
+            public float TestFloat = 0;
+            public string TestString = string.Empty;
+            public Dictionary<string, string> TestDic = new();
+        }
+
+        public struct BaseStruct
+        {
+            public double TestDouble;
+            public char TestChar;
+            public long TestLong;
+        }
+
+        [Inject(typeof(BaseClass), InjectionType.Dependency)]
+        [Inject(typeof(BaseRecord), InjectionType.Model, CustomName = "ChangedRecord", Modifier = Modifier.Internal)]
+        [Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, PropertyNotifyMode = NotifyType.None)]
+        public partial class CodeTest
+        {
+        }
+        ```
+        ```cs
+        // Generated
+
+        public partial class CodeTest
+        {
+            public global::GeneratorTest.BaseClass BaseClass;
+
+            internal global::GeneratorTest.BaseRecord ChangedRecord;
+
+            public float TestFloat
             {
-                if(ChangedRecord.TestString != value)
+                get => ChangedRecord.TestFloat;
+                set
                 {
-                    ChangedRecord.TestString = value;
-                    OnPropertyChanged(nameof(TestString));
-                    OnTestStringChanged();
+                    if(ChangedRecord.TestFloat != value)
+                    {
+                        ChangedRecord.TestFloat = value;
+                        OnPropertyChanged(nameof(TestFloat));
+                        OnTestFloatChanged();
+                    }
                 }
             }
-        }
 
-        public Dictionary<string, string> TestDic
-        {
-            get => ChangedRecord.TestDic;
-            set
+            public string TestString
             {
-                if(ChangedRecord.TestDic != value)
+                get => ChangedRecord.TestString;
+                set
                 {
-                    ChangedRecord.TestDic = value;
-                    OnPropertyChanged(nameof(TestDic));
-                    OnTestDicChanged();
+                    if(ChangedRecord.TestString != value)
+                    {
+                        ChangedRecord.TestString = value;
+                        OnPropertyChanged(nameof(TestString));
+                        OnTestStringChanged();
+                    }
                 }
             }
-        }
 
-        partial void OnTestFloatChanged();
-        partial void OnTestStringChanged();
-        partial void OnTestDicChanged();
-
-        public global::GeneratorTest.BaseStruct BaseStruct;
-
-        public double TestDouble
-        {
-            get => BaseStruct.TestDouble;
-            set
+            public Dictionary<string, string> TestDic
             {
-                if(BaseStruct.TestDouble != value)
+                get => ChangedRecord.TestDic;
+                set
                 {
-                    BaseStruct.TestDouble = value;
-                    OnTestDoubleChanged();
+                    if(ChangedRecord.TestDic != value)
+                    {
+                        ChangedRecord.TestDic = value;
+                        OnPropertyChanged(nameof(TestDic));
+                        OnTestDicChanged();
+                    }
                 }
             }
-        }
 
-        public char TestChar
-        {
-            get => BaseStruct.TestChar;
-            set
+            partial void OnTestFloatChanged();
+            partial void OnTestStringChanged();
+            partial void OnTestDicChanged();
+
+            public global::GeneratorTest.BaseStruct BaseStruct;
+
+            public double TestDouble
             {
-                if(BaseStruct.TestChar != value)
+                get => BaseStruct.TestDouble;
+                set
                 {
-                    BaseStruct.TestChar = value;
-                    OnTestCharChanged();
+                    if(BaseStruct.TestDouble != value)
+                    {
+                        BaseStruct.TestDouble = value;
+                        OnTestDoubleChanged();
+                    }
                 }
             }
-        }
 
-        public long TestLong
-        {
-            get => BaseStruct.TestLong;
-            set
+            public char TestChar
             {
-                if(BaseStruct.TestLong != value)
+                get => BaseStruct.TestChar;
+                set
                 {
-                    BaseStruct.TestLong = value;
-                    OnTestLongChanged();
+                    if(BaseStruct.TestChar != value)
+                    {
+                        BaseStruct.TestChar = value;
+                        OnTestCharChanged();
+                    }
                 }
             }
-        }
 
-        partial void OnTestDoubleChanged();
-        partial void OnTestCharChanged();
-        partial void OnTestLongChanged();
+            public long TestLong
+            {
+                get => BaseStruct.TestLong;
+                set
+                {
+                    if(BaseStruct.TestLong != value)
+                    {
+                        BaseStruct.TestLong = value;
+                        OnTestLongChanged();
+                    }
+                }
+            }
 
-        public CodeTest(global::GeneratorTest.BaseClass BaseClass, global::GeneratorTest.BaseStruct BaseStruct)
-        {
-            this.BaseClass = BaseClass;
-            this.BaseStruct = BaseStruct;
+            partial void OnTestDoubleChanged();
+            partial void OnTestCharChanged();
+            partial void OnTestLongChanged();
+
+            public CodeTest(global::GeneratorTest.BaseClass BaseClass, global::GeneratorTest.BaseStruct BaseStruct)
+            {
+                this.BaseClass = BaseClass;
+                this.BaseStruct = BaseStruct;
+            }
         }
-    }
-    ```
+        ```
