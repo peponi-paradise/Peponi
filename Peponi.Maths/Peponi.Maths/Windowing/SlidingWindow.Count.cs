@@ -2,9 +2,10 @@
 
 /// <summary>
 /// Compute sliding windows
-/// <br/>
-/// <see href="주소 넣어야 함"/>
 /// </summary>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.Maths/Peponi.Maths/Docs/README.md"/>
+/// </remarks>
 public static partial class SlidingWindows
 {
     /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>

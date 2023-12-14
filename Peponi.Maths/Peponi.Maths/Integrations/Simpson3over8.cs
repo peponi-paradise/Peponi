@@ -4,9 +4,10 @@ namespace Peponi.Maths.Integration;
 
 /// <summary>
 /// Compute by Simpson's 3/8 rule.
-/// <br/>
-/// <see href="주소 넣어야 함"/>
 /// </summary>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.Maths/Peponi.Maths/Docs/README.md"/>
+/// </remarks>
 public static class Simpson3over8
 {
     /// <summary>

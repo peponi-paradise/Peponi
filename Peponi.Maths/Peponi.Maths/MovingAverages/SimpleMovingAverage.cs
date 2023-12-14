@@ -2,10 +2,11 @@
 
 /// <summary>
 /// Compute single moving average
-/// <br/>
-/// <see href="주소 넣어야 함"/>
 /// </summary>
 /// <typeparam name="T">Struct type</typeparam>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.Maths/Peponi.Maths/Docs/README.md"/>
+/// </remarks>
 public class SimpleMovingAverage<T> where T : struct
 {
     private List<double> _data = new();

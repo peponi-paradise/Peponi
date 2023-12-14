@@ -4,9 +4,10 @@
 /// Convert value to selected unit
 /// <br/>
 /// Convert value to double internally
-/// <br/>
-/// <see href="주소 넣어야 함"/>
 /// </summary>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.Maths/Peponi.Maths/Docs/README.md"/>
+/// </remarks>
 public static class UnitConvert
 {
     /// <summary>

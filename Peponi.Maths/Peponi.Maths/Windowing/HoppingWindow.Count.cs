@@ -2,9 +2,10 @@
 
 /// <summary>
 /// Compute hopping windows
-/// <br/>
-/// <see href="주소 넣어야 함"/>
 /// </summary>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.Maths/Peponi.Maths/Docs/README.md"/>
+/// </remarks>
 public static partial class HoppingWindows
 {
     /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
