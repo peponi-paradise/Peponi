@@ -3,7 +3,7 @@
 internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
 {
     public string TypeName;
-    public string TypeModifier;
+    public string Modifier;
     public string NamespaceName;
     public ObjectType ObjectType;
     public NotifyType NotifyType;
@@ -11,10 +11,10 @@ internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
     public bool IsSealed;
     public bool IsAbstract;
 
-    public ObjectDeclarationTarget(string typeName, string typeModifier, string namespaceName, ObjectType objectType, NotifyType notifyType, bool isStatic, bool isSealed, bool isAbstract)
+    public ObjectDeclarationTarget(string typeName, string modifier, string namespaceName, ObjectType objectType, NotifyType notifyType, bool isStatic, bool isSealed, bool isAbstract)
     {
         TypeName = typeName;
-        TypeModifier = typeModifier;
+        Modifier = modifier;
         NamespaceName = namespaceName;
         ObjectType = objectType;
         NotifyType = notifyType;
@@ -23,29 +23,35 @@ internal class ObjectDeclarationTarget : IEquatable<ObjectDeclarationTarget?>
         IsAbstract = isAbstract;
     }
 
-    public override bool Equals(object? other)
+    public override bool Equals(object? obj)
     {
-        return Equals(other as ObjectDeclarationTarget);
+        return Equals(obj as ObjectDeclarationTarget);
     }
 
     public bool Equals(ObjectDeclarationTarget? other)
     {
-        return other is not null && TypeName == other.TypeName &&
-            TypeModifier == other.TypeModifier && NamespaceName == other.NamespaceName &&
-            ObjectType == other.ObjectType && NotifyType == other.NotifyType &&
-            IsStatic == other.IsStatic && IsSealed == other.IsSealed && IsAbstract == other.IsAbstract;
+        return other is not null &&
+               TypeName == other.TypeName &&
+               Modifier == other.Modifier &&
+               NamespaceName == other.NamespaceName &&
+               ObjectType == other.ObjectType &&
+               NotifyType == other.NotifyType &&
+               IsStatic == other.IsStatic &&
+               IsSealed == other.IsSealed &&
+               IsAbstract == other.IsAbstract;
     }
 
     public override int GetHashCode()
     {
-        return 3453551 +
-             EqualityComparer<string>.Default.GetHashCode(TypeName) +
-             EqualityComparer<string>.Default.GetHashCode(TypeModifier) +
-             EqualityComparer<string>.Default.GetHashCode(NamespaceName) +
-             EqualityComparer<ObjectType>.Default.GetHashCode(ObjectType) +
-             EqualityComparer<NotifyType>.Default.GetHashCode(NotifyType) +
-             EqualityComparer<bool>.Default.GetHashCode(IsStatic) +
-             EqualityComparer<bool>.Default.GetHashCode(IsSealed) +
-             EqualityComparer<bool>.Default.GetHashCode(IsAbstract);
+        int hashCode = -478015754;
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(TypeName);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(Modifier);
+        hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(NamespaceName);
+        hashCode = hashCode * -1521134295 + ObjectType.GetHashCode();
+        hashCode = hashCode * -1521134295 + NotifyType.GetHashCode();
+        hashCode = hashCode * -1521134295 + IsStatic.GetHashCode();
+        hashCode = hashCode * -1521134295 + IsSealed.GetHashCode();
+        hashCode = hashCode * -1521134295 + IsAbstract.GetHashCode();
+        return hashCode;
     }
 }

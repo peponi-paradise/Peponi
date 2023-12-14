@@ -1,13 +1,13 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 
-namespace Peponi.SourceGenerators.Tests.PropertyGenerator;
+namespace Peponi.SourceGenerators.Tests.InjectGenerator;
 
-internal static class PropertyCompare
+internal static class InjectCompare
 {
     private static readonly PortableExecutableReference[] _assemblyReferences;
 
-    static PropertyCompare()
+    static InjectCompare()
     {
         _assemblyReferences = AppDomain.CurrentDomain.GetAssemblies()
                .Where(a => !a.IsDynamic)
@@ -21,7 +21,7 @@ internal static class PropertyCompare
                                                                            new[] { CSharpSyntaxTree.ParseText(testCode) },
                                                                            _assemblyReferences,
                                                                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        SourceGenerators.PropertyGenerator.PropertyGenerator generator = new();
+        SourceGenerators.InjectGenerator.InjectGenerator generator = new();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         driver = driver.RunGeneratorsAndUpdateCompilation(generatedCompilation, out var compilationOutput, out var diagnostics);
@@ -38,7 +38,7 @@ internal static class PropertyCompare
                                                                            new[] { CSharpSyntaxTree.ParseText(testCode) },
                                                                            _assemblyReferences,
                                                                            new CSharpCompilationOptions(OutputKind.DynamicallyLinkedLibrary));
-        SourceGenerators.PropertyGenerator.PropertyGenerator generator = new();
+        SourceGenerators.InjectGenerator.InjectGenerator generator = new();
         GeneratorDriver driver = CSharpGeneratorDriver.Create(generator);
 
         driver = driver.RunGeneratorsAndUpdateCompilation(generatedCompilation, out var compilationOutput, out var diagnostics);

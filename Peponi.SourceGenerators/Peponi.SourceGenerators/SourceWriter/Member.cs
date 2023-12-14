@@ -60,7 +60,7 @@ internal static partial class SourceWriterExtension
                 builder.Indent++;
                 foreach (var method in property.PropertyMethods)
                 {
-                    if (method.Section == PropertyMethodSection.Getter)
+                    if (method.Section == PropertySection.Getter)
                     {
                         builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                     }
@@ -87,7 +87,7 @@ internal static partial class SourceWriterExtension
                 {
                     foreach (var method in property.PropertyMethods)
                     {
-                        if (method.Section == PropertyMethodSection.Setter)
+                        if (method.Section == PropertySection.Setter)
                         {
                             builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                         }
@@ -139,11 +139,11 @@ internal static partial class SourceWriterExtension
                 // Inject object
 
                 string injectObjectName = target.FullTypeName.Split('.').Last().Replace("?", "");
-                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.TypeModifier) : target.CustomName;
+                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.Modifier) : target.CustomName;
                 if (!target.IsStatic)
                 {
                     builder.WriteMemberComment();
-                    builder.AppendLine($"{Creater.GetAccessibilityString(target.TypeModifier)} {target.FullTypeName} {injectObjectName};");
+                    builder.AppendLine($"{Creater.GetAccessibilityString(target.Modifier)} {target.FullTypeName} {injectObjectName};");
                     builder.NewLine();
 
                     if (target.InjectionMode == InjectionType.Dependency || target.InjectionMode == (InjectionType.Dependency | InjectionType.Model))
@@ -178,7 +178,7 @@ internal static partial class SourceWriterExtension
 
                         foreach (var method in property.PropertyMethods)
                         {
-                            if (method.Section == PropertyMethodSection.Getter)
+                            if (method.Section == PropertySection.Getter)
                             {
                                 builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                             }
@@ -207,7 +207,7 @@ internal static partial class SourceWriterExtension
                         {
                             foreach (var method in property.PropertyMethods)
                             {
-                                if (method.Section == PropertyMethodSection.Setter)
+                                if (method.Section == PropertySection.Setter)
                                 {
                                     builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                                 }
@@ -230,7 +230,8 @@ internal static partial class SourceWriterExtension
                     {
                         builder.WriteMethodComment();
                         builder.AppendLine($"partial void On{target.Properties[i].PropertyName}Changed();");
-                        builder.NewLine();
+                        if (i != target.Properties.Count - 1) builder.NewLine();
+                        else if (dependencyAdded.Count > 0 || targets.Last() != target) builder.NewLine();
                     }
                 }
             }
@@ -239,16 +240,12 @@ internal static partial class SourceWriterExtension
         if (dependencyAdded.Count > 0)
         {
             // ctor
-
             builder.WriteMethodComment();
             builder.Append($"public ", true);
             builder.Append(objectTarget.TypeName);
-            string injectString = string.Empty;
-            foreach (var item in dependencyAdded)
-            {
-                injectString += $"{item.InjectTypeName} {item.InjectObjectName},";
-            }
-            if (dependencyAdded.Count > 0) injectString = injectString.Remove(injectString.Length - 1, 1);
+            List<string> injectItems = new();
+            foreach (var item in dependencyAdded) injectItems.Add($"{item.InjectTypeName} {item.InjectObjectName}");
+            string injectString = string.Join(", ", injectItems);
             builder.Append($"({injectString})");
             builder.NewLine();
             builder.AppendLine("{");

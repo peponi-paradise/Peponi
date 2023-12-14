@@ -54,7 +54,11 @@ internal static partial class Creater
                 rtnString = identifier.Substring(1);
             }
 
-            if (char.IsLower(rtnString[0]))
+            if (char.IsLower(rtnString[0]) && rtnString[1] == '_')
+            {
+                rtnString = rtnString[2].ToString().ToUpper() + rtnString.Substring(3);
+            }
+            else if (char.IsLower(rtnString[0]))
             {
                 rtnString = rtnString[0].ToString().ToUpper() + rtnString.Substring(1);
             }

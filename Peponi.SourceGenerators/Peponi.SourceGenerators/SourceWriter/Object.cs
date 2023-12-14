@@ -6,11 +6,11 @@ internal static partial class SourceWriterExtension
 {
     internal static void WriteNotifyObjectType(this CodeBuilder builder, ObjectDeclarationTarget target)
     {
-        if (target.ObjectType == ObjectType.Struct && target.NotifyType == NotifyType.Notify)
+        if (target.ObjectType == ObjectType.Struct)
         {
             builder.AppendLine("[StructLayout(LayoutKind.Auto)]");
         }
-        builder.Append($"{target.TypeModifier} ", true);
+        builder.Append($"{target.Modifier} ", true);
         if (target.IsStatic) builder.Append("static ");
         if (target.IsSealed && target.ObjectType != ObjectType.Struct) builder.Append("sealed ");
         if (target.IsAbstract) builder.Append("abstract ");

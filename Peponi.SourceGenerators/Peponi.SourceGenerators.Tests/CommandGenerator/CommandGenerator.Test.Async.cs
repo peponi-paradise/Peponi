@@ -1,7 +1,7 @@
 ﻿namespace Peponi.SourceGenerators.Tests.CommandGenerator;
 
 [TestClass]
-public class CommandTestSync
+public class CommandTestAsync
 {
     [TestMethod]
     public void CommandBase()
@@ -14,7 +14,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command]
-    private void Test()
+    private async Task Test()
     {
         return;
     }
@@ -36,7 +36,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test);
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
     }
 }"));
     }
@@ -52,7 +52,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CustomName = ""MyCommand"")]
-    private void Test()
+    private async Task Test()
     {
         return;
     }
@@ -74,7 +74,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase MyCommand => _testCommand ??= new CommandBase(Test);
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
     }
 }"));
     }
@@ -90,7 +90,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CanExecute = ""CanExe"")]
-    private void Test()
+    private async Task Test()
     {
         return;
     }
@@ -117,7 +117,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test, CanExe);
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); }, CanExe);
     }
 }"));
     }
@@ -133,7 +133,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CustomName = ""MyCommand"", CanExecute = ""CanExe"")]
-    private void Test()
+    private async Task Test()
     {
         return;
     }
@@ -160,7 +160,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase MyCommand => _testCommand ??= new CommandBase(Test, CanExe);
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase(async () => { await Test(); }, CanExe);
     }
 }"));
     }
@@ -176,7 +176,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command]
-    private void Test(int a)
+    private async Task Test(int a)
     {
         return;
     }
@@ -198,7 +198,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(Test);
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(async x => await Test(x));
     }
 }"));
     }
@@ -214,7 +214,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CustomName = ""MyCommand"")]
-    private void Test(int a)
+    private async Task Test(int a)
     {
         return;
     }
@@ -236,7 +236,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test);
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(async x => await Test(x));
     }
 }"));
     }
@@ -252,7 +252,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CanExecute = ""CanExe"")]
-    private void Test(int a)
+    private async Task Test(int a)
     {
         return;
     }
@@ -279,7 +279,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(async x => await Test(x), _ => CanExe());
     }
 }"));
     }
@@ -295,7 +295,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CanExecute = ""CanExe"")]
-    private void Test(int a)
+    private async Task Test(int a)
     {
         return;
     }
@@ -322,7 +322,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(Test, CanExe);
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase<int>(async x => await Test(x), CanExe);
     }
 }"));
     }
@@ -338,7 +338,7 @@ namespace GeneratorTest;
 public partial class CodeTest
 {
     [Command(CustomName = ""MyCommand"", CanExecute = ""CanExe"")]
-    private void Test(int a)
+    private async Task Test(int a)
     {
         return;
     }
@@ -365,7 +365,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
+        public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(async x => await Test(x), _ => CanExe());
     }
 }"));
     }
@@ -386,7 +386,7 @@ public record ParamRecord
 public partial class CodeTest
 {
     [Command]
-    private void Test(ParamRecord a)
+    private async Task Test(ParamRecord a)
     {
         return;
     }
@@ -408,7 +408,7 @@ namespace GeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        public ICommandBase TestCommand => _testCommand ??= new CommandBase<global::GeneratorTest.ParamRecord>(Test);
+        public ICommandBase TestCommand => _testCommand ??= new CommandBase<global::GeneratorTest.ParamRecord>(async x => await Test(x));
     }
 }"));
     }

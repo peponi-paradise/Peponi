@@ -32,7 +32,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
         if (typeSymbol is null) return ((null, default)!, null)!;
 
         var attributeDatas = Creater.GetAttributes(typeSymbol, "Peponi.SourceGenerators.InjectAttribute");
-        if (attributeDatas is null) return ((null, default)!, null)!;
+        if (attributeDatas is null || attributeDatas.Count() == 0) return ((null, default)!, null)!;
 
         ObjectType? objectType = Creater.GetObjectType(typeSymbol);
         if (objectType is null) return ((null, default)!, DiagnosticMapper.Create(typeSymbol, InjectErrors.CouldNotFindTypeObject))!;
@@ -62,7 +62,11 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                 foreach (var arg in attributeData.NamedArguments)
                 {
                     if (arg.Key == "CustomName") customName = (string)arg.Value.Value!;
-                    else if (arg.Key == "TypeModifier") typeModifier = (Modifier)arg.Value.Value!;
+                    else if (arg.Key == "Modifier")
+                    {
+                        typeModifier = (Modifier)arg.Value.Value!;
+                        if (typeModifier == Modifier.Protected && objectType == ObjectType.Struct) return ((null, default)!, DiagnosticMapper.Create(typeSymbol, InjectErrors.StructObjectInjectModifierError))!;
+                    }
                     else if (arg.Key == "PropertyNotifyMode") propertyNotifyMode = (NotifyType)arg.Value.Value!;
                 }
 
@@ -85,7 +89,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                         {
                             properties.Add(new PropertyTarget(
                                              fieldSymbol.Name,
-                                             Creater.GetPropertyName(fieldSymbol.Name),
+                                             fieldSymbol.Name,
                                              fieldSymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                              fieldSymbol.IsReadOnly,
                                              fieldSymbol.IsStatic,
@@ -99,7 +103,7 @@ public sealed partial class InjectGenerator : IIncrementalGenerator
                             {
                                 properties.Add(new PropertyTarget(
                                                  propertySymbol.Name,
-                                                 Creater.GetPropertyName(propertySymbol.Name),
+                                                 propertySymbol.Name,
                                                  propertySymbol.Type.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat.AddMiscellaneousOptions(SymbolDisplayMiscellaneousOptions.IncludeNullableReferenceTypeModifier)),
                                                  propertySymbol.IsReadOnly,
                                                  propertySymbol.IsStatic,
