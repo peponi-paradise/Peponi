@@ -9,7 +9,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Core", "Peponi.Core\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Logger", "Peponi.Logger\Peponi.Logger\Peponi.Logger.csproj", "{6841E14B-D096-4C7E-BDE8-39C47FBE0C3E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Math", "Peponi.Math\Peponi.Math\Peponi.Math.csproj", "{17DEEF74-8E90-49ED-AECD-832355049024}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Maths", "Peponi.Maths\Peponi.Maths\Peponi.Maths.csproj", "{17DEEF74-8E90-49ED-AECD-832355049024}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.StorageManagement", "Peponi.StorageManagement\Peponi.StorageManagement\Peponi.StorageManagement.csproj", "{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}"
 EndProject
