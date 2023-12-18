@@ -4,48 +4,62 @@ namespace Peponi.Logger;
 
 public class Log
 {
-    private LogOption _option;
-    private static LogProcessor _processor = new();
+    public LogOption Option;
+
+    private static Dictionary<string, Log> _loggers = new();
+    private LogProcessor _processor = new();
 
     public Log(LogOption option)
     {
-        _option = option;
+        Option = option;
+    }
+
+    public static Log GetLogger(string loggerName)
+    {
+        var option = GetDefaultOptions();
+        option.LoggerName = loggerName;
+        return GetLoggerCore(option);
     }
 
     public static Log GetLogger(LogOption? option = null)
     {
-        return option != null ? new Log(option) : new Log(GetDefaultOptions());
+        if (option == null) option = GetDefaultOptions();
+        return GetLoggerCore(option);
+    }
+
+    public void Write(string message, DateTime? dateTime = null)
+    {
+        WriteCore(LogType.General, message, dateTime);
+    }
+
+    public void Write(LogType logType, string message, DateTime? dateTime = null)
+    {
+        WriteCore(logType, message, dateTime);
+    }
+
+    private static Log GetLoggerCore(LogOption option)
+    {
+        if (_loggers.TryGetValue(option.LoggerName, out Log? value)) return value;
+        else
+        {
+            Log logger = new(option);
+            _loggers.Add(option.LoggerName, logger);
+            return logger;
+        }
     }
 
     private static LogOption GetDefaultOptions()
     {
-        LogDirectoryOption dirOption = new LogDirectoryOption()
-        {
-            DirectoryTree = new List<LogDirectoryTree>()
-                {
-                    LogDirectoryTree.None
-                }
-        };
-        LogFileOption fileOption = new LogFileOption()
-        {
-            LogFileSize = 100,
-            FileCreatingRules = new List<LogFileCreatingRule>()
-                {
-                    LogFileCreatingRule.DateTime_Year,
-                    LogFileCreatingRule.DateTime_Month,
-                    LogFileCreatingRule.DateTime_Day,
-                    LogFileCreatingRule.Underbar,
-                    LogFileCreatingRule.LoggerName
-                }
-        };
+        LogDirectoryOption dirOption = new LogDirectoryOption();
+        LogFileOption fileOption = new LogFileOption();
         LogMessageOption msgOption = new LogMessageOption();
 
         return new LogOption("Log", dirOption, fileOption, msgOption);
     }
 
-    public void WriteLog(string message, DateTime? dateTime = null)
+    private void WriteCore(LogType logType, string message, DateTime? dateTime = null)
     {
         dateTime ??= DateTime.Now;
-        _processor.WriteLog(message, (DateTime)dateTime, _option);
+        _processor.WriteLog(logType, message, (DateTime)dateTime, Option);
     }
 }

@@ -6,7 +6,7 @@ namespace Peponi.Logger.Processor;
 
 internal class LogProcessor
 {
-    private BlockingCollection<(DateTime DateTime, string Message, LogOption Option)> _logQueue = new();
+    private BlockingCollection<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> _logQueue = new();
 
     private LogWriter? _writer;
 
@@ -24,9 +24,9 @@ internal class LogProcessor
         cancellationToken.Cancel();
     }
 
-    internal void WriteLog(string message, DateTime logTime, LogOption option)
+    internal void WriteLog(LogType logType, string message, DateTime logTime, LogOption option)
     {
-        _logQueue.Add((logTime, message, option), cancellationToken.Token);
+        _logQueue.Add((logTime, logType, message, option), cancellationToken.Token);
     }
 
     private bool StartWorker()
@@ -47,7 +47,7 @@ internal class LogProcessor
 
     private void LogProcessThread()
     {
-        List<(DateTime DateTime, string Message, LogOption Option)> logContents = new();
+        List<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> logContents = new();
 
         while (cancellationToken.Token.IsCancellationRequested == false)
         {
@@ -79,7 +79,7 @@ internal class LogProcessor
         }
     }
 
-    private void StringMergeProcess(List<(DateTime DateTime, string Message, LogOption Option)> logContents)
+    private void StringMergeProcess(List<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> logContents)
     {
         logContents = logContents.OrderBy(x => x.DateTime).ToList();
 

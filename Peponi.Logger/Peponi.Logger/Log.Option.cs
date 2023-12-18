@@ -2,124 +2,6 @@
 
 namespace Peponi.Logger;
 
-/// <summary>
-/// All log folders are divided by log folder tree
-/// </summary>
-public enum LogDirectoryTree
-{
-    None = 0,
-
-    LoggerName = 1,
-
-    /// <summary>
-    /// DateTime format "ss"
-    /// </summary>
-    DateTime_Second = 10,
-
-    /// <summary>
-    /// DateTime format "mm"
-    /// </summary>
-    DateTime_Minute = 11,
-
-    /// <summary>
-    /// DateTime format "HH"
-    /// </summary>
-    DateTime_Hour = 12,
-
-    /// <summary>
-    /// DateTime format "dd"
-    /// </summary>
-    DateTime_Day = 13,
-
-    /// <summary>
-    /// DateTime format "MM"
-    /// </summary>
-    DateTime_Month = 14,
-
-    /// <summary>
-    /// DateTime format "yyyyy"
-    /// </summary>
-    DateTime_Year = 15,
-}
-
-public enum LogFileCreatingRule
-{
-    LoggerName = 0,
-    CustomName = 1,
-
-    /// <summary>
-    /// DateTime format "ss"
-    /// </summary>
-    DateTime_Second = 10,
-
-    /// <summary>
-    /// DateTime format "mm"
-    /// </summary>
-    DateTime_Minute = 11,
-
-    /// <summary>
-    /// DateTime format "HH"
-    /// </summary>
-    DateTime_Hour = 12,
-
-    /// <summary>
-    /// DateTime format "dd"
-    /// </summary>
-    DateTime_Day = 13,
-
-    /// <summary>
-    /// DateTime format "MM"
-    /// </summary>
-    DateTime_Month = 14,
-
-    /// <summary>
-    /// DateTime format "yyyyy"
-    /// </summary>
-    DateTime_Year = 15,
-
-    /// <summary>
-    /// Insert ' . '
-    /// </summary>
-    Dot = 100,
-
-    /// <summary>
-    /// Insert empty space '  '
-    /// </summary>
-    Space = 102,
-
-    /// <summary>
-    /// Insert ' _ '
-    /// </summary>
-    Underbar = 103,
-
-    /// <summary>
-    /// Insert ' - '
-    /// </summary>
-    Dash = 104,
-}
-
-/// <summary>
-/// All logs are written by given pattern
-/// </summary>
-public enum LogMessagePattern
-{
-    None = 0,
-
-    LoggerName = 1,
-
-    /// <summary>
-    /// [yyyy.MM.dd HH:mm:ss.fff]
-    /// </summary>
-    DateTime = 2,
-
-    Message = 3,
-
-    /// <summary>
-    /// Environment.NewLine
-    /// </summary>
-    NewLine = 1000,
-}
-
 public class LogOption : IEquatable<LogOption?>
 {
     /// <summary>
@@ -183,18 +65,18 @@ public class LogDirectoryOption : IEquatable<LogDirectoryOption?>
     /// </summary>
     public string RootPath = $@"{Environment.CurrentDirectory}\Log\";
 
-    public List<LogDirectoryTree> DirectoryTree = new();
+    public List<LogDirectoryTree> DirectoryTree = new()
+                {
+                    LogDirectoryTree.None
+                };
 
     internal string CreateFolderTree(string loggerName, DateTime logTime)
     {
         string rtnPath = (string)RootPath.Clone();
         foreach (var tree in DirectoryTree)
         {
-            if (tree != LogDirectoryTree.None)
-            {
-                rtnPath = Path.Combine(rtnPath, GetPath(tree));
-                DirectoryHelper.CreateDirectory(rtnPath);
-            }
+            rtnPath = Path.Combine(rtnPath, GetPath(tree));
+            DirectoryHelper.CreateDirectory(rtnPath);
         }
         return rtnPath;
 
@@ -202,6 +84,7 @@ public class LogDirectoryOption : IEquatable<LogDirectoryOption?>
         {
             return treeItem switch
             {
+                LogDirectoryTree.None => "",
                 LogDirectoryTree.LoggerName => @$"{loggerName}\",
                 LogDirectoryTree.DateTime_Second => $@"{logTime:ss}\",
                 LogDirectoryTree.DateTime_Minute => $@"{logTime:mm}\",
@@ -252,9 +135,31 @@ public class LogFileOption : IEquatable<LogFileOption?>
     /// </summary>
     public uint LogFileSize = 0;
 
-    public List<LogFileCreatingRule> FileCreatingRules = new();
+    private List<LogFileCreatingRule> _fileCreatingRules = new()
+                {
+                    LogFileCreatingRule.DateTime_Year,
+                    LogFileCreatingRule.DateTime_Month,
+                    LogFileCreatingRule.DateTime_Day,
+                    LogFileCreatingRule.Underbar,
+                    LogFileCreatingRule.LoggerName
+                };
 
-    public string CustomName = "";
+    public List<LogFileCreatingRule> FileCreatingRules
+    {
+        get => _fileCreatingRules;
+        set
+        {
+            if (!value.Contains(LogFileCreatingRule.LoggerName))
+            {
+                throw new ArgumentException($"File creating rules should have {nameof(LogFileCreatingRule.LoggerName)}");
+            }
+            else
+            {
+                _fileCreatingRules = value;
+            }
+        }
+    }
+
     public string Extension = ".log";
 
     internal string GetFileName(string loggerName, DateTime logTime)
@@ -271,7 +176,6 @@ public class LogFileOption : IEquatable<LogFileOption?>
             return rule switch
             {
                 LogFileCreatingRule.LoggerName => loggerName,
-                LogFileCreatingRule.CustomName => CustomName,
                 LogFileCreatingRule.DateTime_Second => $"{logTime:ss}",
                 LogFileCreatingRule.DateTime_Minute => $"{logTime:mm}",
                 LogFileCreatingRule.DateTime_Hour => $"{logTime:HH}",
@@ -307,13 +211,12 @@ public class LogFileOption : IEquatable<LogFileOption?>
         return other is not null &&
                LogFileSize == other.LogFileSize &&
                EqualityComparer<List<LogFileCreatingRule>>.Default.Equals(FileCreatingRules, other.FileCreatingRules) &&
-               CustomName == other.CustomName &&
                Extension == other.Extension;
     }
 
     public override int GetHashCode()
     {
-        return HashCode.Combine(LogFileSize, FileCreatingRules, CustomName, Extension);
+        return HashCode.Combine(LogFileSize, FileCreatingRules, Extension);
     }
 }
 
@@ -327,6 +230,7 @@ public class LogMessageOption : IEquatable<LogMessageOption?>
         {
             LogMessagePattern.DateTime,
             LogMessagePattern.LoggerName,
+            LogMessagePattern.LogType,
             LogMessagePattern.Message,
             LogMessagePattern.NewLine
         };
@@ -337,7 +241,7 @@ public class LogMessageOption : IEquatable<LogMessageOption?>
         MessagePatterns = patterns.ToList();
     }
 
-    internal string BuildMessage((DateTime DateTime, string Message, LogOption Option) contents)
+    internal string BuildMessage((DateTime DateTime, LogType LogType, string Message, LogOption Option) contents)
     {
         if (MessagePatterns.Count == 0 || MessagePatterns.Contains(LogMessagePattern.None)) return contents.Message;
         string rtnString = string.Empty;
@@ -354,6 +258,7 @@ public class LogMessageOption : IEquatable<LogMessageOption?>
                 LogMessagePattern.None => "",
                 LogMessagePattern.LoggerName => $"[{contents.Option.LoggerName}] ",
                 LogMessagePattern.DateTime => $"[{contents.DateTime:yyyy-MM-dd HH.mm.ss.fff}] ",
+                LogMessagePattern.LogType => $"[{contents.LogType}] ",
                 LogMessagePattern.Message => $"{contents.Message} ",
                 LogMessagePattern.NewLine => Environment.NewLine,
                 _ => throw new ArgumentException($"Not supported pattern item : {patternItem}")
