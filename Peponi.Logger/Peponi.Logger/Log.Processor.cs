@@ -19,6 +19,11 @@ internal class LogProcessor
         StartWorker();
     }
 
+    ~LogProcessor()
+    {
+        cancellationToken.Cancel();
+    }
+
     internal void WriteLog(string message, DateTime logTime, LogOption option)
     {
         _logQueue.Add((logTime, message, option), cancellationToken.Token);
@@ -48,7 +53,7 @@ internal class LogProcessor
         {
             try
             {
-                if (logContents.Count > 100000)
+                if (logContents.Count > 100)
                 {
                     StringMergeProcess(logContents);
                     logContents.Clear();

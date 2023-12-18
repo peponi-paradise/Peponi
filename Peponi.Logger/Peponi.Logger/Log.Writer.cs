@@ -7,7 +7,7 @@ namespace Peponi.Logger.Writer;
 internal class LogWriter
 {
     private BlockingCollection<(string LogPath, string Message, LogOption Option)> _logQueue = new();
-    private static object _writeLocker = new();
+    private Dictionary<string, StreamWriter> _writeStreams = new();
 
     private CancellationTokenSource _cancellationToken = new();
     private Thread? _worker;
@@ -15,6 +15,11 @@ internal class LogWriter
     public LogWriter()
     {
         StartWorker();
+    }
+
+    ~LogWriter()
+    {
+        _cancellationToken.Cancel();
     }
 
     internal void WriteLog(string logPath, string message, LogOption option)
@@ -98,45 +103,58 @@ internal class LogWriter
 
         foreach (var logItem in writeContents)
         {
-            lock (_writeLocker)
+            string logFilePath = GetAppenderName(logItem.Key.LogPath, logItem.Key.Option);
+            if (!_writeStreams.ContainsKey(logFilePath)) _writeStreams.Add(logFilePath, new(logFilePath, true));
+            _writeStreams[logFilePath].Write(logItem.Value);
+        }
+
+        if (_logQueue.Count == 0)
+        {
+            // Close all streams when nothing to write
+            foreach (var item in _writeStreams)
             {
-                if (logItem.Key.Option.FileOption.LogFileSize == 0)
-                {
-                    File.AppendAllText(logItem.Key.LogPath, logItem.Value.ToString());
-                }
-                else
-                {
-                    File.AppendAllText(GetAppenderName(logItem.Key.LogPath, logItem.Key.Option), logItem.Value.ToString());
-                }
+                item.Value.Close();
             }
+            _writeStreams.Clear();
+        }
+        else
+        {
+            // Go to next writing process
         }
     }
 
     private string GetAppenderName(string logfilePath, LogOption option)
     {
-        var fileInfos = DirectoryHelper.GetFileInfos(Path.GetDirectoryName(logfilePath)!);
-        var extractedInfos = fileInfos.ExtractFiles(logfilePath);
-
-        if (extractedInfos.Count == 0)
+        if (option.FileOption.LogFileSize == 0)
         {
             return logfilePath;
         }
         else
         {
-            int appenderIndex = 0;
+            var fileInfos = DirectoryHelper.GetFileInfos(Path.GetDirectoryName(logfilePath)!);
+            var extractedInfos = fileInfos.ExtractFiles(logfilePath);
 
-            foreach (var fileInfo in extractedInfos)
-            {
-                CheckAppenderIndex(fileInfo, option, ref appenderIndex);
-            }
-
-            if (appenderIndex == 0)
+            if (extractedInfos.Count == 0)
             {
                 return logfilePath;
             }
             else
             {
-                return @$"{Path.GetDirectoryName(logfilePath)}\{Path.GetFileNameWithoutExtension(logfilePath)}_{appenderIndex}{Path.GetExtension(logfilePath)}";
+                int appenderIndex = 0;
+
+                foreach (var fileInfo in extractedInfos)
+                {
+                    CheckAppenderIndex(fileInfo, option, ref appenderIndex);
+                }
+
+                if (appenderIndex == 0)
+                {
+                    return logfilePath;
+                }
+                else
+                {
+                    return @$"{Path.GetDirectoryName(logfilePath)}\{Path.GetFileNameWithoutExtension(logfilePath)}_{appenderIndex}{Path.GetExtension(logfilePath)}";
+                }
             }
         }
     }

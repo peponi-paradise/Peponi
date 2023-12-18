@@ -5,7 +5,7 @@ namespace Peponi.Logger;
 public class Log
 {
     private LogOption _option;
-    private LogProcessor _processor = new();
+    private static LogProcessor _processor = new();
 
     public Log(LogOption option)
     {
