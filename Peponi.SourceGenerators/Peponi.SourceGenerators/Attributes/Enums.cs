@@ -32,3 +32,9 @@ public enum GrpcClientMode
     Standalone,
     ClientFactory
 }
+
+public enum GrpcServerMode
+{
+    Standalone,
+    ClientFactory
+}

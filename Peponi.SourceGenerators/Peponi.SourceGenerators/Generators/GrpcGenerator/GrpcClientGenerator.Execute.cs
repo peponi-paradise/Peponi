@@ -8,10 +8,10 @@ namespace Peponi.SourceGenerators.GrpcGenerator;
 
 public sealed partial class GrpcClientGenerator
 {
-    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget objectTarget, ProtobufInfo propertyTarget)
+    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget objectTarget, ProtobufInfo protoTarget)
     {
         if (objectTarget == null) return;
-        else if (propertyTarget == null || propertyTarget.ProtobufDatas.Count == 0) return;
+        else if (protoTarget == null || protoTarget.ProtobufDatas.Count == 0) return;
 
         var codeFileName = $"{objectTarget.NamespaceName}.{objectTarget.TypeName}.GrpcClient.g.cs";
 
@@ -21,7 +21,7 @@ public sealed partial class GrpcClientGenerator
 
         codeBuilder.WriteNullable();
 
-        codeBuilder.WriteGrpcClientUsings(propertyTarget);
+        codeBuilder.WriteGrpcClientUsings(protoTarget);
 
         codeBuilder.WriteNamespace(objectTarget.NamespaceName);
 
@@ -31,7 +31,7 @@ public sealed partial class GrpcClientGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteGrpcClientMembers(propertyTarget);
+        codeBuilder.WriteGrpcClientMembers(protoTarget);
 
         while (codeBuilder.Indent > 0)
         {
