@@ -2,6 +2,11 @@
 
 namespace Peponi.Logger;
 
+/// <summary>
+/// Configure logger options.<br/>
+/// Logger will work by given options.<br/>
+/// Concrete options are on their sections.
+/// </summary>
 public class LogOption : IEquatable<LogOption?>
 {
     /// <summary>
@@ -9,10 +14,27 @@ public class LogOption : IEquatable<LogOption?>
     /// </summary>
     public string LoggerName;
 
+    /// <summary>
+    /// Configure directory tree
+    /// </summary>
     public LogDirectoryOption DirectoryOption = new();
+
+    /// <summary>
+    /// Configure log file size and creating rule
+    /// </summary>
     public LogFileOption FileOption = new();
+
+    /// <summary>
+    /// Configure log message format
+    /// </summary>
     public LogMessageOption MessageOption = new();
 
+    /// <summary>
+    /// Configure logger options
+    /// </summary>
+    /// <param name="loggerName">Logging base key name</param>
+    /// <param name="directoryOption">Configure directory tree</param>
+    /// <param name="fileOption">Configure log file size and creating rule</param>
     public LogOption(string loggerName, LogDirectoryOption directoryOption, LogFileOption fileOption)
     {
         LoggerName = loggerName;
@@ -20,6 +42,13 @@ public class LogOption : IEquatable<LogOption?>
         FileOption = fileOption;
     }
 
+    /// <summary>
+    /// Configure logger options
+    /// </summary>
+    /// <param name="loggerName">Logging base key name</param>
+    /// <param name="directoryOption">Configure directory tree</param>
+    /// <param name="fileOption">Configure log file size and creating rule</param>
+    /// <param name="messageOption">Configure log message format</param>
     public LogOption(string loggerName, LogDirectoryOption directoryOption, LogFileOption fileOption, LogMessageOption messageOption)
     {
         LoggerName = loggerName;
@@ -65,6 +94,9 @@ public class LogDirectoryOption : IEquatable<LogDirectoryOption?>
     /// </summary>
     public string RootPath = $@"{Environment.CurrentDirectory}\Log\";
 
+    /// <summary>
+    /// Configure directory tree
+    /// </summary>
     public List<LogDirectoryTree> DirectoryTree = new()
                 {
                     LogDirectoryTree.None
@@ -144,6 +176,9 @@ public class LogFileOption : IEquatable<LogFileOption?>
                     LogFileCreatingRule.LoggerName
                 };
 
+    /// <summary>
+    /// Configure log file's creating rule
+    /// </summary>
     public List<LogFileCreatingRule> FileCreatingRules
     {
         get => _fileCreatingRules;
@@ -160,6 +195,9 @@ public class LogFileOption : IEquatable<LogFileOption?>
         }
     }
 
+    /// <summary>
+    /// Log file's extension
+    /// </summary>
     public string Extension = ".log";
 
     internal string GetFileName(string loggerName, DateTime logTime)
@@ -222,6 +260,9 @@ public class LogFileOption : IEquatable<LogFileOption?>
 
 public class LogMessageOption : IEquatable<LogMessageOption?>
 {
+    /// <summary>
+    /// Configure log message
+    /// </summary>
     public List<LogMessagePattern> MessagePatterns = new();
 
     public LogMessageOption()
