@@ -161,7 +161,7 @@ internal class LogWriter
 
     private void CheckAppenderIndex(FileInfo logFile, LogOption option, ref int appenderIndex)
     {
-        if ((uint)Math.Round((double)logFile.Length / 1024 / 1024) > option.FileOption.LogFileSize)
+        if ((uint)Math.Round((double)logFile.Length / 1024) > option.FileOption.LogFileSize * 1024)
         {
             appenderIndex++;
         }

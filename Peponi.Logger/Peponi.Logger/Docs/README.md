@@ -10,10 +10,9 @@
     - [2.1. Quick start](#21-quick-start)
     - [2.2. Log](#22-log)
     - [2.3. LogOption](#23-logoption)
-    - [2.4. RaiseCanExecuteChanged](#24-raisecanexecutechanged)
-    - [2.5. RaisePropertyChanged](#25-raisepropertychanged)
-    - [2.6. Command](#26-command)
-    - [2.7. Inject](#27-inject)
+      - [2.3.1. LogDirectoryOption](#231-logdirectoryoption)
+      - [2.3.2. LogFileOption](#232-logfileoption)
+      - [2.3.3. LogMessageOption](#233-logmessageoption)
 
 
 ## 1. Instruction
@@ -125,7 +124,16 @@ internal class Program
     |Log|GetLogger(LogOption?)|Gets logger for given option|
     |void|Write(string, DateTime?)|Write log|
     |void|Write(LogType, string, DateTime?)|Write log|
-3. Example
+3. LogType (Flags)
+    |LogType|Description|
+    |-------|-------|
+    |General|General|
+    |Info|Information|
+    |Notify|Notify|
+    |Warning|Warning|
+    |Error|Error|
+    |Exception|Exception|
+4. Example
     ```cs
     using Peponi.Logger;
 
@@ -172,6 +180,7 @@ internal class Program
 
             Log logger = Log.GetLogger(option);
             logger.Write(LogType.Info, "Logger created");
+            logger.Write(LogType.Error | LogType.Exception, "Logger Error & Exception");
         }
     }
     ```
@@ -183,476 +192,147 @@ internal class Program
 1. Members
     |Type|Name|Description|
     |----|----|-----------|
-    |PropertySection|Section|Determine where is method<br/>`PropertySection.Setter` is default|
-    |string|Name|Name of method|
-    |string?|Args|Sets arguments of the method|
-2. Methods
-    |Return type|Name|Description|
-    |-----------|----|-----------|
-    |MethodCallAttribute|MethodCall(string)|Default constructor|
-3. Description
-    - Inject methods on getter or setter of property.
-    - [2.2. Property](#22-property) is required to use this attribute.
-
-    - Input and generated code looks like followings:
-        ```cs
-        // Input
-
-        public partial class CodeTest
-        {
-            [Property]
-            [MethodCall("MyMethod")]
-            private bool _testBool = false;
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            public bool TestBool
-            {
-                get
-                {
-                    return _testBool;
-                }
-                set
-                {
-                    if(_testBool != value)
-                    {
-                        _testBool = value;
-                        OnPropertyChanged(nameof(TestBool));
-                        OnTestBoolChanged();
-                        MyMethod();
-                    }
-                }
-            }
-
-            partial void OnTestBoolChanged();
-        }
-        ```
-
-    - As a result, user could use `MethodCall` attribute like followings:
-        ```cs
-        // Input
-
-        public partial class CodeTest
-        {
-            [Property]
-            [MethodCall("MyMethod", Section = PropertySection.Getter, Args = "TestBool, FieldA")]
-            [MethodCall("OtherMethod", Args = "TestBool, FieldB")]
-            private bool _testBool = false;
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            public bool TestBool
-            {
-                get
-                {
-                    MyMethod(TestBool, FieldA);
-                    return _testBool;
-                }
-                set
-                {
-                    if(_testBool != value)
-                    {
-                        _testBool = value;
-                        OnPropertyChanged(nameof(TestBool));
-                        OnTestBoolChanged();
-                        OtherMethod(TestBool, FieldB);
-                    }
-                }
-            }
-
-            partial void OnTestBoolChanged();
-        }
-        ```
-
-
-### 2.4. RaiseCanExecuteChanged
-
-
-1. Members
-    |Type|Name|Description|
-    |----|----|-----------|
-    |string|CommandName|Command's name that will be raised|
-2. Methods
-    |Return type|Name|Description|
-    |-----------|----|-----------|
-    |RaiseCanExecuteChangedAttribute|RaiseCanExecuteChanged(string)|Default constructor|
-3. Description
-    - This is an attribute for raising whether certain command could execute or not.
-    - [2.2. Property](#22-property) is required to use this attribute.
-    - Generated property will call `ICommandBase.RaiseCanExecuteChanged` at setter.
-
-    - Input and generated code looks like followings:
-        ```cs
-        // Input
-
-        public partial class CodeTest
-        {
-            [Property]
-            [RaiseCanExecuteChanged("TestCommand")]
-            private bool _testBool = false;
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            public bool TestBool
-            {
-                get => _testBool;
-                set
-                {
-                    if(_testBool != value)
-                    {
-                        _testBool = value;
-                        OnPropertyChanged(nameof(TestBool));
-                        OnTestBoolChanged();
-                        TestCommand.RaiseCanExecuteChanged();
-                    }
-                }
-            }
-
-            partial void OnTestBoolChanged();
-        }
-        ```
-
-
-### 2.5. RaisePropertyChanged
-
-
-1. Members
-    |Type|Name|Description|
-    |----|----|-----------|
-    |string|PropertyName|Property's name that will be raised|
-2. Methods
-    |Return type|Name|Description|
-    |-----------|----|-----------|
-    |RaisePropertyChangedAttribute|RaisePropertyChanged(string)|Default constructor|
-3. Description
-    - This is an attribute for raising `INotifyPropertyChanged.PropertyChanged` for other property.
-    - [2.2. Property](#22-property) is required to use this attribute.
-    - Generated property will call `INotifyPropertyChanged.PropertyChanged` at setter.
-
-    - Input and generated code looks like followings:
-        ```cs
-        // Input
-
-        public partial class CodeTest
-        {
-            [Property]
-            [RaisePropertyChanged("TestParam")]
-            private bool _testBool = false;
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            public bool TestBool
-            {
-                get => _testBool;
-                set
-                {
-                    if(_testBool != value)
-                    {
-                        _testBool = value;
-                        OnPropertyChanged(nameof(TestBool));
-                        OnTestBoolChanged();
-                        OnPropertyChanged(nameof(TestParam));
-                    }
-                }
-            }
-
-            partial void OnTestBoolChanged();
-        }
-        ```
-
-
-### 2.6. Command
-
-
-1. Members
-    |Type|Name|Description|
-    |----|----|-----------|
-    |string?|CustomName|Sets the name of command<br/>Basically, generated backing member's name is target method's name with "Command" suffix|
-    |string?|CanExecute|Sets the name of member that will be invoked to check whether command could executed<br/>The member have to return bool value|
+    |string|LoggerName|Logging base key name|
+    |[LogDirectoryOption](#231-logdirectoryoption)|DirectoryOption|Configure directory tree|
+    |[LogFileOption](#232-logfileoption)|FileOption|Configure log file size and creating rule|
+    |[LogMessageOption](#233-logmessageoption)|MessageOption|Configure log message format|
 2. Description
-    - Use this attribute for generating `ICommand` members.
-    - Partial type declaration is required for using this attribute.
-    - Generated method's name has "Command" suffix.
-
-    - Input and generated code looks like followings:
-        ```cs
-        // Input - Sync
-
-        public partial class CodeTest
-        {
-           [Command]
-           private void Test()
-           {
-               return;
-           }
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            private CommandBase? _testCommand;
-
-            public ICommandBase TestCommand => _testCommand ??= new CommandBase(Test);
-        }
-        ```
-        ```cs
-        // Input - Async
-
-        public partial class CodeTest
-        {
-            [Command]
-            private async Task Test()
-            {
-                return;
-            }
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            private CommandBase? _testCommand;
-
-            public ICommandBase TestCommand => _testCommand ??= new CommandBase(async () => { await Test(); });
-        }
-        ```
-
-    - As a result, user could use `Command` attribute like followings:
-        ```cs
-        // Input
-
-        public partial class CodeTest
-        {
-            [Command(CustomName = "MyCommand", CanExecute = "CanExe")]
-            private void Test(int a)
-            {
-                return;
-            }
-
-            private bool CanExe()
-            {
-                return true;
-            }
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            private CommandBase<int>? _testCommand;
-
-            public ICommandBase MyCommand => _testCommand ??= new CommandBase<int>(Test, _ => CanExe());
-        }
-        ```
+    - Configure logger options.
+    - Logger will work by given options.
+    - Concrete options are on following sections.
 
 
-### 2.7. Inject
+#### 2.3.1. LogDirectoryOption
 
 
 1. Members
     |Type|Name|Description|
-    |----|----|-----------|
-    |Type|Type|Sets the type will be injected<br/>Class, record, struct types are supported|
-    |InjectionType|InjectionMode|Sets the injecting mode<br/>Supports<br/>`InjectionType.Dependency`<br/>`InjectionType.Model`<br/>`InjectionType.Dependency \| InjectionType.Model`|
-    |string?|CustomName|Sets the name of injecting target<br/>Basically, generated member's name is same as injecting target|
-    |Modifier|Modifier|Sets the modifier of injecting target|
-    |NotifyType|PropertyNotifyMode|Sets the notify mode of injected target's member<br/>This is valid for `InjectionType.Model`|
-2. Methods
-    |Return type|Name|Description|
-    |-----------|----|-----------|
-    |InjectAttribute|Inject(Type, InjectionType)|Default constructor|
-3. Description
-    - Use this attribute for injecting members by the selected object.
-    - Partial type declaration is required for using this attribute.
-    - Using multiple attributes is allowed.
-    - Class, record, struct types are supported.
-
-    - Input and generated code looks like followings:
-        ```cs
-        // Input
-
-        public class BaseClass
+    |-------|-------|-------|
+    |string|RootPath|Root path of log|
+    |List<LogDirectoryTree>|DirectoryTree|Configure directory tree|
+2. Example
+    ```cs
+    LogDirectoryOption directoryOption = new()
+    {
+        RootPath = $@"C:\Temp\Peponi.Log\",
+        DirectoryTree = new()
         {
-            public int TestIng = 0;
-            public bool TestBool = false;
-            public List<string> TestList = new();
+            LogDirectoryTree.DateTime_Year,
+            LogDirectoryTree.DateTime_Month,
+            LogDirectoryTree.DateTime_Day,
+            LogDirectoryTree.LoggerName,
         }
+    };
 
-        [Inject(typeof(BaseClass), InjectionType.Dependency)]
-        public partial class CodeTest
+    /* 
+    This option will create following folder tree:
+
+    C
+    |- Temp
+    |    |- Peponi.Log
+    |    |    |- 2023
+    |    |    |    |- 12
+    |    |    |    |   |- 26
+    |    |    |    |   |   |- MyLog
+    */
+    ```
+3. LogDirectoryTree
+    |LogDirectoryTree|Description|
+    |-------|-------|
+    |None|No additional folder|
+    |LoggerName|Given logger name|
+    |DateTime_Second|DateTime format `ss`|
+    |DateTime_Minute|DateTime format `mm`|
+    |DateTime_Hour|DateTime format `HH`|
+    |DateTime_Day|DateTime format `dd`|
+    |DateTime_Month|DateTime format `MM`|
+    |DateTime_Year|DateTime format `yy`|
+
+
+#### 2.3.2. LogFileOption
+
+
+1. Members
+    |Type|Name|Description|
+    |-------|-------|-------|
+    |uint|LogFileSize|- Unit : mb<br/>- Value :<br/>0 = Inf<br/>X = X mb<br/>- Default : 0|
+    |List<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
+    |string|Extension|Log file's extension<br/>Default : `.log`|
+2. Example
+    ```cs
+    LogFileOption fileOption = new()
+    {
+        LogFileSize = 5,
+        FileCreatingRules = new()
         {
-        }
-        ```
-        ```cs
-        // Generated
+            LogFileCreatingRule.DateTime_Year,
+            LogFileCreatingRule.DateTime_Month,
+            LogFileCreatingRule.DateTime_Day,
+            LogFileCreatingRule.Underbar,
+            LogFileCreatingRule.LoggerName
+        },
+        Extension = ".txt"
+    };
 
-        public partial class CodeTest
+    /*
+    This option will create following log file :
+    
+    20231226_MyLog.txt (5 mb)
+    20231226_MyLog_1.txt (5 mb)
+    20231226_MyLog_2.txt (2 mb)
+    */
+    ```
+3. LogFileCreatingRule
+    |LogFileCreatingRule|Description|
+    |-------|-------|
+    |LoggerName|Given logger name|
+    |DateTime_Second|DateTime format `ss`|
+    |DateTime_Minute|DateTime format `mm`|
+    |DateTime_Hour|DateTime format `HH`|
+    |DateTime_Day|DateTime format `dd`|
+    |DateTime_Month|DateTime format `MM`|
+    |DateTime_Year|DateTime format `yyyy`|
+    |Dot|`.`|
+    |Space|` `|
+    |Underbar|`_`|
+    |Dash|`-`|
+
+
+#### 2.3.3. LogMessageOption
+
+
+1. Members
+    |Type|Name|Description|
+    |-------|-------|-------|
+    |List<LogMessagePattern>|MessagePatterns|Configure log message|
+2. Example
+    ```cs
+    LogMessageOption messageOption = new()
+    {
+        MessagePatterns = new()
         {
-            public global::GeneratorTest.BaseClass BaseClass;
-
-            public CodeTest(global::GeneratorTest.BaseClass BaseClass)
-            {
-                this.BaseClass = BaseClass;
-            }
+            LogMessagePattern.DateTime,
+            LogMessagePattern.LoggerName,
+            LogMessagePattern.LogType,
+            LogMessagePattern.Message,
+            LogMessagePattern.NewLine
         }
-        ```
+    };
 
-    - As a result, user could use `Inject` attribute like followings:
-        ```cs
-        // Input
+    /*
+    This option will create following log message :
+    
+    [2023-12-26 16.02.35.006] [MyLog] [General] Log message
+    [2023-12-26 16.02.35.106] [MyLog] [General] Log message 2
 
-        public class BaseClass
-        {
-            public int TestInt = 0;
-            public bool TestBool = false;
-            public List<string> TestList = new();
-        }
-
-        public record BaseRecord
-        {
-            public float TestFloat = 0;
-            public string TestString = string.Empty;
-            public Dictionary<string, string> TestDic = new();
-        }
-
-        public struct BaseStruct
-        {
-            public double TestDouble;
-            public char TestChar;
-            public long TestLong;
-        }
-
-        [Inject(typeof(BaseClass), InjectionType.Dependency)]
-        [Inject(typeof(BaseRecord), InjectionType.Model, CustomName = "ChangedRecord", Modifier = Modifier.Internal)]
-        [Inject(typeof(BaseStruct), InjectionType.Dependency | InjectionType.Model, PropertyNotifyMode = NotifyType.None)]
-        public partial class CodeTest
-        {
-        }
-        ```
-        ```cs
-        // Generated
-
-        public partial class CodeTest
-        {
-            public global::GeneratorTest.BaseClass BaseClass;
-
-            internal global::GeneratorTest.BaseRecord ChangedRecord;
-
-            public float TestFloat
-            {
-                get => ChangedRecord.TestFloat;
-                set
-                {
-                    if(ChangedRecord.TestFloat != value)
-                    {
-                        ChangedRecord.TestFloat = value;
-                        OnPropertyChanged(nameof(TestFloat));
-                        OnTestFloatChanged();
-                    }
-                }
-            }
-
-            public string TestString
-            {
-                get => ChangedRecord.TestString;
-                set
-                {
-                    if(ChangedRecord.TestString != value)
-                    {
-                        ChangedRecord.TestString = value;
-                        OnPropertyChanged(nameof(TestString));
-                        OnTestStringChanged();
-                    }
-                }
-            }
-
-            public Dictionary<string, string> TestDic
-            {
-                get => ChangedRecord.TestDic;
-                set
-                {
-                    if(ChangedRecord.TestDic != value)
-                    {
-                        ChangedRecord.TestDic = value;
-                        OnPropertyChanged(nameof(TestDic));
-                        OnTestDicChanged();
-                    }
-                }
-            }
-
-            partial void OnTestFloatChanged();
-            partial void OnTestStringChanged();
-            partial void OnTestDicChanged();
-
-            public global::GeneratorTest.BaseStruct BaseStruct;
-
-            public double TestDouble
-            {
-                get => BaseStruct.TestDouble;
-                set
-                {
-                    if(BaseStruct.TestDouble != value)
-                    {
-                        BaseStruct.TestDouble = value;
-                        OnTestDoubleChanged();
-                    }
-                }
-            }
-
-            public char TestChar
-            {
-                get => BaseStruct.TestChar;
-                set
-                {
-                    if(BaseStruct.TestChar != value)
-                    {
-                        BaseStruct.TestChar = value;
-                        OnTestCharChanged();
-                    }
-                }
-            }
-
-            public long TestLong
-            {
-                get => BaseStruct.TestLong;
-                set
-                {
-                    if(BaseStruct.TestLong != value)
-                    {
-                        BaseStruct.TestLong = value;
-                        OnTestLongChanged();
-                    }
-                }
-            }
-
-            partial void OnTestDoubleChanged();
-            partial void OnTestCharChanged();
-            partial void OnTestLongChanged();
-
-            public CodeTest(global::GeneratorTest.BaseClass BaseClass, global::GeneratorTest.BaseStruct BaseStruct)
-            {
-                this.BaseClass = BaseClass;
-                this.BaseStruct = BaseStruct;
-            }
-        }
-        ```
+    */
+    ```
+3. LogMessagePattern
+    |LogMessagePattern|Description|
+    |-------|-------|
+    |None|No message|
+    |LoggerName|Given logger name<br/>`[LoggerName] `|
+    |DateTime|`[yyyy.MM.dd HH:mm:ss.fff] `|
+    |LogType|`[LogType] `|
+    |Message|`Message `|
+    |NewLine|`Environment.NewLine`|

@@ -81,7 +81,7 @@ public enum LogFileCreatingRule
     DateTime_Month = 14,
 
     /// <summary>
-    /// DateTime format "yyyyy"
+    /// DateTime format "yyyy"
     /// </summary>
     DateTime_Year = 15,
 
