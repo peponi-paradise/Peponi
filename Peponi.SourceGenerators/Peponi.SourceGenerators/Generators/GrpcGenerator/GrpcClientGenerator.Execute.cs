@@ -19,7 +19,7 @@ public sealed partial class GrpcClientGenerator
 
         codeBuilder.WriteHeaderComment();
 
-        codeBuilder.WriteNullable();
+        codeBuilder.WriteNullableDisable();
 
         codeBuilder.WriteGrpcClientUsings(protoTarget);
 
