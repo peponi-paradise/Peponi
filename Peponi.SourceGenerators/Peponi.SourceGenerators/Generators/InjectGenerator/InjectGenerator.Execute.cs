@@ -33,12 +33,7 @@ public sealed partial class InjectGenerator
 
         codeBuilder.WriteInjectMembers(createTarget.ObjectTarget, createTarget.InjectTargets);
 
-        while (codeBuilder.Indent > 0)
-        {
-            codeBuilder.Indent--;
-            if (codeBuilder.Indent != 0) codeBuilder.AppendLine("}");
-            else codeBuilder.Append("}");
-        }
+        codeBuilder.CloseAllIndents();
 
         context.AddSource(codeFileName, SourceText.From(codeBuilder.ToString(), Encoding.UTF8));
     }

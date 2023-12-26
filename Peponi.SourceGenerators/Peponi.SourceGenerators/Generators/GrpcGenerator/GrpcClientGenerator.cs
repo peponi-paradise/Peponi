@@ -35,15 +35,13 @@ public sealed partial class GrpcClientGenerator : IIncrementalGenerator
             ObjectType? objectType = Creater.GetObjectType(typeSymbol);
             if (objectType is null)
             {
-                // return (null, DiagnosticMapper.Create(typeSymbol, CouldNotFindTypeObject));
-                return ((null, default)!, null)!;
+                return ((null, default)!, DiagnosticMapper.Create(typeSymbol, GrpcClientErrors.CouldNotFindTypeObject));
             }
 
             var modifier = Creater.GetAccessibilityString(typeSymbol.DeclaredAccessibility);
             if (string.IsNullOrEmpty(modifier))
             {
-                // return (null, DiagnosticMapper.Create(typeSymbol, CouldNotFindTypeModifier));
-                return ((null, default)!, null)!;
+                return ((null, default)!, DiagnosticMapper.Create(typeSymbol, GrpcClientErrors.CouldNotFindTypeModifier));
             }
 
             GrpcClientMode clientMode = (GrpcClientMode)Creater.GetConstructorArgument(attributeData, 0)?.Value!;
@@ -109,14 +107,12 @@ public sealed partial class GrpcClientGenerator : IIncrementalGenerator
 
                 if (protobufTarget.ProtobufDatas.Count == 0)
                 {
-                    // return ((null, default)!, DiagnosticMapper.Create(typeSymbol, NoProtobufFoundError));
-                    return ((null, default)!, null)!;
+                    return ((null, default)!, DiagnosticMapper.Create(typeSymbol, GrpcClientErrors.NoProtobufFound));
                 }
             }
             catch
             {
-                //return ((null, default)!, DiagnosticMapper.Create(typeSymbol, ProtobufResolveError));
-                return ((null, default)!, null)!;
+                return ((null, default)!, DiagnosticMapper.Create(typeSymbol, GrpcClientErrors.ProtobufResolve));
             }
 
             return ((new ObjectDeclarationTarget(
