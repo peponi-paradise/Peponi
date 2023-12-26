@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -6,6 +6,26 @@
     <Nullable>enable</Nullable>
     <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Title>$(AssemblyName)</Title>
+    <Authors>Peponi</Authors>
+    <Company>https://peponi-paradise.tistory.com</Company>
+    <Copyright>Copyright (c) 2023 peponi</Copyright>
+    <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Core</PackageProjectUrl>
+    <PackageTags>Peponi;Core;Design pattern;Utility;Minidump;</PackageTags>
+	<PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+	<PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
   </PropertyGroup>
-
+	<ItemGroup>
+		<None Update="Docs\LICENSE.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+		<None Update="Docs\README.md">
+			<Pack>True</Pack>
+			<PackagePath>\</PackagePath>
+			<CopyToOutputDirectory>Always</CopyToOutputDirectory>
+		</None>
+	</ItemGroup>
 </Project>

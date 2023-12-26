@@ -26,7 +26,7 @@ Base concepts are:
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Peponi.Utility\Peponi.Utility\Peponi.Utility.csproj" />
+    <ProjectReference Include="..\..\Peponi.Core\Peponi.Core\Peponi.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace Peponi.Utility.Helpers;
+namespace Peponi.Core.Utility.Helpers;
 
 public static class ProcessHelper
 {
