@@ -1,128 +1,100 @@
-﻿using Peponi.Core.Enums;
-using Peponi.Logger.Writer;
-using Peponi.Utility.Helpers;
+﻿using Peponi.Logger.Writer;
 using System.Collections.Concurrent;
 using System.Text;
 
 namespace Peponi.Logger.Processor;
 
-internal static class LogProcessor
+internal class LogProcessor
 {
-    private static Dictionary<string, BlockingCollection<(DateTime DateTime, string LogType, string Message)>> _logQueue = new Dictionary<string, BlockingCollection<(DateTime DateTime, string LogType, string Message)>>();
+    private BlockingCollection<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> _logQueue = new();
 
-    private static string _rootPath = string.Empty;
-    private static string _logFilePattern = string.Empty;
-    private static LogWriteOption _writeOption;
-    private static DateTimeUnit _timeUnit;
+    private LogWriter? _writer;
 
-    private static List<Thread> _workers = new List<Thread>();
+    private Thread? _worker;
+    private CancellationTokenSource cancellationToken = new();
 
-    internal static void Configure(LogWriteOption writeOption, List<string> logTypes, string rootPath, string logFilePattern)
+    public LogProcessor()
     {
-        // 필요한 작업 처리
-        _writeOption = writeOption;
-        _rootPath = rootPath;
-        _logFilePattern = logFilePattern;
-        _timeUnit = DateTimeHelper.GetDateTimeUnit(logFilePattern);
+        _writer = new();
+        StartWorker();
+    }
 
-        // 쓰레드 시작
-        Thread worker;
-        switch (_writeOption)
+    ~LogProcessor()
+    {
+        cancellationToken.Cancel();
+    }
+
+    internal void WriteLog(LogType logType, string message, DateTime logTime, LogOption option)
+    {
+        _logQueue.Add((logTime, logType, message, option), cancellationToken.Token);
+    }
+
+    private bool StartWorker()
+    {
+        try
         {
-            case LogWriteOption.OneFile:
-                _logQueue.Add(LogWriteOption.OneFile.ToString(), new BlockingCollection<(DateTime DateTime, string LogType, string Message)>());
-                worker = new Thread(() => LogProcessThread(LogWriteOption.OneFile.ToString()));
-                worker.IsBackground = true;
-                worker.Start();
-                _workers.Add(worker);
-                break;
+            // 쓰레드 시작
+            _worker = new Thread(LogProcessThread);
+            _worker.IsBackground = true;
+            _worker.Start();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
-            case LogWriteOption.SeperateFile:
-            case LogWriteOption.SeperateFolder:
-                foreach (var logType in logTypes)
+    private void LogProcessThread()
+    {
+        List<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> logContents = new();
+
+        while (cancellationToken.Token.IsCancellationRequested == false)
+        {
+            try
+            {
+                if (logContents.Count > 100)
                 {
-                    _logQueue.Add(logType, new BlockingCollection<(DateTime DateTime, string LogType, string Message)>());
-                    worker = new Thread(() => LogProcessThread(logType));
-                    worker.IsBackground = true;
-                    worker.Start();
-                    _workers.Add(worker);
+                    StringMergeProcess(logContents);
+                    logContents.Clear();
                 }
-                break;
-        }
-    }
-
-    internal static void WriteLog(DateTime dateTime, string logType, string message)
-    {
-        switch (_writeOption)
-        {
-            case LogWriteOption.OneFile:
-                _logQueue[LogWriteOption.OneFile.ToString()].Add((dateTime, logType, message));
-                break;
-
-            case LogWriteOption.SeperateFile:
-            case LogWriteOption.SeperateFolder:
-                _logQueue[logType].Add((dateTime, logType, message));
-                break;
-        }
-    }
-
-    private static void LogProcessThread(string logType)
-    {
-        List<(DateTime DateTime, string LogType, string Message)> logContents = new List<(DateTime DateTime, string LogType, string Message)>();
-
-        while (true)
-        {
-            if (logContents.Count > 100000)
-            {
-                LogProcess(logContents);
+                else if (_logQueue.Count > 0)
+                {
+                    logContents.Add(_logQueue.Take(cancellationToken.Token));
+                }
+                else if (logContents.Count != 0)
+                {
+                    StringMergeProcess(logContents);
+                    logContents.Clear();
+                }
+                else
+                {
+                    logContents.Add(_logQueue.Take(cancellationToken.Token));
+                }
             }
-            else if (_logQueue[logType].Count > 0)
+            catch (OperationCanceledException)
             {
-                logContents.Add(_logQueue[logType].Take());
-            }
-            else if (logContents.Count != 0)
-            {
-                LogProcess(logContents);
-            }
-            else
-            {
-                logContents.Add(_logQueue[logType].Take());
+                break;
             }
         }
     }
 
-    private static void LogProcess(List<(DateTime DateTime, string LogType, string Message)> logContents)
-    {
-        switch (_writeOption)
-        {
-            case LogWriteOption.OneFile:
-                OneFileProcess(logContents);
-                break;
-
-            case LogWriteOption.SeperateFile:
-            case LogWriteOption.SeperateFolder:
-                MultiFileProcess(logContents);
-                break;
-        }
-        logContents.Clear();
-    }
-
-    private static void OneFileProcess(List<(DateTime DateTime, string LogType, string Message)> logContents)
+    private void StringMergeProcess(List<(DateTime DateTime, LogType LogType, string Message, LogOption Option)> logContents)
     {
         logContents = logContents.OrderBy(x => x.DateTime).ToList();
 
         while (logContents.Count > 0)
         {
             DateTime logTime = logContents[0].DateTime;
+            LogOption currentOption = logContents[0].Option;
             StringBuilder builder = new StringBuilder();
             int removeCount = 0;
 
             for (int index = 0; index < logContents.Count; index++)
             {
-                // Time unit check
-                if (DateTimeHelper.DateTimeUnitEquals(_timeUnit, logTime, logContents[index].DateTime))
+                if (logContents[index].Option == currentOption && DateTimeCompare(logTime, logContents[index].DateTime, currentOption))
                 {
-                    builder.Append($"{logContents[index].DateTime.ToString("HH:mm:ss.fff")} [{logContents[index].LogType}] - {logContents[index].Message}{Environment.NewLine}");
+                    builder.Append(logContents[index].Option.MessageOption.BuildMessage(logContents[index]));
                     removeCount++;
                 }
                 else
@@ -132,65 +104,40 @@ internal static class LogProcessor
             }
 
             // Send to Writer queue
-            string logPath = GetTotalPath(_writeOption, _rootPath, logTime, _logFilePattern);
-            LogWriter.WriteLog(LogWriteOption.OneFile.ToString(), logPath, builder.ToString());
+            string logPath = Path.Combine(CheckFolderPath(logTime, currentOption), currentOption.FileOption.GetFileName(currentOption.LoggerName, logTime));
+            _writer?.WriteLog(logPath, builder.ToString(), currentOption);
 
             logContents.RemoveRange(0, removeCount);
         }
     }
 
-    private static void MultiFileProcess(List<(DateTime DateTime, string LogType, string Message)> logContents)
+    private string CheckFolderPath(DateTime logTime, LogOption option)
     {
-        Dictionary<(string, string), StringBuilder> writeContents = new Dictionary<(string, string), StringBuilder>();
-
-        logContents = logContents.OrderBy(x => x.LogType).ThenBy(x => x.DateTime).ToList();
-
-        while (logContents.Count > 0)
-        {
-            DateTime logTime = logContents[0].DateTime;
-            string logType = logContents[0].LogType;
-            StringBuilder builder = new StringBuilder();
-            int removeCount = 0;
-
-            for (int index = 0; index < logContents.Count; index++)
-            {
-                // Time unit check
-                // Log type check
-                if (DateTimeHelper.DateTimeUnitEquals(_timeUnit, logTime, logContents[index].DateTime) &&
-                    logType == logContents[index].LogType)
-                {
-                    builder.Append($"{logContents[index].DateTime.ToString("HH:mm:ss.fff")} - {logContents[index].Message}{Environment.NewLine}");
-                    removeCount++;
-                }
-                else
-                {
-                    break;
-                }
-            }
-
-            string logPath = GetTotalPath(_writeOption, _rootPath, logTime, _logFilePattern, logType);
-
-            if (!writeContents.ContainsKey((logType, logPath))) writeContents.Add((logType, logPath), builder);
-            else writeContents[(logType, logPath)].Append(builder);
-
-            logContents.RemoveRange(0, removeCount);
-        }
-
-        // Send to Writer queue
-        foreach (var logItem in writeContents)
-        {
-            LogWriter.WriteLog(logItem.Key.Item1, logItem.Key.Item2, logItem.Value.ToString());
-        }
+        return option.DirectoryOption.CreateFolderTree(option.LoggerName, logTime);
     }
 
-    private static string GetTotalPath(LogWriteOption writeOption, string rootPath, DateTime logTime, string logPattern, string? key = null)
+    private bool DateTimeCompare(DateTime date1, DateTime date2, LogOption option)
     {
-        return writeOption switch
+        if (option.FileOption.FileCreatingRules.Contains(LogFileCreatingRule.DateTime_Second))
         {
-            LogWriteOption.OneFile => $@"{rootPath}\Log{$"_{logTime.ToString(logPattern)}"}.log",
-            LogWriteOption.SeperateFile => $@"{rootPath}\{key}{$"_{logTime.ToString(logPattern)}"}.log",
-            LogWriteOption.SeperateFolder => $@"{rootPath}\{key}\{key}{$"_{logTime.ToString(logPattern)}"}.log",
-            _ => throw new NotImplementedException($"{writeOption} is not defined")
-        };
+            return date1.Second == date2.Second;
+        }
+        else if (option.FileOption.FileCreatingRules.Contains(LogFileCreatingRule.DateTime_Minute))
+        {
+            return date1.Minute == date2.Minute;
+        }
+        else if (option.FileOption.FileCreatingRules.Contains(LogFileCreatingRule.DateTime_Hour))
+        {
+            return date1.Hour == date2.Hour;
+        }
+        else if (option.FileOption.FileCreatingRules.Contains(LogFileCreatingRule.DateTime_Day))
+        {
+            return date1.Day == date2.Day;
+        }
+        else if (option.FileOption.FileCreatingRules.Contains(LogFileCreatingRule.DateTime_Month))
+        {
+            return date1.Month == date2.Month;
+        }
+        else return date1.Year == date2.Year;
     }
 }

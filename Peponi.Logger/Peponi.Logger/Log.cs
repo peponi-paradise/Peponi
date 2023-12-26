@@ -1,102 +1,65 @@
 ﻿using Peponi.Logger.Processor;
-using Peponi.Logger.Writer;
-using Peponi.Utility.Helpers;
 
 namespace Peponi.Logger;
 
-/// <summary>
-/// Logger class. <br/><br/>
-/// Call <br/>
-/// 1. <see cref="Configure(LogOption)"/> or <br/>
-/// 2. <see cref="Configure(Enum, LogWriteOption, string?, string?, uint)"/> at startup.
-/// </summary>
-public static class Log
+public class Log
 {
-    private static bool _isConfigured = false;
+    public LogOption Option;
 
-    /// <summary>
-    /// Configure logger.
-    /// </summary>
-    /// <param name="option">Log option</param>
-    public static void Configure(LogOption option)
+    private static Dictionary<string, Log> _loggers = new();
+    private LogProcessor _processor = new();
+
+    public Log(LogOption option)
     {
-        var logTypes = Enum.GetNames(option.LogType!.GetType()).ToList();
-        CheckLogPath(option.LogWriteOption, $@"{option.RootPath}\", logTypes);
-
-        LogProcessor.Configure(option.LogWriteOption, logTypes, $@"{option.RootPath}\", option.LogFilePattern);
-        LogWriter.Configure(option.LogWriteOption, logTypes, option.LogFileSize);
-
-        _isConfigured = true;
+        Option = option;
     }
 
-    /// <summary>
-    /// Configure logger.
-    /// </summary>
-    /// <param name="logType">Any enum type user defined</param>
-    /// <param name="writeOption">
-    /// 1. <see cref="LogWriteOption.OneFile"/><br/>
-    /// 2. <see cref="LogWriteOption.SeperateFile"/><br/>
-    /// 3. <see cref="LogWriteOption.SeperateFolder"/><br/>
-    /// </param>
-    /// <param name="rootPath">Root path of log</param>
-    /// <param name="logFilePattern">
-    /// Saving time unit of log.<br/>
-    /// Equal to DateTime.Now.ToString() format<br/><br/>
-    /// ex:<br/>
-    /// "yyyy-MM-dd"
-    /// </param>
-    /// <param name="logFileSize">
-    /// Unit : mb <br/><br/>
-    /// Value : <br/>
-    /// 0 = Inf <br/>
-    /// X = X mb <br/>
-    /// </param>
-    public static void Configure(Enum logType, LogWriteOption writeOption, string? rootPath = null, string? logFilePattern = null, uint logFileSize = 0)
+    public static Log GetLogger(string loggerName)
     {
-        var logTypes = Enum.GetNames(logType.GetType()).ToList();
-
-        rootPath = $@"{rootPath}\" ?? $@"{Environment.CurrentDirectory}\Log\";
-        logFilePattern = logFilePattern ?? "yyyy-MM-dd";
-        CheckLogPath(writeOption, rootPath, logTypes);
-
-        LogProcessor.Configure(writeOption, logTypes, rootPath, logFilePattern);
-        LogWriter.Configure(writeOption, logTypes, logFileSize);
-
-        _isConfigured = true;
+        var option = GetDefaultOptions();
+        option.LoggerName = loggerName;
+        return GetLoggerCore(option);
     }
 
-    /// <summary>
-    /// Write log.
-    /// </summary>
-    /// <param name="logType">Configrated log type</param>
-    /// <param name="message">Message want to log</param>
-    /// <exception cref="ArgumentNullException"></exception>
-    /// <exception cref="AccessViolationException"></exception>
-    public static void WriteLog(Enum logType, string message)
+    public static Log GetLogger(LogOption? option = null)
     {
-        if (_isConfigured)
-        {
-            // Exception will be raised case of null or unregistered log type
-            LogProcessor.WriteLog(DateTime.Now, logType.ToString()!, message);
-        }
+        if (option == null) option = GetDefaultOptions();
+        return GetLoggerCore(option);
+    }
+
+    public void Write(string message, DateTime? dateTime = null)
+    {
+        WriteCore(LogType.General, message, dateTime);
+    }
+
+    public void Write(LogType logType, string message, DateTime? dateTime = null)
+    {
+        WriteCore(logType, message, dateTime);
+    }
+
+    private static Log GetLoggerCore(LogOption option)
+    {
+        if (_loggers.TryGetValue(option.LoggerName, out Log? value)) return value;
         else
         {
-            throw new AccessViolationException("Log is not configured");
+            Log logger = new(option);
+            _loggers.Add(option.LoggerName, logger);
+            return logger;
         }
     }
 
-    private static void CheckLogPath(LogWriteOption writeOption, string rootPath, List<string> logTypes)
+    private static LogOption GetDefaultOptions()
     {
-        DirectoryHelper.CreateDirectory(rootPath);
+        LogDirectoryOption dirOption = new LogDirectoryOption();
+        LogFileOption fileOption = new LogFileOption();
+        LogMessageOption msgOption = new LogMessageOption();
 
-        if (writeOption == LogWriteOption.SeperateFolder)
-        {
-            foreach (var logType in logTypes)
-            {
-                var totalLogPath = $@"{rootPath}\{logType}\";
+        return new LogOption("Log", dirOption, fileOption, msgOption);
+    }
 
-                DirectoryHelper.CreateDirectory(totalLogPath);
-            }
-        }
+    private void WriteCore(LogType logType, string message, DateTime? dateTime = null)
+    {
+        dateTime ??= DateTime.Now;
+        _processor.WriteLog(logType, message, (DateTime)dateTime, Option);
     }
 }
