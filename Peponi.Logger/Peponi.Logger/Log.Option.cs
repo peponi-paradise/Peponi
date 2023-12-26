@@ -1,4 +1,4 @@
-﻿using Peponi.Utility.Helpers;
+﻿using Peponi.Core.Utility.Helpers;
 
 namespace Peponi.Logger;
 

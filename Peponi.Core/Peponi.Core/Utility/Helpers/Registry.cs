@@ -1,7 +1,7 @@
 ﻿using Microsoft.Win32;
 using System.Runtime.Versioning;
 
-namespace Peponi.Utility.Helpers;
+namespace Peponi.Core.Utility.Helpers;
 
 [SupportedOSPlatform("windows")]
 public static class RegistryHelper

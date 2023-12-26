@@ -1,4 +1,4 @@
-﻿namespace Peponi.Utility.Helpers;
+﻿namespace Peponi.Core.Utility.Helpers;
 
 public static class MemberHelper
 {
