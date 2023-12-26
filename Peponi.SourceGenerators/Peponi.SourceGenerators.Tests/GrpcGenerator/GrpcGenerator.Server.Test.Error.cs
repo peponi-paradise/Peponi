@@ -40,13 +40,13 @@ namespace GeneratorTest
 
 namespace ServerContext
 {
-    public class HelloWorld
+    public static partial class HelloWorld
     {
-        public static void BindService()
+        public static ServerServiceDefinition BindService(HelloWorldBase base)
         {
         }
 
-        public class HelloWorldBase
+        public abstract partial class HelloWorldBase
         {
         }
     }
@@ -81,9 +81,9 @@ namespace GeneratorTest
 
 namespace ServerContext
 {
-    public class HelloWorld
+    public static partial class HelloWorld
     {
-        public class HelloWorldBase
+        public abstract partial class HelloWorldBase
         {
         }
     }
