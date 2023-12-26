@@ -14,6 +14,8 @@
     - [2.5. RaisePropertyChanged](#25-raisepropertychanged)
     - [2.6. Command](#26-command)
     - [2.7. Inject](#27-inject)
+    - [2.8. gRPC Client](#28-grpc-client)
+    - [2.9. gRPC Server](#29-grpc-server)
 
 
 ## 1. Instruction
@@ -716,6 +718,318 @@ NuGet\Install-Package Peponi.SourceGenerators
             {
                 this.BaseClass = BaseClass;
                 this.BaseStruct = BaseStruct;
+            }
+        }
+        ```
+
+
+### 2.8. gRPC Client
+
+
+1. Members
+    |Type|Name|Description|
+    |----|----|-----------|
+    |GrpcClientMode|GrpcClientMode|Sets the Client mode<br/>Supports<br/>`GrpcClientMode.Standalone`<br/>`GrpcClientMode.ClientFactory`|
+    |string|Remote|Sets the name of channel (`GrpcClientMode.Standalone`) or Uri (`GrpcClientMode.ClientFactory`)|
+    |string|ProtoRootPath|Sets the root path of `*.proto` files|
+2. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |GrpcClientAttribute|GrpcClient(GrpcClientMode, string, string)|Default constructor|
+3. Description
+    - Use this attribute for creating gRPC services.
+    - Partial type declaration is required for using this attribute.
+    - gRPC client generator will find all `*.proto` files under `ProtoRootPath`
+
+    - Input and generated code looks like followings:
+        ```protobuf
+        // Helloworld.proto in "C:\Study\Peponi\Peponi.SourceGenerators\Peponi.SourceGenerators.Tests\GrpcGenerator\"
+        syntax = "proto3";
+
+        package HelloWorld;
+
+        service HelloWorldCommunication
+        {
+        	rpc HelloRequest(CommunicationMessage) returns (CommunicationMessage);
+        }
+
+        message CommunicationMessage
+        {
+        	string Sender = 1;
+        	string Message = 2;
+        }
+        ```
+
+        - `GrpcClientMode.Standalone`
+            ```cs
+            // Input
+
+            [GrpcClient(GrpcClientMode.Standalone, nameof(_channel), @"C:\Study\Peponi\Peponi.SourceGenerators\Peponi.SourceGenerators.Tests\GrpcGenerator")]
+            public partial class CodeTest
+            {
+                Channel _channel;
+            }
+            ```
+            ```cs
+            // Generated
+
+            using Grpc.Core;
+            using HelloWorld;
+
+            namespace GeneratorTest
+            {
+                public partial class CodeTest
+                {
+                    private HelloWorldCommunication.HelloWorldCommunicationClient _HelloWorldCommunication
+
+                    private bool CreateServices()
+                    {
+                        bool rtn = true;
+                        try
+                        {
+                            _HelloWorldCommunication = new HelloWorldCommunication.HelloWorldCommunicationClient(_channel);
+                        }
+                        catch
+                        {
+                            rtn = false;
+                        }
+                        return rtn;
+                    }
+                }
+            }
+            ```
+        - `GrpcClientMode.ClientFactory`
+            ```cs
+            // Input
+
+            [GrpcClient(GrpcClientMode.ClientFactory, "https://localhost:9091", @"C:\Study\Peponi\Peponi.SourceGenerators\Peponi.SourceGenerators.Tests\GrpcGenerator")]
+            public partial class CodeTest
+            {
+            }
+            ```
+            ```cs
+            // Generated
+
+            using Microsoft.Extensions.DependencyInjection;
+            using HelloWorld;
+
+            namespace GeneratorTest
+            {
+                public partial class CodeTest
+                {
+                    private IServiceCollection AddClientsFactory(IServiceCollection services)
+                    {
+                        services
+                        .AddGrpcClient<HelloWorldCommunication.HelloWorldCommunicationClient>(o => { o.Address = new Uri("https://localhost:9091"); })
+                        ;
+                        return services;
+                    }
+                }
+            }
+            ```
+    - As a result, user could use `GrpcClient` attribute like followings:
+        ```cs
+        // GrpcClientMode.Standalone
+
+        [GrpcClient(GrpcClientMode.Standalone, nameof(_channel), @"C:\Study\Peponi\Peponi.SourceGenerators\Peponi.SourceGenerators.Tests\GrpcGenerator")]
+        public partial class CodeTest
+        {
+            Channel _channel;
+
+            public CodeTest()
+            {
+                if(CreateServices())
+                {
+                    _HelloWorldCommunication.HelloRequestAsync(new HelloWorld.CommunicationMessage
+                    {
+                        Sender = "Client",
+                        Message = "Hello world from client"
+                    });
+                }
+            }
+        }
+        ```
+        ```cs
+        // GrpcClientMode.ClientFactory
+
+        [GrpcClient(GrpcClientMode.ClientFactory, "https://localhost:9091", @"C:\Study\Peponi\Peponi.SourceGenerators\Peponi.SourceGenerators.Tests\GrpcGenerator")]
+        public partial class CodeTest
+        {
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddGrpc();
+                services = AddClientsFactory(services);
+            }
+        }
+
+        public class SayHelloClass
+        {
+            readonly HelloWorldCommunication.HelloWorldCommunicationClient _client;
+
+            public SayHelloClass(HelloWorldCommunication.HelloWorldCommunicationClient client)
+            {
+                _client = client;
+            }
+
+            public void SayHello()
+            {
+                var reply = _client.HelloRequest(new HelloWorld.CommunicationMessage
+                    {
+                        Sender = "Client",
+                        Message = "Hello world from client"
+                    });
+            }
+        }
+        ```
+
+
+### 2.9. gRPC Server
+
+
+1. Members
+    |Type|Name|Description|
+    |----|----|-----------|
+    |GrpcServerMode|GrpcServerMode|Sets the Server mode<br/>Supports<br/>`GrpcServerMode.Standalone`<br/>`GrpcServerMode.ClientFactory`|
+2. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |GrpcServerAttribute|GrpcServer(GrpcServerMode)|Default constructor|
+3. Description
+    - Use this attribute for mapping gRPC services.
+    - Static class `GrpcServerMapper` will be generated in namespace `Peponi.SourceGenerators.Grpc`.
+    - User could use `GetStandaloneServices()` or `MapClientFactoryServices(IEndpointRouteBuilder)` in `GrpcServerMapper`
+
+    - Input and generated code looks like followings:
+        ```cs
+        // Generated by Protobuf compiler
+
+        namespace ServerContext
+        {
+            public static partial class HelloWorld
+            {
+                public static ServerServiceDefinition BindService(HelloWorldBase base)
+                {
+                }
+
+                public abstract partial class HelloWorldBase
+                {
+                }
+            }
+        }
+        ```
+
+        - `GrpcServerMode.Standalone`
+            ```cs
+            // Input
+
+            namespace GeneratorTest
+            {
+                [GrpcServer(GrpcServerMode.Standalone)]
+                public class CodeTest : HelloWorld.HelloWorldBase
+                {
+                }
+            }
+            ```
+            ```cs
+            // Generated
+
+            using Grpc.Core;
+
+            namespace Peponi.SourceGenerators.Grpc;
+
+            public static partial class GrpcServerMapper
+            {
+                public static List<ServerServiceDefinition> GetStandaloneServices()
+                {
+                    List<ServerServiceDefinition> rtns = new();
+                    rtns.Add(global::ServerContext.HelloWorld.BindService(new global::GeneratorTest.CodeTest()));
+                    return rtns;
+                }
+            }
+            ```
+        - `GrpcServerMode.ClientFactory`
+            ```cs
+            // Input
+
+            namespace GeneratorTest
+            {
+                [GrpcServer(GrpcServerMode.ClientFactory)]
+                public class CodeTest : HelloWorld.HelloWorldBase
+                {
+                }
+            }
+            ```
+            ```cs
+            // Generated
+
+            using Microsoft.AspNetCore.Routing;
+
+            namespace Peponi.SourceGenerators.Grpc;
+
+            public static partial class GrpcServerMapper
+            {
+                public static IEndpointRouteBuilder MapClientFactoryServices(IEndpointRouteBuilder builder)
+                {
+                    builder.MapGrpcService<global::GeneratorTest.CodeTest>();
+                    return builder;
+                }
+            }
+            ```
+    - As a result, user could use `GrpcServer` attribute like followings:
+        ```cs
+        // GrpcServerMode.Standalone
+
+        using Peponi.SourceGenerators.Grpc;
+
+        public class Program
+        {
+            private static void Main(string[] args)
+            {
+                var server = new Server()
+                {
+                    Ports = { new ServerPort("localhost", 9091, ServerCredentials.Insecure) }
+                };
+                GrpcServerMapper.GetStandaloneServices().ForEach(server.Services.Add);
+
+                server.Start();
+            }
+        }
+        ```
+        ```cs
+        // GrpcServerMode.ClientFactory
+
+        using Peponi.SourceGenerators.Grpc;
+
+        public class Program
+        {
+            private static void Main(string[] args)
+            {
+                CreateHostBuilder().Build().Run();
+            }
+
+            private static IHostBuilder CreateHostBuilder() =>
+                Host.CreateDefaultBuilder()
+                    .ConfigureWebHostDefaults(webBuilder =>
+                    {
+                        // Configure kestrel ...
+                        webBuilder.UseStartUp<StartUp>();
+                    });
+        }
+
+        public class StartUp
+        {
+            public void ConfigureServices(IServiceCollection services)
+            {
+                services.AddGrpc();
+            }
+
+            public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
+            {
+                // Configure settings ...
+                app.UseEndpoints(endpoints =>
+                {
+                    endpoints = GrpcServerMapper.MapClientFactoryServices(endpoints);
+                });
             }
         }
         ```

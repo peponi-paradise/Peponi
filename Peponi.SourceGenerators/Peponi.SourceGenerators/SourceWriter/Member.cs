@@ -304,4 +304,74 @@ internal static partial class SourceWriterExtension
             return string.Empty;
         }
     }
+
+    internal static void WriteGrpcClientMembers(this CodeBuilder builder, ProtobufInfo info)
+    {
+        if (info.ClientMode == GrpcClientMode.Standalone) WriteStandalone();
+        else WriteClientFactory();
+
+        void WriteStandalone()
+        {
+            // Write members
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.WriteMemberComment();
+                    builder.AppendLine($"private {service}.{service}Client _{service}");
+                }
+            }
+
+            builder.NewLine();
+
+            // Write method
+            builder.WriteMethodComment();
+            builder.AppendLine("private bool CreateServices()");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("bool rtn = true;");
+            builder.AppendLine("try");
+            builder.AppendLine("{");
+            builder.Indent++;
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.AppendLine($"_{service} = new {service}.{service}Client({info.Remote});");
+                }
+            }
+            builder.Indent--;
+            builder.AppendLine("}");
+            builder.AppendLine("catch");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("rtn = false;");
+            builder.Indent--;
+            builder.AppendLine("}");
+            builder.AppendLine("return rtn;");
+            builder.Indent--;
+            builder.AppendLine("}");
+        }
+
+        void WriteClientFactory()
+        {
+            // Write method
+            builder.WriteMethodComment();
+            builder.AppendLine("private IServiceCollection AddClientsFactory(IServiceCollection services)");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("services");
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.AppendLine($".AddGrpcClient<{service}.{service}Client>(o => {{ o.Address = new Uri(\"{info.Remote}\"); }})");
+                }
+            }
+            builder.AppendLine(";");
+            builder.AppendLine("return services;");
+            builder.Indent--;
+            builder.AppendLine("}");
+        }
+    }
 }

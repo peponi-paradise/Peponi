@@ -2,25 +2,26 @@
 using Microsoft.CodeAnalysis.Text;
 using Peponi.SourceGenerators.SemanticTarget;
 using Peponi.SourceGenerators.SourceWriter;
-using System.Collections.Immutable;
 using System.Text;
 
-namespace Peponi.SourceGenerators.PropertyGenerator;
+namespace Peponi.SourceGenerators.GrpcGenerator;
 
-public sealed partial class PropertyGenerator
+public sealed partial class GrpcClientGenerator
 {
-    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget objectTarget, ImmutableArray<PropertyTarget> propertyTarget)
+    private static void Execute(SourceProductionContext context, ObjectDeclarationTarget objectTarget, ProtobufInfo protoTarget)
     {
         if (objectTarget == null) return;
-        else if (propertyTarget == null) return;
+        else if (protoTarget == null || protoTarget.ProtobufDatas.Count == 0) return;
 
-        var codeFileName = $"{objectTarget.NamespaceName}.{objectTarget.TypeName}.Property.g.cs";
+        var codeFileName = $"{objectTarget.NamespaceName}.{objectTarget.TypeName}.GrpcClient.g.cs";
 
         var codeBuilder = new CodeBuilder();
 
         codeBuilder.WriteHeaderComment();
 
         codeBuilder.WriteNullable();
+
+        codeBuilder.WriteGrpcClientUsings(protoTarget);
 
         codeBuilder.WriteNamespace(objectTarget.NamespaceName);
 
@@ -30,7 +31,7 @@ public sealed partial class PropertyGenerator
 
         codeBuilder.Indent++;
 
-        codeBuilder.WriteProperties(propertyTarget);
+        codeBuilder.WriteGrpcClientMembers(protoTarget);
 
         codeBuilder.CloseAllIndents();
 
