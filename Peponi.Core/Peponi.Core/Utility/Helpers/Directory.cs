@@ -42,6 +42,13 @@ public static class DirectoryHelper
         return CheckPath(path).GetFiles().ToList();
     }
 
+    public static List<FileInfo> GetFileInfosIncludingSubdirectories(string path)
+    {
+        List<FileInfo> infos = new();
+        foreach (var dirInfo in GetDirectoryInfos(path)) infos.AddRange(dirInfo.GetFiles());
+        return infos;
+    }
+
     private static DirectoryInfo CheckPath(string path)
     {
         path = $@"{path}\";
@@ -63,13 +70,13 @@ public static class DirectoryHelper
 
 public static class DirectoryHelperExtension
 {
-    public static List<FileInfo> ExtractFiles(this List<FileInfo> fileInfos, string filePath)
+    public static List<FileInfo> ExtractFiles(this List<FileInfo> fileInfos, string extractingName)
     {
         List<FileInfo> infos = new List<FileInfo>();
 
         foreach (var info in fileInfos)
         {
-            if (Path.GetFileNameWithoutExtension(info.FullName).Contains(Path.GetFileNameWithoutExtension(filePath)))
+            if (Path.GetFileNameWithoutExtension(info.FullName).Contains(Path.GetFileNameWithoutExtension(extractingName)))
             {
                 infos.Add(info);
             }

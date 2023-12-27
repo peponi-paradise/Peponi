@@ -1,18 +1,17 @@
-﻿# Peponi.Logger
+﻿# Peponi.Core
 
 
-- [Peponi.Logger](#peponilogger)
+- [Peponi.Core](#peponicore)
   - [1. Instruction](#1-instruction)
-    - [1.1. About Peponi.Logger](#11-about-peponilogger)
-      - [1.1.1. Peponi.Logger license](#111-peponilogger-license)
-      - [1.1.2. Peponi.Logger install](#112-peponilogger-install)
-  - [2. Peponi.Logger](#2-peponilogger)
-    - [2.1. Quick start](#21-quick-start)
-    - [2.2. Log](#22-log)
-    - [2.3. LogOption](#23-logoption)
-      - [2.3.1. LogDirectoryOption](#231-logdirectoryoption)
-      - [2.3.2. LogFileOption](#232-logfileoption)
-      - [2.3.3. LogMessageOption](#233-logmessageoption)
+    - [1.1. About Peponi.Core](#11-about-peponicore)
+      - [1.1.1. Peponi.Core license](#111-peponicore-license)
+      - [1.1.2. Peponi.Core install](#112-peponicore-install)
+  - [2. Peponi.Core](#2-peponicore)
+    - [2.1. Design pattern](#21-design-pattern)
+      - [2.1.1. Singleton](#211-singleton)
+    - [2.2. Utility](#22-utility)
+      - [2.2.1. Helpers](#221-helpers)
+        - [2.2.1.1. DirectoryHelper](#2211-directoryhelper)
 
 
 ## 1. Instruction
@@ -24,21 +23,27 @@
 - Instruction & API information is on following section
 
 
-### 1.1. About Peponi.Logger
+### 1.1. About Peponi.Core
 
 
 ```text
-Peponi.Logger is a package for logging.
-Base concepts are:
+Peponi.Core is a package for common usage of peponi library.
+Included contents are:
 
-1. Fast return
-   - Add log item and return immediately
-2. High performance logger
-   - Has processor & writer per each logger
+1. Design pattern
+   - Singleton
+2. Utility
+   - Helpers
+      + Directory
+      + Member
+      + Process
+      + Registry
+      + Storage  
+   - Minidump
 ```
 
 
-#### 1.1.1. Peponi.Logger license
+#### 1.1.1. Peponi.Core license
 
 
 ```text
@@ -66,273 +71,63 @@ SOFTWARE.
 ```
 
 
-#### 1.1.2. Peponi.Logger install
+#### 1.1.2. Peponi.Core install
 
 
 ```text
-NuGet\Install-Package Peponi.Logger
+NuGet\Install-Package Peponi.Core
 ```
 
 
-## 2. Peponi.Logger
+## 2. Peponi.Core
 
 
-### 2.1. Quick start
+### 2.1. Design pattern
 
 
-```cs
-using Peponi.Logger;
-
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        // Gets logger with default option
-        Log log = Log.GetLogger();
-
-        log.Write("Hello, World!");
-    }
-}
-```
-```cs
-using Peponi.Logger;
-
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        // Gets logger named "MyLog" with default option
-        Log log = Log.GetLogger("MyLog");
-
-        log.Write(LogType.Info, "Hello, World!");
-    }
-}
-```
-
-
-### 2.2. Log
+#### 2.1.1. Singleton<T>
 
 
 1. Members
     |Type|Name|Description|
-    |----|----|-----------|
-    |LogOption|Option|Options for logging|
-2. Methods
+    |-------|-------|-------|
+    |T|Instance|Singleton instance|
+2. Example
+    ```cs
+    public class TestClass
+    {
+        public int X = 0;
+    }
+    ```
+    ```cs
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+
+    /* output:
+    0
+    1
+    2
+    */
+    ```
+
+
+### 2.2. Utility
+
+
+#### 2.2.1. Helpers
+
+
+##### 2.2.1.1. DirectoryHelper
+
+
+1. Methods
     |Return type|Name|Description|
     |-----------|----|-----------|
-    |Log|GetLogger(string)|Gets logger for given name|
-    |Log|GetLogger(LogOption?)|Gets logger for given option|
-    |void|Write(string, DateTime?)|Write log|
-    |void|Write(LogType, string, DateTime?)|Write log|
-3. LogType (Flags)
-    |LogType|Description|
-    |-------|-------|
-    |General|General|
-    |Info|Information|
-    |Notify|Notify|
-    |Warning|Warning|
-    |Error|Error|
-    |Exception|Exception|
-4. Example
-    ```cs
-    using Peponi.Logger;
-
-    internal class Program
-    {
-        private static void Main(string[] args)
-        {
-            LogDirectoryOption directoryOption = new()
-            {
-                RootPath = $@"C:\Temp\Peponi.Log\",
-                DirectoryTree = new()
-                {
-                    LogDirectoryTree.None
-                }
-            };
-
-            LogFileOption fileOption = new()
-            {
-                LogFileSize = 20,
-                FileCreatingRules = new()
-                {
-                    LogFileCreatingRule.DateTime_Year,
-                    LogFileCreatingRule.DateTime_Month,
-                    LogFileCreatingRule.DateTime_Day,
-                    LogFileCreatingRule.Underbar,
-                    LogFileCreatingRule.LoggerName
-                },
-                Extension = ".txt"
-            };
-
-            LogMessageOption messageOption = new()
-            {
-                MessagePatterns = new()
-                {
-                    LogMessagePattern.DateTime,
-                    LogMessagePattern.LoggerName,
-                    LogMessagePattern.LogType,
-                    LogMessagePattern.Message,
-                    LogMessagePattern.NewLine
-                }
-            };
-
-            LogOption option = new("MyLog", directoryOption, fileOption, messageOption);
-
-            Log logger = Log.GetLogger(option);
-            logger.Write(LogType.Info, "Logger created");
-            logger.Write(LogType.Error | LogType.Exception, "Logger Error & Exception");
-        }
-    }
-    ```
-
-
-### 2.3. LogOption
-
-
-1. Members
-    |Type|Name|Description|
-    |----|----|-----------|
-    |string|LoggerName|Logging base key name|
-    |[LogDirectoryOption](#231-logdirectoryoption)|DirectoryOption|Configure directory tree|
-    |[LogFileOption](#232-logfileoption)|FileOption|Configure log file size and creating rule|
-    |[LogMessageOption](#233-logmessageoption)|MessageOption|Configure log message format|
-2. Description
-    - Configure logger options.
-    - Logger will work by given options.
-    - Concrete options are on following sections.
-
-
-#### 2.3.1. LogDirectoryOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |string|RootPath|Root path of log|
-    |List<LogDirectoryTree>|DirectoryTree|Configure directory tree|
-2. Example
-    ```cs
-    LogDirectoryOption directoryOption = new()
-    {
-        RootPath = $@"C:\Temp\Peponi.Log\",
-        DirectoryTree = new()
-        {
-            LogDirectoryTree.DateTime_Year,
-            LogDirectoryTree.DateTime_Month,
-            LogDirectoryTree.DateTime_Day,
-            LogDirectoryTree.LoggerName,
-        }
-    };
-
-    /* 
-    This option will create following folder tree:
-
-    C
-    |- Temp
-    |    |- Peponi.Log
-    |    |    |- 2023
-    |    |    |    |- 12
-    |    |    |    |   |- 26
-    |    |    |    |   |   |- MyLog
-    */
-    ```
-3. LogDirectoryTree
-    |LogDirectoryTree|Description|
-    |-------|-------|
-    |None|No additional folder|
-    |LoggerName|Given logger name|
-    |DateTime_Second|DateTime format `ss`|
-    |DateTime_Minute|DateTime format `mm`|
-    |DateTime_Hour|DateTime format `HH`|
-    |DateTime_Day|DateTime format `dd`|
-    |DateTime_Month|DateTime format `MM`|
-    |DateTime_Year|DateTime format `yy`|
-
-
-#### 2.3.2. LogFileOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |uint|LogFileSize|- Unit : mb<br/>- Value :<br/>0 = Inf<br/>X = X mb<br/>- Default : 0|
-    |List<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
-    |string|Extension|Log file's extension<br/>Default : `.log`|
-2. Example
-    ```cs
-    LogFileOption fileOption = new()
-    {
-        LogFileSize = 5,
-        FileCreatingRules = new()
-        {
-            LogFileCreatingRule.DateTime_Year,
-            LogFileCreatingRule.DateTime_Month,
-            LogFileCreatingRule.DateTime_Day,
-            LogFileCreatingRule.Underbar,
-            LogFileCreatingRule.LoggerName
-        },
-        Extension = ".txt"
-    };
-
-    /*
-    This option will create following log file :
-    
-    20231226_MyLog.txt (5 mb)
-    20231226_MyLog_1.txt (5 mb)
-    20231226_MyLog_2.txt (2 mb)
-    */
-    ```
-3. LogFileCreatingRule
-    |LogFileCreatingRule|Description|
-    |-------|-------|
-    |LoggerName|Given logger name|
-    |DateTime_Second|DateTime format `ss`|
-    |DateTime_Minute|DateTime format `mm`|
-    |DateTime_Hour|DateTime format `HH`|
-    |DateTime_Day|DateTime format `dd`|
-    |DateTime_Month|DateTime format `MM`|
-    |DateTime_Year|DateTime format `yyyy`|
-    |Dot|`.`|
-    |Space|` `|
-    |Underbar|`_`|
-    |Dash|`-`|
-
-
-#### 2.3.3. LogMessageOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |List<LogMessagePattern>|MessagePatterns|Configure log message|
-2. Example
-    ```cs
-    LogMessageOption messageOption = new()
-    {
-        MessagePatterns = new()
-        {
-            LogMessagePattern.DateTime,
-            LogMessagePattern.LoggerName,
-            LogMessagePattern.LogType,
-            LogMessagePattern.Message,
-            LogMessagePattern.NewLine
-        }
-    };
-
-    /*
-    This option will create following log message :
-    
-    [2023-12-26 16.02.35.006] [MyLog] [General] Log message
-    [2023-12-26 16.02.35.106] [MyLog] [General] Log message 2
-
-    */
-    ```
-3. LogMessagePattern
-    |LogMessagePattern|Description|
-    |-------|-------|
-    |None|No message|
-    |LoggerName|Given logger name<br/>`[LoggerName] `|
-    |DateTime|`[yyyy.MM.dd HH:mm:ss.fff] `|
-    |LogType|`[LogType] `|
-    |Message|`Message `|
-    |NewLine|`Environment.NewLine`|
+    |void|CreateDirectory(string)|Create directory|
+    |long|GetDirectorySize(string)|Return directory size as byte|
+    |int|GetDirectorySizeMB(string)|Return directory size as mb|
+    |List\<DirectoryInfo>|GetDirectoryInfos(string)|Return directory info including sub directories|
+    |List\<FileInfo>|GetFileInfos(string)|Return file info for given directory|
+    |List\<FileInfo>|GetFileInfosIncludingSubdirectories(string)|Return file info including sub directories|
+2. 
