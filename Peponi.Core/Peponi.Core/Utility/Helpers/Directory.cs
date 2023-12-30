@@ -45,6 +45,7 @@ public static class DirectoryHelper
     public static List<FileInfo> GetFileInfosIncludingSubdirectories(string path)
     {
         List<FileInfo> infos = new();
+        infos.AddRange(CheckPath(path).GetFiles());
         foreach (var dirInfo in GetDirectoryInfos(path)) infos.AddRange(dirInfo.GetFiles());
         return infos;
     }

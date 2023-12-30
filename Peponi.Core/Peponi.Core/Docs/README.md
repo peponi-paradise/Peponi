@@ -127,7 +127,41 @@ NuGet\Install-Package Peponi.Core
     |void|CreateDirectory(string)|Create directory|
     |long|GetDirectorySize(string)|Return directory size as byte|
     |int|GetDirectorySizeMB(string)|Return directory size as mb|
-    |List\<DirectoryInfo>|GetDirectoryInfos(string)|Return directory info including sub directories|
-    |List\<FileInfo>|GetFileInfos(string)|Return file info for given directory|
-    |List\<FileInfo>|GetFileInfosIncludingSubdirectories(string)|Return file info including sub directories|
-2. 
+    |List\<DirectoryInfo>|GetDirectoryInfos(string)|Return sub directory infos|
+    |List\<FileInfo>|GetFileInfos(string)|Return file infos for given directory|
+    |List\<FileInfo>|GetFileInfosIncludingSubdirectories(string)|Return file infos including sub directories|
+2. Example
+    ```cs
+    using Peponi.Core.Utility.Helpers;
+
+    public class Program
+    {
+        private static void Main()
+        {
+            DirectoryHelper.CreateDirectory(@"C:\Temp\TestFolder");
+
+            // Create dummy files and sub directories
+            for (int i = 0; i < 5; i++)
+            {
+                File.Create($@"C:\Temp\TestFolder\{i}.txt");
+                DirectoryHelper.CreateDirectory($@"C:\Temp\TestFolder\{i}");
+                for (int j = 0; j < 2; j++) File.Create($@"C:\Temp\TestFolder\{i}\{j}.txt");
+            }
+
+            var byteSize = DirectoryHelper.GetDirectorySize(@"C:\Temp\TestFolder");
+            Console.WriteLine(byteSize);    // 0
+
+            var mbSize = DirectoryHelper.GetDirectorySize(@"C:\Temp\TestFolder");
+            Console.WriteLine(mbSize);     // 0
+
+            var dirInfos = DirectoryHelper.GetDirectoryInfos(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", dirInfos.Select(x => x.Name)));     // 0, 1, 2, 3, 4
+
+            var fileInfos = DirectoryHelper.GetFileInfos(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", fileInfos.Select(x => x.Name)));    // 0.txt, 1.txt, 2.txt, 3.txt, 4.txt
+
+            var allFileInfos = DirectoryHelper.GetFileInfosIncludingSubdirectories(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", allFileInfos.Select(x => x.Name))); // 0.txt, 1.txt, 2.txt, 3.txt, 4.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt
+        }
+    }
+    ```
