@@ -12,6 +12,8 @@
     - [2.2. Utility](#22-utility)
       - [2.2.1. Helpers](#221-helpers)
         - [2.2.1.1. DirectoryHelper](#2211-directoryhelper)
+        - [2.2.1.2. MemberHelper](#2212-memberhelper)
+        - [2.2.1.3. ProcessHelper](#2213-processhelper)
 
 
 ## 1. Instruction
@@ -127,9 +129,11 @@ NuGet\Install-Package Peponi.Core
     |void|CreateDirectory(string)|Create directory|
     |long|GetDirectorySize(string)|Return directory size as byte|
     |int|GetDirectorySizeMB(string)|Return directory size as mb|
-    |List\<DirectoryInfo>|GetDirectoryInfos(string)|Return sub directory infos|
+    |DirectoryInfo|GetDirectoryInfo(string)|Return directory info|
+    |List\<DirectoryInfo>|GetSubDirectoryInfos(string)|Return sub directory infos|
     |List\<FileInfo>|GetFileInfos(string)|Return file infos for given directory|
-    |List\<FileInfo>|GetFileInfosIncludingSubdirectories(string)|Return file infos including sub directories|
+    |List\<FileInfo>|GetFileInfosIncludingSubDirectories(string)|Return file infos including sub directories|
+    |List\<FileInfo>|FindFiles(this List\<FileInfo>,string)|Returns files with the specified name|
 2. Example
     ```cs
     using Peponi.Core.Utility.Helpers;
@@ -141,27 +145,91 @@ NuGet\Install-Package Peponi.Core
             DirectoryHelper.CreateDirectory(@"C:\Temp\TestFolder");
 
             // Create dummy files and sub directories
-            for (int i = 0; i < 5; i++)
+            for (int i = 0; i < 2; i++)
             {
-                File.Create($@"C:\Temp\TestFolder\{i}.txt");
+                File.WriteAllText($@"C:\Temp\TestFolder\{i}.txt", DummyContents);
                 DirectoryHelper.CreateDirectory($@"C:\Temp\TestFolder\{i}");
                 for (int j = 0; j < 2; j++) File.Create($@"C:\Temp\TestFolder\{i}\{j}.txt");
             }
 
             var byteSize = DirectoryHelper.GetDirectorySize(@"C:\Temp\TestFolder");
-            Console.WriteLine(byteSize);    // 0
+            Console.WriteLine(byteSize);    // 804
 
-            var mbSize = DirectoryHelper.GetDirectorySize(@"C:\Temp\TestFolder");
+            var mbSize = DirectoryHelper.GetDirectorySizeMB(@"C:\Temp\TestFolder");
             Console.WriteLine(mbSize);     // 0
 
-            var dirInfos = DirectoryHelper.GetDirectoryInfos(@"C:\Temp\TestFolder");
-            Console.WriteLine(string.Join(", ", dirInfos.Select(x => x.Name)));     // 0, 1, 2, 3, 4
+            var dirInfo = DirectoryHelper.GetDirectoryInfo(@"C:\Temp\TestFolder");
+            Console.WriteLine(dirInfo.Name);     // TestFolder
+
+            var subDirInfos = DirectoryHelper.GetSubDirectoryInfos(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", subDirInfos.Select(x => x.Name)));     // 0, 1
 
             var fileInfos = DirectoryHelper.GetFileInfos(@"C:\Temp\TestFolder");
-            Console.WriteLine(string.Join(", ", fileInfos.Select(x => x.Name)));    // 0.txt, 1.txt, 2.txt, 3.txt, 4.txt
+            Console.WriteLine(string.Join(", ", fileInfos.Select(x => x.Name)));    // 0.txt, 1.txt
 
-            var allFileInfos = DirectoryHelper.GetFileInfosIncludingSubdirectories(@"C:\Temp\TestFolder");
-            Console.WriteLine(string.Join(", ", allFileInfos.Select(x => x.Name))); // 0.txt, 1.txt, 2.txt, 3.txt, 4.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt
+            var allFileInfos = DirectoryHelper.GetFileInfosIncludingSubDirectories(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", allFileInfos.Select(x => x.Name))); // 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt
+
+            var foundFiles = allFileInfos.FindFiles("0");
+            Console.WriteLine(string.Join(",", foundFiles.Select(x => x.Name)));    // 0.txt, 0.txt, 0.txt
         }
     }
     ```
+
+
+##### 2.2.1.2. MemberHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|CopyAllFieldsAndProperties\<T>(in T, in T)|Copy all fields and properties|
+    |bool|GetParameter\<T>(string, ref T, object)|Get the field or property value|
+    |bool|SetParameter\<T>(string, T, object)|Set the field or property value|
+2. Example
+    ```cs
+    public class CartesianCoordinate
+    {
+        public int X = 0;
+        public int Y { get; set; } = 0;
+
+        public CartesianCoordinate(int x, int y)
+        {
+            X = x; Y = y;
+        }
+
+        public override string ToString()
+        {
+            return $"{X}, {Y}";
+        }
+    }
+    ```
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            var coordinate1 = new CartesianCoordinate(1, 1);
+            var coordinate2 = new CartesianCoordinate(2, 2);
+
+            MemberHelper.CopyAllFieldsAndProperties(coordinate1, coordinate2);
+            Console.WriteLine(coordinate2);     // 1, 1
+
+            int x = 0;
+            var isSuccess = MemberHelper.GetParameter("X", ref x, coordinate2);
+            if (isSuccess) Console.WriteLine(x);    // 1
+
+            isSuccess = MemberHelper.SetParameter("Y", 5, coordinate1);
+            if (isSuccess) Console.WriteLine(coordinate1);      // 1, 5
+        }
+    }
+    ```
+
+
+##### 2.2.1.3. ProcessHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |

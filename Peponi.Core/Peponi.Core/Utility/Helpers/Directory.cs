@@ -15,7 +15,7 @@ public static class DirectoryHelper
 
     public static long GetDirectorySize(string path)
     {
-        var directoryInfo = CheckPath(path);
+        var directoryInfo = GetDirectoryInfo(path);
         long size = 0;
 
         foreach (var fileInfo in directoryInfo.GetFiles("*", SearchOption.AllDirectories))
@@ -31,26 +31,7 @@ public static class DirectoryHelper
         return (int)(GetDirectorySize(path) / Math.Pow(1024, 2));
     }
 
-    public static List<DirectoryInfo> GetDirectoryInfos(string path)
-    {
-        var baseInfo = CheckPath(path);
-        return baseInfo.EnumerateDirectories("*", SearchOption.AllDirectories).ToList();
-    }
-
-    public static List<FileInfo> GetFileInfos(string path)
-    {
-        return CheckPath(path).GetFiles().ToList();
-    }
-
-    public static List<FileInfo> GetFileInfosIncludingSubdirectories(string path)
-    {
-        List<FileInfo> infos = new();
-        infos.AddRange(CheckPath(path).GetFiles());
-        foreach (var dirInfo in GetDirectoryInfos(path)) infos.AddRange(dirInfo.GetFiles());
-        return infos;
-    }
-
-    private static DirectoryInfo CheckPath(string path)
+    public static DirectoryInfo GetDirectoryInfo(string path)
     {
         path = $@"{path}\";
 
@@ -67,17 +48,34 @@ public static class DirectoryHelper
 
         return new DirectoryInfo(Path.GetDirectoryName(path)!);
     }
-}
 
-public static class DirectoryHelperExtension
-{
-    public static List<FileInfo> ExtractFiles(this List<FileInfo> fileInfos, string extractingName)
+    public static List<DirectoryInfo> GetSubDirectoryInfos(string path)
+    {
+        var baseInfo = GetDirectoryInfo(path);
+        return baseInfo.EnumerateDirectories("*", SearchOption.AllDirectories).ToList();
+    }
+
+    public static List<FileInfo> GetFileInfos(string path)
+    {
+        return GetDirectoryInfo(path).GetFiles().ToList();
+    }
+
+    public static List<FileInfo> GetFileInfosIncludingSubDirectories(string path)
+    {
+        List<FileInfo> infos = new();
+        infos.AddRange(GetDirectoryInfo(path).GetFiles());
+        foreach (var dirInfo in GetSubDirectoryInfos(path)) infos.AddRange(dirInfo.GetFiles());
+        return infos;
+    }
+
+    public static List<FileInfo> FindFiles(this List<FileInfo> fileInfos, string matchingName)
     {
         List<FileInfo> infos = new List<FileInfo>();
+        string checkName = Path.GetFileNameWithoutExtension(matchingName);
 
         foreach (var info in fileInfos)
         {
-            if (Path.GetFileNameWithoutExtension(info.FullName).Contains(Path.GetFileNameWithoutExtension(extractingName)))
+            if (Path.GetFileNameWithoutExtension(info.FullName).Contains(checkName))
             {
                 infos.Add(info);
             }
