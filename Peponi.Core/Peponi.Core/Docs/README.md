@@ -1,18 +1,22 @@
-﻿# Peponi.Logger
+﻿# Peponi.Core
 
 
-- [Peponi.Logger](#peponilogger)
+- [Peponi.Core](#peponicore)
   - [1. Instruction](#1-instruction)
-    - [1.1. About Peponi.Logger](#11-about-peponilogger)
-      - [1.1.1. Peponi.Logger license](#111-peponilogger-license)
-      - [1.1.2. Peponi.Logger install](#112-peponilogger-install)
-  - [2. Peponi.Logger](#2-peponilogger)
-    - [2.1. Quick start](#21-quick-start)
-    - [2.2. Log](#22-log)
-    - [2.3. LogOption](#23-logoption)
-      - [2.3.1. LogDirectoryOption](#231-logdirectoryoption)
-      - [2.3.2. LogFileOption](#232-logfileoption)
-      - [2.3.3. LogMessageOption](#233-logmessageoption)
+    - [1.1. About Peponi.Core](#11-about-peponicore)
+      - [1.1.1. Peponi.Core license](#111-peponicore-license)
+      - [1.1.2. Peponi.Core install](#112-peponicore-install)
+  - [2. Peponi.Core](#2-peponicore)
+    - [2.1. Design pattern](#21-design-pattern)
+      - [2.1.1. Singleton](#211-singleton)
+    - [2.2. Utility](#22-utility)
+      - [2.2.1. Helpers](#221-helpers)
+        - [2.2.1.1. DirectoryHelper](#2211-directoryhelper)
+        - [2.2.1.2. MemberHelper](#2212-memberhelper)
+        - [2.2.1.3. ProcessHelper](#2213-processhelper)
+        - [2.2.1.4. RegistryHelper](#2214-registryhelper)
+        - [2.2.1.5. StorageHelper](#2215-storagehelper)
+      - [2.2.2. MiniDump](#222-minidump)
 
 
 ## 1. Instruction
@@ -24,21 +28,27 @@
 - Instruction & API information is on following section
 
 
-### 1.1. About Peponi.Logger
+### 1.1. About Peponi.Core
 
 
 ```text
-Peponi.Logger is a package for logging.
-Base concepts are:
+Peponi.Core is a package for common usage of peponi library.
+Included contents are:
 
-1. Fast return
-   - Add log item and return immediately
-2. High performance logger
-   - Has processor & writer per each logger
+1. Design pattern
+   - Singleton
+2. Utility
+   - Helpers
+      + Directory
+      + Member
+      + Process
+      + Registry
+      + Storage  
+   - Minidump
 ```
 
 
-#### 1.1.1. Peponi.Logger license
+#### 1.1.1. Peponi.Core license
 
 
 ```text
@@ -66,273 +76,253 @@ SOFTWARE.
 ```
 
 
-#### 1.1.2. Peponi.Logger install
+#### 1.1.2. Peponi.Core install
 
 
 ```text
-NuGet\Install-Package Peponi.Logger
+NuGet\Install-Package Peponi.Core
 ```
 
 
-## 2. Peponi.Logger
+## 2. Peponi.Core
 
 
-### 2.1. Quick start
+### 2.1. Design pattern
 
 
-```cs
-using Peponi.Logger;
-
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        // Gets logger with default option
-        Log log = Log.GetLogger();
-
-        log.Write("Hello, World!");
-    }
-}
-```
-```cs
-using Peponi.Logger;
-
-internal class Program
-{
-    private static void Main(string[] args)
-    {
-        // Gets logger named "MyLog" with default option
-        Log log = Log.GetLogger("MyLog");
-
-        log.Write(LogType.Info, "Hello, World!");
-    }
-}
-```
-
-
-### 2.2. Log
+#### 2.1.1. Singleton<T>
 
 
 1. Members
     |Type|Name|Description|
-    |----|----|-----------|
-    |LogOption|Option|Options for logging|
-2. Methods
+    |-------|-------|-------|
+    |T|Instance|Singleton instance|
+2. Example
+    ```cs
+    public class TestClass
+    {
+        public int X = 0;
+    }
+    ```
+    ```cs
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+    Console.WriteLine(Singleton<TestClass>.Instance.X++);
+
+    /* output:
+    0
+    1
+    2
+    */
+    ```
+
+
+### 2.2. Utility
+
+
+#### 2.2.1. Helpers
+
+
+##### 2.2.1.1. DirectoryHelper
+
+
+1. Methods
     |Return type|Name|Description|
     |-----------|----|-----------|
-    |Log|GetLogger(string)|Gets logger for given name|
-    |Log|GetLogger(LogOption?)|Gets logger for given option|
-    |void|Write(string, DateTime?)|Write log|
-    |void|Write(LogType, string, DateTime?)|Write log|
-3. LogType (Flags)
-    |LogType|Description|
-    |-------|-------|
-    |General|General|
-    |Info|Information|
-    |Notify|Notify|
-    |Warning|Warning|
-    |Error|Error|
-    |Exception|Exception|
-4. Example
+    |void|CreateDirectory(string)|Create directory|
+    |long|GetDirectorySize(string)|Return directory size as byte|
+    |int|GetDirectorySizeMB(string)|Return directory size as mb|
+    |DirectoryInfo|GetDirectoryInfo(string)|Return directory info|
+    |List\<DirectoryInfo>|GetSubDirectoryInfos(string)|Return sub directory infos|
+    |List\<FileInfo>|GetFileInfos(string)|Return file infos for given directory|
+    |List\<FileInfo>|GetFileInfosIncludingSubDirectories(string)|Return file infos including sub directories|
+    |List\<FileInfo>|FindFiles(this List\<FileInfo>,string)|Returns files with the specified name|
+2. Example
     ```cs
-    using Peponi.Logger;
+    using Peponi.Core.Utility.Helpers;
 
-    internal class Program
+    public class Program
     {
-        private static void Main(string[] args)
+        private static void Main()
         {
-            LogDirectoryOption directoryOption = new()
+            DirectoryHelper.CreateDirectory(@"C:\Temp\TestFolder");
+
+            // Create dummy files and sub directories
+            for (int i = 0; i < 2; i++)
             {
-                RootPath = $@"C:\Temp\Peponi.Log\",
-                DirectoryTree = new()
-                {
-                    LogDirectoryTree.None
-                }
-            };
+                File.WriteAllText($@"C:\Temp\TestFolder\{i}.txt", DummyContents);
+                DirectoryHelper.CreateDirectory($@"C:\Temp\TestFolder\{i}");
+                for (int j = 0; j < 2; j++) File.Create($@"C:\Temp\TestFolder\{i}\{j}.txt");
+            }
 
-            LogFileOption fileOption = new()
-            {
-                LogFileSize = 20,
-                FileCreatingRules = new()
-                {
-                    LogFileCreatingRule.DateTime_Year,
-                    LogFileCreatingRule.DateTime_Month,
-                    LogFileCreatingRule.DateTime_Day,
-                    LogFileCreatingRule.Underbar,
-                    LogFileCreatingRule.LoggerName
-                },
-                Extension = ".txt"
-            };
+            var byteSize = DirectoryHelper.GetDirectorySize(@"C:\Temp\TestFolder");
+            Console.WriteLine(byteSize);    // 804
 
-            LogMessageOption messageOption = new()
-            {
-                MessagePatterns = new()
-                {
-                    LogMessagePattern.DateTime,
-                    LogMessagePattern.LoggerName,
-                    LogMessagePattern.LogType,
-                    LogMessagePattern.Message,
-                    LogMessagePattern.NewLine
-                }
-            };
+            var mbSize = DirectoryHelper.GetDirectorySizeMB(@"C:\Temp\TestFolder");
+            Console.WriteLine(mbSize);     // 0
 
-            LogOption option = new("MyLog", directoryOption, fileOption, messageOption);
+            var dirInfo = DirectoryHelper.GetDirectoryInfo(@"C:\Temp\TestFolder");
+            Console.WriteLine(dirInfo.Name);     // TestFolder
 
-            Log logger = Log.GetLogger(option);
-            logger.Write(LogType.Info, "Logger created");
-            logger.Write(LogType.Error | LogType.Exception, "Logger Error & Exception");
+            var subDirInfos = DirectoryHelper.GetSubDirectoryInfos(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", subDirInfos.Select(x => x.Name)));     // 0, 1
+
+            var fileInfos = DirectoryHelper.GetFileInfos(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", fileInfos.Select(x => x.Name)));    // 0.txt, 1.txt
+
+            var allFileInfos = DirectoryHelper.GetFileInfosIncludingSubDirectories(@"C:\Temp\TestFolder");
+            Console.WriteLine(string.Join(", ", allFileInfos.Select(x => x.Name))); // 0.txt, 1.txt, 0.txt, 1.txt, 0.txt, 1.txt
+
+            var foundFiles = allFileInfos.FindFiles("0");
+            Console.WriteLine(string.Join(",", foundFiles.Select(x => x.Name)));    // 0.txt, 0.txt, 0.txt
         }
     }
     ```
 
 
-### 2.3. LogOption
+##### 2.2.1.2. MemberHelper
 
 
-1. Members
-    |Type|Name|Description|
-    |----|----|-----------|
-    |string|LoggerName|Logging base key name|
-    |[LogDirectoryOption](#231-logdirectoryoption)|DirectoryOption|Configure directory tree|
-    |[LogFileOption](#232-logfileoption)|FileOption|Configure log file size and creating rule|
-    |[LogMessageOption](#233-logmessageoption)|MessageOption|Configure log message format|
-2. Description
-    - Configure logger options.
-    - Logger will work by given options.
-    - Concrete options are on following sections.
-
-
-#### 2.3.1. LogDirectoryOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |string|RootPath|Root path of log|
-    |List<LogDirectoryTree>|DirectoryTree|Configure directory tree|
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|CopyAllFieldsAndProperties\<T>(in T, in T)|Copy all fields and properties|
+    |bool|GetParameter\<T>(string, ref T, object)|Get the field or property value|
+    |bool|SetParameter\<T>(string, T, object)|Set the field or property value|
 2. Example
     ```cs
-    LogDirectoryOption directoryOption = new()
+    public class CartesianCoordinate
     {
-        RootPath = $@"C:\Temp\Peponi.Log\",
-        DirectoryTree = new()
+        public int X = 0;
+        public int Y { get; set; } = 0;
+
+        public CartesianCoordinate(int x, int y)
         {
-            LogDirectoryTree.DateTime_Year,
-            LogDirectoryTree.DateTime_Month,
-            LogDirectoryTree.DateTime_Day,
-            LogDirectoryTree.LoggerName,
+            X = x; Y = y;
         }
-    };
 
-    /* 
-    This option will create following folder tree:
-
-    C
-    |- Temp
-    |    |- Peponi.Log
-    |    |    |- 2023
-    |    |    |    |- 12
-    |    |    |    |   |- 26
-    |    |    |    |   |   |- MyLog
-    */
-    ```
-3. LogDirectoryTree
-    |LogDirectoryTree|Description|
-    |-------|-------|
-    |None|No additional folder|
-    |LoggerName|Given logger name|
-    |DateTime_Second|DateTime format `ss`|
-    |DateTime_Minute|DateTime format `mm`|
-    |DateTime_Hour|DateTime format `HH`|
-    |DateTime_Day|DateTime format `dd`|
-    |DateTime_Month|DateTime format `MM`|
-    |DateTime_Year|DateTime format `yy`|
-
-
-#### 2.3.2. LogFileOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |uint|LogFileSize|- Unit : mb<br/>- Value :<br/>0 = Inf<br/>X = X mb<br/>- Default : 0|
-    |List<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
-    |string|Extension|Log file's extension<br/>Default : `.log`|
-2. Example
-    ```cs
-    LogFileOption fileOption = new()
-    {
-        LogFileSize = 5,
-        FileCreatingRules = new()
+        public override string ToString()
         {
-            LogFileCreatingRule.DateTime_Year,
-            LogFileCreatingRule.DateTime_Month,
-            LogFileCreatingRule.DateTime_Day,
-            LogFileCreatingRule.Underbar,
-            LogFileCreatingRule.LoggerName
-        },
-        Extension = ".txt"
-    };
-
-    /*
-    This option will create following log file :
-    
-    20231226_MyLog.txt (5 mb)
-    20231226_MyLog_1.txt (5 mb)
-    20231226_MyLog_2.txt (2 mb)
-    */
-    ```
-3. LogFileCreatingRule
-    |LogFileCreatingRule|Description|
-    |-------|-------|
-    |LoggerName|Given logger name|
-    |DateTime_Second|DateTime format `ss`|
-    |DateTime_Minute|DateTime format `mm`|
-    |DateTime_Hour|DateTime format `HH`|
-    |DateTime_Day|DateTime format `dd`|
-    |DateTime_Month|DateTime format `MM`|
-    |DateTime_Year|DateTime format `yyyy`|
-    |Dot|`.`|
-    |Space|` `|
-    |Underbar|`_`|
-    |Dash|`-`|
-
-
-#### 2.3.3. LogMessageOption
-
-
-1. Members
-    |Type|Name|Description|
-    |-------|-------|-------|
-    |List<LogMessagePattern>|MessagePatterns|Configure log message|
-2. Example
-    ```cs
-    LogMessageOption messageOption = new()
-    {
-        MessagePatterns = new()
-        {
-            LogMessagePattern.DateTime,
-            LogMessagePattern.LoggerName,
-            LogMessagePattern.LogType,
-            LogMessagePattern.Message,
-            LogMessagePattern.NewLine
+            return $"{X}, {Y}";
         }
-    };
-
-    /*
-    This option will create following log message :
-    
-    [2023-12-26 16.02.35.006] [MyLog] [General] Log message
-    [2023-12-26 16.02.35.106] [MyLog] [General] Log message 2
-
-    */
+    }
     ```
-3. LogMessagePattern
-    |LogMessagePattern|Description|
-    |-------|-------|
-    |None|No message|
-    |LoggerName|Given logger name<br/>`[LoggerName] `|
-    |DateTime|`[yyyy.MM.dd HH:mm:ss.fff] `|
-    |LogType|`[LogType] `|
-    |Message|`Message `|
-    |NewLine|`Environment.NewLine`|
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            var coordinate1 = new CartesianCoordinate(1, 1);
+            var coordinate2 = new CartesianCoordinate(2, 2);
+
+            MemberHelper.CopyAllFieldsAndProperties(coordinate1, coordinate2);
+            Console.WriteLine(coordinate2);     // 1, 1
+
+            int x = 0;
+            var isSuccess = MemberHelper.GetParameter("X", ref x, coordinate2);
+            if (isSuccess) Console.WriteLine(x);    // 1
+
+            isSuccess = MemberHelper.SetParameter("Y", 5, coordinate1);
+            if (isSuccess) Console.WriteLine(coordinate1);      // 1, 5
+        }
+    }
+    ```
+
+
+##### 2.2.1.3. ProcessHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |bool|Execute(string)|Execute process|
+    |void|Terminate(string)|Terminate process|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            ProcessHelper.Execute("osk.exe");
+
+            Thread.Sleep(5000);     // Wait for a while
+
+            ProcessHelper.Terminate("osk.exe");
+        }
+    }
+    ```
+
+
+##### 2.2.1.4. RegistryHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|AppendCurrentUser(string, string, string)|Append registry value under `HKEY_CURRENT_USER`|
+    |string?|GetCurrentUser(string, string)|Get value from `HKEY_CURRENT_USER`|
+    |void|AppendLocalMachine(string, string, string)|Append registry value under `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
+    |string?|GetLocalMachine(string, string)|Get value from `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            RegistryHelper.AppendCurrentUser(@"SOFTWARE\MyKey", "Key001", "TestValue");
+            Console.WriteLine(RegistryHelper.GetCurrentUser(@"SOFTWARE\MyKey", "Key001"));  // TestValue
+
+            RegistryHelper.AppendLocalMachine(@"SOFTWARE\MyKey", "Key001", "TestValue");
+            Console.WriteLine(RegistryHelper.GetLocalMachine(@"SOFTWARE\MyKey", "Key001"));  // TestValue
+        }
+    }
+    ```
+
+
+##### 2.2.1.5. StorageHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|GetDiskSizeGB(string)|Get total disk size|
+    |double|GetFreeSpaceGB(string)|Get free space size of disk|
+    |int|GetFreeSpacePercent(string)|Get free space size of disk|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            Console.WriteLine(StorageHelper.GetDiskSizeGB(@"C:\"));         // 476.3041458129883
+            Console.WriteLine(StorageHelper.GetFreeSpaceGB(@"C:\"));       // 175.6037826538086
+            Console.WriteLine(StorageHelper.GetFreeSpacePercent(@"C:\"));  // 36
+        }
+    }
+    ```
+
+
+#### 2.2.2. MiniDump
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|Dump()|Write dump|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            try
+            {
+                throw new Exception("Test Exception");
+            }
+            catch
+            {
+                MiniDumpWriter.Dump();
+            }
+        }
+    }
+    ```
