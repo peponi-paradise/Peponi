@@ -14,6 +14,9 @@
         - [2.2.1.1. DirectoryHelper](#2211-directoryhelper)
         - [2.2.1.2. MemberHelper](#2212-memberhelper)
         - [2.2.1.3. ProcessHelper](#2213-processhelper)
+        - [2.2.1.4. RegistryHelper](#2214-registryhelper)
+        - [2.2.1.5. StorageHelper](#2215-storagehelper)
+      - [2.2.2. MiniDump](#222-minidump)
 
 
 ## 1. Instruction
@@ -232,4 +235,94 @@ NuGet\Install-Package Peponi.Core
 1. Methods
     |Return type|Name|Description|
     |-----------|----|-----------|
-    |
+    |bool|Execute(string)|Execute process|
+    |void|Terminate(string)|Terminate process|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            ProcessHelper.Execute("osk.exe");
+
+            Thread.Sleep(5000);     // Wait for a while
+
+            ProcessHelper.Terminate("osk.exe");
+        }
+    }
+    ```
+
+
+##### 2.2.1.4. RegistryHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|AppendCurrentUser(string, string, string)|Append registry value under `HKEY_CURRENT_USER`|
+    |string?|GetCurrentUser(string, string)|Get value from `HKEY_CURRENT_USER`|
+    |void|AppendLocalMachine(string, string, string)|Append registry value under `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
+    |string?|GetLocalMachine(string, string)|Get value from `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            RegistryHelper.AppendCurrentUser(@"SOFTWARE\MyKey", "Key001", "TestValue");
+            Console.WriteLine(RegistryHelper.GetCurrentUser(@"SOFTWARE\MyKey", "Key001"));  // TestValue
+
+            RegistryHelper.AppendLocalMachine(@"SOFTWARE\MyKey", "Key001", "TestValue");
+            Console.WriteLine(RegistryHelper.GetLocalMachine(@"SOFTWARE\MyKey", "Key001"));  // TestValue
+        }
+    }
+    ```
+
+
+##### 2.2.1.5. StorageHelper
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |double|GetDiskSizeGB(string)|Get total disk size|
+    |double|GetFreeSpaceGB(string)|Get free space size of disk|
+    |int|GetFreeSpacePercent(string)|Get free space size of disk|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            Console.WriteLine(StorageHelper.GetDiskSizeGB(@"C:\"));         // 476.3041458129883
+            Console.WriteLine(StorageHelper.GetFreeSpaceGB(@"C:\"));       // 175.6037826538086
+            Console.WriteLine(StorageHelper.GetFreeSpacePercent(@"C:\"));  // 36
+        }
+    }
+    ```
+
+
+#### 2.2.2. MiniDump
+
+
+1. Methods
+    |Return type|Name|Description|
+    |-----------|----|-----------|
+    |void|Dump()|Write dump|
+2. Example
+    ```cs
+    public class Program
+    {
+        private static void Main()
+        {
+            try
+            {
+                throw new Exception("Test Exception");
+            }
+            catch
+            {
+                MiniDumpWriter.Dump();
+            }
+        }
+    }
+    ```
