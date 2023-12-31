@@ -1,4 +1,4 @@
-﻿# Peponi.Logger
+# Peponi.Logger
 
 
 - [Peponi.Logger](#peponilogger)
@@ -209,7 +209,7 @@ internal class Program
     |Type|Name|Description|
     |-------|-------|-------|
     |string|RootPath|Root path of log|
-    |List<LogDirectoryTree>|DirectoryTree|Configure directory tree|
+    |List\<LogDirectoryTree>|DirectoryTree|Configure directory tree|
 2. Example
     ```cs
     LogDirectoryOption directoryOption = new()
@@ -256,7 +256,7 @@ internal class Program
     |Type|Name|Description|
     |-------|-------|-------|
     |uint|LogFileSize|- Unit : mb<br/>- Value :<br/>0 = Inf<br/>X = X mb<br/>- Default : 0|
-    |List<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
+    |List\<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
     |string|Extension|Log file's extension<br/>Default : `.log`|
 2. Example
     ```cs
@@ -304,7 +304,7 @@ internal class Program
 1. Members
     |Type|Name|Description|
     |-------|-------|-------|
-    |List<LogMessagePattern>|MessagePatterns|Configure log message|
+    |List\<LogMessagePattern>|MessagePatterns|Configure log message|
 2. Example
     ```cs
     LogMessageOption messageOption = new()
