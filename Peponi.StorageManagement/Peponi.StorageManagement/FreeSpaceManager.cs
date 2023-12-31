@@ -46,7 +46,7 @@ public static class FreeSpaceManager
 
         files.AddRange(DirectoryHelper.GetFileInfos(_rootPath));
 
-        var subDirectoryInfo = DirectoryHelper.GetDirectoryInfos(_rootPath);
+        var subDirectoryInfo = DirectoryHelper.GetSubDirectoryInfos(_rootPath);
 
         foreach (var info in subDirectoryInfo)
         {
