@@ -2,37 +2,55 @@
 
 namespace Peponi.StorageManagement;
 
-public static class FreeSpaceManager
+public class FreeSpaceManager
 {
-    public static bool IsRunning => _isRun;
+    public bool IsRunning => _isRun;
 
-    private static int _diskPreservePercent = 20;
-    private static volatile bool _isRun = false;
-    private static string _rootPath = $@"C:\Log\";
-    private static Thread _worker = new Thread(ManagerThread);
+    private string _rootPath = $@"C:\Log\";
 
-    public static void StartManager(int diskPreservePercent, string rootPath)
+    public string RootPath
     {
-        _diskPreservePercent = diskPreservePercent;
-        _rootPath = $@"{rootPath}\";
-
-        _isRun = true;
-
-        _worker = new Thread(ManagerThread);
-        _worker.IsBackground = true;
-        _worker.Start();
+        get => _rootPath;
+        set
+        {
+            if (Path.IsPathFullyQualified(value)) _rootPath = value;
+            else throw new ArgumentException($"{value}{Environment.NewLine}is not fully qualified");
+        }
     }
 
-    public static void StopManager()
+    public int DiskPreservePercent { get; set; } = 20;
+
+    private volatile bool _isRun = false;
+    private Thread? _worker;
+
+    public FreeSpaceManager(string rootPath, int diskPreservePercent)
+    {
+        RootPath = rootPath;
+        DiskPreservePercent = diskPreservePercent;
+    }
+
+    public void StartManager()
+    {
+        if (!_isRun)
+        {
+            _isRun = true;
+
+            _worker = new Thread(ManagerThread);
+            _worker.IsBackground = true;
+            _worker.Start();
+        }
+    }
+
+    public void StopManager()
     {
         _isRun = false;
     }
 
-    private static void ManagerThread()
+    private void ManagerThread()
     {
         while (_isRun)
         {
-            if (StorageHelper.GetFreeSpacePercent(_rootPath) < _diskPreservePercent)
+            if (StorageHelper.GetFreeSpacePercent(RootPath) < DiskPreservePercent)
             {
                 RemoveOldest();
             }
@@ -40,24 +58,17 @@ public static class FreeSpaceManager
         }
     }
 
-    private static void RemoveOldest()
+    private void RemoveOldest()
     {
-        List<FileInfo> files = new List<FileInfo>();
+        List<FileInfo> files = DirectoryHelper.GetFileInfosIncludingSubDirectories(RootPath);
 
-        files.AddRange(DirectoryHelper.GetFileInfos(_rootPath));
+        var sorted = files.OrderBy(info => info.LastWriteTime).ToList();
 
-        var subDirectoryInfo = DirectoryHelper.GetSubDirectoryInfos(_rootPath);
-
-        foreach (var info in subDirectoryInfo)
-        {
-            files.AddRange(DirectoryHelper.GetFileInfos($@"{info.FullName}\"));
-        }
-
-        var sorted = files.OrderBy(info => info.LastWriteTime);
-
-        if (sorted.Count() != 0)
+        while (sorted.Count() != 0 && StorageHelper.GetFreeSpacePercent(RootPath) < DiskPreservePercent)
         {
             File.Delete(sorted.First().FullName);
+            sorted.RemoveAt(0);
+            Thread.Sleep(20);
         }
     }
 }
