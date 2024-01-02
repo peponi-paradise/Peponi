@@ -9,7 +9,7 @@
     <Title>$(AssemblyName)</Title>
     <Company>https://peponi-paradise.tistory.com</Company>
     <Authors>Peponi</Authors>
-    <Copyright>Copyright (c) 2023 peponi</Copyright>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
     <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Logger</PackageProjectUrl>
 	<PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
     <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
