@@ -9,12 +9,25 @@
     <Title>$(AssemblyName)</Title>
     <Authors>Peponi</Authors>
     <Company>https://peponi-paradise.tistory.com</Company>
-    <Copyright>Copyright (c) 2023 peponi</Copyright>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
     <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Core</PackageProjectUrl>
     <PackageTags>Peponi;Core;Design pattern;Utility;Minidump;</PackageTags>
 	<PackageReadmeFile>Docs\README.md</PackageReadmeFile>
 	<PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+	<Description>Peponi.Core is a package for common usage of peponi library.
+Included contents are:
+
+1. Design pattern
+   - Singleton
+2. Utility
+   - Helpers
+      + Directory
+      + Member
+      + Process
+      + Registry
+      + Storage  
+   - Minidump</Description>
   </PropertyGroup>
 	<ItemGroup>
 		<None Update="Docs\LICENSE.md">
