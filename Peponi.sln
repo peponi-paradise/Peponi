@@ -11,7 +11,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Logger", "Peponi.Log
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Maths", "Peponi.Maths\Peponi.Maths\Peponi.Maths.csproj", "{17DEEF74-8E90-49ED-AECD-832355049024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.StorageManagement", "Peponi.StorageManagement\Peponi.StorageManagement\Peponi.StorageManagement.csproj", "{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.FreeSpaceManagement", "Peponi.FreeSpaceManagement\Peponi.FreeSpaceManagement\Peponi.FreeSpaceManagement.csproj", "{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
