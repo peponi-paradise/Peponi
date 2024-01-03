@@ -4,10 +4,16 @@ namespace Peponi.StorageManagement;
 
 public class FreeSpaceManager
 {
+    /// <summary>
+    /// Indicates manager thread is running
+    /// </summary>
     public bool IsRunning => _isRun;
 
     private string _rootPath = $@"C:\Log\";
 
+    /// <summary>
+    /// File management base folder
+    /// </summary>
     public string RootPath
     {
         get => _rootPath;
@@ -18,6 +24,9 @@ public class FreeSpaceManager
         }
     }
 
+    /// <summary>
+    /// Minimum free space %
+    /// </summary>
     public int DiskPreservePercent { get; set; } = 20;
 
     private volatile bool _isRun = false;
