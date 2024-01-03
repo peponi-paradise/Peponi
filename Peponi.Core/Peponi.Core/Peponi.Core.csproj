@@ -28,6 +28,7 @@ Included contents are:
       + Registry
       + Storage  
    - Minidump</Description>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
   </PropertyGroup>
 	<ItemGroup>
 		<None Update="Docs\LICENSE.md">
