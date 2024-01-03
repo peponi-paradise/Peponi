@@ -58,6 +58,9 @@ public static class MiniDumpWriter
     [DllImport("kernel32.dll")]
     private static extern uint GetCurrentThreadId();
 
+    /// <summary>
+    /// Write dump file
+    /// </summary>
     public static void Dump()
     {
         MakeMiniDump();
