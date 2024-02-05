@@ -1,0 +1,118 @@
+﻿<UserControl
+    x:Class="Peponi.MaterialDesign3.WPF.Tests.View.Pages.Colors"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:local="clr-namespace:Peponi.MaterialDesign3.WPF.Tests.View.Pages"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    d:DesignHeight="450"
+    d:DesignWidth="800"
+    mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type TextBlock}">
+            <Setter Property="FontFamily" Value="{DynamicResource FontFamily}" />
+            <Setter Property="FontSize" Value="{StaticResource FontSize.DisplayMedium}" />
+            <Setter Property="FontWeight" Value="{StaticResource FontWeight.DisplayMedium}" />
+            <Setter Property="LineHeight" Value="{StaticResource LineHeight.DisplayMedium}" />
+        </Style>
+    </UserControl.Resources>
+    <Grid Background="{DynamicResource Brush.SurfaceContainer}">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*" />
+            <ColumnDefinition Width="100" />
+        </Grid.ColumnDefinitions>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <TextBlock Background="{DynamicResource Brush.Primary}" Foreground="{DynamicResource Brush.OnPrimary}">
+                Primary
+            </TextBlock>
+            <TextBlock
+                Grid.Column="1"
+                Background="{DynamicResource Brush.PrimaryContainer}"
+                Foreground="{DynamicResource Brush.OnPrimaryContainer}">
+                Primary Container
+            </TextBlock>
+            <TextBlock
+                Grid.Row="1"
+                Background="{DynamicResource Brush.Secondary}"
+                Foreground="{DynamicResource Brush.OnSecondary}">
+                Secondary
+            </TextBlock>
+            <TextBlock
+                Grid.Row="1"
+                Grid.Column="1"
+                Background="{DynamicResource Brush.SecondaryContainer}"
+                Foreground="{DynamicResource Brush.OnSecondaryContainer}">
+                Secondary Container
+            </TextBlock>
+            <TextBlock
+                Grid.Row="2"
+                Background="{DynamicResource Brush.Tertiary}"
+                Foreground="{DynamicResource Brush.OnTertiary}">
+                Tertiary
+            </TextBlock>
+            <TextBlock
+                Grid.Row="2"
+                Grid.Column="1"
+                Background="{DynamicResource Brush.TertiaryContainer}"
+                Foreground="{DynamicResource Brush.OnTertiaryContainer}">
+                Tertiary Container
+            </TextBlock>
+            <TextBlock
+                Grid.Row="3"
+                Background="{DynamicResource Brush.Error}"
+                Foreground="{DynamicResource Brush.OnError}">
+                Error
+            </TextBlock>
+            <TextBlock
+                Grid.Row="3"
+                Grid.Column="1"
+                Background="{DynamicResource Brush.ErrorContainer}"
+                Foreground="{DynamicResource Brush.OnErrorContainer}">
+                Error Container
+            </TextBlock>
+            <TextBlock
+                Grid.Row="4"
+                Background="{DynamicResource Brush.Surface}"
+                Foreground="{DynamicResource Brush.OnSurface}">
+                Surface
+            </TextBlock>
+            <TextBlock
+                Grid.Row="4"
+                Grid.Column="1"
+                Background="{DynamicResource Brush.InverseSurface}"
+                Foreground="{DynamicResource Brush.InverseOnSurface}">
+                Inverse Surface
+            </TextBlock>
+            <TextBlock
+                Grid.Row="5"
+                Background="{DynamicResource Brush.Outline}"
+                Foreground="{DynamicResource Brush.OutlineVariant}">
+                Outline
+            </TextBlock>
+            <TextBlock
+                Grid.Row="5"
+                Grid.Column="1"
+                Background="{DynamicResource Brush.OutlineVariant}"
+                Foreground="{DynamicResource Brush.Outline}">
+                Outline Variant
+            </TextBlock>
+        </Grid>
+        <StackPanel Grid.Column="1" Orientation="Vertical">
+            <Button Command="{Binding LightCommand}">Light</Button>
+            <Button Command="{Binding DarkCommand}">Dark</Button>
+            <Button Command="{Binding AutoCommand}">Both</Button>
+        </StackPanel>
+    </Grid>
+</UserControl>

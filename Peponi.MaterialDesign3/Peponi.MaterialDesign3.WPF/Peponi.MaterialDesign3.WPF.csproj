@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Fonts\Pretendard.ttf" />
+    <None Remove="Fonts\RobotoFlex.ttf" />
+    <None Remove="Fonts\RobotoSerif.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Google.MaterialColorUtilities\Google.MaterialColorUtilities.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Fonts\Pretendard.ttf" />
+    <Resource Include="Fonts\RobotoFlex.ttf" />
+    <Resource Include="Fonts\RobotoSerif.ttf" />
+  </ItemGroup>
+
+</Project>
