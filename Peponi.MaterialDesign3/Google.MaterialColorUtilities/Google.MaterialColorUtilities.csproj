@@ -12,12 +12,12 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Google.MaterialColorUtilities.LICENSE">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Google.MaterialColorUtilities.README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+    <Resource Include="Docs\Google.MaterialColorUtilities.LICENSE">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Docs\Google.MaterialColorUtilities.README.md">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
   </ItemGroup>
 
 </Project>

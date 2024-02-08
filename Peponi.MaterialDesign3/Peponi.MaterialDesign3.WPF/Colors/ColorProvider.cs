@@ -63,7 +63,7 @@ public static class ColorProvider
         SetResources(colorMode);
     }
 
-    public static void SetColor(Color color, ColorMode colorMode = ColorMode.Auto)
+    public static void SetColors(Color color, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
 
@@ -72,7 +72,7 @@ public static class ColorProvider
         SetResources(colorMode);
     }
 
-    public static void SetColor(Color primary, Color secondary, Color tertiary, ColorMode colorMode = ColorMode.Auto)
+    public static void SetColors(Color primary, Color secondary, Color tertiary, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
 
@@ -121,7 +121,7 @@ public static class ColorProvider
     internal static void InitializeInternal(ResourceDictionary resource)
     {
         _resource = resource;
-        SetColor(Color.FromRgb(0x75, 0x75, 0x75), IsSystemLight() ? ColorMode.Light : ColorMode.Dark);
+        SetColors(Color.FromRgb(0x75, 0x75, 0x75), IsSystemLight() ? ColorMode.Light : ColorMode.Dark);
     }
 
     private static void CreatePalette(Color primary, Color? secondary, Color? tertiary)

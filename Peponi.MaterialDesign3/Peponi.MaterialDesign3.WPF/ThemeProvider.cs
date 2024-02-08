@@ -8,9 +8,9 @@ public static class ThemeProvider
 {
     public static void UseWindowsAccentColor(ColorMode colorMode = ColorMode.Auto) => ColorProvider.UseWindowsAccentColor(colorMode);
 
-    public static void SetColor(Color color, ColorMode colorMode = ColorMode.Auto) => ColorProvider.SetColor(color, colorMode);
+    public static void SetColors(Color color, ColorMode colorMode = ColorMode.Auto) => ColorProvider.SetColors(color, colorMode);
 
-    public static void SetColor(Color primary, Color secondary, Color tertiary, ColorMode colorMode = ColorMode.Auto) => ColorProvider.SetColor(primary, secondary, tertiary, colorMode);
+    public static void SetColors(Color primary, Color secondary, Color tertiary, ColorMode colorMode = ColorMode.Auto) => ColorProvider.SetColors(primary, secondary, tertiary, colorMode);
 
     public static bool SetColors(string xamlPath, ColorMode colorMode = ColorMode.Auto) => ColorProvider.SetColors(xamlPath, colorMode);
 
@@ -24,5 +24,9 @@ public static class ThemeProvider
 
     public static bool SetFontFamily(string fontFamily) => FontProvider.SetFontFamily(fontFamily);
 
-    public static bool ChangeFontOption(string key, FontOption option) => FontProvider.ChangeFontOption(key, option);
+    public static bool SetFontOption(string key, FontOption option) => FontProvider.SetFontOption(key, option);
+
+    public static bool SetFontOption(string xamlPath) => FontProvider.SetFontOption(xamlPath);
+
+    public static bool SetFontOption(Dictionary<string, FontOption> collection) => FontProvider.SetFontOption(collection);
 }

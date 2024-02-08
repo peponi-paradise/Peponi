@@ -28,6 +28,11 @@ Contents are:
 	  </Description>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Docs\LICENSE.md" />
+    <None Remove="Docs\README.md" />
+  </ItemGroup>
+
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
@@ -37,22 +42,19 @@ Contents are:
 	</ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Docs\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Docs\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="Fonts\Pretendard.ttf" />
     <Resource Include="Fonts\RobotoFlex.ttf" />
     <Resource Include="Fonts\RobotoSerif.ttf" />
-  </ItemGroup>
-
-  <ItemGroup>
-	  <None Update="Docs\LICENSE.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
-	  <None Update="Docs\README.md">
-		  <Pack>True</Pack>
-		  <PackagePath>\</PackagePath>
-		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-	  </None>
   </ItemGroup>
 
 </Project>

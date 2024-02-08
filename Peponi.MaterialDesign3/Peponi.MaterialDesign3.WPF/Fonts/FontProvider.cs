@@ -46,7 +46,7 @@ public static class FontProvider
         return true;
     }
 
-    public static bool ChangeFontOption(string key, FontOption option)
+    public static bool SetFontOption(string key, FontOption option)
     {
         if (!_resource!.Contains($"{nameof(option.FontSize)}.{key}")) return false;
         if (!_resource!.Contains($"{nameof(option.LineHeight)}.{key}")) return false;
@@ -56,6 +56,14 @@ public static class FontProvider
         _resource[$"{nameof(option.LineHeight)}.{key}"] = option.LineHeight;
         _resource[$"{nameof(option.FontWeight)}.{key}"] = option.FontWeight;
         return true;
+    }
+
+    public static bool SetFontOption(string xamlPath)
+    {
+    }
+
+    public static bool SetFontOption(Dictionary<string, FontOption> collection)
+    {
     }
 
     internal static void InitializeInternal(ResourceDictionary resource)
