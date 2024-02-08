@@ -88,7 +88,7 @@ public static class ColorProvider
         try
         {
             var res = new ResourceDictionary() { Source = new Uri(xamlPath, UriKind.RelativeOrAbsolute) };
-            if (!CheckResourceKeys(res.Keys)) return false;
+            if (!res.Keys.CheckResourceKeys(_resource!)) return false;
             foreach (var item in res.Keys) _resource![item] = res[item];
         }
         catch
@@ -107,7 +107,7 @@ public static class ColorProvider
         if (collection is null) return false;
         else
         {
-            if (!CheckResourceKeys(collection.Keys)) return false;
+            if (!collection.Keys.CheckResourceKeys(_resource!)) return false;
 
             foreach (var item in collection) _resource![item.Key] = item.Value;
         }
@@ -186,16 +186,6 @@ public static class ColorProvider
         byte blueColor = (byte)((0x00FF0000 & colorSetEx) >> 16);
         byte alphaColor = (byte)((0xFF000000 & colorSetEx) >> 24);
         return Color.FromArgb(alphaColor, redColor, greenColor, blueColor);
-    }
-
-    private static bool CheckResourceKeys(System.Collections.ICollection keys)
-    {
-        if (_resource is null) return false;
-        foreach (var key in keys)
-        {
-            if (key is null || !_resource.Contains(key)) return false;
-        }
-        return true;
     }
 
     private static void SetLight()

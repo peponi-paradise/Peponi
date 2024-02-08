@@ -60,10 +60,12 @@ public static class FontProvider
 
     public static bool SetFontOption(string xamlPath)
     {
+        return false;
     }
 
     public static bool SetFontOption(Dictionary<string, FontOption> collection)
     {
+        return false;
     }
 
     internal static void InitializeInternal(ResourceDictionary resource)
