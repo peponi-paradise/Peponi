@@ -6,10 +6,24 @@ using System.Windows.Media;
 
 namespace Peponi.MaterialDesign3.WPF.Colors;
 
+/// <summary>
+/// Enum for setting theme mode
+/// </summary>
 public enum ColorMode
 {
+    /// <summary>
+    /// Set light mode
+    /// </summary>
     Light,
+
+    /// <summary>
+    /// Set dark mode
+    /// </summary>
     Dark,
+
+    /// <summary>
+    /// Use windows theme option
+    /// </summary>
     Auto
 }
 
@@ -40,6 +54,8 @@ public static class ColorProvider
             { Error, new(25, 84) }
         };
 
+        InitializeInternal(new ResourceDictionary());
+
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
     }
 
@@ -54,6 +70,15 @@ public static class ColorProvider
         }
     }
 
+    /// <summary>
+    /// Use windows accent color option<br/>
+    /// Supports Windows 10, 11
+    /// </summary>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
     public static void UseWindowsAccentColor(ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = true;
@@ -63,6 +88,15 @@ public static class ColorProvider
         SetResources(colorMode);
     }
 
+    /// <summary>
+    /// Create tonal spot palette by given color
+    /// </summary>
+    /// <param name="color">Primary color</param>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
     public static void SetColors(Color color, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
@@ -72,6 +106,18 @@ public static class ColorProvider
         SetResources(colorMode);
     }
 
+    /// <summary>
+    /// Create tonal spot palette by given color<br/>
+    /// Neutral, Neutral variant colors are decided by primary color
+    /// </summary>
+    /// <param name="primary"></param>
+    /// <param name="secondary"></param>
+    /// <param name="tertiary"></param>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
     public static void SetColors(Color primary, Color secondary, Color tertiary, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
@@ -81,6 +127,17 @@ public static class ColorProvider
         SetResources(colorMode);
     }
 
+    /// <summary>
+    /// Set color values by given xaml<br/>
+    /// See readme for details
+    /// </summary>
+    /// <param name="xamlPath"></param>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
+    /// <returns>Success or fail</returns>
     public static bool SetColors(string xamlPath, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
@@ -100,6 +157,17 @@ public static class ColorProvider
         return true;
     }
 
+    /// <summary>
+    /// Set color values by given xaml<br/>
+    /// See readme for details
+    /// </summary>
+    /// <param name="collection"></param>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
+    /// <returns>Success or fail</returns>
     public static bool SetColors(Dictionary<string, object> collection, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
@@ -116,7 +184,21 @@ public static class ColorProvider
         return true;
     }
 
-    public static void SetColorMode(ColorMode colorMode) => SetResources(colorMode);
+    /// <summary>
+    /// Set color mode
+    /// </summary>
+    /// <param name="colorMode">
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </param>
+    public static void SetColorMode(ColorMode colorMode)
+    {
+        if (_resource is not null)
+        {
+            SetResources(colorMode);
+        }
+    }
 
     internal static void InitializeInternal(ResourceDictionary resource)
     {

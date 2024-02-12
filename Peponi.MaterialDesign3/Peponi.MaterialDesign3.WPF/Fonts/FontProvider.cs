@@ -10,6 +10,16 @@ public static class FontProvider
     private static ResourceDictionary? _resource;
     private const string FontFamily = "FontFamily";
 
+    static FontProvider()
+    {
+        InitializeInternal(new ResourceDictionary());
+    }
+
+    /// <summary>
+    /// Add new font to resource dictionary
+    /// </summary>
+    /// <param name="fontFamily">Name of font family</param>
+    /// <returns>Success or fail</returns>
     public static bool AddFontFamily(string fontFamily)
     {
         try
@@ -24,6 +34,12 @@ public static class FontProvider
         }
     }
 
+    /// <summary>
+    /// Add new font to resource dictionary
+    /// </summary>
+    /// <param name="fontFamily">Name of font family</param>
+    /// <param name="uri">Uri of font file</param>
+    /// <returns>Success or fail</returns>
     public static bool AddFontFamily(string fontFamily, string uri)
     {
         try
@@ -38,6 +54,12 @@ public static class FontProvider
         }
     }
 
+    /// <summary>
+    /// Set font family by given name<br/>
+    /// Font family should exists on resource dictionary
+    /// </summary>
+    /// <param name="fontFamily">Name of font family</param>
+    /// <returns>Success or fail</returns>
     public static bool SetFontFamily(string fontFamily)
     {
         if (!_resource!.Contains(fontFamily)) return false;
@@ -46,6 +68,13 @@ public static class FontProvider
         return true;
     }
 
+    /// <summary>
+    /// Set font option<br/>
+    /// See readme for details
+    /// </summary>
+    /// <param name="key">Option key</param>
+    /// <param name="option">Font option</param>
+    /// <returns>Success or fail</returns>
     public static bool SetFontOption(string key, FontOption option)
     {
         if (!_resource!.Contains($"{nameof(option.FontSize)}.{key}")) return false;
@@ -58,14 +87,41 @@ public static class FontProvider
         return true;
     }
 
+    /// <summary>
+    /// Set font option<br/>
+    /// See readme for details
+    /// </summary>
+    /// <param name="xamlPath"></param>
+    /// <returns>Success or fail</returns>
     public static bool SetFontOption(string xamlPath)
     {
-        return false;
+        try
+        {
+            var res = new ResourceDictionary() { Source = new Uri(xamlPath, UriKind.RelativeOrAbsolute) };
+            if (!res.Keys.CheckResourceKeys(_resource!)) return false;
+
+            foreach (var item in res.Keys) _resource![item] = res[item];
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
     }
 
+    /// <summary>
+    /// Set font option<br/>
+    /// See readme for details
+    /// </summary>
+    /// <param name="collection"></param>
+    /// <returns>Success or fail</returns>
     public static bool SetFontOption(Dictionary<string, FontOption> collection)
     {
-        return false;
+        foreach (var item in collection)
+        {
+            if (!SetFontOption(item.Key, item.Value)) return false;
+        }
+        return true;
     }
 
     internal static void InitializeInternal(ResourceDictionary resource)

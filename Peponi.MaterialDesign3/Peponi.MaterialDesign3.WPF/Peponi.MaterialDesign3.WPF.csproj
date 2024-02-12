@@ -32,11 +32,22 @@ Contents are:
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
-	<ItemGroup>
-	  <ProjectReference Include="..\Google.MaterialColorUtilities\Google.MaterialColorUtilities.csproj" />
-	</ItemGroup>
-
   <ItemGroup>
+    <Reference Include="Google.MaterialColorUtilities">
+      <HintPath>..\Google.MaterialColorUtilities\bin\Debug\net7.0\Google.MaterialColorUtilities.dll</HintPath>
+    </Reference>
+    <Content Include="$(OutputPath)\Google.MaterialColorUtilities.dll">
+      <Pack>true</Pack>
+      <PackagePath>lib\net7.0-windows7.0</PackagePath>
+    </Content>
+    <Content Include="..\Google.MaterialColorUtilities\bin\$(Configuration)\net7.0\Docs\Google.MaterialColorUtilities.LICENSE.md">
+      <Pack>true</Pack>
+      <PackagePath>Docs\</PackagePath>
+    </Content>
+    <Content Include="..\Google.MaterialColorUtilities\bin\$(Configuration)\net7.0\Docs\Google.MaterialColorUtilities.README.md">
+      <Pack>true</Pack>
+      <PackagePath>Docs\</PackagePath>
+    </Content>
     <None Update="Docs\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
