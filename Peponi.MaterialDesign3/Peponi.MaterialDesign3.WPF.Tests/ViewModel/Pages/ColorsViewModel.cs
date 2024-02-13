@@ -8,18 +8,18 @@ public partial class ColorsViewModel
     [Command]
     private void Light()
     {
-        ThemeProvider.SetColorMode(Colors.ColorMode.Light);
+        MaterialTheme.SetColorMode(Colors.ColorMode.Light);
     }
 
     [Command]
     private void Dark()
     {
-        ThemeProvider.SetColorMode(Colors.ColorMode.Dark);
+        MaterialTheme.SetColorMode(Colors.ColorMode.Dark);
     }
 
     [Command]
     private void Auto()
     {
-        ThemeProvider.SetColorMode(Colors.ColorMode.Auto);
+        MaterialTheme.SetColorMode(Colors.ColorMode.Auto);
     }
 }

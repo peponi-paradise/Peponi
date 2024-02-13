@@ -18,6 +18,16 @@ using System.Drawing;
 
 namespace Google.MaterialColorUtilities;
 
+public enum TonalPalettes
+{
+    Primary,
+    Secondary,
+    Tertiary,
+    Neutral,
+    NeutralVariant,
+    Error
+}
+
 /// <summary>
 /// Redefine for getting tonal spot
 /// </summary>

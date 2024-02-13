@@ -24,8 +24,8 @@
         <Style TargetType="{x:Type TextBlock}">
             <Setter Property="FontFamily" Value="{DynamicResource FontFamily}" />
             <Setter Property="TextWrapping" Value="Wrap" />
-            <Setter Property="Background" Value="{DynamicResource Brush.Secondary}" />
-            <Setter Property="Foreground" Value="{DynamicResource Brush.OnSecondary}" />
+            <Setter Property="Background" Value="{DynamicResource Brush.Primary}" />
+            <Setter Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
             <Setter Property="Margin" Value="0,5,0,5" />
             <Setter Property="Height" Value="200" />
         </Style>

@@ -1,5 +1,6 @@
 ﻿using Peponi.MaterialDesign3.WPF.Tests.Bootstrap;
 using System.Windows;
+using System.Windows.Media;
 
 namespace Peponi.MaterialDesign3.WPF.Tests
 {
@@ -15,8 +16,11 @@ namespace Peponi.MaterialDesign3.WPF.Tests
             Bootstrapper bootstrap = new();
             bootstrap.Run();
 
-            ThemeProvider.UseWindowsAccentColor();
-            ThemeProvider.SetFontFamily("RobotoSerif");
+            //MaterialTheme.UseWindowsAccentColor();
+            MaterialTheme.SetFontFamily("RobotoSerif");
+            //Debug.WriteLine(MaterialTheme.ThemeColors![MaterialBrush.OnSecondary]);
+            MaterialTheme.ThemeColors![MaterialBrush.OnSecondary] = Brushes.Magenta;
+            //Debug.WriteLine(MaterialTheme.ThemeColors![MaterialBrush.OnSecondary]);
         }
     }
 }

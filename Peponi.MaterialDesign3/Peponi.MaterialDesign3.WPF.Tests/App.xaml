@@ -6,7 +6,10 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <theme:ColorKeys />
+                <theme:MaterialThemeColor
+                    ColorMode="Dark"
+                    Primary="MediumSeaGreen"
+                    Tertiary="Blue" />
                 <theme:FontKeys />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>

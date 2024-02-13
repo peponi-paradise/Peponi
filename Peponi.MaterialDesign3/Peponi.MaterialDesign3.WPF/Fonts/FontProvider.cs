@@ -98,7 +98,6 @@ public static class FontProvider
         try
         {
             var res = new ResourceDictionary() { Source = new Uri(xamlPath, UriKind.RelativeOrAbsolute) };
-            if (!res.Keys.CheckResourceKeys(_resource!)) return false;
 
             foreach (var item in res.Keys) _resource![item] = res[item];
             return true;

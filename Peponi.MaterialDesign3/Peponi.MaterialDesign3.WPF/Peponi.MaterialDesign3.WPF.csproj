@@ -34,7 +34,7 @@ Contents are:
 
   <ItemGroup>
     <Reference Include="Google.MaterialColorUtilities">
-      <HintPath>..\Google.MaterialColorUtilities\bin\Debug\net7.0\Google.MaterialColorUtilities.dll</HintPath>
+      <HintPath>..\Google.MaterialColorUtilities\bin\$(Configuration)\net7.0\Google.MaterialColorUtilities.dll</HintPath>
     </Reference>
     <Content Include="$(OutputPath)\Google.MaterialColorUtilities.dll">
       <Pack>true</Pack>
