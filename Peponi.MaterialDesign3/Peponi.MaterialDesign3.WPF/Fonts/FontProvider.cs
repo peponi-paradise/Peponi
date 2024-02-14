@@ -7,52 +7,8 @@ public record FontOption(double FontSize, double LineHeight, FontWeight FontWeig
 
 public static class FontProvider
 {
-    private static ResourceDictionary? _resource;
+    private static ResourceDictionary _resource = new();
     private const string FontFamily = "FontFamily";
-
-    static FontProvider()
-    {
-        InitializeInternal(new ResourceDictionary());
-    }
-
-    /// <summary>
-    /// Add new font to resource dictionary
-    /// </summary>
-    /// <param name="fontFamily">Name of font family</param>
-    /// <returns>Success or fail</returns>
-    public static bool AddFontFamily(string fontFamily)
-    {
-        try
-        {
-            FontFamily family = new(fontFamily);
-            _resource![fontFamily] = family;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
-
-    /// <summary>
-    /// Add new font to resource dictionary
-    /// </summary>
-    /// <param name="fontFamily">Name of font family</param>
-    /// <param name="uri">Uri of font file</param>
-    /// <returns>Success or fail</returns>
-    public static bool AddFontFamily(string fontFamily, string uri)
-    {
-        try
-        {
-            FontFamily family = new(new Uri(uri), fontFamily);
-            _resource![fontFamily] = family;
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
 
     /// <summary>
     /// Set font family by given name<br/>
@@ -62,9 +18,41 @@ public static class FontProvider
     /// <returns>Success or fail</returns>
     public static bool SetFontFamily(string fontFamily)
     {
-        if (!_resource!.Contains(fontFamily)) return false;
+        FontFamily family;
+        try
+        {
+            family = new(fontFamily);
+        }
+        catch
+        {
+            return false;
+        }
 
-        _resource[FontFamily] = _resource[fontFamily];
+        _resource[fontFamily] = family;
+        _resource[FontFamily] = family;
+        return true;
+    }
+
+    /// <summary>
+    /// Add new font to resource dictionary
+    /// </summary>
+    /// <param name="fontFamily">Name of font family</param>
+    /// <param name="uri">Uri of font file</param>
+    /// <returns>Success or fail</returns>
+    public static bool SetFontFamily(string fontFamily, string uri)
+    {
+        FontFamily family;
+        try
+        {
+            family = new(new Uri(uri), fontFamily);
+        }
+        catch
+        {
+            return false;
+        }
+
+        _resource[fontFamily] = family;
+        _resource[FontFamily] = family;
         return true;
     }
 
@@ -74,17 +62,11 @@ public static class FontProvider
     /// </summary>
     /// <param name="key">Option key</param>
     /// <param name="option">Font option</param>
-    /// <returns>Success or fail</returns>
-    public static bool SetFontOption(string key, FontOption option)
+    public static void SetFontOption(string key, FontOption option)
     {
-        if (!_resource!.Contains($"{nameof(option.FontSize)}.{key}")) return false;
-        if (!_resource!.Contains($"{nameof(option.LineHeight)}.{key}")) return false;
-        if (!_resource!.Contains($"{nameof(option.FontWeight)}.{key}")) return false;
-
         _resource[$"{nameof(option.FontSize)}.{key}"] = option.FontSize;
         _resource[$"{nameof(option.LineHeight)}.{key}"] = option.LineHeight;
         _resource[$"{nameof(option.FontWeight)}.{key}"] = option.FontWeight;
-        return true;
     }
 
     /// <summary>
@@ -93,13 +75,13 @@ public static class FontProvider
     /// </summary>
     /// <param name="xamlPath"></param>
     /// <returns>Success or fail</returns>
-    public static bool SetFontOption(string xamlPath)
+    public static bool LoadXaml(string xamlPath)
     {
         try
         {
             var res = new ResourceDictionary() { Source = new Uri(xamlPath, UriKind.RelativeOrAbsolute) };
 
-            foreach (var item in res.Keys) _resource![item] = res[item];
+            foreach (var item in res.Keys) _resource[item] = res[item];
             return true;
         }
         catch
@@ -114,13 +96,9 @@ public static class FontProvider
     /// </summary>
     /// <param name="collection"></param>
     /// <returns>Success or fail</returns>
-    public static bool SetFontOption(Dictionary<string, FontOption> collection)
+    public static void SetCollection(Dictionary<string, FontOption> collection)
     {
-        foreach (var item in collection)
-        {
-            if (!SetFontOption(item.Key, item.Value)) return false;
-        }
-        return true;
+        foreach (var item in collection) SetFontOption(item.Key, item.Value);
     }
 
     internal static void InitializeInternal(ResourceDictionary resource)

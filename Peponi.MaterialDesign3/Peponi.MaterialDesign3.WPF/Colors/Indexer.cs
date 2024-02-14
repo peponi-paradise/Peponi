@@ -5,6 +5,7 @@ namespace Peponi.MaterialDesign3.WPF.Colors;
 
 public class Indexer
 {
+    public ResourceDictionary Resource => _resource;
     private readonly ResourceDictionary _resource;
 
     public Indexer(ResourceDictionary resource)

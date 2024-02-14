@@ -30,9 +30,9 @@ public enum ColorMode
 public static class ColorProvider
 {
     public static Dictionary<TonalPalettes, TonalPalette> Palettes;
-    public static Indexer? ThemeColors;
+    public static Indexer ThemeColors;
 
-    private static ResourceDictionary? _resource;
+    private static ResourceDictionary _resource = new();
 
     private static bool _useWindowsAccentColor = false;
     private static ColorMode _colorMode = ColorMode.Auto;
@@ -48,6 +48,8 @@ public static class ColorProvider
             { TonalPalettes.NeutralVariant, new() },
             { TonalPalettes.Error, new(25, 84) }
         };
+
+        ThemeColors = new(_resource);
 
         SystemEvents.UserPreferenceChanged += SystemEvents_UserPreferenceChanged;
     }
@@ -131,7 +133,7 @@ public static class ColorProvider
     /// 3. <see cref="ColorMode.Auto"/>
     /// </param>
     /// <returns>Success or fail</returns>
-    public static bool SetPalettes(string xamlPath, ColorMode colorMode = ColorMode.Auto)
+    public static bool LoadXaml(string xamlPath, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
 
@@ -160,7 +162,7 @@ public static class ColorProvider
     /// 3. <see cref="ColorMode.Auto"/>
     /// </param>
     /// <returns>Success or fail</returns>
-    public static bool SetPalettes(Dictionary<string, object> collection, ColorMode colorMode = ColorMode.Auto)
+    public static bool SetCollection(Dictionary<string, object> collection, ColorMode colorMode = ColorMode.Auto)
     {
         _useWindowsAccentColor = false;
 

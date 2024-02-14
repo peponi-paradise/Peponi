@@ -8,7 +8,7 @@
             <ResourceDictionary.MergedDictionaries>
                 <theme:MaterialThemeColor
                     ColorMode="Dark"
-                    Primary="MediumSeaGreen"
+                    Primary="LemonChiffon"
                     Tertiary="Blue" />
                 <theme:FontKeys />
             </ResourceDictionary.MergedDictionaries>
