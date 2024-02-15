@@ -1,10 +1,28 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <BaseOutputPath></BaseOutputPath>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+	  <Title>$(AssemblyName)</Title>
+	  <Authors>Peponi</Authors>
+	  <Owners>Peponi</Owners>
+	  <Company>https://peponi-paradise.tistory.com</Company>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+	  <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Google.MaterialColorUtilities</PackageProjectUrl>
+	  <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+	  <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+	  <PackageTags>Google;Material Design 3;Color;</PackageTags>
+	  <Description>
+Google.MaterialColorUtilities is a package for implementing Material design 3 color of google.
+
+This project is originated from material-color-utilities (https://github.com/material-foundation/material-color-utilities)
+
+Most parts of original library are removed except getting tonal spot.
+	  </Description>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,12 +31,16 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Content Include="Docs\Google.MaterialColorUtilities.LICENSE.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
-    <Content Include="Docs\Google.MaterialColorUtilities.README.md">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Content>
+	  <None Update="Docs\LICENSE.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Docs\README.md">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		  <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
   </ItemGroup>
 
 </Project>

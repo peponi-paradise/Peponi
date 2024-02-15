@@ -14,5 +14,3 @@ using System.Windows.Markup;
 
 [assembly: Guid("aa030552-de97-4966-ae83-14182a31447a")]
 [assembly: XmlnsDefinition("https://github.com/peponi-paradise/Peponi/MaterialDesign3", "Peponi.MaterialDesign3.WPF")]
-[assembly: XmlnsDefinition("https://github.com/peponi-paradise/Peponi/MaterialDesign3.Colors", "Peponi.MaterialDesign3.WPF.Colors")]
-[assembly: XmlnsDefinition("https://github.com/peponi-paradise/Peponi/MaterialDesign3.Fonts", "Peponi.MaterialDesign3.WPF.Fonts")]

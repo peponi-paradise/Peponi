@@ -1,5 +1,4 @@
 ﻿using Peponi.MaterialDesign3.WPF.Tests.Bootstrap;
-using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 
@@ -10,11 +9,6 @@ namespace Peponi.MaterialDesign3.WPF.Tests
     /// </summary>
     public partial class App : Application
     {
-        public App()
-        {
-            MaterialTheme.SetPalettes(Color.FromArgb(255, 0x75, 0x75, 0x75));
-        }
-
         protected override void OnStartup(StartupEventArgs e)
         {
             base.OnStartup(e);
@@ -22,12 +16,10 @@ namespace Peponi.MaterialDesign3.WPF.Tests
             Bootstrapper bootstrap = new();
             bootstrap.Run();
 
-            //MaterialTheme.UseWindowsAccentColor();
-            MaterialTheme.SetFontFamily("RobotoSerif");
-            //Debug.WriteLine(MaterialTheme.ThemeColors![MaterialBrush.OnSecondary]);
-            MaterialTheme.ThemeColors[MaterialBrush.OnSecondary] = Brushes.Magenta;
-            //Debug.WriteLine(MaterialTheme.ThemeColors![MaterialBrush.OnSecondary]);
-            Debug.WriteLine(MaterialTheme.Palettes[Google.MaterialColorUtilities.TonalPalettes.Primary][80]);
+            MaterialTheme.Current.ColorMode = ColorMode.Light;
+            MaterialTheme.Current.Primary = Color.FromArgb(255, 0x95, 0x89, 0xa1);
+            //MaterialTheme.Current[MaterialFont.FontFamily] = FontHelper.GetFontFamily(MaterialFont.DefaultFontFamily.Pretendard);
+            //Debug.WriteLine(MaterialTheme.Current.ColorPalettes[Google.MaterialColorUtilities.TonalPalettes.Primary][80]);
         }
     }
 }

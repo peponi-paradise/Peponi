@@ -6,5 +6,5 @@ namespace Peponi.MaterialDesign3.WPF.Tests.ViewModel.Pages;
 public partial class FontsViewModel
 {
     [Command]
-    private void ChangeFont(string name) => MaterialTheme.SetFontFamily(name);
+    private void ChangeFont(string name) => MaterialTheme.Current[MaterialFont.FontFamily] = FontHelper.GetFontFamily(name);
 }

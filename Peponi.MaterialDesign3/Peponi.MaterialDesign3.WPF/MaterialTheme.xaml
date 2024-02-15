@@ -1,8 +1,8 @@
 ﻿<ResourceDictionary
-    x:Class="Peponi.MaterialDesign3.WPF.MaterialThemeColor"
+    x:Class="Peponi.MaterialDesign3.WPF.MaterialTheme"
     xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-    x:ClassModifier="public">
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
     <Color x:Key="Color.Primary" />
     <Color x:Key="Color.OnPrimary" />
     <Color x:Key="Color.PrimaryContainer" />
@@ -94,4 +94,62 @@
     <SolidColorBrush x:Key="Brush.InversePrimary" />
     <SolidColorBrush x:Key="Brush.Scrim" />
     <SolidColorBrush x:Key="Brush.Shadow" />
+
+    <FontFamily x:Key="FontFamily" />
+    <FontFamily x:Key="SecondaryFontFamily" />
+    <FontFamily x:Key="TertiaryFontFamily" />
+
+    <sys:Double x:Key="FontSize.DisplayLarge">57</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplayLarge">64</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplayLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.DisplayMedium">45</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplayMedium">52</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplayMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.DisplaySmall">36</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplaySmall">44</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplaySmall">Regular</FontWeight>
+
+    <sys:Double x:Key="FontSize.HeadlineLarge">32</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineLarge">40</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.HeadlineMedium">28</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineMedium">36</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.HeadlineSmall">24</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineSmall">32</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineSmall">Regular</FontWeight>
+
+    <sys:Double x:Key="FontSize.TitleLarge">22</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleLarge">28</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.TitleMedium">16</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleMedium">24</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleMedium">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.TitleSmall">14</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleSmall">20</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleSmall">Medium</FontWeight>
+
+    <sys:Double x:Key="FontSize.LabelLarge">14</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelLarge">20</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelLarge">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.LabelMedium">12</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelMedium">16</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelMedium">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.LabelSmall">11</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelSmall">16</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelSmall">Medium</FontWeight>
+
+    <sys:Double x:Key="FontSize.BodyLarge">16</sys:Double>
+    <sys:Double x:Key="LineHeight.BodyLarge">24</sys:Double>
+    <FontWeight x:Key="FontWeight.BodyLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.BodyMedium">14</sys:Double>
+    <sys:Double x:Key="LineHeight.BodyMedium">20</sys:Double>
+    <FontWeight x:Key="FontWeight.BodyMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.BodySmall">12</sys:Double>
+    <sys:Double x:Key="LineHeight.BodySmall">16</sys:Double>
+    <FontWeight x:Key="FontWeight.BodySmall">Regular</FontWeight>
+
+    <FontFamily x:Key="Pretendard">./Fonts/#Pretendard Variable</FontFamily>
+    <FontFamily x:Key="RobotoFlex">./Fonts/#Roboto Flex Normal</FontFamily>
+    <FontFamily x:Key="RobotoSerif">./Fonts/#Roboto Serif 20pt</FontFamily>
 </ResourceDictionary>
