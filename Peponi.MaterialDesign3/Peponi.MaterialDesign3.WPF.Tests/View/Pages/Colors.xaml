@@ -4,6 +4,7 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:local="clr-namespace:Peponi.MaterialDesign3.WPF.Tests.View.Pages"
+    xmlns:material="https://github.com/peponi-paradise/Peponi/MaterialDesign3"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     d:DesignHeight="450"
     d:DesignWidth="800"
@@ -15,8 +16,15 @@
             <Setter Property="FontWeight" Value="{StaticResource FontWeight.DisplayMedium}" />
             <Setter Property="LineHeight" Value="{StaticResource LineHeight.DisplayMedium}" />
         </Style>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource Brush.Primary}" />
+            <Setter Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
+            <Setter Property="FontFamily" Value="{DynamicResource FontFamily}" />
+            <Setter Property="FontSize" Value="{DynamicResource FontSize.BodyMedium}" />
+            <Setter Property="FontWeight" Value="{DynamicResource FontWeight.BodyMedium}" />
+        </Style>
     </UserControl.Resources>
-    <Grid Background="{DynamicResource Brush.SurfaceContainer}">
+    <Grid Background="{DynamicResource Brush.Surface}">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*" />
             <ColumnDefinition Width="100" />
@@ -112,7 +120,7 @@
         <StackPanel Grid.Column="1" Orientation="Vertical">
             <Button Command="{Binding LightCommand}">Light</Button>
             <Button Command="{Binding DarkCommand}">Dark</Button>
-            <Button Command="{Binding AutoCommand}">Both</Button>
+            <Button Command="{Binding AutoCommand}">Auto</Button>
         </StackPanel>
     </Grid>
 </UserControl>

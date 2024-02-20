@@ -9,6 +9,15 @@
     d:DesignHeight="450"
     d:DesignWidth="800"
     mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="{x:Type Button}">
+            <Setter Property="Background" Value="{DynamicResource Brush.Primary}" />
+            <Setter Property="Foreground" Value="{DynamicResource Brush.OnPrimary}" />
+            <Setter Property="FontFamily" Value="{DynamicResource FontFamily}" />
+            <Setter Property="FontSize" Value="{DynamicResource FontSize.HeadlineLarge}" />
+            <Setter Property="FontWeight" Value="{DynamicResource FontWeight.HeadlineLarge}" />
+        </Style>
+    </UserControl.Resources>
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="*" />

@@ -1,4 +1,5 @@
 ﻿using Peponi.MaterialDesign3.WPF.Tests.Bootstrap;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Media;
 
@@ -16,10 +17,17 @@ namespace Peponi.MaterialDesign3.WPF.Tests
             Bootstrapper bootstrap = new();
             bootstrap.Run();
 
-            MaterialTheme.Current.ColorMode = ColorMode.Light;
-            MaterialTheme.Current.Primary = Color.FromArgb(255, 0x95, 0x89, 0xa1);
+            //MaterialTheme.Current.ColorMode = ColorMode.Light;
+            MaterialTheme.Current.Primary = Colors.Magenta;
+            MaterialTheme.Current.Secondary = Color.FromArgb(0xFF, 0x36, 0x58, 0xC3);
+            MaterialTheme.Current.Tertiary = Colors.MediumSeaGreen;
+            MaterialTheme.Current.ColorMode = ColorMode.Auto;
+            MaterialTheme.Current.UseWindowsAccentColor = false;
+
+            MaterialTheme.Current.FontFamily = FontHelper.GetFontFamily("RobotoFlex");
+            MaterialTheme.Current.SecondaryFontFamily = FontHelper.GetFontFamily("RobotoSerif");
+            MaterialTheme.Current.FontFamily = FontHelper.GetFontFamily("Microsoft Sans Serif");
             //MaterialTheme.Current[MaterialFont.FontFamily] = FontHelper.GetFontFamily(MaterialFont.DefaultFontFamily.Pretendard);
-            //Debug.WriteLine(MaterialTheme.Current.ColorPalettes[Google.MaterialColorUtilities.TonalPalettes.Primary][80]);
         }
     }
 }

@@ -6,7 +6,19 @@
     <Application.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <theme:MaterialTheme />
+                <!--  Contains default resource keys (Optional)  -->
+                <!--  If user use this resource, import it first  -->
+                <ResourceDictionary Source="/Peponi.MaterialDesign3.WPF;component/MaterialTheme.xaml" />
+                <!--  Theme provider  -->
+                <theme:MaterialTheme
+                    ColorMode="Auto"
+                    FontFamily="{StaticResource RobotoFlex}"
+                    Primary="Magenta"
+                    Secondary="#FF3658C3"
+                    SecondaryFontFamily="{StaticResource RobotoSerif}"
+                    Tertiary="MediumSeaGreen"
+                    TertiaryFontFamily="Arial"
+                    UseWindowsAccentColor="True" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Application.Resources>

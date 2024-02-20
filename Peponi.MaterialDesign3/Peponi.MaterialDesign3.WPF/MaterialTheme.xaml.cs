@@ -1,14 +1,37 @@
 ﻿using Google.MaterialColorUtilities;
-using Peponi.MaterialDesign3.WPF.Colors;
+using Peponi.MaterialDesign3.WPF.ColorProvider;
+using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
 
 namespace Peponi.MaterialDesign3.WPF;
 
+/// <summary>
+/// Enum for setting theme mode
+/// </summary>
+public enum ColorMode
+{
+    /// <summary>
+    /// Use windows theme option
+    /// </summary>
+    Auto,
+
+    /// <summary>
+    /// Set light mode
+    /// </summary>
+    Light,
+
+    /// <summary>
+    /// Set dark mode
+    /// </summary>
+    Dark
+}
+
 public partial class MaterialTheme : ResourceDictionary
 {
     private Color _pri = Color.FromRgb(0x75, 0x75, 0x75);
 
+    [Description("Primary color of palette"), Category("Material color")]
     public Color Primary
     {
         get => _pri;
@@ -24,6 +47,7 @@ public partial class MaterialTheme : ResourceDictionary
 
     private Color? _sec = null;
 
+    [Description("Secondary color of palette"), Category("Material color")]
     public Color? Secondary
     {
         get => _sec;
@@ -39,6 +63,7 @@ public partial class MaterialTheme : ResourceDictionary
 
     private Color? _ter = null;
 
+    [Description("Tertiary color of palette"), Category("Material color")]
     public Color? Tertiary
     {
         get => _ter;
@@ -53,6 +78,7 @@ public partial class MaterialTheme : ResourceDictionary
     }
 
     /// <inheritdoc cref="ColorProvider.ColorMode"/>
+    [Description("Set color mode for default color set"), Category("Material color")]
     public ColorMode ColorMode
     {
         get => _colorProvider.ColorMode;
@@ -63,6 +89,7 @@ public partial class MaterialTheme : ResourceDictionary
     }
 
     /// <inheritdoc cref="ColorProvider.UseWindowsAccentColor"/>
+    [Description("Use windows accent color option\r\nSupports Windows 10, 11"), Category("Material color")]
     public bool UseWindowsAccentColor
     {
         get => _colorProvider.UseWindowsAccentColor;
@@ -74,6 +101,7 @@ public partial class MaterialTheme : ResourceDictionary
 
     private FontFamily? _fontFamily;
 
+    [Description("Primary font family"), Category("Material font")]
     public FontFamily? FontFamily
     {
         get => _fontFamily;
@@ -89,6 +117,7 @@ public partial class MaterialTheme : ResourceDictionary
 
     private FontFamily? _secondaryFontFamily;
 
+    [Description("Secondary font family"), Category("Material font")]
     public FontFamily? SecondaryFontFamily
     {
         get => _secondaryFontFamily;
@@ -104,6 +133,7 @@ public partial class MaterialTheme : ResourceDictionary
 
     private FontFamily? _tertiaryFontFamily;
 
+    [Description("Tertiary font family"), Category("Material font")]
     public FontFamily? TertiaryFontFamily
     {
         get => _tertiaryFontFamily;
@@ -117,13 +147,19 @@ public partial class MaterialTheme : ResourceDictionary
         }
     }
 
+    /// <summary>
+    /// Current color palettes
+    /// </summary>
     public Dictionary<TonalPalettes, TonalPalette> ColorPalettes => _colorProvider.ColorPalettes;
 
+#pragma warning disable CS0618
     private static MaterialTheme _current = new();
+#pragma warning restore CS0618
     public static MaterialTheme Current => _current;
 
-    private ColorProvider _colorProvider;
+    private ColorProvider.ColorProvider _colorProvider;
 
+    [Obsolete("Intended to internal use of library")]
     public MaterialTheme()
     {
         InitializeComponent();
@@ -173,7 +209,7 @@ public partial class MaterialTheme : ResourceDictionary
     }
 
     /// <summary>
-    /// Sets color, font values by given xaml<br/>
+    /// Sets color, font values by given dictionary<br/>
     /// See readme for details
     /// </summary>
     /// <param name="collection"></param>

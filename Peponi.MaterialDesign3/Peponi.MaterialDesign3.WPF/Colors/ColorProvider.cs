@@ -4,17 +4,17 @@ using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Media;
 
-namespace Peponi.MaterialDesign3.WPF.Colors;
+namespace Peponi.MaterialDesign3.WPF.ColorProvider;
 
 internal class ColorProvider
 {
-    public Dictionary<TonalPalettes, TonalPalette> ColorPalettes { get; private set; }
+    internal Dictionary<TonalPalettes, TonalPalette> ColorPalettes { get; private set; }
 
     /// <summary>
     /// Use windows accent color option<br/>
     /// Supports Windows 10, 11
     /// </summary>
-    public bool UseWindowsAccentColor
+    internal bool UseWindowsAccentColor
     {
         get => _useWindowsAccentColor;
         set
@@ -38,7 +38,7 @@ internal class ColorProvider
     /// 3. <see cref="ColorMode.Auto"/>
     /// </para>
     /// </summary>
-    public ColorMode ColorMode
+    internal ColorMode ColorMode
     {
         get => _colorMode;
         set
@@ -55,7 +55,7 @@ internal class ColorProvider
     private bool _useWindowsAccentColor = false;
     private ColorMode _colorMode = ColorMode.Auto;
 
-    public ColorProvider(ResourceDictionary resource, Color primary, Color? secondary, Color? tertiary)
+    internal ColorProvider(ResourceDictionary resource, Color primary, Color? secondary, Color? tertiary)
     {
         ColorPalettes = new Dictionary<TonalPalettes, TonalPalette>
         {
@@ -92,7 +92,7 @@ internal class ColorProvider
     /// <param name="primary"></param>
     /// <param name="secondary"></param>
     /// <param name="tertiary"></param>
-    public void SetPalettes(Color primary, Color? secondary, Color? tertiary)
+    internal void SetPalettes(Color primary, Color? secondary, Color? tertiary)
     {
         _useWindowsAccentColor = false;
 

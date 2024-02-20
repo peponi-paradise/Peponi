@@ -62,24 +62,3 @@ public static class MaterialColor
     public const string Scrim = $"{ColorPrefix}{nameof(Scrim)}";
     public const string Shadow = $"{ColorPrefix}{nameof(Shadow)}";
 }
-
-/// <summary>
-/// Enum for setting theme mode
-/// </summary>
-public enum ColorMode
-{
-    /// <summary>
-    /// Set light mode
-    /// </summary>
-    Light,
-
-    /// <summary>
-    /// Set dark mode
-    /// </summary>
-    Dark,
-
-    /// <summary>
-    /// Use windows theme option
-    /// </summary>
-    Auto
-}
