@@ -12,7 +12,7 @@
 	  <Company>https://peponi-paradise.tistory.com</Company>
 	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
 	  <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
-	  <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Google.MaterialColorUtilities</PackageProjectUrl>
+	  <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.Google.MaterialColorUtilities</PackageProjectUrl>
 	  <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
 	  <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
 	  <PackageTags>Peponi;Google;Material Design 3;Color;</PackageTags>
