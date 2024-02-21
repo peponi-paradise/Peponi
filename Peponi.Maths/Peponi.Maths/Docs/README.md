@@ -132,12 +132,15 @@ NuGet\Install-Package Peponi.Maths
 
 
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |double|X|X axis value<br>Raising `PropertyChanged` event|
     |double|Y|Y axis value<br>Raising `PropertyChanged` event|
     |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |CartesianCoordinate2D|CartesianCoordinate2D()|Default constructor|
@@ -145,7 +148,9 @@ NuGet\Install-Package Peponi.Maths
     |void|Deconstruct(out double, out double)|Deconstructor|
     |double|GetDistanceFromOrigin()|Returns <code>√(X<sup>2</sup>+Y<sup>2</sup>)</code>|
     |string|ToString()|Returns `X, Y`|
+
 3. Example
+
     ```cs
     using Peponi.Maths.Coordinates;
 
@@ -166,13 +171,16 @@ NuGet\Install-Package Peponi.Maths
 
 
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |double|X|X axis value<br>Raising `PropertyChanged` event|
     |double|Y|Y axis value<br>Raising `PropertyChanged` event|
     |double|Z|Z axis value<br>Raising `PropertyChanged` event|
     |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |CartesianCoordinate3D|CartesianCoordinate3D()|Default constructor|
@@ -180,7 +188,9 @@ NuGet\Install-Package Peponi.Maths
     |void|Deconstruct(out double, out double, out double)|Deconstructor|
     |double|GetDistanceFromOrigin()|Returns <code>√(X<sup>2</sup>+Y<sup>2</sup>+Z<sup>2</sup>)</code>|
     |string|ToString()|Returns `X, Y, Z`|
+
 3. Example
+
     ```cs
     using Peponi.Maths.Coordinates;
 
@@ -202,13 +212,16 @@ NuGet\Install-Package Peponi.Maths
 
 ![CylindricalCoordinate](./Img/CylindricalCoordinate.png)
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |double|R|Radius<br>Raising `PropertyChanged` event|
     |double|Theta|Angle from axis<br>Raising `PropertyChanged` event|
     |double|Z|Z axis value<br>Raising `PropertyChanged` event|
     |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |CylindricalCoordinate|CylindricalCoordinate()|Default constructor|
@@ -216,7 +229,9 @@ NuGet\Install-Package Peponi.Maths
     |void|Deconstruct(out double, out double, out double)|Deconstructor|
     |double|GetDistanceFromOrigin()|Returns <code>√(R<sup>2</sup>+Z<sup>2</sup>)</code>|
     |string|ToString()|Returns `R, Theta, Z`|
+
 3. Example
+
     ```cs
     using Peponi.Maths.Coordinates;
 
@@ -238,12 +253,15 @@ NuGet\Install-Package Peponi.Maths
 
 ![PolarCoordinate](./Img/PolarCoordinate.png)
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |double|R|Radius<br>Raising `PropertyChanged` event|
     |double|Theta|Angle from axis<br>Raising `PropertyChanged` event|
     |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |PolarCoordinate|PolarCoordinate()|Default constructor|
@@ -251,7 +269,9 @@ NuGet\Install-Package Peponi.Maths
     |void|Deconstruct(out double, out double)|Deconstructor|
     |double|GetDistanceFromOrigin()|Returns `R`|
     |string|ToString()|Returns `R, Theta`|
+
 3. Example
+
     ```cs
     using Peponi.Maths.Coordinates;
 
@@ -273,13 +293,16 @@ NuGet\Install-Package Peponi.Maths
 
 ![SphericalCoordinate](./Img/SphericalCoordinate.png)
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |double|R|Radius<br>Raising `PropertyChanged` event|
     |double|Theta|Latitude<br>Raising `PropertyChanged` event|
     |double|Phi|Longitude<br>Raising `PropertyChanged` event|
     |PropertyChangedEventHandler?|PropertyChanged|INotifyPropertyChanged support|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |SphericalCoordinate|SphericalCoordinate()|Default constructor|
@@ -287,7 +310,9 @@ NuGet\Install-Package Peponi.Maths
     |void|Deconstruct(out double, out double, out double)|Deconstructor|
     |double|GetDistanceFromOrigin()|Returns `R`|
     |string|ToString()|Returns `R, Theta, Phi`|
+
 3. Example
+
     ```cs
     using Peponi.Maths.Coordinates;
 
@@ -312,11 +337,14 @@ NuGet\Install-Package Peponi.Maths
 
 ![Midpoint](./Img/Midpoint.png)
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be odd|
     |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null|
+
 2. Example
+
     ```cs
     using Peponi.Maths.Integration;
     
@@ -350,11 +378,14 @@ NuGet\Install-Package Peponi.Maths
 
 ![Simpson1over3](./Img/Simpson1over3.png)
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be odd|
     |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null<br>Interval count should be even|
+
 2. Example
+
     ```cs
     using Peponi.Maths.Integration;
 
@@ -369,6 +400,7 @@ NuGet\Install-Package Peponi.Maths
     25
     */
     ```
+
     ```cs
     using Peponi.Maths.Extensions;
     using Peponi.Maths.Integration;
@@ -388,11 +420,14 @@ NuGet\Install-Package Peponi.Maths
 
 ![Simpson3over8](./Img/Simpson3over8.png)
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> must be multiple of 3|
     |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null<br>Interval count should be multiple of 3|
+
 2. Example
+
     ```cs
     using Peponi.Maths.Integration;
 
@@ -407,6 +442,7 @@ NuGet\Install-Package Peponi.Maths
     31.5
     */
     ```
+
     ```cs
     using Peponi.Maths.Extensions;
     using Peponi.Maths.Integration;
@@ -426,11 +462,14 @@ NuGet\Install-Package Peponi.Maths
 
 ![Trapezoidal](./Img/Trapezoidal.png)
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |double|Integrate<X, Y>(List\<X>, List\<Y>)|Integrate points<br>Count of List\<X> & List\<Y> must me equal<br>Count of List\<X> should be over than 1|
     |double|Integrate(Func<double, double>, double, double, int)|Integrate input function<br>Low limit <= Upper limit<br>Function must not be null|
+
 2. Example
+
     ```cs
     using Peponi.Maths.Integration;
 
@@ -445,6 +484,7 @@ NuGet\Install-Package Peponi.Maths
     54
     */
     ```
+
     ```cs
     using Peponi.Maths.Extensions;
     using Peponi.Maths.Integration;
@@ -467,11 +507,14 @@ NuGet\Install-Package Peponi.Maths
 
 ![SMA](./Img/SimpleMovingAverage.png)
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |SimpleMovingAverage|SimpleMovingAverage(uint)|Window size could not be 0|
     |T|Average(T)|Returns average value|
+
 2. Example
+
     ```cs
     using Peponi.Maths.MovingAverage;
 
@@ -706,6 +749,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |IEnumerable<IEnumerable\<T>>|ToHoppingWindows(IEnumerable\<T>, uint, uint)|Get windows for given parameters|
@@ -728,7 +772,9 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |IEnumerable<IEnumerable\<V>>|ToHoppingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |Task<IEnumerable<IEnumerable\<V>>>|ToHoppingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+
 2. Example
+
     ```cs
     internal class DataClass
     {
@@ -747,6 +793,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
         }
     }
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -761,6 +808,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     4, 5, 6, 7, 8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -775,6 +823,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     4, 5, 6, 7, 8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -790,6 +839,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     00.00.04, 00.00.05, 00.00.06, 00.00.07, 00.00.08
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -816,6 +866,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |IEnumerable<IEnumerable\<T>>|ToSlidingWindows(IEnumerable\<T>, uint)|Get windows for given parameters|
@@ -838,7 +889,9 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |IEnumerable<IEnumerable\<V>>|ToSlidingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |Task<IEnumerable<IEnumerable\<V>>>|ToSlidingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+
 2. Example
+
     ```cs
     internal class DataClass
     {
@@ -857,6 +910,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
         }
     }
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -872,6 +926,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     4, 5, 6, 7, 8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -887,6 +942,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     4, 5, 6, 7, 8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -903,6 +959,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     00.00.03, 00.00.04, 00.00.05, 00.00.06, 00.00.07, 00.00.08
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -929,6 +986,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |IEnumerable<IEnumerable\<T>>|ToTumblingWindows(IEnumerable\<T>, uint)|Get windows for given parameters|
@@ -951,7 +1009,9 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |IEnumerable<IEnumerable\<V>>|ToTumblingWindows(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
     |Task<IEnumerable<IEnumerable\<V>>>|ToTumblingWindowsAsync(IEnumerable\<T>, DateTime, DateTime, TimeSpan, Func<T, DateTime>, Func<T, V>)||
+
 2. Example
+
     ```cs
     internal class DataClass
     {
@@ -970,6 +1030,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
         }
     }
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -984,6 +1045,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     7, 8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -998,6 +1060,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     8
     */
     ```
+
     ```cs
     using Peponi.Maths.Windowing;
 
@@ -1012,6 +1075,7 @@ Console.WriteLine(UnitConvert.Convert(21.653, WeightUnit.KiloGram, WeightUnit.Po
     5, 6, 7, 8, 9
     */
     ```
+    
     ```cs
     using Peponi.Maths.Windowing;
 

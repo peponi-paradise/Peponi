@@ -29,6 +29,7 @@ Included contents are:
       + Storage  
    - Minidump</Description>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <Version>1.0.0</Version>
   </PropertyGroup>
 	<ItemGroup>
 		<None Update="Docs\LICENSE.md">
