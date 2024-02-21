@@ -201,7 +201,7 @@ Contents are:
 ```
 
 - Install : `Nuget\Install-Package Peponi.MaterialDesign3.WPF`
-- Git : [Peponi.MaterialDesign3.WPF](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3.WPF)
+- Git : [Peponi.MaterialDesign3.WPF](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.MaterialDesign3.WPF)
 
 
 ### 2.7. Peponi.Google.MaterialColorUtilities
@@ -216,4 +216,4 @@ Most parts of original library are removed except getting tonal spot.
 ```
 
 - Install : `Nuget\Install-Package Peponi.Google.MaterialColorUtilities`
-- Git : [Peponi.Google.MaterialColorUtilities](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Google.MaterialColorUtilities)
+- Git : [Peponi.Google.MaterialColorUtilities](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.Google.MaterialColorUtilities)
