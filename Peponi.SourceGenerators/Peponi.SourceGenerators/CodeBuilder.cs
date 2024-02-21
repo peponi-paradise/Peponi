@@ -37,6 +37,20 @@ internal class CodeBuilder
         _builder.AppendLine("");
     }
 
+    public void CloseAllIndents()
+    {
+        while (Indent > 0)
+        {
+            Indent--;
+            if (Indent != 0)
+            {
+                IndentTab();
+                _builder.AppendLine("}");
+            }
+            else _builder.Append("}");
+        }
+    }
+
     private void IndentTab()
     {
         for (int i = 0; i < Indent; i++)

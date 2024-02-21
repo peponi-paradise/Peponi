@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net7.0</TargetFramework>
@@ -6,10 +6,40 @@
     <Nullable>enable</Nullable>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+    <Title>$(AssemblyName)</Title>
+    <Company>https://peponi-paradise.tistory.com</Company>
+    <Authors>Peponi</Authors>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
+    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Logger</PackageProjectUrl>
+	<PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+    <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+    <PackageTags>Peponi;log;logger</PackageTags>
+    <Description>Peponi.Logger is a package for logging.
+Base concepts are:
+
+1. Fast return
+   - Add log item and return immediately
+2. High performance logger
+   - Has processor &amp; writer per each logger</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\Peponi.Utility\Peponi.Utility\Peponi.Utility.csproj" />
+    <ProjectReference Include="..\..\Peponi.Core\Peponi.Core\Peponi.Core.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="Docs\LICENSE.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="Docs\README.md">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>

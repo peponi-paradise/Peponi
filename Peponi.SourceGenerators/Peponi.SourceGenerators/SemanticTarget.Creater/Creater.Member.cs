@@ -47,23 +47,29 @@ internal static partial class Creater
     {
         if (modifier == Modifier.Public)
         {
-            string rtnString = identifier.Clone().ToString();
-
-            if (rtnString[0] == '_')
+            if (identifier.Contains('_'))
             {
-                rtnString = identifier.Substring(1);
+                if (identifier.Length > 2 && char.IsLower(identifier[0]) && identifier[1] == '_')
+                {
+                    return $"{identifier[2].ToString().ToUpper()}{identifier.Substring(3)}";
+                }
+                else if (identifier[0] == '_' && char.IsLetter(identifier[1]))
+                {
+                    return $"{identifier[1].ToString().ToUpper()}{identifier.Substring(2)}";
+                }
+                else return identifier.Replace("_", "");
             }
-
-            if (char.IsLower(rtnString[0]))
+            else
             {
-                rtnString = rtnString[0].ToString().ToUpper() + rtnString.Substring(1);
+                if (char.IsLower(identifier[0]))
+                {
+                    return $"{identifier[0].ToString().ToUpper()}{identifier.Substring(1)}";
+                }
+                else
+                {
+                    return identifier.ToUpper();
+                }
             }
-            else if (char.IsUpper(rtnString[0]))
-            {
-                rtnString = rtnString.ToUpper();
-            }
-
-            return rtnString;
         }
         else if (modifier == Modifier.Private || modifier == Modifier.Protected || modifier == Modifier.Internal)
         {

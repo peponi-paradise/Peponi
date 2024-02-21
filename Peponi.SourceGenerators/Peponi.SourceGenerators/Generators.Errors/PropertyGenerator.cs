@@ -13,7 +13,8 @@ internal static class PropertyErrors
        category: "Property",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported objects are - class, record, struct.");
+       description: "Supported objects are - class, record, struct.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/PropertyGenerator.Errors.md");
 
     internal static readonly DiagnosticDescriptor CouldNotFindTypeModifier = new DiagnosticDescriptor(
        id: "PNPTY002",
@@ -22,5 +23,6 @@ internal static class PropertyErrors
        category: "Property",
        defaultSeverity: DiagnosticSeverity.Error,
        isEnabledByDefault: true,
-       description: "Supported modifiers are - public, protected, internal, private.");
+       description: "Supported modifiers are - public, protected, internal, private.",
+       helpLinkUri: "https://github.com/peponi-paradise/Peponi/blob/Release/Peponi.SourceGenerators/Peponi.SourceGenerators/Docs/PropertyGenerator.Errors.md");
 }

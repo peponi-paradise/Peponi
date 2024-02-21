@@ -20,4 +20,16 @@ internal static partial class SourceWriterExtension
         builder.AppendLine("using Peponi.SourceGenerators.Commands;");
         builder.NewLine();
     }
+
+    internal static void WriteGrpcClientUsings(this CodeBuilder builder, ProtobufInfo info)
+    {
+        if (info.ClientMode == GrpcClientMode.Standalone) builder.AppendLine("using Grpc.Core;");
+        else builder.AppendLine("using Microsoft.Extensions.DependencyInjection;");
+
+        foreach (var data in info.ProtobufDatas)
+        {
+            builder.AppendLine($"using {data.Namespace};");
+        }
+        builder.NewLine();
+    }
 }

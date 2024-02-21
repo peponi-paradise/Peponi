@@ -60,7 +60,7 @@ internal static partial class SourceWriterExtension
                 builder.Indent++;
                 foreach (var method in property.PropertyMethods)
                 {
-                    if (method.Section == PropertyMethodSection.Getter)
+                    if (method.Section == PropertySection.Getter)
                     {
                         builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                     }
@@ -87,7 +87,7 @@ internal static partial class SourceWriterExtension
                 {
                     foreach (var method in property.PropertyMethods)
                     {
-                        if (method.Section == PropertyMethodSection.Setter)
+                        if (method.Section == PropertySection.Setter)
                         {
                             builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                         }
@@ -139,11 +139,11 @@ internal static partial class SourceWriterExtension
                 // Inject object
 
                 string injectObjectName = target.FullTypeName.Split('.').Last().Replace("?", "");
-                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.TypeModifier) : target.CustomName;
+                injectObjectName = string.IsNullOrWhiteSpace(target.CustomName) ? Creater.GetObjectName(injectObjectName, target.Modifier) : target.CustomName;
                 if (!target.IsStatic)
                 {
                     builder.WriteMemberComment();
-                    builder.AppendLine($"{Creater.GetAccessibilityString(target.TypeModifier)} {target.FullTypeName} {injectObjectName};");
+                    builder.AppendLine($"{Creater.GetAccessibilityString(target.Modifier)} {target.FullTypeName} {injectObjectName};");
                     builder.NewLine();
 
                     if (target.InjectionMode == InjectionType.Dependency || target.InjectionMode == (InjectionType.Dependency | InjectionType.Model))
@@ -178,7 +178,7 @@ internal static partial class SourceWriterExtension
 
                         foreach (var method in property.PropertyMethods)
                         {
-                            if (method.Section == PropertyMethodSection.Getter)
+                            if (method.Section == PropertySection.Getter)
                             {
                                 builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                             }
@@ -207,7 +207,7 @@ internal static partial class SourceWriterExtension
                         {
                             foreach (var method in property.PropertyMethods)
                             {
-                                if (method.Section == PropertyMethodSection.Setter)
+                                if (method.Section == PropertySection.Setter)
                                 {
                                     builder.AppendLine($"{method.MethodName}({method.MethodArgs});");
                                 }
@@ -230,7 +230,8 @@ internal static partial class SourceWriterExtension
                     {
                         builder.WriteMethodComment();
                         builder.AppendLine($"partial void On{target.Properties[i].PropertyName}Changed();");
-                        builder.NewLine();
+                        if (i != target.Properties.Count - 1) builder.NewLine();
+                        else if (dependencyAdded.Count > 0 || targets.Last() != target) builder.NewLine();
                     }
                 }
             }
@@ -239,16 +240,12 @@ internal static partial class SourceWriterExtension
         if (dependencyAdded.Count > 0)
         {
             // ctor
-
             builder.WriteMethodComment();
             builder.Append($"public ", true);
             builder.Append(objectTarget.TypeName);
-            string injectString = string.Empty;
-            foreach (var item in dependencyAdded)
-            {
-                injectString += $"{item.InjectTypeName} {item.InjectObjectName},";
-            }
-            if (dependencyAdded.Count > 0) injectString = injectString.Remove(injectString.Length - 1, 1);
+            List<string> injectItems = new();
+            foreach (var item in dependencyAdded) injectItems.Add($"{item.InjectTypeName} {item.InjectObjectName}");
+            string injectString = string.Join(", ", injectItems);
             builder.Append($"({injectString})");
             builder.NewLine();
             builder.AppendLine("{");
@@ -305,6 +302,76 @@ internal static partial class SourceWriterExtension
             }
             // 여기까지 들어오면 앞의 코드에 문제 있음. 에러 내보내야 함
             return string.Empty;
+        }
+    }
+
+    internal static void WriteGrpcClientMembers(this CodeBuilder builder, ProtobufInfo info)
+    {
+        if (info.ClientMode == GrpcClientMode.Standalone) WriteStandalone();
+        else WriteClientFactory();
+
+        void WriteStandalone()
+        {
+            // Write members
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.WriteMemberComment();
+                    builder.AppendLine($"private {service}.{service}Client _{service};");
+                }
+            }
+
+            builder.NewLine();
+
+            // Write method
+            builder.WriteMethodComment();
+            builder.AppendLine("private bool CreateServices()");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("bool rtn = true;");
+            builder.AppendLine("try");
+            builder.AppendLine("{");
+            builder.Indent++;
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.AppendLine($"_{service} = new {service}.{service}Client({info.Remote});");
+                }
+            }
+            builder.Indent--;
+            builder.AppendLine("}");
+            builder.AppendLine("catch");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("rtn = false;");
+            builder.Indent--;
+            builder.AppendLine("}");
+            builder.AppendLine("return rtn;");
+            builder.Indent--;
+            builder.AppendLine("}");
+        }
+
+        void WriteClientFactory()
+        {
+            // Write method
+            builder.WriteMethodComment();
+            builder.AppendLine("private IServiceCollection AddClientsFactory(IServiceCollection services)");
+            builder.AppendLine("{");
+            builder.Indent++;
+            builder.AppendLine("services");
+            foreach (var data in info.ProtobufDatas)
+            {
+                foreach (var service in data.ServiceNames)
+                {
+                    builder.AppendLine($".AddGrpcClient<{service}.{service}Client>(o => {{ o.Address = new Uri(\"{info.Remote}\"); }})");
+                }
+            }
+            builder.AppendLine(";");
+            builder.AppendLine("return services;");
+            builder.Indent--;
+            builder.AppendLine("}");
         }
     }
 }

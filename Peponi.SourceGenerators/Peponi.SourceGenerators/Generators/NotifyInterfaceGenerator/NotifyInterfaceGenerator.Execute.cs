@@ -32,12 +32,7 @@ public sealed partial class NotifyInterfaceGenerator
 
         codeBuilder.WriteNotifyInterfaceMembers(target);
 
-        while (codeBuilder.Indent > 0)
-        {
-            codeBuilder.Indent--;
-            if (codeBuilder.Indent != 0) codeBuilder.AppendLine("}");
-            else codeBuilder.Append("}");
-        }
+        codeBuilder.CloseAllIndents();
 
         context.AddSource(codeFileName, SourceText.From(codeBuilder.ToString(), Encoding.UTF8));
     }

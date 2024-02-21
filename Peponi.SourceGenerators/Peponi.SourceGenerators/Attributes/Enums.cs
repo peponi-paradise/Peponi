@@ -1,6 +1,6 @@
 ﻿namespace Peponi.SourceGenerators;
 
-public enum PropertyMethodSection
+public enum PropertySection
 {
     Setter,
     Getter
@@ -25,4 +25,16 @@ public enum InjectionType
 {
     Dependency = 0b_1,
     Model = 0b_10
+}
+
+public enum GrpcClientMode
+{
+    Standalone,
+    ClientFactory
+}
+
+public enum GrpcServerMode
+{
+    Standalone,
+    ClientFactory
 }

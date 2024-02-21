@@ -1,20 +1,20 @@
 ﻿namespace Peponi.SourceGenerators.Tests.PropertyGenerator;
 
 [TestClass]
-public class Property
+public class PropertyTest
 {
     [TestMethod]
-    public void SimpleCodeGenTest()
+    public void PropertyBase()
     {
         Assert.IsTrue(PropertyCompare.CompareCode(
 @"using Peponi.SourceGenerators;
 
-namespace CodeGeneratorTest;
+namespace GeneratorTest;
 
 public partial class CodeTest
 {
     [Property]
-    private bool _testBool = false;
+    private bool b_testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
 // Github : https://github.com/peponi-paradise/Peponi
@@ -22,7 +22,7 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace CodeGeneratorTest
+namespace GeneratorTest
 {
     public partial class CodeTest
     {
@@ -31,12 +31,13 @@ namespace CodeGeneratorTest
         /// </summary>
         public bool TestBool
         {
-            get => _testBool;
+            get => b_testBool;
             set
             {
-                if(_testBool != value)
+                if(b_testBool != value)
                 {
-                    _testBool = value;
+                    b_testBool = value;
+                    OnPropertyChanged(nameof(TestBool));
                     OnTestBoolChanged();
                 }
             }
@@ -51,100 +52,16 @@ namespace CodeGeneratorTest
     }
 
     [TestMethod]
-    public void CodeGenTest()
+    public void PropertyWithCustomName()
     {
         Assert.IsTrue(PropertyCompare.CompareCode(
 @"using Peponi.SourceGenerators;
 
-namespace CodeGeneratorTest;
-
-public sealed partial record CodeTest
-{
-    [Property]
-    private static bool _testBool = false;
-
-    [NotifyProperty]
-    private static int? testInt = 0;
-
-    [NotifyProperty]
-    private readonly double TestDouble = 1.2;
-}",
-@"// Auto generated code by Peponi.SourceGenerators
-// Github : https://github.com/peponi-paradise/Peponi
-// Blog : https://peponi-paradise.tistory.com
-
-#nullable enable
-
-namespace CodeGeneratorTest
-{
-    public sealed partial record CodeTest
-    {
-        /// <summary>
-        /// Auto generated property by Peponi.SourceGenerators
-        /// </summary>
-        public bool TestBool
-        {
-            get => _testBool;
-            set
-            {
-                if(_testBool != value)
-                {
-                    _testBool = value;
-                    OnTestBoolChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Auto generated property by Peponi.SourceGenerators
-        /// </summary>
-        public int? TestInt
-        {
-            get => testInt;
-            set
-            {
-                if(testInt != value)
-                {
-                    testInt = value;
-                    OnPropertyChanged(nameof(TestInt));
-                    OnTestIntChanged();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Auto generated property by Peponi.SourceGenerators
-        /// </summary>
-        public double TESTDOUBLE
-        {
-            get => TestDouble;
-        }
-
-        /// <summary>
-        /// Auto generated method by Peponi.SourceGenerators
-        /// </summary>
-        partial void OnTestBoolChanged();
-        /// <summary>
-        /// Auto generated method by Peponi.SourceGenerators
-        /// </summary>
-        partial void OnTestIntChanged();
-    }
-}"));
-    }
-
-    [TestMethod]
-    public void CodeGenTestWithPropertyMethod()
-    {
-        Assert.IsTrue(PropertyCompare.CompareCode(
-@"using Peponi.SourceGenerators;
-
-namespace CodeGeneratorTest;
+namespace GeneratorTest;
 
 public partial class CodeTest
 {
-    [PropertyMethod(""MyMethod"", Section = PropertyMethodSection.Getter, Args = ""Args1,Args2"")]
-    [PropertyMethod(""MyMethod2"")]
-    [Property(Name = ""Test"")]
+    [Property(CustomName = ""MyProp"")]
     private bool _testBool = false;
 }",
 @"// Auto generated code by Peponi.SourceGenerators
@@ -153,18 +70,164 @@ public partial class CodeTest
 
 #nullable enable
 
-namespace CodeGeneratorTest
+namespace GeneratorTest
 {
     public partial class CodeTest
     {
         /// <summary>
         /// Auto generated property by Peponi.SourceGenerators
         /// </summary>
-        public bool Test
+        public bool MyProp
+        {
+            get => _testBool;
+            set
+            {
+                if(_testBool != value)
+                {
+                    _testBool = value;
+                    OnPropertyChanged(nameof(MyProp));
+                    OnMyPropChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        partial void OnMyPropChanged();
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void PropertyWithoutNotify()
+    {
+        Assert.IsTrue(PropertyCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Property(NotifyType = NotifyType.None)]
+    private bool testBool = false;
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        /// <summary>
+        /// Auto generated property by Peponi.SourceGenerators
+        /// </summary>
+        public bool TestBool
+        {
+            get => testBool;
+            set
+            {
+                if(testBool != value)
+                {
+                    testBool = value;
+                    OnTestBoolChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        partial void OnTestBoolChanged();
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void PropertyWithCustomNameAndWithoutNotify()
+    {
+        Assert.IsTrue(PropertyCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Property(CustomName = ""MyProp"", NotifyType = NotifyType.None)]
+    private bool _testBool = false;
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        /// <summary>
+        /// Auto generated property by Peponi.SourceGenerators
+        /// </summary>
+        public bool MyProp
+        {
+            get => _testBool;
+            set
+            {
+                if(_testBool != value)
+                {
+                    _testBool = value;
+                    OnMyPropChanged();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Auto generated method by Peponi.SourceGenerators
+        /// </summary>
+        partial void OnMyPropChanged();
+    }
+}"));
+    }
+
+    [TestMethod]
+    public void PropertyTotalTest()
+    {
+        Assert.IsTrue(PropertyCompare.CompareCode(
+@"using Peponi.SourceGenerators;
+
+namespace GeneratorTest;
+
+public partial class CodeTest
+{
+    [Property(CustomName = ""MyProp"", NotifyType = NotifyType.None)]
+    [MethodCall(""MyMethod"", Section = PropertySection.Getter, Args = ""TestBool, FieldA"")]
+    [MethodCall(""OtherMethod"", Args = ""TestBool, FieldB"")]
+    [RaiseCanExecuteChanged(""TestCommand"")]
+    [RaisePropertyChanged(""TestParam"")]
+    private bool _testBool = false;
+}",
+@"// Auto generated code by Peponi.SourceGenerators
+// Github : https://github.com/peponi-paradise/Peponi
+// Blog : https://peponi-paradise.tistory.com
+
+#nullable enable
+
+namespace GeneratorTest
+{
+    public partial class CodeTest
+    {
+        /// <summary>
+        /// Auto generated property by Peponi.SourceGenerators
+        /// </summary>
+        public bool MyProp
         {
             get
             {
-                MyMethod(Args1,Args2);
+                MyMethod(TestBool, FieldA);
                 return _testBool;
             }
             set
@@ -172,8 +235,10 @@ namespace CodeGeneratorTest
                 if(_testBool != value)
                 {
                     _testBool = value;
-                    OnTestChanged();
-                    MyMethod2();
+                    OnMyPropChanged();
+                    OtherMethod(TestBool, FieldB);
+                    TestCommand.RaiseCanExecuteChanged();
+                    OnPropertyChanged(nameof(TestParam));
                 }
             }
         }
@@ -181,7 +246,7 @@ namespace CodeGeneratorTest
         /// <summary>
         /// Auto generated method by Peponi.SourceGenerators
         /// </summary>
-        partial void OnTestChanged();
+        partial void OnMyPropChanged();
     }
 }"));
     }
