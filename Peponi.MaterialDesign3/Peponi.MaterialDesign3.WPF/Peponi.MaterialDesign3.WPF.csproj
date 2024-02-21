@@ -1,0 +1,55 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <ImplicitUsings>enable</ImplicitUsings>
+	  <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+	  <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+	  <Title>$(AssemblyName)</Title>
+	  <Authors>Peponi</Authors>
+	  <Owners>Peponi</Owners>
+	  <Company>https://peponi-paradise.tistory.com</Company>
+	  <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+	  <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+	  <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.MaterialDesign3.WPF</PackageProjectUrl>
+	  <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+	  <Copyright>Copyright (c) 2024 peponi</Copyright>
+	  <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+	  <PackageTags>Peponi;Material Design 3;Color;Font</PackageTags>
+	  <Description>Peponi.MaterialDesign3.WPF is a package for implementing Material design 3 of google.
+Contents are:
+
+1. Colors
+	- Getting colors using DynamicResource, StaticResource
+2. Fonts
+	- Getting Font family, size, weight, line height using DynamicResource, StaticResource
+	  </Description>
+  </PropertyGroup>
+
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\Peponi.Google.MaterialColorUtilities\Peponi.Google.MaterialColorUtilities.csproj" />
+	</ItemGroup>
+
+  <ItemGroup>
+    <None Update="Docs\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <Resource Include="ThemeProvider\Pretendard.ttf" />
+    <Resource Include="ThemeProvider\RobotoFlex.ttf" />
+    <Resource Include="ThemeProvider\RobotoSerif.ttf" />
+  </ItemGroup>
+
+</Project>

@@ -4,6 +4,9 @@ namespace Peponi.Logger;
 
 public class Log
 {
+    /// <summary>
+    /// Options for logging
+    /// </summary>
     public LogOption Option;
 
     private static Dictionary<string, Log> _loggers = new();

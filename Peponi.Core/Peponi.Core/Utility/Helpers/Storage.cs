@@ -2,6 +2,12 @@
 
 public static class StorageHelper
 {
+    /// <summary>
+    /// Get total disk size
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static double GetDiskSizeGB(string path)
     {
         CheckRootPath(path);
@@ -17,6 +23,12 @@ public static class StorageHelper
         throw new ArgumentException($"The root path of {path} is not exist on system");
     }
 
+    /// <summary>
+    /// Get free space size of disk
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static double GetFreeSpaceGB(string path)
     {
         CheckRootPath(path);
@@ -32,6 +44,12 @@ public static class StorageHelper
         throw new ArgumentException($"The root path of {path} is not exist on system");
     }
 
+    /// <summary>
+    /// Get free space size of disk
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static int GetFreeSpacePercent(string path)
     {
         CheckRootPath(path);

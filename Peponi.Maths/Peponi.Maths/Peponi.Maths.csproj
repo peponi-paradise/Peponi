@@ -46,7 +46,7 @@ Including contents are:
     - Tumbling
     - Sliding
     - Hopping</Description>
-    <Copyright>Copyright (c) 2023 peponi</Copyright>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
     <PackageTags>Peponi;Math;Coordinate;Numerical integration;Moving average;Unit conversion;Windowing</PackageTags>
   </PropertyGroup>

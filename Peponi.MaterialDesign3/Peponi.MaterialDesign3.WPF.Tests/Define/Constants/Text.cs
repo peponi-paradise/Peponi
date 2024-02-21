@@ -1,0 +1,6 @@
+﻿namespace Peponi.MaterialDesign3.WPF.Tests.Define.Constants;
+
+public static class Text
+{
+    public const string LoremIpsum = "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque mollis imperdiet efficitur. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam ullamcorper mauris ut orci cursus, eget ultricies libero tincidunt. Suspendisse bibendum urna vitae aliquet convallis. Maecenas neque felis, egestas quis massa a, ullamcorper hendrerit quam. Proin id lectus et mauris condimentum dapibus et eget arcu. Quisque tincidunt, velit eget laoreet elementum, est turpis pulvinar orci, ut pretium quam elit quis magna. Aliquam lobortis iaculis diam, eu congue lacus efficitur vitae. Vestibulum maximus luctus pharetra. Fusce ac lacus id libero interdum aliquet eu et tortor. Sed imperdiet sem tempor mauris fringilla consectetur. Quisque sit amet venenatis arcu. Phasellus malesuada lobortis ligula at dapibus. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia curae;";
+}
