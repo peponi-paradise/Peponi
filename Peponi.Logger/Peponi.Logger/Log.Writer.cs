@@ -1,88 +1,90 @@
-﻿using Peponi.Utility.Helpers;
+﻿using Peponi.Core.Utility.Helpers;
 using System.Collections.Concurrent;
 using System.Text;
 
 namespace Peponi.Logger.Writer;
 
-internal static class LogWriter
+internal class LogWriter
 {
-    private static Dictionary<string, BlockingCollection<(string LogPath, string Message)>> _logQueue = new Dictionary<string, BlockingCollection<(string LogPath, string Message)>>();
+    private BlockingCollection<(string LogPath, string Message, LogOption Option)> _logQueue = new();
+    private Dictionary<string, StreamWriter> _writeStreams = new();
 
-    private static List<Thread> _workers = new List<Thread>();
-    private static LogWriteOption _writeOption;
-    private static uint _logSize = 0;
+    private CancellationTokenSource _cancellationToken = new();
+    private Thread? _worker;
 
-    internal static void Configure(LogWriteOption writeOption, List<string> logTypes, uint logSize)
+    public LogWriter()
     {
-        // 필요한 작업 처리
-        _writeOption = writeOption;
-        _logSize = logSize;
+        StartWorker();
+    }
 
-        // 쓰레드 시작
-        Thread worker;
-        switch (_writeOption)
+    ~LogWriter()
+    {
+        _cancellationToken.Cancel();
+    }
+
+    internal void WriteLog(string logPath, string message, LogOption option)
+    {
+        _logQueue.Add((logPath, message, option), _cancellationToken.Token);
+    }
+
+    private bool StartWorker()
+    {
+        try
         {
-            case LogWriteOption.OneFile:
-                _logQueue.Add(LogWriteOption.OneFile.ToString(), new BlockingCollection<(string LogPath, string Message)>());
-                worker = new Thread(() => LogWriteThread(LogWriteOption.OneFile.ToString()));
-                worker.IsBackground = true;
-                worker.Start();
-                _workers.Add(worker);
-                break;
+            // 쓰레드 시작
+            _worker = new Thread(LogWriteThread);
+            _worker.IsBackground = true;
+            _worker.Start();
+            return true;
+        }
+        catch
+        {
+            return false;
+        }
+    }
 
-            case LogWriteOption.SeperateFile:
-            case LogWriteOption.SeperateFolder:
-                foreach (var logType in logTypes)
+    private void LogWriteThread()
+    {
+        List<(string LogPath, string Message, LogOption Option)> logContents = new();
+
+        while (_cancellationToken.Token.IsCancellationRequested == false)
+        {
+            try
+            {
+                if (_logQueue.Count > 0)
                 {
-                    _logQueue.Add(logType, new BlockingCollection<(string LogPath, string Message)>());
-                    worker = new Thread(() => LogWriteThread(logType));
-                    worker.IsBackground = true;
-                    worker.Start();
-                    _workers.Add(worker);
+                    logContents.Add(_logQueue.Take(_cancellationToken.Token));
                 }
+                else if (logContents.Count != 0)
+                {
+                    Dump(logContents);
+                }
+                else
+                {
+                    logContents.Add(_logQueue.Take(_cancellationToken.Token));
+                }
+            }
+            catch (OperationCanceledException)
+            {
                 break;
-        }
-    }
-
-    internal static void WriteLog(string logType, string logPath, string message)
-    {
-        _logQueue[logType].Add((logPath, message));
-    }
-
-    private static void LogWriteThread(string logType)
-    {
-        List<(string LogPath, string Message)> logContents = new List<(string LogPath, string Message)>();
-
-        while (true)
-        {
-            if (_logQueue[logType].Count > 0)
-            {
-                logContents.Add(_logQueue[logType].Take());
-            }
-            else if (logContents.Count != 0)
-            {
-                Dump(logContents);
-            }
-            else
-            {
-                logContents.Add(_logQueue[logType].Take());
             }
         }
     }
 
-    private static void Dump(List<(string LogPath, string Message)> logContents)
+    private void Dump(List<(string LogPath, string Message, LogOption Option)> logContents)
     {
-        Dictionary<string, StringBuilder> writeContents = new Dictionary<string, StringBuilder>();
+        Dictionary<(string LogPath, LogOption Option), StringBuilder> writeContents = new();
 
         while (logContents.Count > 0)
         {
             string logPath = logContents[0].LogPath;
+            LogOption currentOption = logContents[0].Option;
             StringBuilder builder = new StringBuilder();
             int removeCount = 0;
 
             for (int index = 0; index < logContents.Count; index++)
             {
-                if (logContents[index].LogPath == logPath)
+                if (logContents[index].LogPath == logPath && logContents[index].Option == currentOption)
                 {
                     builder.Append(logContents[index].Message);
                     removeCount++;
@@ -93,57 +95,73 @@ internal static class LogWriter
                 }
             }
 
-            if (!writeContents.ContainsKey(logPath)) writeContents.Add(logPath, builder);
-            else writeContents[logPath].Append(builder);
+            if (!writeContents.ContainsKey((logPath, currentOption))) writeContents.Add((logPath, currentOption), builder);
+            else writeContents[(logPath, currentOption)].Append(builder);
 
             logContents.RemoveRange(0, removeCount);
         }
 
         foreach (var logItem in writeContents)
         {
-            if (_logSize == 0)
+            string logFilePath = GetAppenderName(logItem.Key.LogPath, logItem.Key.Option);
+            if (!_writeStreams.ContainsKey(logFilePath)) _writeStreams.Add(logFilePath, new(logFilePath, true));
+            _writeStreams[logFilePath].Write(logItem.Value);
+        }
+
+        if (_logQueue.Count == 0)
+        {
+            // Close all streams when nothing to write
+            foreach (var item in _writeStreams)
             {
-                File.AppendAllText(logItem.Key, logItem.Value.ToString());
+                item.Value.Close();
             }
-            else
-            {
-                File.AppendAllText(GetAppenderName(logItem.Key), logItem.Value.ToString());
-            }
+            _writeStreams.Clear();
+        }
+        else
+        {
+            // Go to next writing process
         }
     }
 
-    private static string GetAppenderName(string logfilePath)
+    private string GetAppenderName(string logfilePath, LogOption option)
     {
-        var fileInfos = DirectoryHelper.GetFileInfos(Path.GetDirectoryName(logfilePath)!);
-        var extractedInfos = fileInfos.ExtractFiles(logfilePath);
-
-        if (extractedInfos.Count == 0)
+        if (option.FileOption.LogFileSize == 0)
         {
             return logfilePath;
         }
         else
         {
-            int appenderIndex = 0;
+            var fileInfos = DirectoryHelper.GetFileInfos(Path.GetDirectoryName(logfilePath)!);
+            var extractedInfos = fileInfos.FindFiles(logfilePath);
 
-            foreach (var fileInfo in extractedInfos)
-            {
-                CheckAppenderIndex(fileInfo, ref appenderIndex);
-            }
-
-            if (appenderIndex == 0)
+            if (extractedInfos.Count == 0)
             {
                 return logfilePath;
             }
             else
             {
-                return @$"{Path.GetDirectoryName(logfilePath)}\{Path.GetFileNameWithoutExtension(logfilePath)}_{appenderIndex}.log";
+                int appenderIndex = 0;
+
+                foreach (var fileInfo in extractedInfos)
+                {
+                    CheckAppenderIndex(fileInfo, option, ref appenderIndex);
+                }
+
+                if (appenderIndex == 0)
+                {
+                    return logfilePath;
+                }
+                else
+                {
+                    return @$"{Path.GetDirectoryName(logfilePath)}\{Path.GetFileNameWithoutExtension(logfilePath)}_{appenderIndex}{Path.GetExtension(logfilePath)}";
+                }
             }
         }
     }
 
-    private static void CheckAppenderIndex(FileInfo logFile, ref int appenderIndex)
+    private void CheckAppenderIndex(FileInfo logFile, LogOption option, ref int appenderIndex)
     {
-        if ((uint)((double)logFile.Length / 1024 / 1024) >= _logSize)
+        if ((uint)Math.Round((double)logFile.Length / 1024) > option.FileOption.LogFileSize * 1024)
         {
             appenderIndex++;
         }

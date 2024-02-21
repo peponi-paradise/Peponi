@@ -1,0 +1,109 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageOutputPath>..\..\Nugets\</PackageOutputPath>
+    <Title>$(AssemblyName)</Title>
+    <Authors>Peponi</Authors>
+	<Owners>Peponi</Owners>
+    <Company>https://peponi-paradise.tistory.com</Company>
+    <PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
+    <PackageLicenseFile>Docs\LICENSE.md</PackageLicenseFile>
+    <PackageProjectUrl>https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Math</PackageProjectUrl>
+    <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
+    <Description>Peponi.Maths is a package for Mathematics.
+Including contents are:
+
+1. Coordinates
+    - Cartesian (2D &amp; 3D)
+    - Cylindrical
+    - Polar
+    - Spherical
+2. Numerical integrations
+    - Trapezoidal
+    - Midpoint
+    - Simpson's rule (1/3 &amp; 3/8)
+3. Moving Averages
+    - Simple moving average
+4. Unit conversion
+    - Angle
+    - Angular speed
+    - Area
+    - Dry volume
+    - Energy
+    - Force
+    - Length
+    - Prefix
+    - Pressure
+    - Speed
+    - Temperature
+    - Volume
+    - Weight
+5. Windowing
+    - Tumbling
+    - Sliding
+    - Hopping</Description>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
+    <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
+    <PackageTags>Peponi;Math;Coordinate;Numerical integration;Moving average;Unit conversion;Windowing</PackageTags>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Update="Docs\Img\CylindricalCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\HoppingWindow1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\HoppingWindow2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Midpoint.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\PolarCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SimpleMovingAverage.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Simpson1over3.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Simpson3over8.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SlidingWindow1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SlidingWindow2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\SphericalCoordinate.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\Trapezoidal.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\TumblingWindow1.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\Img\TumblingWindow2.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\LICENSE.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+    <None Update="Docs\README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>
