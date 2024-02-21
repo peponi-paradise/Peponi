@@ -164,30 +164,37 @@ internal class ColorProvider
         _resource[MaterialColor.OnPrimary] = ColorPalettes[TonalPalettes.Primary][100].ToMedia();
         _resource[MaterialColor.PrimaryContainer] = ColorPalettes[TonalPalettes.Primary][90].ToMedia();
         _resource[MaterialColor.OnPrimaryContainer] = ColorPalettes[TonalPalettes.Primary][10].ToMedia();
+
         _resource[MaterialColor.Secondary] = ColorPalettes[TonalPalettes.Secondary][40].ToMedia();
         _resource[MaterialColor.OnSecondary] = ColorPalettes[TonalPalettes.Secondary][100].ToMedia();
         _resource[MaterialColor.SecondaryContainer] = ColorPalettes[TonalPalettes.Secondary][90].ToMedia();
         _resource[MaterialColor.OnSecondaryContainer] = ColorPalettes[TonalPalettes.Secondary][10].ToMedia();
+
         _resource[MaterialColor.Tertiary] = ColorPalettes[TonalPalettes.Tertiary][40].ToMedia();
         _resource[MaterialColor.OnTertiary] = ColorPalettes[TonalPalettes.Tertiary][100].ToMedia();
         _resource[MaterialColor.TertiaryContainer] = ColorPalettes[TonalPalettes.Tertiary][90].ToMedia();
         _resource[MaterialColor.OnTertiaryContainer] = ColorPalettes[TonalPalettes.Tertiary][10].ToMedia();
+
         _resource[MaterialColor.Error] = ColorPalettes[TonalPalettes.Error][40].ToMedia();
         _resource[MaterialColor.OnError] = ColorPalettes[TonalPalettes.Error][100].ToMedia();
         _resource[MaterialColor.ErrorContainer] = ColorPalettes[TonalPalettes.Error][90].ToMedia();
         _resource[MaterialColor.OnErrorContainer] = ColorPalettes[TonalPalettes.Error][10].ToMedia();
+
         _resource[MaterialColor.PrimaryFixed] = ColorPalettes[TonalPalettes.Primary][90].ToMedia();
         _resource[MaterialColor.PrimaryFixedDim] = ColorPalettes[TonalPalettes.Primary][80].ToMedia();
         _resource[MaterialColor.OnPrimaryFixed] = ColorPalettes[TonalPalettes.Primary][10].ToMedia();
         _resource[MaterialColor.OnPrimaryFixedVariant] = ColorPalettes[TonalPalettes.Primary][30].ToMedia();
+
         _resource[MaterialColor.SecondaryFixed] = ColorPalettes[TonalPalettes.Secondary][90].ToMedia();
         _resource[MaterialColor.SecondaryFixedDim] = ColorPalettes[TonalPalettes.Secondary][80].ToMedia();
         _resource[MaterialColor.OnSecondaryFixed] = ColorPalettes[TonalPalettes.Secondary][10].ToMedia();
         _resource[MaterialColor.OnSecondaryFixedVariant] = ColorPalettes[TonalPalettes.Secondary][30].ToMedia();
+
         _resource[MaterialColor.TertiaryFixed] = ColorPalettes[TonalPalettes.Tertiary][90].ToMedia();
         _resource[MaterialColor.TertiaryFixedDim] = ColorPalettes[TonalPalettes.Tertiary][80].ToMedia();
         _resource[MaterialColor.OnTertiaryFixed] = ColorPalettes[TonalPalettes.Tertiary][10].ToMedia();
         _resource[MaterialColor.OnTertiaryFixedVariant] = ColorPalettes[TonalPalettes.Tertiary][30].ToMedia();
+
         _resource[MaterialColor.SurfaceDim] = ColorPalettes[TonalPalettes.Neutral][87].ToMedia();
         _resource[MaterialColor.Surface] = ColorPalettes[TonalPalettes.Neutral][98].ToMedia();
         _resource[MaterialColor.SurfaceBright] = ColorPalettes[TonalPalettes.Neutral][98].ToMedia();
@@ -200,6 +207,7 @@ internal class ColorProvider
         _resource[MaterialColor.OnSurfaceVariant] = ColorPalettes[TonalPalettes.NeutralVariant][30].ToMedia();
         _resource[MaterialColor.Outline] = ColorPalettes[TonalPalettes.NeutralVariant][50].ToMedia();
         _resource[MaterialColor.OutlineVariant] = ColorPalettes[TonalPalettes.NeutralVariant][80].ToMedia();
+
         _resource[MaterialColor.InverseSurface] = ColorPalettes[TonalPalettes.Neutral][20].ToMedia();
         _resource[MaterialColor.InverseOnSurface] = ColorPalettes[TonalPalettes.Neutral][95].ToMedia();
         _resource[MaterialColor.InversePrimary] = ColorPalettes[TonalPalettes.Primary][80].ToMedia();
@@ -215,30 +223,37 @@ internal class ColorProvider
         _resource[MaterialColor.OnPrimary] = ColorPalettes[TonalPalettes.Primary][20].ToMedia();
         _resource[MaterialColor.PrimaryContainer] = ColorPalettes[TonalPalettes.Primary][30].ToMedia();
         _resource[MaterialColor.OnPrimaryContainer] = ColorPalettes[TonalPalettes.Primary][90].ToMedia();
+
         _resource[MaterialColor.Secondary] = ColorPalettes[TonalPalettes.Secondary][80].ToMedia();
         _resource[MaterialColor.OnSecondary] = ColorPalettes[TonalPalettes.Secondary][20].ToMedia();
         _resource[MaterialColor.SecondaryContainer] = ColorPalettes[TonalPalettes.Secondary][30].ToMedia();
         _resource[MaterialColor.OnSecondaryContainer] = ColorPalettes[TonalPalettes.Secondary][90].ToMedia();
+
         _resource[MaterialColor.Tertiary] = ColorPalettes[TonalPalettes.Tertiary][80].ToMedia();
         _resource[MaterialColor.OnTertiary] = ColorPalettes[TonalPalettes.Tertiary][20].ToMedia();
         _resource[MaterialColor.TertiaryContainer] = ColorPalettes[TonalPalettes.Tertiary][30].ToMedia();
         _resource[MaterialColor.OnTertiaryContainer] = ColorPalettes[TonalPalettes.Tertiary][90].ToMedia();
+
         _resource[MaterialColor.Error] = ColorPalettes[TonalPalettes.Error][80].ToMedia();
         _resource[MaterialColor.OnError] = ColorPalettes[TonalPalettes.Error][20].ToMedia();
         _resource[MaterialColor.ErrorContainer] = ColorPalettes[TonalPalettes.Error][30].ToMedia();
         _resource[MaterialColor.OnErrorContainer] = ColorPalettes[TonalPalettes.Error][90].ToMedia();
+
         _resource[MaterialColor.PrimaryFixed] = ColorPalettes[TonalPalettes.Primary][90].ToMedia();
         _resource[MaterialColor.PrimaryFixedDim] = ColorPalettes[TonalPalettes.Primary][80].ToMedia();
         _resource[MaterialColor.OnPrimaryFixed] = ColorPalettes[TonalPalettes.Primary][10].ToMedia();
         _resource[MaterialColor.OnPrimaryFixedVariant] = ColorPalettes[TonalPalettes.Primary][30].ToMedia();
+
         _resource[MaterialColor.SecondaryFixed] = ColorPalettes[TonalPalettes.Secondary][90].ToMedia();
         _resource[MaterialColor.SecondaryFixedDim] = ColorPalettes[TonalPalettes.Secondary][80].ToMedia();
         _resource[MaterialColor.OnSecondaryFixed] = ColorPalettes[TonalPalettes.Secondary][10].ToMedia();
         _resource[MaterialColor.OnSecondaryFixedVariant] = ColorPalettes[TonalPalettes.Secondary][30].ToMedia();
+
         _resource[MaterialColor.TertiaryFixed] = ColorPalettes[TonalPalettes.Tertiary][90].ToMedia();
         _resource[MaterialColor.TertiaryFixedDim] = ColorPalettes[TonalPalettes.Tertiary][80].ToMedia();
         _resource[MaterialColor.OnTertiaryFixed] = ColorPalettes[TonalPalettes.Tertiary][10].ToMedia();
         _resource[MaterialColor.OnTertiaryFixedVariant] = ColorPalettes[TonalPalettes.Tertiary][30].ToMedia();
+
         _resource[MaterialColor.SurfaceDim] = ColorPalettes[TonalPalettes.Neutral][6].ToMedia();
         _resource[MaterialColor.Surface] = ColorPalettes[TonalPalettes.Neutral][6].ToMedia();
         _resource[MaterialColor.SurfaceBright] = ColorPalettes[TonalPalettes.Neutral][24].ToMedia();
@@ -251,6 +266,7 @@ internal class ColorProvider
         _resource[MaterialColor.OnSurfaceVariant] = ColorPalettes[TonalPalettes.NeutralVariant][80].ToMedia();
         _resource[MaterialColor.Outline] = ColorPalettes[TonalPalettes.NeutralVariant][60].ToMedia();
         _resource[MaterialColor.OutlineVariant] = ColorPalettes[TonalPalettes.NeutralVariant][30].ToMedia();
+
         _resource[MaterialColor.InverseSurface] = ColorPalettes[TonalPalettes.Neutral][90].ToMedia();
         _resource[MaterialColor.InverseOnSurface] = ColorPalettes[TonalPalettes.Neutral][20].ToMedia();
         _resource[MaterialColor.InversePrimary] = ColorPalettes[TonalPalettes.Primary][40].ToMedia();
