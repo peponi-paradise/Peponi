@@ -11,6 +11,8 @@
     - [2.3. Peponi.Logger](#23-peponilogger)
     - [2.4. Peponi.Maths](#24-peponimaths)
     - [2.5. Peponi.SourceGenerators](#25-peponisourcegenerators)
+    - [2.6. Peponi.MaterialDesign3.WPF](#26-peponimaterialdesign3wpf)
+    - [2.7. Peponi.Google.MaterialColorUtilities](#27-peponigooglematerialcolorutilities)
 
 
 ## 1. Instruction
@@ -183,3 +185,35 @@ Including generators are:
 
 - Install : `NuGet\Install-Package Peponi.SourceGenerators`
 - Git : [Peponi.SourceGenerators](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators)
+
+
+### 2.6. Peponi.MaterialDesign3.WPF
+
+
+```text
+Peponi.MaterialDesign3.WPF is a package for implementing Material design 3 of google.
+Contents are:
+
+1. Colors
+	- Getting colors using DynamicResource, StaticResource
+2. Fonts
+	- Getting Font family, size, weight, line height using DynamicResource, StaticResource
+```
+
+- Install : `Nuget\Install-Package Peponi.MaterialDesign3.WPF`
+- Git : [Peponi.MaterialDesign3.WPF](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3.WPF)
+
+
+### 2.7. Peponi.Google.MaterialColorUtilities
+
+
+```text
+Peponi.Google.MaterialColorUtilities is a package for implementing Material design 3 color of google.
+
+This project is originated from material-color-utilities (https://github.com/material-foundation/material-color-utilities)
+
+Most parts of original library are removed except getting tonal spot.
+```
+
+- Install : `Nuget\Install-Package Peponi.Google.MaterialColorUtilities`
+- Git : [Peponi.Google.MaterialColorUtilities](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Google.MaterialColorUtilities)
