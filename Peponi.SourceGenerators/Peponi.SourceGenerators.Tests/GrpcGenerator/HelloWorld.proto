@@ -1,0 +1,14 @@
+﻿syntax = "proto3";
+
+package HelloWorld;
+
+service HelloWorldCommunication
+{
+	rpc HelloRequest(CommunicationMessage) returns (CommunicationMessage);
+}
+
+message CommunicationMessage
+{
+	string Sender = 1;
+	string Message = 2;
+}

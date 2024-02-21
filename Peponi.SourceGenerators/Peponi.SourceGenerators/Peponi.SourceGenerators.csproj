@@ -24,10 +24,12 @@ Including generators are:
 4. INotifyPropertyChanged
 5. Property
 6. Raise can execute
-7. Raise property changed</Description>
-    <Copyright>Copyright (c) 2023 peponi</Copyright>
+7. Raise property changed
+8. gRPC Client
+9. gRPC Server</Description>
+    <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
-    <PackageTags>Peponi;Source generator;Code generator</PackageTags>
+    <PackageTags>Peponi;Source;Code;Generator;MVVM;Property;Inject;INotifyPropertyChanged;Command;gRPC</PackageTags>
   </PropertyGroup>
 
 	<ItemGroup>
