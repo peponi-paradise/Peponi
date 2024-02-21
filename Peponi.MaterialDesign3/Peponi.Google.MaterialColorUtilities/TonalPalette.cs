@@ -16,7 +16,7 @@
 
 using System.Drawing;
 
-namespace Google.MaterialColorUtilities;
+namespace Peponi.Google.MaterialColorUtilities;
 
 public enum TonalPalettes
 {

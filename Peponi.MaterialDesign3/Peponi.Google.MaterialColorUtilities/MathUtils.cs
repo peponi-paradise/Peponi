@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-namespace Google.MaterialColorUtilities;
+namespace Peponi.Google.MaterialColorUtilities;
 
 internal static class MathUtils
 {

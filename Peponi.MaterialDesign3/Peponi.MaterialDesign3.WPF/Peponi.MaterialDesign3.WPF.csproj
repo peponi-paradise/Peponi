@@ -32,8 +32,11 @@ Contents are:
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <ProjectReference Include="..\Peponi.Google.MaterialColorUtilities\Peponi.Google.MaterialColorUtilities.csproj" />
+	</ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\Google.MaterialColorUtilities\Google.MaterialColorUtilities.csproj" />
     <None Update="Docs\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>

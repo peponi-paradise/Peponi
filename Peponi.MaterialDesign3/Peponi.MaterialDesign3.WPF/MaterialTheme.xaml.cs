@@ -1,4 +1,4 @@
-﻿using Google.MaterialColorUtilities;
+﻿using Peponi.Google.MaterialColorUtilities;
 using Peponi.MaterialDesign3.WPF.ThemeProvider;
 using System.ComponentModel;
 using System.Windows;
