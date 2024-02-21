@@ -1,5 +1,5 @@
 ﻿using Google.MaterialColorUtilities;
-using Peponi.MaterialDesign3.WPF.ColorProvider;
+using Peponi.MaterialDesign3.WPF.ThemeProvider;
 using System.ComponentModel;
 using System.Windows;
 using System.Windows.Media;
@@ -157,7 +157,8 @@ public partial class MaterialTheme : ResourceDictionary
 #pragma warning restore CS0618
     public static MaterialTheme Current => _current;
 
-    private ColorProvider.ColorProvider _colorProvider;
+    private ColorProvider _colorProvider;
+    private FontProvider _fontProvider;
 
     [Obsolete("Intended to internal use of library")]
     public MaterialTheme()
@@ -166,14 +167,15 @@ public partial class MaterialTheme : ResourceDictionary
         _current = this;
 
         _colorProvider = new(_current, Primary, Secondary, Tertiary);
-
-        SetDefaultFonts();
+        _fontProvider = new FontProvider(_current);
     }
 
     /// <inheritdoc cref="ColorProvider.SetPalettes(Color, Color?, Color?)"/>
     public void SetPalettes(Color primary)
     {
         _pri = primary;
+        _sec = null;
+        _ter = null;
         _colorProvider.SetPalettes(primary, null, null);
     }
 
@@ -225,12 +227,5 @@ public partial class MaterialTheme : ResourceDictionary
         }
 
         return true;
-    }
-
-    private void SetDefaultFonts()
-    {
-        _current[MaterialFont.FontFamily] = this[MaterialFont.DefaultFontFamily.RobotoFlex];
-        _current[MaterialFont.SecondaryFontFamily] = this[MaterialFont.DefaultFontFamily.RobotoSerif];
-        _current[MaterialFont.TertiaryFontFamily] = this[MaterialFont.DefaultFontFamily.Pretendard];
     }
 }

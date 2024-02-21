@@ -26,15 +26,16 @@ public static class FontHelper
 
     /// <summary>
     /// Gets font family by given name and uri<br/>
+    /// Uri requires absolute path
     /// </summary>
     /// <param name="name"></param>
-    /// <param name="uri"></param>
+    /// <param name="uri">Absolute path</param>
     /// <returns>null if failed to create instance</returns>
     public static FontFamily? GetFontFamily(string name, string uri)
     {
         try
         {
-            return new(new Uri(uri), name);
+            return new(new Uri(uri, UriKind.Absolute), name);
         }
         catch
         {

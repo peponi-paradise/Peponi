@@ -22,9 +22,9 @@
 Contents are:
 
 1. Colors
-   - Getting colors using DynamicResource
+	- Getting colors using DynamicResource, StaticResource
 2. Fonts
-   - Getting Font family, size, weight, line height using DynamicResource
+	- Getting Font family, size, weight, line height using DynamicResource, StaticResource
 	  </Description>
   </PropertyGroup>
 
@@ -44,9 +44,9 @@ Contents are:
       <PackagePath>\</PackagePath>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-    <Resource Include="Fonts\Pretendard.ttf" />
-    <Resource Include="Fonts\RobotoFlex.ttf" />
-    <Resource Include="Fonts\RobotoSerif.ttf" />
+    <Resource Include="ThemeProvider\Pretendard.ttf" />
+    <Resource Include="ThemeProvider\RobotoFlex.ttf" />
+    <Resource Include="ThemeProvider\RobotoSerif.ttf" />
   </ItemGroup>
 
 </Project>

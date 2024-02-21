@@ -149,7 +149,7 @@
     <sys:Double x:Key="LineHeight.BodySmall">16</sys:Double>
     <FontWeight x:Key="FontWeight.BodySmall">Regular</FontWeight>
 
-    <FontFamily x:Key="Pretendard">./Fonts/#Pretendard Variable</FontFamily>
-    <FontFamily x:Key="RobotoFlex">./Fonts/#Roboto Flex Normal</FontFamily>
-    <FontFamily x:Key="RobotoSerif">./Fonts/#Roboto Serif 20pt</FontFamily>
+    <FontFamily x:Key="RobotoFlex">./ThemeProvider/#Roboto Flex Normal</FontFamily>
+    <FontFamily x:Key="RobotoSerif">./ThemeProvider/#Roboto Serif 20pt</FontFamily>
+    <FontFamily x:Key="Pretendard">./ThemeProvider/#Pretendard Variable</FontFamily>
 </ResourceDictionary>

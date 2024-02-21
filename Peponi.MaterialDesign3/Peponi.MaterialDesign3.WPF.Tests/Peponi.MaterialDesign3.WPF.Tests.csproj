@@ -9,6 +9,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Pretendard.ttf" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Peponi.SourceGenerators" Version="1.0.0" />
     <PackageReference Include="Prism.Core" Version="8.1.97" />
     <PackageReference Include="Prism.DryIoc" Version="8.1.97" />
@@ -17,6 +21,18 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Peponi.MaterialDesign3.WPF\Peponi.MaterialDesign3.WPF.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Pretendard.ttf">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Page Update="MaterialThemeSetting.xaml">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Page>
   </ItemGroup>
 
 </Project>
