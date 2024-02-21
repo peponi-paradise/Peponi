@@ -74,18 +74,23 @@ NuGet\Install-Package Peponi.FreeSpaceManagement
 
 
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |string|RootPath|File management base folder|
     |int|DiskPreservePercent|Minimum free space %|
     |bool|IsRunning|Indicates manager thread is running|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |FreeSpaceManager|FreeSpaceManager(string, int)|Default constructor|
     |void|StartManager()|Start manager thread|
     |void|StopManager()|Stop manager thread|
+
 3. Example
+
     ```cs
     using Peponi.StorageManagement;
 
