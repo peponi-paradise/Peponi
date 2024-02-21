@@ -94,16 +94,20 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Members
+
     |Type|Name|Description|
     |-------|-------|-------|
     |T|Instance|Singleton instance|
+
 2. Example
+
     ```cs
     public class TestClass
     {
         public int X = 0;
     }
     ```
+
     ```cs
     Console.WriteLine(Singleton<TestClass>.Instance.X++);
     Console.WriteLine(Singleton<TestClass>.Instance.X++);
@@ -127,6 +131,7 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |void|CreateDirectory(string)|Create directory|
@@ -137,7 +142,9 @@ NuGet\Install-Package Peponi.Core
     |List\<FileInfo>|GetFileInfos(string)|Return file infos for given directory|
     |List\<FileInfo>|GetFileInfosIncludingSubDirectories(string)|Return file infos including sub directories|
     |List\<FileInfo>|FindFiles(this List\<FileInfo>,string)|Returns files with the specified name|
+
 2. Example
+
     ```cs
     using Peponi.Core.Utility.Helpers;
 
@@ -184,12 +191,15 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |void|CopyAllFieldsAndProperties\<T>(in T, in T)|Copy all fields and properties|
     |bool|GetParameter\<T>(string, ref T, object)|Get the field or property value|
     |bool|SetParameter\<T>(string, T, object)|Set the field or property value|
+
 2. Example
+
     ```cs
     public class CartesianCoordinate
     {
@@ -207,6 +217,7 @@ NuGet\Install-Package Peponi.Core
         }
     }
     ```
+
     ```cs
     public class Program
     {
@@ -233,11 +244,14 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |bool|Execute(string)|Execute process|
     |void|Terminate(string)|Terminate process|
+
 2. Example
+
     ```cs
     public class Program
     {
@@ -257,13 +271,16 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |void|AppendCurrentUser(string, string, string)|Append registry value under `HKEY_CURRENT_USER`|
     |string?|GetCurrentUser(string, string)|Get value from `HKEY_CURRENT_USER`|
     |void|AppendLocalMachine(string, string, string)|Append registry value under `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
     |string?|GetLocalMachine(string, string)|Get value from `HKEY_LOCAL_MACHINE`<br/>This need Admin access authority|
+
 2. Example
+
     ```cs
     public class Program
     {
@@ -283,12 +300,15 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |double|GetDiskSizeGB(string)|Get total disk size|
     |double|GetFreeSpaceGB(string)|Get free space size of disk|
     |int|GetFreeSpacePercent(string)|Get free space size of disk|
+
 2. Example
+
     ```cs
     public class Program
     {
@@ -306,10 +326,13 @@ NuGet\Install-Package Peponi.Core
 
 
 1. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |void|Dump()|Write dump|
+
 2. Example
+
     ```cs
     public class Program
     {
