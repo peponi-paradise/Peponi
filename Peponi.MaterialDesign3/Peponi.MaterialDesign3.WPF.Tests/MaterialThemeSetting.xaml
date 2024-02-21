@@ -1,0 +1,154 @@
+﻿<ResourceDictionary
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:sys="clr-namespace:System;assembly=System.Runtime">
+    <Color x:Key="Color.Primary" />
+    <Color x:Key="Color.OnPrimary" />
+    <Color x:Key="Color.PrimaryContainer" />
+    <Color x:Key="Color.OnPrimaryContainer" />
+    <Color x:Key="Color.Secondary" />
+    <Color x:Key="Color.OnSecondary" />
+    <Color x:Key="Color.SecondaryContainer" />
+    <Color x:Key="Color.OnSecondaryContainer" />
+    <Color x:Key="Color.Tertiary" />
+    <Color x:Key="Color.OnTertiary" />
+    <Color x:Key="Color.TertiaryContainer" />
+    <Color x:Key="Color.OnTertiaryContainer" />
+    <Color x:Key="Color.Error" />
+    <Color x:Key="Color.OnError" />
+    <Color x:Key="Color.ErrorContainer" />
+    <Color x:Key="Color.OnErrorContainer" />
+    <Color x:Key="Color.PrimaryFixed" />
+    <Color x:Key="Color.PrimaryFixedDim" />
+    <Color x:Key="Color.OnPrimaryFixed" />
+    <Color x:Key="Color.OnPrimaryFixedVariant" />
+    <Color x:Key="Color.SecondaryFixed" />
+    <Color x:Key="Color.SecondaryFixedDim" />
+    <Color x:Key="Color.OnSecondaryFixed" />
+    <Color x:Key="Color.OnSecondaryFixedVariant" />
+    <Color x:Key="Color.TertiaryFixed" />
+    <Color x:Key="Color.TertiaryFixedDim" />
+    <Color x:Key="Color.OnTertiaryFixed" />
+    <Color x:Key="Color.OnTertiaryFixedVariant" />
+    <Color x:Key="Color.SurfaceDim" />
+    <Color x:Key="Color.Surface" />
+    <Color x:Key="Color.SurfaceBright" />
+    <Color x:Key="Color.SurfaceContainerLowest" />
+    <Color x:Key="Color.SurfaceContainerLow" />
+    <Color x:Key="Color.SurfaceContainer" />
+    <Color x:Key="Color.SurfaceContainerHigh" />
+    <Color x:Key="Color.SurfaceContainerHighest" />
+    <Color x:Key="Color.OnSurface" />
+    <Color x:Key="Color.OnSurfaceVariant" />
+    <Color x:Key="Color.Outline" />
+    <Color x:Key="Color.OutlineVariant" />
+    <Color x:Key="Color.InverseSurface" />
+    <Color x:Key="Color.InverseOnSurface" />
+    <Color x:Key="Color.InversePrimary" />
+    <Color x:Key="Color.Scrim" />
+    <Color x:Key="Color.Shadow" />
+
+    <SolidColorBrush x:Key="Brush.Primary" Color="#FFA5A128" />
+    <SolidColorBrush x:Key="Brush.OnPrimary" Color="Red" />
+    <SolidColorBrush x:Key="Brush.PrimaryContainer" />
+    <SolidColorBrush x:Key="Brush.OnPrimaryContainer" />
+    <SolidColorBrush x:Key="Brush.Secondary" />
+    <SolidColorBrush x:Key="Brush.OnSecondary" />
+    <SolidColorBrush x:Key="Brush.SecondaryContainer" />
+    <SolidColorBrush x:Key="Brush.OnSecondaryContainer" />
+    <SolidColorBrush x:Key="Brush.Tertiary" />
+    <SolidColorBrush x:Key="Brush.OnTertiary" />
+    <SolidColorBrush x:Key="Brush.TertiaryContainer" />
+    <SolidColorBrush x:Key="Brush.OnTertiaryContainer" />
+    <SolidColorBrush x:Key="Brush.Error" Color="#FF001BFF" />
+    <SolidColorBrush x:Key="Brush.OnError" />
+    <SolidColorBrush x:Key="Brush.ErrorContainer" />
+    <SolidColorBrush x:Key="Brush.OnErrorContainer" />
+    <SolidColorBrush x:Key="Brush.PrimaryFixed" />
+    <SolidColorBrush x:Key="Brush.PrimaryFixedDim" />
+    <SolidColorBrush x:Key="Brush.OnPrimaryFixed" />
+    <SolidColorBrush x:Key="Brush.OnPrimaryFixedVariant" />
+    <SolidColorBrush x:Key="Brush.SecondaryFixed" />
+    <SolidColorBrush x:Key="Brush.SecondaryFixedDim" />
+    <SolidColorBrush x:Key="Brush.OnSecondaryFixed" />
+    <SolidColorBrush x:Key="Brush.OnSecondaryFixedVariant" />
+    <SolidColorBrush x:Key="Brush.TertiaryFixed" />
+    <SolidColorBrush x:Key="Brush.TertiaryFixedDim" />
+    <SolidColorBrush x:Key="Brush.OnTertiaryFixed" />
+    <SolidColorBrush x:Key="Brush.OnTertiaryFixedVariant" />
+    <SolidColorBrush x:Key="Brush.SurfaceDim" />
+    <SolidColorBrush x:Key="Brush.Surface" />
+    <SolidColorBrush x:Key="Brush.SurfaceBright" />
+    <SolidColorBrush x:Key="Brush.SurfaceContainerLowest" />
+    <SolidColorBrush x:Key="Brush.SurfaceContainerLow" />
+    <SolidColorBrush x:Key="Brush.SurfaceContainer" />
+    <SolidColorBrush x:Key="Brush.SurfaceContainerHigh" />
+    <SolidColorBrush x:Key="Brush.SurfaceContainerHighest" />
+    <SolidColorBrush x:Key="Brush.OnSurface" />
+    <SolidColorBrush x:Key="Brush.OnSurfaceVariant" />
+    <SolidColorBrush x:Key="Brush.Outline" />
+    <SolidColorBrush x:Key="Brush.OutlineVariant" />
+    <SolidColorBrush x:Key="Brush.InverseSurface" />
+    <SolidColorBrush x:Key="Brush.InverseOnSurface" />
+    <SolidColorBrush x:Key="Brush.InversePrimary" />
+    <SolidColorBrush x:Key="Brush.Scrim" />
+    <SolidColorBrush x:Key="Brush.Shadow" />
+
+    <FontFamily x:Key="FontFamily">Consolas</FontFamily>
+    <FontFamily x:Key="SecondaryFontFamily" />
+    <FontFamily x:Key="TertiaryFontFamily" />
+
+    <sys:Double x:Key="FontSize.DisplayLarge">57</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplayLarge">64</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplayLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.DisplayMedium">45</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplayMedium">52</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplayMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.DisplaySmall">36</sys:Double>
+    <sys:Double x:Key="LineHeight.DisplaySmall">44</sys:Double>
+    <FontWeight x:Key="FontWeight.DisplaySmall">Regular</FontWeight>
+
+    <sys:Double x:Key="FontSize.HeadlineLarge">32</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineLarge">40</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.HeadlineMedium">28</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineMedium">36</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.HeadlineSmall">24</sys:Double>
+    <sys:Double x:Key="LineHeight.HeadlineSmall">32</sys:Double>
+    <FontWeight x:Key="FontWeight.HeadlineSmall">Regular</FontWeight>
+
+    <sys:Double x:Key="FontSize.TitleLarge">22</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleLarge">28</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.TitleMedium">16</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleMedium">24</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleMedium">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.TitleSmall">14</sys:Double>
+    <sys:Double x:Key="LineHeight.TitleSmall">20</sys:Double>
+    <FontWeight x:Key="FontWeight.TitleSmall">Medium</FontWeight>
+
+    <sys:Double x:Key="FontSize.LabelLarge">14</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelLarge">20</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelLarge">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.LabelMedium">12</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelMedium">16</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelMedium">Medium</FontWeight>
+    <sys:Double x:Key="FontSize.LabelSmall">11</sys:Double>
+    <sys:Double x:Key="LineHeight.LabelSmall">16</sys:Double>
+    <FontWeight x:Key="FontWeight.LabelSmall">Medium</FontWeight>
+
+    <sys:Double x:Key="FontSize.BodyLarge">16</sys:Double>
+    <sys:Double x:Key="LineHeight.BodyLarge">24</sys:Double>
+    <FontWeight x:Key="FontWeight.BodyLarge">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.BodyMedium">14</sys:Double>
+    <sys:Double x:Key="LineHeight.BodyMedium">20</sys:Double>
+    <FontWeight x:Key="FontWeight.BodyMedium">Regular</FontWeight>
+    <sys:Double x:Key="FontSize.BodySmall">12</sys:Double>
+    <sys:Double x:Key="LineHeight.BodySmall">16</sys:Double>
+    <FontWeight x:Key="FontWeight.BodySmall">Regular</FontWeight>
+
+    <FontFamily x:Key="Pretendard">./ThemeProvider/#Pretendard Variable</FontFamily>
+    <FontFamily x:Key="RobotoFlex">./ThemeProvider/#Roboto Flex Normal</FontFamily>
+    <FontFamily x:Key="RobotoSerif">./ThemeProvider/#Roboto Serif 20pt</FontFamily>
+</ResourceDictionary>
