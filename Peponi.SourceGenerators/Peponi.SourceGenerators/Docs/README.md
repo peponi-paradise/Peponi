@@ -41,6 +41,8 @@ Including generators are:
 5. Property
 6. Raise can execute
 7. Raise property changed
+8. gRPC Client
+9. gRPC Server
 ```
 
 
@@ -50,7 +52,7 @@ Including generators are:
 ```text
 The MIT License (MIT)
 
-Copyright (c) 2023 peponi
+Copyright (c) 2024 peponi
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal

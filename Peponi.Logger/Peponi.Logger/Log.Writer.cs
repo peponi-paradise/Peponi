@@ -132,7 +132,7 @@ internal class LogWriter
         else
         {
             var fileInfos = DirectoryHelper.GetFileInfos(Path.GetDirectoryName(logfilePath)!);
-            var extractedInfos = fileInfos.ExtractFiles(logfilePath);
+            var extractedInfos = fileInfos.FindFiles(logfilePath);
 
             if (extractedInfos.Count == 0)
             {

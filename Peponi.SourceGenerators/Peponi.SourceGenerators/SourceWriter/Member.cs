@@ -318,7 +318,7 @@ internal static partial class SourceWriterExtension
                 foreach (var service in data.ServiceNames)
                 {
                     builder.WriteMemberComment();
-                    builder.AppendLine($"private {service}.{service}Client _{service}");
+                    builder.AppendLine($"private {service}.{service}Client _{service};");
                 }
             }
 

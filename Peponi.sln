@@ -11,7 +11,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Logger", "Peponi.Log
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Maths", "Peponi.Maths\Peponi.Maths\Peponi.Maths.csproj", "{17DEEF74-8E90-49ED-AECD-832355049024}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.StorageManagement", "Peponi.StorageManagement\Peponi.StorageManagement\Peponi.StorageManagement.csproj", "{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.FreeSpaceManagement", "Peponi.FreeSpaceManagement\Peponi.FreeSpaceManagement\Peponi.FreeSpaceManagement.csproj", "{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.MaterialDesign3.WPF", "Peponi.MaterialDesign3\Peponi.MaterialDesign3.WPF\Peponi.MaterialDesign3.WPF.csproj", "{328E633A-14CC-4515-BC0B-536B653F2B3C}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Peponi.Google.MaterialColorUtilities", "Peponi.MaterialDesign3\Peponi.Google.MaterialColorUtilities\Peponi.Google.MaterialColorUtilities.csproj", "{039463E4-4850-42D2-B629-5E611FCA9146}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +43,14 @@ Global
 		{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81C21FF1-7C07-447E-8ECA-042DDAC6AF13}.Release|Any CPU.Build.0 = Release|Any CPU
+		{328E633A-14CC-4515-BC0B-536B653F2B3C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{328E633A-14CC-4515-BC0B-536B653F2B3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{328E633A-14CC-4515-BC0B-536B653F2B3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{328E633A-14CC-4515-BC0B-536B653F2B3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{039463E4-4850-42D2-B629-5E611FCA9146}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{039463E4-4850-42D2-B629-5E611FCA9146}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{039463E4-4850-42D2-B629-5E611FCA9146}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{039463E4-4850-42D2-B629-5E611FCA9146}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
