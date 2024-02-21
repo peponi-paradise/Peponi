@@ -29,7 +29,7 @@ public enum ColorMode
 
 public partial class MaterialTheme : ResourceDictionary
 {
-    private Color _pri = Color.FromRgb(0x75, 0x75, 0x75);
+    private Color _pri = Color.FromRgb(0x00, 0xA3, 0xE3);
 
     [Description("Primary color of palette"), Category("Material color")]
     public Color Primary

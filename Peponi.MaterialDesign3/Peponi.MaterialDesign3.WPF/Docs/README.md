@@ -155,7 +155,7 @@ Nuget\Install-Package Peponi.MaterialDesign3.WPF
         - SecondaryFontFamily : Roboto Serif
         - TertiaryFontFamily : Pretendard
 - Default tonal palette is same as following image
-    - Default key color : #757575
+    - Default key color : #00A3E3
     ![defaultTonalPalette](DefaultTonalPalette.PNG)
 
 
