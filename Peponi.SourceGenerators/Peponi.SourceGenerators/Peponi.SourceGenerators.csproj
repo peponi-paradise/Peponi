@@ -30,6 +30,23 @@ Including generators are:
     <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
     <PackageTags>Peponi;Source;Code;Generator;MVVM;Property;Inject;INotifyPropertyChanged;Command;gRPC</PackageTags>
+	  <Version>1.0.1</Version>
+	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
+	  <PackageReleaseNotes>
+Version 1.0.1:
+	- Fix comments error
+
+Version 1.0.0:
+	- Initial upload
+	  </PackageReleaseNotes>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 
 	<ItemGroup>

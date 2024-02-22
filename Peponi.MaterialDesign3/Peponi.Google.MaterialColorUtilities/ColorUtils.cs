@@ -93,8 +93,8 @@ internal static class ColorUtils
     /// Linearizes an RGB component.
     /// </para>
     /// </summary>
-    /// <param name="channel">0 <= rgb_component <= 255, represents R/G/B channel</param>
-    /// <returns>0.0 <= output <= 100.0, color channel converted to linear RGB space</returns>
+    /// <param name="channel">0 &lt;= rgb_component &lt;= 255, represents R/G/B channel</param>
+    /// <returns>0.0 &lt;= output &lt;= 100.0, color channel converted to linear RGB space</returns>
     public static double Linearized(this byte channel)
     {
         double normalized = channel / 255.0;
@@ -110,8 +110,8 @@ internal static class ColorUtils
     /// Delinearizes an RGB component.
     /// </para>
     /// </summary>
-    /// <param name="rgbComponent">0.0 <= rgb_component <= 100.0, represents linear R/G/B channel</param>
-    /// <returns>0 <= output <= 255, color channel converted to regular RGB space</returns>
+    /// <param name="rgbComponent">0.0 &lt;= rgb_component &lt;= 100.0, represents linear R/G/B channel</param>
+    /// <returns>0 &lt;= output &lt;= 255, color channel converted to regular RGB space</returns>
     public static int Delinearized(this double rgbComponent)
     {
         double normalized = rgbComponent / 100.0;

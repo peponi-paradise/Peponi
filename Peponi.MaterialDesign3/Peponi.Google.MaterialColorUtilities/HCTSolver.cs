@@ -378,8 +378,8 @@ internal static class HCTSolver
     /// Delinearizes an RGB component, returning a floating-point number.
     /// </para>
     /// </summary>
-    /// <param name="rgbComponent">0.0 <= rgb_component <= 100.0, represents linear R/G/B channel</param>
-    /// <returns>0.0 <= output <= 255.0, color channel converted to regular RGB space</returns>
+    /// <param name="rgbComponent">0.0 &lt;= rgb_component &lt;= 100.0, represents linear R/G/B channel</param>
+    /// <returns>0.0 &lt;= output &lt;= 255.0, color channel converted to regular RGB space</returns>
     private static double TrueDelinearized(double rgbComponent)
     {
         double normalized = rgbComponent / 100.0;
