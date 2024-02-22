@@ -4,49 +4,69 @@ namespace Peponi.Maths.Windowing;
 
 public static partial class SlidingWindows
 {
-    /// <inheritdoc cref="ToSlidingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
+    /// <inheritdoc cref="ToSlidingWindows(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static IEnumerable<IEnumerable<DateTime>> ToSlidingWindows(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize)
     {
         return ToSlidingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
+    /// <inheritdoc cref="ToSlidingWindows(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToSlidingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, TimeSpan windowSize)
     {
         return Task.Run(() => ToSlidingWindows(datas, startTime, windowSize));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
+    /// <summary>
+    /// Compute sliding windows
+    /// </summary>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static IEnumerable<IEnumerable<DateTime>> ToSlidingWindows(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
     {
         return ToSlidingWindowsCore(datas, startTime, endTime, windowSize);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
+    /// <inheritdoc cref="ToSlidingWindows(IEnumerable{DateTime}, DateTime, DateTime, TimeSpan)"/>
     public static Task<IEnumerable<IEnumerable<DateTime>>> ToSlidingWindowsAsync(IEnumerable<DateTime> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize)
     {
         return Task.Run(() => ToSlidingWindows(datas, startTime, endTime, windowSize));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static IEnumerable<IEnumerable<V>> ToSlidingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToSlidingWindowsCore(datas, startTime, DateTime.MaxValue, windowSize, dateTimeSelector, dataSelector);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToSlidingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startTime, windowSize, dateTimeSelector, dataSelector));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
+    /// <summary>
+    /// Compute sliding windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="endTime">startTime + windowSize &lt;= endTime</param>
+    /// <param name="windowSize">Bigger than TimeSpan.Zero</param>
+    /// <param name="dateTimeSelector">DateTime select function</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
     public static IEnumerable<IEnumerable<V>> ToSlidingWindows<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return ToSlidingWindowsCore(datas, startTime, endTime, windowSize, dateTimeSelector, dataSelector);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, DateTime, DateTime, TimeSpan, Func{T, DateTime}, Func{T, V})"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToSlidingWindowsAsync<T, V>(IEnumerable<T> datas, DateTime startTime, DateTime endTime, TimeSpan windowSize, Func<T, DateTime> dateTimeSelector, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startTime, endTime, windowSize, dateTimeSelector, dataSelector));

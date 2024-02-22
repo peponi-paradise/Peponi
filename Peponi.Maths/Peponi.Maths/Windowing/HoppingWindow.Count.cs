@@ -8,73 +8,98 @@
 /// </remarks>
 public static partial class HoppingWindows
 {
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas: datas, windowSize: windowSize, hoppingStep: hoppingStep);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, windowSize, hoppingStep));
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, hoppingStep: hoppingStep);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, windowSize, hoppingStep));
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<IEnumerable<T>> ToHoppingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return ToHoppingWindowsCore(datas, startPosition, endPosition, windowSize, hoppingStep);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T}(IEnumerable{T}, uint, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToHoppingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep) where T : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, endPosition, windowSize, hoppingStep));
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas: datas, windowSize: windowSize, hoppingStep: hoppingStep, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, windowSize, hoppingStep, dataSelector));
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, hoppingStep: hoppingStep, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, windowSize, hoppingStep, dataSelector));
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <summary>
+    /// Compute hopping windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="hoppingStep">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static IEnumerable<IEnumerable<V>> ToHoppingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return ToHoppingWindowsCore(datas, startPosition, endPosition, windowSize, hoppingStep, dataSelector);
     }
 
-    /// <inheritdoc cref="ToHoppingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToHoppingWindows{T, V}(IEnumerable{T}, uint, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToHoppingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, uint hoppingStep, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToHoppingWindows(datas, startPosition, endPosition, windowSize, hoppingStep, dataSelector));

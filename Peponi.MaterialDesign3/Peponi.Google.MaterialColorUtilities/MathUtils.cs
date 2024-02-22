@@ -29,7 +29,7 @@ internal static class MathUtils
     /// <param name="min"></param>
     /// <param name="max"></param>
     /// <param name="input"></param>
-    /// <returns>input when min <= input <= max, and either min or max otherwise.</returns>
+    /// <returns>input when min &lt;= input &lt;= max, and either min or max otherwise.</returns>
     public static int ClampInt(int min, int max, int input)
     {
         if (input < min)
