@@ -29,11 +29,9 @@
 
 ```text
 This is C# library made by Peponi.
-Key purposes are:
+Key purpose is:
 
-    1. Act as 3rd party library for not supported from major libraries
-    2. Common API use for development
-    3. Better Maintenancability
+    Act as 3rd party library for not supported from major libraries
 ```
 
 
