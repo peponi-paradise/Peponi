@@ -30,15 +30,19 @@ Including generators are:
     <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
     <PackageTags>Peponi;Source;Code;Generator;MVVM;Property;Inject;INotifyPropertyChanged;Command;gRPC</PackageTags>
-	  <Version>1.0.1</Version>
+	  <Version>1.0.2</Version>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <PackageReleaseNotes>
+Version 1.0.2:
+	- Add package icon
+
 Version 1.0.1:
 	- Fix comments error
 
 Version 1.0.0:
 	- Initial upload
 	  </PackageReleaseNotes>
+	  <PackageIcon>Assets\favicon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -57,6 +61,10 @@ Version 1.0.0:
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 	<ItemGroup>
+	  <None Update="Assets\favicon.png">
+		<Pack>True</Pack>
+		<PackagePath>\</PackagePath>
+	  </None>
       <None Update="Docs\CommandGenerator.Errors.md">
         <CopyToOutputDirectory>Never</CopyToOutputDirectory>
       </None>

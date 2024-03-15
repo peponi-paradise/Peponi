@@ -29,15 +29,19 @@ Included contents are:
       + Storage  
    - Minidump</Description>
 	<PackageRequireLicenseAcceptance>True</PackageRequireLicenseAcceptance>
-	  <Version>1.0.1</Version>
+	  <Version>1.0.2</Version>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <PackageReleaseNotes>
+Version 1.0.2:
+	- Add package icon
+
 Version 1.0.1:
 	- Fix comments error
 
 Version 1.0.0:
 	- Initial upload
 	  </PackageReleaseNotes>
+	  <PackageIcon>Assets\favicon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -48,6 +52,10 @@ Version 1.0.0:
     <NoWarn>1701;1702;1591</NoWarn>
   </PropertyGroup>
 	<ItemGroup>
+		<None Update="Assets\favicon.png">
+		  <Pack>True</Pack>
+		  <PackagePath>\</PackagePath>
+		</None>
 		<None Update="Docs\LICENSE.md">
 			<Pack>True</Pack>
 			<PackagePath>\</PackagePath>

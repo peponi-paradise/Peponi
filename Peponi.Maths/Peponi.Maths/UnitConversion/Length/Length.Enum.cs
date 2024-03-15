@@ -7,7 +7,7 @@ public enum LengthUnit
     /// am
     /// </code>
     /// </summary>
-    AtttoMeter,
+    AttoMeter,
 
     /// <summary>
     /// <code>
