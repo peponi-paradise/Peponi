@@ -49,15 +49,22 @@ Including contents are:
     <Copyright>Copyright (c) 2024 peponi</Copyright>
     <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
     <PackageTags>Peponi;Math;Coordinate;Numerical integration;Moving average;Unit conversion;Windowing</PackageTags>
-	  <Version>1.0.1</Version>
+	  <Version>1.0.2</Version>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <PackageReleaseNotes>
+Version 1.0.2:
+    - Fix LengthUnit:
+	    AtttoMeter -&gt; AttoMeter
+	- Improve performance of UnitConversion ( O(n) -&gt; O(1) )
+	- Add package icon
+		  
 Version 1.0.1:
 	- Fix comments error
 
 Version 1.0.0:
 	- Initial upload
 	  </PackageReleaseNotes>
+	  <PackageIcon>Assets\favicon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -69,6 +76,11 @@ Version 1.0.0:
   </PropertyGroup>
 
   <ItemGroup>
+    <None Update="Assets\favicon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </None>
     <None Update="Docs\Img\CylindricalCoordinate.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

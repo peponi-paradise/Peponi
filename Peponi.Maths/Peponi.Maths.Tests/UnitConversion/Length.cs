@@ -11,7 +11,7 @@ public class Length
     {
         double baseValue = 21.653;
 
-        Assert.AreEqual(21.652999999999996E18, baseValue.Convert(LengthUnit.Meter, LengthUnit.AtttoMeter).Round(6));
+        Assert.AreEqual(21.652999999999996E18, baseValue.Convert(LengthUnit.Meter, LengthUnit.AttoMeter).Round(6));
         Assert.AreEqual(21.652999999999996E15, baseValue.Convert(LengthUnit.Meter, LengthUnit.FemtoMeter).Round(6));
         Assert.AreEqual(21.653E12, baseValue.Convert(LengthUnit.Meter, LengthUnit.PicoMeter).Round(6));
         Assert.AreEqual(21.652999999999996E9, baseValue.Convert(LengthUnit.Meter, LengthUnit.NanoMeter).Round(6));

@@ -1,48 +1,35 @@
 ﻿namespace Peponi.Maths.UnitConversion;
 
-internal static partial class Temperature
+internal static class Temperature
 {
-    private enum ConvertDirection
+    private static Dictionary<TemperatureUnit, Func<double, double>> _funcFrom;
+    private static Dictionary<TemperatureUnit, Func<double, double>> _funcTo;
+
+    static Temperature()
     {
-        From,
-        To
+        _funcFrom = new()
+        {
+            { TemperatureUnit.Kelvin, (x) => x },
+            { TemperatureUnit.Celsius, (x) => x + 273.15 },
+            { TemperatureUnit.Fahrenheit, (x) => (x + 459.67) / 1.8 },
+            { TemperatureUnit.Rankine, (x) => x / 1.8 },
+            { TemperatureUnit.Reaumur, (x) => x * 1.25 + 273.15 },
+            { TemperatureUnit.TriplePointOfWater, (x) => x * 273.16 }
+        };
+
+        _funcTo = new()
+        {
+            { TemperatureUnit.Kelvin, (x) => x },
+            { TemperatureUnit.Celsius, (x) => x - 273.15 },
+            { TemperatureUnit.Fahrenheit, (x) => x * 1.8 - 459.67 },
+            { TemperatureUnit.Rankine, (x) => x * 1.8 },
+            { TemperatureUnit.Reaumur, (x) => (x - 273.15) * 0.8 },
+            { TemperatureUnit.TriplePointOfWater, (x) => x / 273.16 }
+        };
     }
 
     internal static T ConvertTo<T>(T value, TemperatureUnit convertFrom, TemperatureUnit convertTo) where T : struct
     {
-        return Compute(value, GetFunc(ConvertDirection.From, convertFrom), GetFunc(ConvertDirection.To, convertTo));
-    }
-
-    private static T Compute<T>(T value, Func<double, double> funcFrom, Func<double, double> funcTo)
-    {
-        return (T)Convert.ChangeType(funcTo(funcFrom(Convert.ToDouble(value!))), typeof(T));
-    }
-
-    private static Func<double, double> GetFunc(ConvertDirection direction, TemperatureUnit unit)
-    {
-        return direction switch
-        {
-            ConvertDirection.From => unit switch
-            {
-                TemperatureUnit.Kelvin => FromKelvin,
-                TemperatureUnit.Celsius => FromCelsius,
-                TemperatureUnit.Fahrenheit => FromFahrenheit,
-                TemperatureUnit.Rankine => FromRankine,
-                TemperatureUnit.Reaumur => FromReaumur,
-                TemperatureUnit.TriplePointOfWater => FromTriplePointOfWater,
-                _ => throw new ArgumentException($"{unit} is not supported")
-            },
-            ConvertDirection.To => unit switch
-            {
-                TemperatureUnit.Kelvin => ToKelvin,
-                TemperatureUnit.Celsius => ToCelsius,
-                TemperatureUnit.Fahrenheit => ToFahrenheit,
-                TemperatureUnit.Rankine => ToRankine,
-                TemperatureUnit.Reaumur => ToReaumur,
-                TemperatureUnit.TriplePointOfWater => ToTriplePointOfWater,
-                _ => throw new ArgumentException($"{unit} is not supported")
-            },
-            _ => throw new ArgumentException($"{direction} is not supported")
-        };
+        return (T)Convert.ChangeType(_funcTo[convertTo](_funcFrom[convertFrom](Convert.ToDouble(value!))), typeof(T));
     }
 }
