@@ -17,7 +17,7 @@
 	  <PackageReadmeFile>Docs\README.md</PackageReadmeFile>
 	  <Copyright>Copyright (c) 2024 peponi</Copyright>
 	  <RepositoryUrl>https://github.com/peponi-paradise/Peponi</RepositoryUrl>
-	  <PackageTags>Peponi;Material Design 3;Color;Font</PackageTags>
+	  <PackageTags>Peponi;Google;Material Design 3;Color;Font</PackageTags>
 	  <Description>Peponi.MaterialDesign3.WPF is a package for implementing Material design 3 of google.
 Contents are:
 
@@ -26,15 +26,19 @@ Contents are:
 2. Fonts
 	- Getting Font family, size, weight, line height using DynamicResource, StaticResource
 	  </Description>
-	  <Version>1.0.1</Version>
+	  <Version>1.0.2</Version>
 	  <GenerateDocumentationFile>True</GenerateDocumentationFile>
 	  <PackageReleaseNotes>
+Version 1.0.2:
+	- Add package icon
+
 Version 1.0.1:
 	- Fix comments error
 
 Version 1.0.0:
 	- Initial upload
 	  </PackageReleaseNotes>
+	  <PackageIcon>Assets\favicon.png</PackageIcon>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
@@ -54,6 +58,10 @@ Version 1.0.0:
 	</ItemGroup>
 
   <ItemGroup>
+	<None Update="Assets\favicon.png">
+	  <Pack>True</Pack>
+	  <PackagePath>\</PackagePath>
+	</None>
     <None Update="Docs\LICENSE.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
