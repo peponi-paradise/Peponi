@@ -8,73 +8,96 @@
 /// </remarks>
 public static partial class TumblingWindows
 {
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas: datas, windowSize: windowSize);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, windowSize));
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize));
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<IEnumerable<T>> ToTumblingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToTumblingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize));
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas: datas, windowSize: windowSize, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, windowSize, dataSelector));
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, windowSize, dataSelector));
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <summary>
+    /// Compute tumbling windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static IEnumerable<IEnumerable<V>> ToTumblingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToTumblingWindowsCore(datas, startPosition, endPosition, windowSize, dataSelector);
     }
 
-    /// <inheritdoc cref="ToTumblingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToTumblingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToTumblingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToTumblingWindows(datas, startPosition, endPosition, windowSize, dataSelector));

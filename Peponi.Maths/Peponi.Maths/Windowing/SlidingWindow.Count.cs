@@ -8,73 +8,96 @@
 /// </remarks>
 public static partial class SlidingWindows
 {
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToSlidingWindows<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return ToSlidingWindowsCore(datas: datas, windowSize: windowSize);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToSlidingWindowsAsync<T>(IEnumerable<T> datas, uint windowSize) where T : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, windowSize));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static IEnumerable<IEnumerable<T>> ToSlidingWindows<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return ToSlidingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToSlidingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startPosition, windowSize));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <summary>
+    /// Compute sliding windows
+    /// </summary>
+    /// <typeparam name="T">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
     public static IEnumerable<IEnumerable<T>> ToSlidingWindows<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return ToSlidingWindowsCore(datas, startPosition, endPosition, windowSize);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T}(IEnumerable{T}, uint, uint, uint)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T}(IEnumerable{T}, uint, uint, uint)"/>
     public static Task<IEnumerable<IEnumerable<T>>> ToSlidingWindowsAsync<T>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize) where T : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startPosition, endPosition, windowSize));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToSlidingWindows<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToSlidingWindowsCore(datas: datas, windowSize: windowSize, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToSlidingWindowsAsync<T, V>(IEnumerable<T> datas, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, windowSize, dataSelector));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static IEnumerable<IEnumerable<V>> ToSlidingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToSlidingWindowsCore(datas: datas, startPosition: startPosition, windowSize: windowSize, dataSelector: dataSelector);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToSlidingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startPosition, windowSize, dataSelector));
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <summary>
+    /// Compute sliding windows
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <typeparam name="V">Struct type</typeparam>
+    /// <param name="datas"></param>
+    /// <param name="startPosition">startPosition &lt;= endPosition</param>
+    /// <param name="endPosition">startPosition &lt;= endPosition</param>
+    /// <param name="windowSize">Bigger than 0</param>
+    /// <param name="dataSelector">Data select function</param>
+    /// <returns></returns>
+    /// <exception cref="ArgumentException"></exception>
+    /// <exception cref="ArgumentOutOfRangeException"></exception>
+    /// <exception cref="ArgumentNullException"></exception>
     public static IEnumerable<IEnumerable<V>> ToSlidingWindows<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return ToSlidingWindowsCore(datas, startPosition, endPosition, windowSize, dataSelector);
     }
 
-    /// <inheritdoc cref="ToSlidingWindowsCore{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
+    /// <inheritdoc cref="ToSlidingWindows{T, V}(IEnumerable{T}, uint, uint, uint, Func{T, V}?)"/>
     public static Task<IEnumerable<IEnumerable<V>>> ToSlidingWindowsAsync<T, V>(IEnumerable<T> datas, uint startPosition, uint endPosition, uint windowSize, Func<T, V> dataSelector) where V : struct
     {
         return Task.Run(() => ToSlidingWindows(datas, startPosition, endPosition, windowSize, dataSelector));

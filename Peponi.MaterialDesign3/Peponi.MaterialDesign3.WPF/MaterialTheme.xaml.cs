@@ -27,6 +27,12 @@ public enum ColorMode
     Dark
 }
 
+/// <summary>
+/// Provides material theme
+/// </summary>
+/// <remarks>
+/// <see href="https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.MaterialDesign3.WPF"/>
+/// </remarks>
 public partial class MaterialTheme : ResourceDictionary
 {
     private Color _pri = Color.FromRgb(0x00, 0xA3, 0xE3);
@@ -77,7 +83,16 @@ public partial class MaterialTheme : ResourceDictionary
         }
     }
 
-    /// <inheritdoc cref="ColorProvider.ColorMode"/>
+    /// <summary>
+    /// <para>
+    /// Set color mode for default color set
+    /// </para>
+    /// <para>
+    /// 1. <see cref="ColorMode.Light"/><br/>
+    /// 2. <see cref="ColorMode.Dark"/><br/>
+    /// 3. <see cref="ColorMode.Auto"/>
+    /// </para>
+    /// </summary>
     [Description("Set color mode for default color set"), Category("Material color")]
     public ColorMode ColorMode
     {
@@ -88,7 +103,10 @@ public partial class MaterialTheme : ResourceDictionary
         }
     }
 
-    /// <inheritdoc cref="ColorProvider.UseWindowsAccentColor"/>
+    /// <summary>
+    /// Use windows accent color option<br/>
+    /// Supports Windows 10, 11
+    /// </summary>
     [Description("Use windows accent color option\r\nSupports Windows 10, 11"), Category("Material color")]
     public bool UseWindowsAccentColor
     {
@@ -155,6 +173,10 @@ public partial class MaterialTheme : ResourceDictionary
 #pragma warning disable CS0618
     private static MaterialTheme _current = new();
 #pragma warning restore CS0618
+
+    /// <summary>
+    /// Current resource dictionary
+    /// </summary>
     public static MaterialTheme Current => _current;
 
     private ColorProvider _colorProvider;
@@ -170,7 +192,7 @@ public partial class MaterialTheme : ResourceDictionary
         _fontProvider = new FontProvider(_current);
     }
 
-    /// <inheritdoc cref="ColorProvider.SetPalettes(Color, Color?, Color?)"/>
+    /// <inheritdoc cref="SetPalettes(Color, Color?, Color?)"/>
     public void SetPalettes(Color primary)
     {
         _pri = primary;
@@ -179,7 +201,13 @@ public partial class MaterialTheme : ResourceDictionary
         _colorProvider.SetPalettes(primary, null, null);
     }
 
-    /// <inheritdoc cref="ColorProvider.SetPalettes(Color, Color?, Color?)"/>
+    /// <summary>
+    /// Create tonal spot palette by given color<br/>
+    /// Neutral, Neutral variant colors are decided by primary color
+    /// </summary>
+    /// <param name="primary"></param>
+    /// <param name="secondary"></param>
+    /// <param name="tertiary"></param>
     public void SetPalettes(Color primary, Color? secondary, Color? tertiary)
     {
         _pri = primary;

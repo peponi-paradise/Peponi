@@ -94,6 +94,7 @@ internal class Program
     }
 }
 ```
+
 ```cs
 using Peponi.Logger;
 
@@ -114,17 +115,22 @@ internal class Program
 
 
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |LogOption|Option|Options for logging|
+
 2. Methods
+
     |Return type|Name|Description|
     |-----------|----|-----------|
     |Log|GetLogger(string)|Gets logger for given name|
     |Log|GetLogger(LogOption?)|Gets logger for given option|
     |void|Write(string, DateTime?)|Write log|
     |void|Write(LogType, string, DateTime?)|Write log|
+
 3. LogType (Flags)
+
     |LogType|Description|
     |-------|-------|
     |General|General|
@@ -133,7 +139,9 @@ internal class Program
     |Warning|Warning|
     |Error|Error|
     |Exception|Exception|
+
 4. Example
+
     ```cs
     using Peponi.Logger;
 
@@ -190,12 +198,14 @@ internal class Program
 
 
 1. Members
+
     |Type|Name|Description|
     |----|----|-----------|
     |string|LoggerName|Logging base key name|
     |[LogDirectoryOption](#231-logdirectoryoption)|DirectoryOption|Configure directory tree|
     |[LogFileOption](#232-logfileoption)|FileOption|Configure log file size and creating rule|
     |[LogMessageOption](#233-logmessageoption)|MessageOption|Configure log message format|
+
 2. Description
     - Configure logger options.
     - Logger will work by given options.
@@ -206,11 +216,14 @@ internal class Program
 
 
 1. Members
+
     |Type|Name|Description|
     |-------|-------|-------|
     |string|RootPath|Root path of log|
     |List\<LogDirectoryTree>|DirectoryTree|Configure directory tree|
+
 2. Example
+
     ```cs
     LogDirectoryOption directoryOption = new()
     {
@@ -236,7 +249,9 @@ internal class Program
     |    |    |    |   |   |- MyLog
     */
     ```
+
 3. LogDirectoryTree
+
     |LogDirectoryTree|Description|
     |-------|-------|
     |None|No additional folder|
@@ -253,12 +268,15 @@ internal class Program
 
 
 1. Members
+
     |Type|Name|Description|
     |-------|-------|-------|
     |uint|LogFileSize|- Unit : mb<br/>- Value :<br/>0 = Inf<br/>X = X mb<br/>- Default : 0|
     |List\<LogFileCreatingRule>|FileCreatingRules|Configure log file's creating rule|
     |string|Extension|Log file's extension<br/>Default : `.log`|
+
 2. Example
+
     ```cs
     LogFileOption fileOption = new()
     {
@@ -282,7 +300,9 @@ internal class Program
     20231226_MyLog_2.txt (2 mb)
     */
     ```
+
 3. LogFileCreatingRule
+
     |LogFileCreatingRule|Description|
     |-------|-------|
     |LoggerName|Given logger name|
@@ -302,10 +322,13 @@ internal class Program
 
 
 1. Members
+
     |Type|Name|Description|
     |-------|-------|-------|
     |List\<LogMessagePattern>|MessagePatterns|Configure log message|
+
 2. Example
+
     ```cs
     LogMessageOption messageOption = new()
     {
@@ -327,7 +350,9 @@ internal class Program
 
     */
     ```
+
 3. LogMessagePattern
+
     |LogMessagePattern|Description|
     |-------|-------|
     |None|No message|
