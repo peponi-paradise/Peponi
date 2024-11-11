@@ -20,7 +20,7 @@
 
 - This package is under MIT License.
 - GitHub : [Peponi](https://github.com/peponi-paradise/Peponi)
-- Blog : [Peponi](https://peponi-paradise.tistory.com)
+- Blog : [Peponi](https://peponi-paradise.vercel.app)
 - Instruction & API information is on following section
 
 
