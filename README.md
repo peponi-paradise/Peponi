@@ -20,7 +20,7 @@
 
 - This library is under MIT License.
 - GitHub : [Peponi](https://github.com/peponi-paradise/Peponi)
-- Blog : [Peponi](https://peponi-paradise.tistory.com)
+- Blog : [Peponi](https://peponi-paradise.vercel.app)
 - Instruction & API information is on following section
 
 
@@ -86,7 +86,7 @@ Included contents are:
 ```
 
 - Install : `NuGet\Install-Package Peponi.Core`
-- Git : [Peponi.Core](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Core)
+- GitHub : [Peponi.Core](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Core/Peponi.Core)
 
 
 ### 2.2. Peponi.FreeSpaceManagement
@@ -101,7 +101,7 @@ Base concepts are:
 ```
 
 - Install : `NuGet\Install-Package Peponi.FreeSpaceManagement`
-- Git : [Peponi.FreeSpaceManagement](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.FreeSpaceManagement)
+- GitHub : [Peponi.FreeSpaceManagement](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.FreeSpaceManagement/Peponi.FreeSpaceManagement)
 
 
 ### 2.3. Peponi.Logger
@@ -118,7 +118,7 @@ Base concepts are:
 ```
 
 - Install : `NuGet\Install-Package Peponi.Logger`
-- Git : [Peponi.Logger](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Logger)
+- GitHub : [Peponi.Logger](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Logger/Peponi.Logger)
 
 
 ### 2.4. Peponi.Maths
@@ -160,7 +160,7 @@ Including contents are:
 ```
 
 - Install : `NuGet\Install-Package Peponi.Maths`
-- Git : [Peponi.Maths](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Maths)
+- GitHub : [Peponi.Maths](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.Maths/Peponi.Maths)
 
 
 ### 2.5. Peponi.SourceGenerators
@@ -182,7 +182,7 @@ Including generators are:
 ```
 
 - Install : `NuGet\Install-Package Peponi.SourceGenerators`
-- Git : [Peponi.SourceGenerators](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators)
+- GitHub : [Peponi.SourceGenerators](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.SourceGenerators/Peponi.SourceGenerators)
 
 
 ### 2.6. Peponi.MaterialDesign3.WPF
@@ -199,7 +199,7 @@ Contents are:
 ```
 
 - Install : `Nuget\Install-Package Peponi.MaterialDesign3.WPF`
-- Git : [Peponi.MaterialDesign3.WPF](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.MaterialDesign3.WPF)
+- GitHub : [Peponi.MaterialDesign3.WPF](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.MaterialDesign3.WPF)
 
 
 ### 2.7. Peponi.Google.MaterialColorUtilities
@@ -214,4 +214,4 @@ Most parts of original library are removed except getting tonal spot.
 ```
 
 - Install : `Nuget\Install-Package Peponi.Google.MaterialColorUtilities`
-- Git : [Peponi.Google.MaterialColorUtilities](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.Google.MaterialColorUtilities)
+- GitHub : [Peponi.Google.MaterialColorUtilities](https://github.com/peponi-paradise/Peponi/tree/Release/Peponi.MaterialDesign3/Peponi.Google.MaterialColorUtilities)
